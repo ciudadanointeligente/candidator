@@ -1,0 +1,5 @@
+*.db
+*.pyc
+*.pyo
+*.log
+*.pot
