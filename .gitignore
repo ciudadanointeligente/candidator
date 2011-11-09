@@ -1,3 +1,5 @@
-**.db
-**.pyc
-**.pyo
+*.db
+*.pyc
+*.pyo
+*.log
+*.pot
