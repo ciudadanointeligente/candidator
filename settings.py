@@ -10,6 +10,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -30,7 +32,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Santiago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -68,7 +70,7 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -106,6 +108,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'candidator.urls'
 
 TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROOT, 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -119,9 +122,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'grappelli',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
+    'debug_toolbar',
+    'profiles',
+    'smart_profile',
+    'elections',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -146,3 +154,22 @@ LOGGING = {
         },
     }
 }
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    'HIDE_DJANGO_SQL': False,
+}
+
+AUTH_PROFILE_MODULE = 'smart_profile.Profile'
