@@ -33,3 +33,14 @@ class Candidate(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class CandidateProfileData(models.Model):
+    election = models.ForeignKey('Election')
+    data-name = models.CharField(max_length=255)
+    #TODO: add the data type
+
+
+class CandidateProfile(models.Model):
+    candidate = models.ForeignKey('Candidate')
+    profile_data = models.ForeignKey('CandidateProfileData')
+    value = models.CharField(max_length=255)
