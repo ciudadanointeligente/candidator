@@ -1,0 +1,9 @@
+{% extends "elections/base.html" %}
+
+{% block title %}
+{{ block.super }} Election
+{% endblock title %}
+
+{% block content %}
+<a href="{% url election_detail pk=object.pk %}">permalink {{ election.name }}</a>
+{% endblock content %}

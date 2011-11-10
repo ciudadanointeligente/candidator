@@ -1,0 +1,9 @@
+{% extends "elections/base.html" %}
+
+{% block content %}
+<ul>
+{% for election in object_list %}
+  <li>{{ election }}</li>
+{% endfor %}
+</ul>
+{% endblock content %}
