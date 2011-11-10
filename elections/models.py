@@ -9,7 +9,7 @@ class Election(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    
+
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -23,7 +23,7 @@ class Candidate(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    
+
     @property
     def name(self):
         return u"%(first_name)s %(last_name)s" % {
