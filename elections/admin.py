@@ -13,7 +13,6 @@ class PersonalInformationInLine(admin.StackedInline):
 class LinkInline(admin.TabularInline):
     model = Link
     extra = 1
->>>>>>> added: links section
 
 class ElectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'owner')
