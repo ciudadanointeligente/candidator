@@ -33,3 +33,9 @@ class Candidate(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class ExtraInformation(models.Model):
+    label = models.CharField(max_length=255)
+    answer = models.CharField(max_length=255)
+    candidate = models.ForeignKey('Candidate')
+
