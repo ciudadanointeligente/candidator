@@ -173,3 +173,4 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 AUTH_PROFILE_MODULE = 'smart_profile.Profile'
+SERIALIZATION_MODULES = {'json-pretty': 'serializers.json_pretty'}
