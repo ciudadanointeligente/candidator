@@ -44,7 +44,6 @@ class CandidateProfileData(models.Model):
     data-name = models.CharField(max_length=255)
     #TODO: add the data type
 
-
 class CandidateProfile(models.Model):
     candidate = models.ForeignKey('Candidate')
     profile_data = models.ForeignKey('CandidateProfileData')
