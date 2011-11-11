@@ -41,23 +41,11 @@ class PersonalInformation(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.label
-    
+
 class Link(models.Model):
     link_description = models.CharField(max_length=255)
     URL = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
-class CandidateProfileData(models.Model):
-    election = models.ForeignKey('Election')
-    data_name = models.CharField(max_length=255)
-    #TODO: add the data type
-
-class CandidateProfile(models.Model):
-    candidate = models.ForeignKey('Candidate')
-    profile_data = models.ForeignKey('CandidateProfileData')
-    value = models.CharField(max_length=255)
-
-
-
-    
-    
+    def __unicode__(self):
+        return u"%s" % self.link_description
