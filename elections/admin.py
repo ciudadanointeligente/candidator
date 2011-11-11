@@ -6,7 +6,7 @@ class CandidateInline(admin.StackedInline):
     model = Candidate
     extra = 1
 
-class ExtraInformationInLine(admin.TabularInline):
+class ExtraInformationInLine(admin.StackedInline):
 	model = ExtraInformation
 	extra = 1
 

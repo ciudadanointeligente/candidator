@@ -39,6 +39,9 @@ class ExtraInformation(models.Model):
     answer = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
+    def __unicode__(self):
+        return u"%s" % self.label
+
 class CandidateProfileData(models.Model):
     election = models.ForeignKey('Election')
     data_name = models.CharField(max_length=255)
