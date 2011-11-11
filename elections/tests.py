@@ -8,6 +8,7 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 from elections.models import Candidate
 
+
 class CandidateTest(TestCase):
     def test_name_property(self):
         candidate = Candidate()

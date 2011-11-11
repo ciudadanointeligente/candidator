@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Election(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
@@ -9,7 +10,6 @@ class Election(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -34,6 +34,7 @@ class Candidate(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class PersonalInformation(models.Model):
     label = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
@@ -42,6 +43,7 @@ class PersonalInformation(models.Model):
     def __unicode__(self):
         return u"%s" % self.label
 
+
 class Link(models.Model):
     link_description = models.CharField(max_length=255)
     URL = models.CharField(max_length=255)
@@ -49,3 +51,20 @@ class Link(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.link_description
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    election = models.ForeignKey('Election')
+
+    def __unicode__(self):
+        return u"%s" % self.name
+
+
+class Question(models.Model):
+    question = models.CharField(max_length=255)
+    candidate = models.ForeignKey('Candidate')
+    category = models.ForeignKey('Category')
+
+    def __unicode__(self):
+        return u"%s" % self.question
