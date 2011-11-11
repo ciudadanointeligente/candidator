@@ -41,7 +41,7 @@ class ExtraInformation(models.Model):
 
 class CandidateProfileData(models.Model):
     election = models.ForeignKey('Election')
-    data-name = models.CharField(max_length=255)
+    data_name = models.CharField(max_length=255)
     #TODO: add the data type
 
 class CandidateProfile(models.Model):
