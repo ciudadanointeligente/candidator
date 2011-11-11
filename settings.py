@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'profiles',
     'smart_profile',
     'elections',
+    'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -12,3 +12,5 @@ oauth2==1.5.170
 pep8==0.6.1
 python-openid==2.2.5
 wsgiref==0.1.2
+django-extensions==0.7.1
+pygraphviz==1.1

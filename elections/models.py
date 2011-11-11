@@ -20,9 +20,20 @@ class Candidate(models.Model):
     last_name = models.CharField(max_length=255)
     slug = models.SlugField()
     election = models.ForeignKey('Election')
+    answers = models.ManyToManyField('Answer')
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def associate_answer(self, answer):
+        old_answers = self.answers.filter(question=answer.question).all()
+        new_answers = []
+        for ans in self.answers.all():
+            if ans not in old_answers:
+                new_answers.append(ans)
+        new_answers.append(answer)
+        self.answers = new_answers
+        self.save()
 
     @property
     def name(self):
@@ -63,8 +74,12 @@ class Category(models.Model):
 
 class Question(models.Model):
     question = models.CharField(max_length=255)
-    candidate = models.ForeignKey('Candidate')
     category = models.ForeignKey('Category')
 
     def __unicode__(self):
         return u"%s" % self.question
+
+
+class Answer(models.Model):
+    answer = models.CharField(max_length=255)
+    question = models.ForeignKey('Question')
