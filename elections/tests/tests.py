@@ -46,8 +46,8 @@ class AnswersTest(TestCase):
                                                             election=election)
         question, created = Question.objects.get_or_create(question='Foo',
                                                             category=category)
-        answer = Answer.objects.create(question=question, answer='Bar')
-        self.assertEquals(answer.answer, 'Bar')
+        answer = Answer.objects.create(question=question, caption='Bar')
+        self.assertEquals(answer.caption, 'Bar')
         self.assertEquals(answer.question, question)
 
 
@@ -69,11 +69,11 @@ class CandidateAnswerTest(TestCase):
         question2, created = Question.objects.get_or_create(question='Bar',
                                                             category=category)
         answer, created = Answer.objects.get_or_create(question=question,
-                                                        answer='Bar')
+                                                        caption='Bar')
         answer2, created = Answer.objects.get_or_create(question=question,
-                                                        answer='Bar')
+                                                        caption='Bar')
         answer3, created = Answer.objects.get_or_create(question=question2,
-                                                        answer='Bar')
+                                                        caption='Bar')
         self.user = user
         self.election = election
         self.candidate = candidate
@@ -138,9 +138,9 @@ class AssociateCandidatesAnswersTest(TestCase):
         question2, created = Question.objects.get_or_create(question='Foo',
                                                             category=category2)
         self.answer, created = Answer.objects.get_or_create(question=question,
-                                                       answer='Bar')
+                                                       caption='Bar')
         self.answer2, created = Answer.objects.get_or_create(question=question2,
-                                                       answer='Bar')
+                                                       caption='Bar')
 
     def test_get_associate_answers_to_candidate_view(self):
         # GET without login

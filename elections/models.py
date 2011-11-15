@@ -20,7 +20,7 @@ class Candidate(models.Model):
     last_name = models.CharField(max_length=255)
     slug = models.SlugField()
     election = models.ForeignKey('Election')
-    answers = models.ManyToManyField('Answer')
+    answers = models.ManyToManyField('Answer', blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -81,5 +81,8 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    answer = models.CharField(max_length=255)
+    caption = models.CharField(max_length=255)
     question = models.ForeignKey('Question')
+
+    def __unicode__(self):
+        return u"%s" % self.caption

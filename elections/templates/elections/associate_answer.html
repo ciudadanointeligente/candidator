@@ -1,0 +1,54 @@
+<html>
+<head><title>Prueba</title></head>
+<style type="text/css">
+    .answer {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .answer.active {
+        font-weight: bold;
+    }
+</style>
+<body>
+<h1>{{ candidate.name }}</h1>
+{% for category in categories.all %}
+    <h2>{{ category.name }}</h2>
+    <ul>
+    {% for question in category.question_set.all %}
+        <li>{{ question.question }}
+            <ul>
+            {% for answer in question.answer_set.all %}
+                <li class="answer{% if answer in candidate.answers.all %} active{% endif %}" id="answer-{{ answer.pk }}">
+                {{ answer.caption }}
+                </li>
+            {% empty %}
+                <li>No hay respuestas asociadas</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% empty %}
+    <h2>No hay categorías</h2>
+{% endfor %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script>
+$(".answer").click(function(e){
+    var answerId = $(this).attr('id');
+    answerId = answerId.substr(answerId.indexOf('-')+1);
+    console.log(answerId);
+    var $answerEl = $(this);
+    $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug slug=candidate.slug %}',
+    {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'answer': answerId
+    },
+    function(data) {
+        $answerEl.siblings().removeClass('active');
+        $("#answer-"+data.answer).addClass('active');
+    },
+    'json');
+});
+</script>
+</body>
+</html>

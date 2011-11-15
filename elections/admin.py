@@ -20,6 +20,13 @@ class PersonalInformationInLine(admin.StackedInline):
     model = PersonalInformation
     extra = 1
 
+class QuestionInLine(admin.StackedInline):
+    model = Question
+    extra = 1
+
+class AnswerInLine(admin.StackedInline):
+    model = Answer
+    extra = 1
 
 class LinkInline(admin.TabularInline):
     model = Link
@@ -32,7 +39,13 @@ class CandidateAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     inlines = [PersonalInformationInLine, LinkInline]
 
+class CategoryAdmin(admin.ModelAdmin):
+    inlines = [QuestionInLine]
+
+class QuestionAdmin(admin.ModelAdmin):
+    inlines = [AnswerInLine]
 
 admin.site.register(Candidate, CandidateAdmin)
-admin.site.register(Category)
-admin.site.register(Question)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Answer)

@@ -3,7 +3,17 @@
 {% block content %}
 <ul>
 {% for election in object_list %}
-  <li>{{ election }}</li>
+  <li>{{ election }} - Asociar respuestas a preguntas:
+  <ul>
+    {% for candidate in election.candidate_set.all %}
+    <li>
+        <a href="{% url associate_answer_candidate  election_slug=election.slug slug=candidate.slug %}">
+            {{ candidate }}
+        </a>
+    </li>
+    {% endfor %}
+  </ul>
+  </li>
 {% endfor %}
 </ul>
 {% endblock content %}
