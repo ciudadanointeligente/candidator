@@ -102,11 +102,11 @@ class CandidateAnswerTest(TestCase):
 
 class AssociateCandidatesAnswersTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='doe', 
-                                                password='joe', 
+        self.user = User.objects.create_user(username='doe',
+                                                password='joe',
                                                 email='doe@joe.cl')
-        self.not_user = User.objects.create_user(username='joe', 
-                                                password='joe', 
+        self.not_user = User.objects.create_user(username='joe',
+                                                password='joe',
                                                 email='doe@joe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=self.user,
@@ -143,17 +143,20 @@ class AssociateCandidatesAnswersTest(TestCase):
                                                        answer='Bar')
 
     def test_get_associate_answers_to_candidate_view(self):
-        request = self.client.get(reverse('associate_answer_candidate', 
+        # GET without login
+        request = self.client.get(reverse('associate_answer_candidate',
                                             kwargs={'slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 302)
 
+        # GET of non existing candidate/user pair associated with the logged in user
         self.client.login(username='joe', password='joe')
-        request = self.client.get(reverse('associate_answer_candidate', 
+        request = self.client.get(reverse('associate_answer_candidate',
                                             kwargs={'slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 404)
 
+        # GET of existing candidate/user pair associated with the logged in user
         self.client.login(username='doe', password='joe')
         request=self.client.get(reverse('associate_answer_candidate',
                                             kwargs={'slug': self.candidate.slug,
@@ -165,16 +168,16 @@ class AssociateCandidatesAnswersTest(TestCase):
 
         self.assertTrue(request.context.has_key('categories'))
         self.assertEquals(list(request.context['categories'].all()), self.categories)
-    
+
     def test_post_associate_answer_to_candidate_view(self):
-        request = self.client.post(reverse('associate_answer_candidate', 
+        request = self.client.post(reverse('associate_answer_candidate',
                                             kwargs={'slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}),
                                  {'answer': self.answer.pk})
         self.assertEquals(request.status_code, 302)
 
         self.client.login(username='joe', password='joe')
-        request = self.client.post(reverse('associate_answer_candidate', 
+        request = self.client.post(reverse('associate_answer_candidate',
                                             kwargs={'slug': self.candidate2.slug,
                                                      'election_slug': self.election.slug}),
                                  {'answer': self.answer.pk})
