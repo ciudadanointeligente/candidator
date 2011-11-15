@@ -187,10 +187,11 @@ class AssociateCandidatesAnswersTest(TestCase):
                                  {'answer': self.answer.pk})
         self.assertEquals(request.status_code, 200)
         self.assertEquals(request.content, '{"answer": %d}' % self.answer.pk)
+        self.assertEquals(list(self.candidate.answers.all()), [self.answer])
 
         self.client.login(username='doe', password='joe')
         request=self.client.post(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate.slug,
-                                                    'election_slug': self.election.slug}),
+                                         kwargs={'slug': self.candidate.slug,
+                                                 'election_slug': self.election.slug}),
                                  {'answer': self.answer2.pk})
         self.assertEquals(request.status_code, 404)
