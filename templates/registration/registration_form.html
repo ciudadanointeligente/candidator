@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Registration</title>
+</head>
+<body>
+  <h1>Create an account</h1>
+  <form action="." method="post">
+    {% csrf_token %}
+    {% if form.error_dict %}
+      <p class="error">Please correct the errors below.</p>
+    {% endif %}
+
+    <label for="id_username">Username:</label> {{ form.username }}
+    {% if form.username.errors %}
+      {{ form.username.html_error_list }}
+    {% endif %}
+
+    <br/>
+
+    <label for="id_email">E-mail:</label> {{ form.email }}
+    {% if form.email.errors %}
+      {{ form.email.html_error_list }}
+    {% endif %}
+
+    <br/>
+    <label for="id_password1">Password:</label> {{ form.password1 }}
+    {% if form.password1.errors %}
+      {{ form.password1.html_error_list }}
+    {% endif %}
+
+    <br/>
+    <label for="id_password2">Password (again):</label> {{ form.password2 }}
+    {% if form.password2.errors %}
+      {{ form.password2.html_error_list }}
+    {% endif %}
+
+    <br/>
+    <input type="submit" value="Create the account" />
+  </label>
+</body>
+</html>

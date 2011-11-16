@@ -132,6 +132,8 @@ INSTALLED_APPS = (
     'smart_profile',
     'elections',
     'django_extensions',
+    # Django-registration
+    'registration',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -175,4 +177,14 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 AUTH_PROFILE_MODULE = 'smart_profile.Profile'
+
+# Redirect to this url after login
+LOGIN_REDIRECT_URL = '/elections/'
+
+# Account activation days, one-week window
+ACCOUNT_ACTIVATION_DAYS = 7
+
+# Serialization modules
 SERIALIZATION_MODULES = {'json-pretty': 'serializers.json_pretty'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
