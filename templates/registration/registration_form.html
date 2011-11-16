@@ -6,32 +6,46 @@
   <h1>Create an account</h1>
   <form action="." method="post">
     {% csrf_token %}
-    {% if form.error_dict %}
-      <p class="error">Please correct the errors below.</p>
-    {% endif %}
+    {{ form.non_field_errors }}
 
     <label for="id_username">Username:</label> {{ form.username }}
     {% if form.username.errors %}
-      {{ form.username.html_error_list }}
+        <ul>
+        {% for error in form.username.errors %}
+            <li><strong>{{ error }}</strong></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 
     <br/>
 
     <label for="id_email">E-mail:</label> {{ form.email }}
     {% if form.email.errors %}
-      {{ form.email.html_error_list }}
+        <ul>
+        {% for error in form.email.errors %}
+            <li><strong>{{ error  }}</strong></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 
     <br/>
     <label for="id_password1">Password:</label> {{ form.password1 }}
     {% if form.password1.errors %}
-      {{ form.password1.html_error_list }}
+        <ul>
+        {% for error in form.password1.errors %}
+            <li><strong>{{ error  }}</strong></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 
     <br/>
     <label for="id_password2">Password (again):</label> {{ form.password2 }}
     {% if form.password2.errors %}
-      {{ form.password2.html_error_list }}
+        <ul>
+        {% for error in form.password2.errors %}
+            <li><strong>{{ error  }}</strong></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 
     <br/>
