@@ -20,7 +20,7 @@ def associate_answer_to_candidate(request, slug, election_slug):
         answer_id = request.POST.get('answer', None)
         answer = get_object_or_404(Answer, pk=answer_id, question__category__election=election)
         candidate.associate_answer(answer)
-        return HttpResponse(json.dumps({'answer': answer.pk}), 
+        return HttpResponse(json.dumps({'answer': answer.pk}),
                             content_type='application/json')
     return render_to_response(\
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
@@ -30,15 +30,18 @@ def associate_answer_to_candidate(request, slug, election_slug):
 def medianaranja1(request, my_user, election_slug):
 
     if request.method == "POST":
-        resp = request.POST["importance"]
-        return HttpResponse(resp)
+        importances = request.POST["importance"]
+        answers = request.POST['question']
+        answer_importance = [ (answer[id], importances[id]) for id in answers.keys()]
+
+        return HttpResponse(answer_importance)
     else:
         u = User.objects.filter(username=my_user)
         if len(u) == 0:
             raise Http404
         e = Election.objects.filter(owner=u[0],slug=election_slug)
         if len(e) == 0:
-    	    raise Http404
+            raise Http404
         return render_to_response('medianaranja1.html', {'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
 
 
