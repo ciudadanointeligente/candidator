@@ -31,8 +31,26 @@ def medianaranja1(request, my_user, election_slug):
 
     if request.method == "POST":
         importances = request.POST["importance"]
-        answers = request.POST['question']
-        answer_importance = [ (answer[id], importances[id]) for id in answers.keys()]
+        id_answers = request.POST['question']
+        #answer_importance = [ (answer[id], importances[id]) for id in answers.keys()]
+
+
+        election = Election.objects.get(slug=election_slug, owner=my_user)
+        candidates = election.candidate_set.all()
+        categories = election.category_set.all()
+
+        candidate_category = {}
+        for candidate in candidates:
+            candidate_category[candidate]={}
+            for category in categories:
+                candidate_category[candidate][category]=0
+
+        for id in id_answers:
+            category = answer.question.category
+            candidates_same_answer = candidates.filter(answers__pk=id)
+
+        #TODO: finish him
+
 
         return HttpResponse(answer_importance)
     else:

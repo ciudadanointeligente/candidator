@@ -201,11 +201,14 @@ class AssociateCandidatesAnswersTest(TestCase):
 
 
 class TestRedirection(TestCase):
-	def test_reverse_routing_elections_correctly(self):
-		from django.contrib.auth.models import User
-		from django.core.urlresolvers import reverse
-		user, created = User.objects.get_or_create(username="otroUsuario")
-		election, created = Election.objects.get_or_create(name="mi nueva eleccion",slug="mi-nueva-eleccion",owner=user)
-		url = reverse("medianaranja1",kwargs={'my_user': 'otroUsuario', 'election_slug':'mi-nueva-eleccion'})
-		expected = "/otroUsuario/mi-nueva-eleccion/medianaranja/"
-		self.assertEqual(url,expected)
+    def test_reverse_routing_elections_correctly(self):
+        from django.contrib.auth.models import User
+        from django.core.urlresolvers import reverse
+        user, created = User.objects.get_or_create(username="otroUsuario")
+        election, created = Election.objects.get_or_create(name="mi nueva eleccion",slug="mi-nueva-eleccion",owner=user)
+        url = reverse("medianaranja1",kwargs={'my_user': 'otroUsuario', 'election_slug':'mi-nueva-eleccion'})
+        expected = "/otroUsuario/mi-nueva-eleccion/medianaranja/"
+        self.assertEqual(url,expected)
+
+#class MediaNaranjaViewTest(TestCase):
+#    def
