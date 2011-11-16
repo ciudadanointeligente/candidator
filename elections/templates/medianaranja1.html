@@ -8,11 +8,36 @@
 <h1>{{election}}</h1>
 
 <form action="." method="POST">{% csrf_token %}
-	<input type="radio" name="importance" value="1" /> 1<br />
-	<input type="radio" name="importance" value="2" /> 2<br />
-	<input type="radio" name="importance" value="3" checked="checked" /> 3<br />
-	<input type="radio" name="importance" value="4" /> 4<br />
-	<input type="radio" name="importance" value="5" /> 5<br />
-	<input type="submit" value="Submit" />
+
+{% for category in categories.all %}
+    <h2>{{ category.name }}</h2>
+    <ul>
+    {% for question in category.question_set.all %}
+        <li>{{ question.question }}
+            <ul>
+            {% for answer in question.answer_set.all %}
+				 <!--<li class="answer{% if answer in candidate.answers.all %} active{% endif %}" id="answer-{{ answer.pk }}"><br/>
+                {{ answer.caption }}
+                </li>-->
+                <input type="radio" name="question[{{ question.pk }}]" value="[{{ answer.pk }}]"/>{{ answer.caption }}<br />
+                {% empty %}
+                <li>No hay respuestas asociadas</li>
+            {% endfor %}
+            <!-- value = -1 is meant for default answers -->
+            <input type="radio" name="question[{{ question.pk }}]" value="-1" /> Ninguna de las anteriores representa mi posición</li><br/>
+            <h4>Importancia</h4>
+				<input type="radio" name="importance[{{ question.pk }}]" value="1" /> 1<br />
+				<input type="radio" name="importance[{{ question.pk }}]" value="2" /> 2<br />
+				<input type="radio" name="importance[{{ question.pk }}]" value="3" checked="checked" /> 3<br />
+				<input type="radio" name="importance[{{ question.pk }}]" value="4" /> 4<br />
+				<input type="radio" name="importance[{{ question.pk }}]" value="5" /> 5<br />
+		    </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% empty %}
+    <h2>No hay categorías</h2>
+{% endfor %}
+<input type="submit" value="Encontrar mi Media Naranja" />
 </form>
 {% endblock content %}

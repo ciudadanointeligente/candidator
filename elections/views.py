@@ -39,7 +39,7 @@ def medianaranja1(request, my_user, election_slug):
         e = Election.objects.filter(owner=u[0],slug=election_slug)
         if len(e) == 0:
     	    raise Http404
-        return render_to_response('medianaranja1.html', {'election':e[0]}, context_instance = RequestContext(request))
+        return render_to_response('medianaranja1.html', {'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
 
 
 def medianaranja2(request):
