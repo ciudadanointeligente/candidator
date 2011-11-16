@@ -1,0 +1,18 @@
+{% extends "elections/base.html" %}
+
+{% block title %}
+{{ block.super }} Election
+{% endblock title %}
+
+{% block content %}
+<h1>{{election}}</h1>
+
+<form action="." method="POST">{% csrf_token %}
+	<input type="radio" name="importance" value="1" /> 1<br />
+	<input type="radio" name="importance" value="2" /> 2<br />
+	<input type="radio" name="importance" value="3" checked="checked" /> 3<br />
+	<input type="radio" name="importance" value="4" /> 4<br />
+	<input type="radio" name="importance" value="5" /> 5<br />
+	<input type="submit" value="Submit" />
+</form>
+{% endblock content %}

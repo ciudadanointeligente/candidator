@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -19,4 +19,6 @@ urlpatterns = patterns('',
     (r'^profiles/', include('profiles.urls')),
 
     url(r'^elections/', include('elections.urls')),
+    url(r'^(?P<my_user>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
+
 )

@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from models import *
 
 
@@ -9,7 +8,7 @@ class CandidateInline(admin.StackedInline):
 
 
 class ElectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner')
+    list_display = ('name', 'owner', 'slug')
     inlines = [CandidateInline]
 
 
@@ -34,7 +33,7 @@ class LinkInline(admin.TabularInline):
 
 
 class CandidateAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at',)
+    list_display = ('name', 'created_at', 'slug')
     list_filter = ('last_name',)
     date_hierarchy = 'created_at'
     inlines = [PersonalInformationInLine, LinkInline]

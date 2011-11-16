@@ -1,11 +1,12 @@
 from django.db import models
+from django_extensions.db.fields import AutoSlugField
 
 # Create your models here.
 
 
 class Election(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = AutoSlugField(max_length=50, unique=True, populate_from=('name',))
     owner = models.ForeignKey('auth.User')
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -18,7 +19,7 @@ class Election(models.Model):
 class Candidate(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = AutoSlugField(max_length=50, unique=True, populate_from=('first_name', 'last_name',))
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
 

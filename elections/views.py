@@ -5,8 +5,10 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.utils import simplejson as json
+from django.template.context import RequestContext
+from django.contrib.auth.models import User
 
-from models import Election, Candidate, Answer
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
 @login_required
@@ -23,3 +25,22 @@ def associate_answer_to_candidate(request, slug, election_slug):
     return render_to_response(\
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
+
+
+def medianaranja1(request, my_user, election_slug):
+
+    if request.method == "POST":
+        resp = request.POST["importance"]
+        return HttpResponse(resp)
+    else:
+        u = User.objects.filter(username=my_user)
+        if len(u) == 0:
+            raise Http404
+        e = Election.objects.filter(owner=u[0],slug=election_slug)
+        if len(e) == 0:
+    	    raise Http404
+        return render_to_response('medianaranja1.html', {'election':e[0]}, context_instance = RequestContext(request))
+
+
+def medianaranja2(request):
+    return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
