@@ -8,8 +8,10 @@ from django.utils import simplejson as json
 from django.template.context import RequestContext
 from django.contrib.auth.models import User
 
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
+<<<<<<< HEAD
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, ElectionForm
 from forms import CategoryForm
+
 
 
 @login_required
@@ -27,6 +29,20 @@ def associate_answer_to_candidate(request, slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
+@login_required
+@require_http_methods(['GET','POST'])
+def create_election(request, my_user):
+    if request.POST:
+        form = ElectionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/elections/success_create_election/')
+        else:
+            return render_to_response('elections/create_election.html', {'form': form}, context_instance = RequestContext(request))
+    return render_to_response('elections/create_election.html', {'form': ElectionForm}, context_instance = RequestContext(request))
+
+def success_create_election(request):
+    return render_to_response('elections/success_create_election.html')
 
 def medianaranja1(request, my_user, election_slug):
 

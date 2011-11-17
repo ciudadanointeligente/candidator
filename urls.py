@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     (r'^profiles/', include('profiles.urls')),
 
     url(r'^elections/', include('elections.urls')),
+    url(r'^elections/success_create_election/$','candidator.elections.views.success_create_election'),
+    url(r'^(?P<my_user>[a-zA-Z0-9-]+)/elections/create_election/$', 'elections.views.create_election',name='create_election'),
     url(r'^(?P<my_user>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
 
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
@@ -29,3 +31,7 @@ urlpatterns = patterns('',
 
 
 )
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static( settings.USER_FILES, document_root=settings.STATIC_ROOT )
