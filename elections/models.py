@@ -1,4 +1,7 @@
+import os
 from django.db import models
+from django.conf import settings
+from django.forms import ModelForm
 from django_extensions.db.fields import AutoSlugField
 
 # Create your models here.
@@ -6,8 +9,11 @@ from django_extensions.db.fields import AutoSlugField
 
 class Election(models.Model):
     name = models.CharField(max_length=255)
-    slug = AutoSlugField(max_length=50, unique=True, populate_from=('name',))
+    #slug = AutoSlugField(max_length=50, unique=True, populate_from=('slug_edit',))
+    slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
+    description = models.TextField(max_length=10000)
+    logo = models.ImageField(upload_to = 'logos/', null =True, blank = True)
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -15,9 +21,18 @@ class Election(models.Model):
     class Meta:
         unique_together = ('slug', 'owner')
 
+    def admin_image(self):
+        #return '<img src = "%s"/>' % self.logo
+        img_dir = os.path.join(settings.USER_FILES, str(self.logo))
+        return '<img src = "%s"/>' % img_dir
+    admin_image.allow_tags = True
+
     def __unicode__(self):
         return u"%s" % self.name
 
+class ElectionForm(ModelForm):
+    class Meta:
+        model = Election
 
 class Candidate(models.Model):
     first_name = models.CharField(max_length=255)
