@@ -72,9 +72,16 @@ def medianaranja2(request):
 def add_category(request, election_slug):
     election = get_object_or_404(Election, slug=election_slug, owner=request.user)
 
-    if request.GET:
+    if request.method == 'GET':
         form = CategoryForm()
-        return render_to_response('add_category.html', {'form':form},\
-                context_instance=RequestContext(request))
+        return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
     elif request.POST:
+        form2 = CategoryForm(request.POST)
+        if form2.is_valid():
+            form2.save()
+        else:
+            return render_to_response('add_category.html', {'form':form2}, context_instance=RequestContext(request))
+
+        raise Http404
+    else:
         raise Http404
