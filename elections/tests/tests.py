@@ -95,8 +95,7 @@ class CategoryTest(TestCase):
 
     def test_get_add_category_by_user_without_login(self):
         request = self.client.get(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': self.election.slug}))
+                                            kwargs={'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 302)
 
     def test_get_add_category_by_user_election_not_owned_by_user(self):
@@ -104,25 +103,15 @@ class CategoryTest(TestCase):
         election2, created = Election.objects.get_or_create(name='FooBar',
                                                             owner=user2,
                                                             slug='foobar')
-        # good user, bad election
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': election2.slug}))
-        self.assertEqual(request.status_code, 404)
-
-        # bad user, bad election
-        self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('add_category',
-                                            kwargs={'user': user2.username,
-                                                    'election_slug': election2.slug}))
+                                            kwargs={'election_slug': election2.slug}))
         self.assertEqual(request.status_code, 404)
 
     def test_get_add_category_by_user_success(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': self.election.slug}))
+                                            kwargs={'election_slug': self.election.slug}))
         self.assertEqual(request.status_code, 200)
 
         form = CategoryForm()
@@ -131,8 +120,7 @@ class CategoryTest(TestCase):
 
     def test_post_add_category_by_user_without_login(self):
         request = self.client.post(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': self.election.slug}))
+                                            kwargs={'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 302)
 
     def test_post_add_category_by_user_election_not_owned_by_user(self):
@@ -140,18 +128,9 @@ class CategoryTest(TestCase):
         election2, created = Election.objects.get_or_create(name='FooBar',
                                                             owner=user2,
                                                             slug='foobar')
-        # good user, bad election
         self.client.login(username='joe', password='doe')
         request = self.client.post(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': election2.slug}))
-        self.assertEqual(request.status_code, 404)
-
-        # bad user, bad election
-        self.client.login(username='joe', password='doe')
-        request = self.client.post(reverse('add_category',
-                                            kwargs={'user': user2.username,
-                                                    'election_slug': election2.slug}))
+                                            kwargs={'election_slug': election2.slug}))
         self.assertEqual(request.status_code, 404)
 
     def test_post_add_category_success(self):
@@ -159,8 +138,7 @@ class CategoryTest(TestCase):
 
         self.client.login(username='joe', password='doe')
         request=self.client.post(reverse('add_category',
-                                            kwargs={'user': self.user.username,
-                                                    'election_slug': self.election.slug}),
+                                            kwargs={'election_slug': self.election.slug}),
                                  {'name': new_category_name})
 
         self.assertEqual(request.status_code, 200)

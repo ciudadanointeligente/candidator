@@ -69,7 +69,8 @@ def medianaranja2(request):
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def add_category(request, user, election_slug):
+def add_category(request, election_slug):
+    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
 
     if request.GET:
         form = CategoryForm()

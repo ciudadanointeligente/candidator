@@ -23,9 +23,7 @@ urlpatterns = patterns('',
 
     url(r'^elections/', include('elections.urls')),
     url(r'^(?P<my_user>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
-    url(r'^(?P<user>[a-zA-Z0-9-]+)/(?P<election_slug>[-\w]+)/add_category/$',
-            add_category,
-            name='add_category' ),
+    url(r'^(?P<election_slug>[-\w]+)/add_category/$', add_category, name='add_category' ),
 
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
     (r'^accounts/', include('registration.urls')),
