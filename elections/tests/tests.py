@@ -41,8 +41,8 @@ class QuestionFormTest(TestCase):
         self.assertTrue(isinstance(form, QuestionForm))
         self.assertEquals(form.fields['answers'].choices, [])
         self.assertEquals(form.fields['question'], question2.pk)
- 
-       
+
+
 class CandidateTest(TestCase):
     def test_name_property(self):
         candidate = Candidate()
@@ -52,6 +52,31 @@ class CandidateTest(TestCase):
         expected_name = 'Juanito Perez'
 
         self.assertEqual(candidate.name, expected_name)
+
+
+class ElectionTest(TestCase):
+    def test_create_election(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz')
+
+        self.assertEqual(election.name, 'BarBaz')
+        self.assertEqual(election.owner, user)
+        self.assertEqual(election.slug, 'barbaz')
+
+class CategoryTest(TestCase):
+    def test_create_category(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz')
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=election)
+
+        self.assertEqual(category.name, 'FooCat')
+        self.assertEqual(category.election, election)
+
 
 
 class QuestionsTest(TestCase):
@@ -240,6 +265,3 @@ class TestRedirection(TestCase):
         url = reverse("medianaranja1",kwargs={'my_user': 'otroUsuario', 'election_slug':'mi-nueva-eleccion'})
         expected = "/otroUsuario/mi-nueva-eleccion/medianaranja/"
         self.assertEqual(url,expected)
-
-#class MediaNaranjaViewTest(TestCase):
-#    def

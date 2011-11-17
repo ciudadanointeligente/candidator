@@ -9,7 +9,7 @@ class QuestionForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
-    
+
     def set_question(self, question):
         self.fields['answers'].choices = ((a.pk, a.caption) for a in question.answer_set.all())
         self.fields['answers'].label = question.question
