@@ -44,6 +44,20 @@ class QuestionFormTest(TestCase):
 
 
 class CandidateTest(TestCase):
+    def test_create_candidate(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz')
+        candidate, created = Candidate.objects.get_or_create(first_name='Foo',
+                                                            last_name='Bar',
+                                                            election=election,
+                                                            slug='foobar')
+        self.assertEqual(candidate.first_name, 'Foo')
+        self.assertEqual(candidate.last_name, 'Bar')
+        self.assertEqual(candidate.slug, 'foobar')
+        self.assertEqual(candidate.election, election)
+
     def test_name_property(self):
         candidate = Candidate()
         candidate.first_name = 'Juanito'
