@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from elections.models import Candidate, Election, Category, Question, Answer
-from elections.forms import question_formset_factory, QuestionForm
+from elections.forms import question_formset_factory, QuestionForm, CategoryForm
 
 
 class QuestionFormTest(TestCase):
@@ -80,17 +80,96 @@ class ElectionTest(TestCase):
         self.assertEqual(election.slug, 'barbaz')
 
 class CategoryTest(TestCase):
-    def test_create_category(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
+    def setUp(self):
+        self.user, created = User.objects.get_or_create(username='joe', password='doe')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
                                                             slug='barbaz')
+
+    def test_create_category(self):
         category, created = Category.objects.get_or_create(name='FooCat',
-                                                            election=election)
+                                                            election=self.election)
 
         self.assertEqual(category.name, 'FooCat')
-        self.assertEqual(category.election, election)
+        self.assertEqual(category.election, self.election)
 
+    def test_get_add_category_by_user_without_login(self):
+        request = self.client.get(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': self.election.slug}))
+        self.assertEquals(request.status_code, 302)
+
+    def test_get_add_category_by_user_election_not_owned_by_user(self):
+        user2 , created = User.objects.get_or_create(username='doe', password='doe')
+        election2, created = Election.objects.get_or_create(name='FooBar',
+                                                            owner=user2,
+                                                            slug='foobar')
+        # good user, bad election
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': election2.slug}))
+        self.assertEqual(request.status_code, 404)
+
+        # bad user, bad election
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('add_category',
+                                            kwargs={'user': user2.username,
+                                                    'election_slug': election2.slug}))
+        self.assertEqual(request.status_code, 404)
+
+    def test_get_add_category_by_user_success(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': self.election.slug}))
+        self.assertEqual(request.status_code, 200)
+
+        form = CategoryForm()
+        self.assertTrue(request.context.has_key('form'))
+        self.assertEquals(request.context['form'], form)
+
+    def test_post_add_category_by_user_without_login(self):
+        request = self.client.post(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': self.election.slug}))
+        self.assertEquals(request.status_code, 302)
+
+    def test_post_add_category_by_user_election_not_owned_by_user(self):
+        user2 , created = User.objects.get_or_create(username='doe', password='doe')
+        election2, created = Election.objects.get_or_create(name='FooBar',
+                                                            owner=user2,
+                                                            slug='foobar')
+        # good user, bad election
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': election2.slug}))
+        self.assertEqual(request.status_code, 404)
+
+        # bad user, bad election
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('add_category',
+                                            kwargs={'user': user2.username,
+                                                    'election_slug': election2.slug}))
+        self.assertEqual(request.status_code, 404)
+
+    def test_post_add_category_success(self):
+        new_category_name = 'FooCat'
+
+        self.client.login(username='joe', password='doe')
+        request=self.client.post(reverse('add_category',
+                                            kwargs={'user': self.user.username,
+                                                    'election_slug': self.election.slug}),
+                                 {'name': new_category_name})
+
+        self.assertEqual(request.status_code, 200)
+
+        self.assertTrue(request.context.has_key('category'))
+        self.assertEquals(request.context['category'], new_category_name)
+
+        categories = [ str(c) for c in self.election.category_set.all()]
+        self.assertTrue(new_category_name in categories)
 
 
 class QuestionsTest(TestCase):

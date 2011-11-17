@@ -9,6 +9,7 @@ from django.template.context import RequestContext
 from django.contrib.auth.models import User
 
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
+from forms import CategoryForm
 
 
 @login_required
@@ -65,3 +66,14 @@ def medianaranja1(request, my_user, election_slug):
 
 def medianaranja2(request):
     return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def add_category(request, user, election_slug):
+
+    if request.GET:
+        form = CategoryForm()
+        return render_to_response('add_category.html', {'form':form},\
+                context_instance=RequestContext(request))
+    elif request.POST:
+        raise Http404

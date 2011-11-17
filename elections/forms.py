@@ -1,6 +1,11 @@
 from django import forms
 from django.forms.formsets import formset_factory
+from elections.models import Category
 
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        exclude = ('election')
 
 class QuestionForm(forms.Form):
     question = forms.IntegerField(widget=forms.HiddenInput)
