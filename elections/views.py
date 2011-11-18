@@ -8,8 +8,8 @@ from django.utils import simplejson as json
 from django.template.context import RequestContext
 from django.contrib.auth.models import User
 
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
-from forms import CategoryForm, ElectionForm
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, ElectionForm
+from forms import CategoryForm
 
 
 
