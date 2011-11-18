@@ -49,6 +49,24 @@ class Candidate(models.Model):
         new_answers.append(answer)
         self.answers = new_answers
         self.save()
+    
+    def get_score(self, id_answers, importances):
+        #weights = [1, 2, 3, 4, 5]
+        candidate_answers = self.answers.all()
+        categories = Categories.objects.filter(election=self.election)
+        scores = [0]*len(categories)
+        user_preferences = []
+        for id in id_answers:
+            user_preferences.append(Answer.object.get(id=int(id)))
+        for x in user_preferences:
+            if x in candidate_answers:
+                position = categories.index(x.question.category)
+                scores[position] += 1 * int(importances[int(user_preferences.index(x))])
+    	return_values = []
+    	for i in range(len(scores)):
+    	     return_values.append((categories[i], scores[i]))
+        return return_values
+        
 
     @property
     def name(self):
@@ -82,6 +100,9 @@ class Link(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+    
+    def get_questions(self):
+        return Question.objects.filter(category=self)
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -90,6 +111,9 @@ class Category(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
+
+    def get_answers(self):
+        return Answer.objects.filter(question=self)
 
     def __unicode__(self):
         return u"%s" % self.question
