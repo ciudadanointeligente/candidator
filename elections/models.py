@@ -22,7 +22,6 @@ class Election(models.Model):
         unique_together = ('slug', 'owner')
 
     def admin_image(self):
-        #return '<img src = "%s"/>' % self.logo
         img_dir = os.path.join(settings.USER_FILES, str(self.logo))
         return '<img src = "%s"/>' % img_dir
     admin_image.allow_tags = True
@@ -30,9 +29,6 @@ class Election(models.Model):
     def __unicode__(self):
         return u"%s" % self.name
 
-class ElectionForm(ModelForm):
-    class Meta:
-        model = Election
 
 class Candidate(models.Model):
     first_name = models.CharField(max_length=255)

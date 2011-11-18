@@ -67,18 +67,54 @@ class CandidateTest(TestCase):
 
         self.assertEqual(candidate.name, expected_name)
 
-
 class ElectionTest(TestCase):
     def test_create_election(self):
         user, created = User.objects.get_or_create(username='joe')
         election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=user,
-                                                            slug='barbaz')
+                                                            slug='barbaz',
+                                                            description='esta es una descripcion')
 
         self.assertEqual(election.name, 'BarBaz')
         self.assertEqual(election.owner, user)
         self.assertEqual(election.slug, 'barbaz')
+        self.assertEquals(election.description, 'esta es una descripcion')
 
+    def test_create_election_by_user_without_login(self):
+        user, created = User.objects.get_or_create(username='joe')
+        request = self.client.get(reverse('create_election',
+                                            kwargs={'my_user': user}))
+        self.assertEquals(request.status_code, 302)
+
+    def test_create_election_by_user_success(self):
+        user, created = User.objects.get_or_create(username='joe')
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('create_election',
+                                            kwargs={'my_user': user}))
+        self.assertEqual(request.status_code, 200)
+
+        form = ElectionForm()
+        self.assertTrue(request.context.has_key('form'))
+        self.assertEquals(request.context['form'], form)
+
+    def test_create_two_election_by_same_user_with_same_slug(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz',
+                                                            description='esta es una descripcion')
+                                            
+        try:
+            election2, created = Election.objects.get_or_create(name='BarBaz2',
+                                                                owner=user,
+                                                                slug='barbaz',
+                                                                description='esta es una descripcion2')
+        except:
+            created = False
+            
+        self.assertFalse(created)
+
+    
 class CategoryTest(TestCase):
     def setUp(self):
         self.user, created = User.objects.get_or_create(username='joe', password='doe')

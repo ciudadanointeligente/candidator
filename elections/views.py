@@ -8,9 +8,8 @@ from django.utils import simplejson as json
 from django.template.context import RequestContext
 from django.contrib.auth.models import User
 
-<<<<<<< HEAD
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, ElectionForm
-from forms import CategoryForm
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
+from forms import CategoryForm, ElectionForm
 
 
 
@@ -33,9 +32,18 @@ def associate_answer_to_candidate(request, slug, election_slug):
 @require_http_methods(['GET','POST'])
 def create_election(request, my_user):
     if request.POST:
-        form = ElectionForm(request.POST)
+        form = ElectionForm(request.POST)    
         if form.is_valid():
-            form.save()
+            election_name = request.POST.get('name', None)
+            election_description = request.POST.get('description', None)
+            election_slug = request.POST.get('slug', None)               
+            election_logo = request.POST.get('file_image', None)
+            election = Election(name = election_name, slug = election_slug, owner = request.user, description = election_description, logo = election_logo)
+            #this code is because form doesnt validate owner
+            bad_election = Election.objects.filter(slug = election_slug, owner = request.user)
+            if len(bad_election) > 0:
+                return render_to_response('elections/create_election.html', {'form': form, 'error_duplicated_slug': True}, context_instance = RequestContext(request))
+            election.save()
             return redirect('/elections/success_create_election/')
         else:
             return render_to_response('elections/create_election.html', {'form': form}, context_instance = RequestContext(request))
