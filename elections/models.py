@@ -33,7 +33,7 @@ class Election(models.Model):
 class Candidate(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    slug = AutoSlugField(max_length=50, unique=True, populate_from=('first_name', 'last_name',))
+    slug = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
 

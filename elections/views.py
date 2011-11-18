@@ -1,16 +1,49 @@
 # Create your views here.
 from django.http import HttpResponse, Http404
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, DetailView
 from django.utils import simplejson as json
 from django.template.context import RequestContext
 from django.contrib.auth.models import User
 
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, ElectionForm
-from forms import CategoryForm
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
+from forms import CategoryForm, ElectionForm
 
+
+class ElectionDetailView(DetailView):
+    model = Election
+    
+    def get_queryset(self):
+        if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(owner__username=self.kwargs['username'], 
+                                             slug=self.kwargs['slug'])
+        return super(ElectionDetailView, self).get_queryset()
+
+
+class ElectionCreateView(CreateView):
+    model = Election
+    form_class = ElectionForm
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionCreateView, self).dispatch(request, *args, **kwargs)
+    
+    def get_success_url(self):
+        return reverse('candidate_create', kwargs={'slug': self.object.slug})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        # validate same slug for user
+        if self.model.objects.filter(owner=self.request.user, slug=self.object.slug).count() > 0:
+            return self.form_invalid(form)
+        self.object.owner = self.request.user
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
 @login_required
@@ -27,6 +60,7 @@ def associate_answer_to_candidate(request, slug, election_slug):
     return render_to_response(\
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
+
 
 @login_required
 @require_http_methods(['GET','POST'])
@@ -102,7 +136,11 @@ def add_category(request, election_slug):
     elif request.POST:
         form2 = CategoryForm(request.POST)
         if form2.is_valid():
-            form2.save()
+            category = form2.save(commit=False)
+            category.election = election
+            category.save()
+            form = CategoryForm()
+            return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
         else:
             return render_to_response('add_category.html', {'form':form2}, context_instance=RequestContext(request))
 

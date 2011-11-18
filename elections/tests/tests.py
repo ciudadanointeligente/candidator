@@ -13,7 +13,7 @@ from django.test.client import Client
 
 
 from elections.models import Candidate, Election, Category, Question, Answer
-from elections.forms import question_formset_factory, QuestionForm, CategoryForm
+from elections.forms import question_formset_factory, QuestionForm, CategoryForm, ElectionForm
 
 
 class QuestionFormTest(TestCase):
@@ -52,7 +52,7 @@ class CandidateTest(TestCase):
         election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=user,
                                                             slug='barbaz')
-        candidate, created = Candidate.objects.get_or_create(first_name='Foo',
+        candidate = Candidate.objects.create(first_name='Foo',
                                                             last_name='Bar',
                                                             election=election,
                                                             slug='foobar')
@@ -70,57 +70,10 @@ class CandidateTest(TestCase):
 
         self.assertEqual(candidate.name, expected_name)
 
-class ElectionTest(TestCase):
-    def test_create_election(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz',
-                                                            description='esta es una descripcion')
-
-        self.assertEqual(election.name, 'BarBaz')
-        self.assertEqual(election.owner, user)
-        self.assertEqual(election.slug, 'barbaz')
-        self.assertEquals(election.description, 'esta es una descripcion')
-
-    def test_create_election_by_user_without_login(self):
-        user, created = User.objects.get_or_create(username='joe')
-        request = self.client.get(reverse('create_election',
-                                            kwargs={'my_user': user}))
-        self.assertEquals(request.status_code, 302)
-
-    def test_create_election_by_user_success(self):
-        user, created = User.objects.get_or_create(username='joe')
-        self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('create_election',
-                                            kwargs={'my_user': user}))
-        self.assertEqual(request.status_code, 200)
-
-        form = ElectionForm()
-        self.assertTrue(request.context.has_key('form'))
-        self.assertEquals(request.context['form'], form)
-
-    def test_create_two_election_by_same_user_with_same_slug(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz',
-                                                            description='esta es una descripcion')
-                                            
-        try:
-            election2, created = Election.objects.get_or_create(name='BarBaz2',
-                                                                owner=user,
-                                                                slug='barbaz',
-                                                                description='esta es una descripcion2')
-        except:
-            created = False
-            
-        self.assertFalse(created)
-
     
 class CategoryTest(TestCase):
     def setUp(self):
-        self.user, created = User.objects.get_or_create(username='joe', password='doe')
+        self.user = User.objects.create_user(username='joe', password='doe', email='asd@ad.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=self.user,
                                                             slug='barbaz')
@@ -145,7 +98,7 @@ class CategoryTest(TestCase):
                                                             slug='foobar')
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('add_category',
-                                            kwargs={'election_slug': election2.slug}))
+                                           kwargs={'election_slug': election2.slug}))
         self.assertEqual(request.status_code, 404)
 
     def test_get_add_category_by_user_success(self):
@@ -156,7 +109,7 @@ class CategoryTest(TestCase):
 
         form = CategoryForm()
         self.assertTrue(request.context.has_key('form'))
-        self.assertEquals(request.context['form'], form)
+        self.assertTrue(isinstance(request.context['form'], CategoryForm))
 
     def test_post_add_category_by_user_without_login(self):
         request = self.client.post(reverse('add_category',
@@ -178,17 +131,13 @@ class CategoryTest(TestCase):
 
         self.client.login(username='joe', password='doe')
         request=self.client.post(reverse('add_category',
-                                            kwargs={'election_slug': self.election.slug}),
+                                         kwargs={'election_slug': self.election.slug}),
                                  {'name': new_category_name})
 
         self.assertEqual(request.status_code, 200)
 
-        self.assertTrue(request.context.has_key('category'))
-        self.assertEquals(request.context['category'], new_category_name)
-
-        categories = [ str(c) for c in self.election.category_set.all()]
-        self.assertTrue(new_category_name in categories)
-
+        self.assertTrue(request.context.has_key('form'))
+        self.assertTrue(isinstance(request.context['form'], CategoryForm))
 
 
 class QuestionsTest(TestCase):
