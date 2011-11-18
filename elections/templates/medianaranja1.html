@@ -7,7 +7,53 @@
 {% block content %}
 <h1>{{election}}</h1>
 
+
 <form action="." method="POST">{% csrf_token %}
+
+{% for cat,data in stt %}
+    <h1>{{cat.name}}</h1>
+    {% for num,preg,ans_list in data %}
+    <h4>{{preg.question}}</h4>
+    	{% for ans in ans_list %}
+    	<input type="radio" name="question-{{num}}" value="{{ans.id}}" />{{ans.caption}}<br />
+    	{% endfor %}
+    	<!-- value = -1 is meant for default answers -->
+        <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
+        Ninguna de las anteriores representa mi posición<br />
+		<h4>Importancia</h4>
+	    <input type="radio" name="importance-{{num}}" value="1" /> 1<br />
+    <input type="radio" name="importance-{{num}}" value="2" /> 2<br />
+    <input type="radio" name="importance-{{num}}" value="3" checked="checked" /> 3<br />
+    <input type="radio" name="importance-{{num}}" value="4" /> 4<br />
+    <input type="radio" name="importance-{{num}}" value="5" /> 5<br />
+    {% endfor %}
+    <hr/>
+{% endfor %}
+
+<input type="submit" value="Encontrar mi Media Naranja" />
+
+
+</form>
+
+
+
+<!--
+<br><hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% for category in categories.all %}
     <h2>{{ category.name }}</h2>
@@ -19,7 +65,7 @@
             {% for answer in question.answer_set.all %}
                 <li>
                     <label>
-                        <input type="radio" name="question[{{ question.pk }}]" value="[{{ answer.pk }}]"/>
+	                    <input type="radio" name="question[{{ question.pk }}]" value="{{ answer.pk }}"/>
                         {{ answer.caption }}
                     </label>
                 </li>
@@ -30,7 +76,6 @@
             {% endfor %}
                 <li>
                     <label>
-                        <!-- value = -1 is meant for default answers -->
                         <input type="radio" name="question[{{ question.pk }}]" value="-1" checked="checked" />
                         Ninguna de las anteriores representa mi posición
                     </label>
@@ -76,5 +121,5 @@
 <p>
     <input type="submit" value="Encontrar mi Media Naranja" />
 </p>
-</form>
+</form>-->
 {% endblock content %}
