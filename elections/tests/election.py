@@ -37,9 +37,7 @@ class ElectionModelTest(TestCase):
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
         user = User.objects.create(username='foobar')
-        user2 = User.objects.create(username='foobar2')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        election2 = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
         response = self.client.get(reverse('election_detail',
                                            kwargs={
                                                'username': user.username,
@@ -50,7 +48,6 @@ class ElectionDetailViewTest(TestCase):
 
     def test_detail_non_existing_election_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
         response = self.client.get(reverse('election_detail',
                                            kwargs={
                                                'username': user.username,

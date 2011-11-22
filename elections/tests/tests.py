@@ -46,31 +46,6 @@ class QuestionFormTest(TestCase):
         self.assertEquals(form.fields['question'], question2.pk)
 
 
-class CandidateTest(TestCase):
-    def test_create_candidate(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz')
-        candidate = Candidate.objects.create(first_name='Foo',
-                                                            last_name='Bar',
-                                                            election=election,
-                                                            slug='foobar')
-        self.assertEqual(candidate.first_name, 'Foo')
-        self.assertEqual(candidate.last_name, 'Bar')
-        self.assertEqual(candidate.slug, 'foobar')
-        self.assertEqual(candidate.election, election)
-
-    def test_name_property(self):
-        candidate = Candidate()
-        candidate.first_name = 'Juanito'
-        candidate.last_name = 'Perez'
-
-        expected_name = 'Juanito Perez'
-
-        self.assertEqual(candidate.name, expected_name)
-
-
 class CategoryTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='asd@ad.cl')

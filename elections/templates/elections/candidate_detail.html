@@ -1,0 +1,9 @@
+{% extends "elections/base.html" %}
+
+{% block title %}
+{{ block.super }} Election
+{% endblock title %}
+
+{% block content %}
+<a href="{% url candidate_detail username=candidate.election.owner.username election_slug=candidate.election.slug slug=candidate.slug %}">Candidate: {{ candidate.name }}</a>
+{% endblock content %}

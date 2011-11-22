@@ -14,6 +14,18 @@ from django.contrib.auth.models import User
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 from forms import CategoryForm, ElectionForm
 
+# Candidate views
+class CandidateDetailView(DetailView):
+    model = Candidate
+
+    def get_queryset(self):
+        if self.kwargs.has_key('username') and self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(election__owner__username=self.kwargs['username'],
+                                             election__slug=self.kwargs['election_slug'],
+                                             slug=self.kwargs['slug'])
+
+        return super(CandidateDetailView, self).get_queryset()
+
 
 class ElectionDetailView(DetailView):
     model = Election

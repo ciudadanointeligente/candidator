@@ -35,6 +35,9 @@ class Candidate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
+    class Meta:
+        unique_together = ('slug', 'election')
+
     def associate_answer(self, answer):
         old_answers = self.answers.filter(question=answer.question).all()
         new_answers = []
