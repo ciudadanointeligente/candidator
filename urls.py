@@ -34,7 +34,15 @@ urlpatterns = patterns('',
 
 
 )
-from django.conf import settings
-from django.conf.urls.static import static
 
-urlpatterns += static( settings.USER_FILES, document_root=settings.STATIC_ROOT )
+
+from django.conf import settings
+if settings.DEBUG:
+    from django.conf.urls.static import static
+
+    urlpatterns += static( settings.USER_FILES, document_root=settings.STATIC_ROOT )
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   )

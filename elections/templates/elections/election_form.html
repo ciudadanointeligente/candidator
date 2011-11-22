@@ -9,3 +9,12 @@
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 {% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+    $("#id_name").slug({
+        'target': $('#id_slug')
+    });
+</script>
+{% endblock %}

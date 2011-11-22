@@ -11,6 +11,8 @@ class ElectionForm(forms.ModelForm):
     class Meta:
         model = Election
         exclude = ('owner')
+    class Media:
+        js = ('jquery.slug.js', )
 
 
 class QuestionForm(forms.Form):
