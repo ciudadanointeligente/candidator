@@ -13,18 +13,13 @@ class Election(models.Model):
     slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
     description = models.TextField(max_length=10000)
-    logo = models.ImageField(upload_to = 'logos/', null =True, blank = True)
+    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False)
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
         unique_together = ('slug', 'owner')
-
-    def admin_image(self):
-        img_dir = os.path.join(settings.USER_FILES, str(self.logo))
-        return '<img src = "%s"/>' % img_dir
-    admin_image.allow_tags = True
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -49,7 +44,7 @@ class Candidate(models.Model):
         new_answers.append(answer)
         self.answers = new_answers
         self.save()
-    
+
     def get_score(self, id_answers, importances):
         #weights = [1, 2, 3, 4, 5]
         candidate_answers = self.answers.all()
@@ -62,11 +57,11 @@ class Candidate(models.Model):
             if x in candidate_answers:
                 position = categories.index(x.question.category)
                 scores[position] += 1 * int(importances[int(user_preferences.index(x))])
-    	return_values = []
-    	for i in range(len(scores)):
-    	     return_values.append((categories[i], scores[i]))
+        return_values = []
+        for i in range(len(scores)):
+             return_values.append((categories[i], scores[i]))
         return return_values
-        
+
 
     @property
     def name(self):
@@ -100,7 +95,7 @@ class Link(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
-    
+
     def get_questions(self):
         return Question.objects.filter(category=self)
 

@@ -1,6 +1,11 @@
+{% extends 'elections/base.html' %}
+{% load i18n %}
+
+{% block content %}
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-<ul>
-{{ form.as_ul }}
-</ul>
-<input type="submit" value="Guardar" />
+    <table>
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+{% endblock %}

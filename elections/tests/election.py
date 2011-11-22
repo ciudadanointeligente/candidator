@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -6,6 +8,7 @@ from django.db import IntegrityError
 from elections.models import Election
 from elections.forms import ElectionForm
 
+dirname = os.path.dirname(os.path.abspath(__file__))
 
 class ElectionModelTest(TestCase):
     def test_create_election(self):
@@ -26,8 +29,8 @@ class ElectionModelTest(TestCase):
                                                     owner=user,
                                                     slug='barbaz',
                                                     description='esta es una descripcion')
-        
-        self.assertRaises(IntegrityError, Election.objects.create, 
+
+        self.assertRaises(IntegrityError, Election.objects.create,
                           name='FooBar', owner=user, slug='barbaz', description='whatever')
 
 
@@ -37,9 +40,9 @@ class ElectionDetailViewTest(TestCase):
         user2 = User.objects.create(username='foobar2')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
         election2 = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
-        response = self.client.get(reverse('election_detail', 
+        response = self.client.get(reverse('election_detail',
                                            kwargs={
-                                               'username': user.username, 
+                                               'username': user.username,
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
@@ -48,9 +51,9 @@ class ElectionDetailViewTest(TestCase):
     def test_detail_non_existing_election_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        response = self.client.get(reverse('election_detail', 
+        response = self.client.get(reverse('election_detail',
                                            kwargs={
-                                               'username': user.username, 
+                                               'username': user.username,
                                                'slug': 'asd-asd'}))
         self.assertEquals(response.status_code, 404)
 
@@ -58,9 +61,9 @@ class ElectionDetailViewTest(TestCase):
         user = User.objects.create(username='foobar')
         user2 = User.objects.create(username='barbaz')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
-        response = self.client.get(reverse('election_detail', 
+        response = self.client.get(reverse('election_detail',
                                            kwargs={
-                                               'username': user.username, 
+                                               'username': user.username,
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 404)
 
@@ -68,12 +71,12 @@ class ElectionDetailViewTest(TestCase):
 class ElectionCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        
+
     def test_create_election_by_user_without_login(self):
         user = self.user
-        
+
         request = self.client.get(reverse('election_create'))
-        
+
         self.assertEquals(request.status_code, 302)
 
     def test_create_election_by_user_success(self):
@@ -82,7 +85,7 @@ class ElectionCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('election_create'))
 
-        self.assertTrue(request.context.has_key('form'))
+        self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], ElectionForm))
 
     def test_post_election_create_with_same_slug(self):
@@ -91,19 +94,22 @@ class ElectionCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
         params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
         response = self.client.post(reverse('election_create'), params)
-        
+
         self.assertEquals(response.status_code, 200)
-   
+
     def test_post_election_create_without_login(self):
         params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
         response = self.client.post(reverse('election_create'), params)
-        
+
         self.assertEquals(response.status_code, 302)
 
     def test_post_election_create_logged(self):
         self.client.login(username='joe', password='doe')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
+
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
         response = self.client.post(reverse('election_create'), params, follow=True)
+        f.seek(0)
 
         self.assertEquals(response.status_code, 200)
         qs = Election.objects.filter(name='BarBaz')
@@ -112,10 +118,13 @@ class ElectionCreateViewTest(TestCase):
         self.assertEquals(election.name, 'BarBaz')
         self.assertEquals(election.slug, 'barbaz')
         self.assertEquals(election.description, 'esta es una descripcion')
+        self.assertEquals(f.read(), election.logo.file.read())
+
+        os.unlink(election.logo.path)
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('candidate_create',
                                                kwargs={'slug': election.slug}))
-        
+
 
 class ElectionUrlsTest(TestCase):
     def test_create_url(self):

@@ -8,7 +8,7 @@ class CandidateInline(admin.StackedInline):
 
 
 class ElectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'description', 'slug', 'admin_image')
+    list_display = ('name', 'owner', 'description', 'slug', 'logo')
     inlines = [CandidateInline]
 
 

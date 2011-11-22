@@ -17,10 +17,10 @@ from forms import CategoryForm, ElectionForm
 
 class ElectionDetailView(DetailView):
     model = Election
-    
+
     def get_queryset(self):
         if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(owner__username=self.kwargs['username'], 
+            return self.model.objects.filter(owner__username=self.kwargs['username'],
                                              slug=self.kwargs['slug'])
         return super(ElectionDetailView, self).get_queryset()
 
@@ -28,11 +28,11 @@ class ElectionDetailView(DetailView):
 class ElectionCreateView(CreateView):
     model = Election
     form_class = ElectionForm
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(ElectionCreateView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_success_url(self):
         return reverse('candidate_create', kwargs={'slug': self.object.slug})
 
@@ -61,20 +61,21 @@ def associate_answer_to_candidate(request, slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
-
+'''
 @login_required
 @require_http_methods(['GET','POST'])
 def create_election(request, my_user):
     if request.POST:
-        form = ElectionForm(request.POST)    
+        form = ElectionForm(request.POST, request.FILES)
         if form.is_valid():
             election_name = request.POST.get('name', None)
             election_description = request.POST.get('description', None)
-            election_slug = request.POST.get('slug', None)               
-            election_logo = request.POST.get('file_image', None)
+            election_slug = request.POST.get('slug', None)
+            election_logo = request.FILES['logo']
             election = Election(name = election_name, slug = election_slug, owner = request.user, description = election_description, logo = election_logo)
             #this code is because form doesnt validate owner
             bad_election = Election.objects.filter(slug = election_slug, owner = request.user)
+
             if len(bad_election) > 0:
                 return render_to_response('elections/create_election.html', {'form': form, 'error_duplicated_slug': True}, context_instance = RequestContext(request))
             election.save()
@@ -82,6 +83,7 @@ def create_election(request, my_user):
         else:
             return render_to_response('elections/create_election.html', {'form': form}, context_instance = RequestContext(request))
     return render_to_response('elections/create_election.html', {'form': ElectionForm}, context_instance = RequestContext(request))
+'''
 
 def success_create_election(request):
     return render_to_response('elections/success_create_election.html')
@@ -107,7 +109,7 @@ def medianaranja1(request, my_user, election_slug):
 
         importances = []
         answers = []
-        
+
         for i in range(number_of_questions):
         #    answers.append(Answer.objects.get(id=int(request.POST['question-'+str(i)])))
             ans_id = int(request.POST['question-'+str(i)])
@@ -118,7 +120,7 @@ def medianaranja1(request, my_user, election_slug):
 
         return medianaranja2(request, answers, importances)
         #TODO: modificar medianaranja2 + calculo de puntaje
-        
+
     else:
         u = User.objects.filter(username=my_user)
         if len(u) == 0:
@@ -126,7 +128,7 @@ def medianaranja1(request, my_user, election_slug):
         e = Election.objects.filter(owner=u[0],slug=election_slug)
         if len(e) == 0:
             raise Http404
-        
+
         send_to_template = []
         counter = 0
         for x in e[0].category_set.all():
@@ -135,9 +137,9 @@ def medianaranja1(request, my_user, election_slug):
             for i in range(len(list_questions)):
                 y = list_questions[i]
                 empty_questions.append((counter,y,y.get_answers()))
-                counter += 1 
+                counter += 1
             send_to_template.append((x,empty_questions))
-                
+
         return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
 
 

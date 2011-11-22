@@ -24,8 +24,6 @@ urlpatterns = patterns('',
     url(r'^', include('elections.urls')),
 
 
-    url(r'^elections/success_create_election/$','candidator.elections.views.success_create_election'),
-    url(r'^(?P<my_user>[a-zA-Z0-9-]+)/elections/create_election/$', 'elections.views.create_election',name='create_election'),
     url(r'^(?P<my_user>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
     url(r'^(?P<user>[a-zA-Z0-9-]+)/(?P<election>[a-zA-Z0-9-]+)/medianaranja/$', 'candidator.elections.views.medianaranja2',name='medianaranja2'),
 
