@@ -48,7 +48,7 @@ class CandidateCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('candidate_create', kwargs={'slug': self.object.election.slug})
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
@@ -85,6 +85,17 @@ class ElectionCreateView(CreateView):
 
         return super(ElectionCreateView, self).form_valid(form)
 
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+    # def get_success_url(self):
+    #     return reverse('candidate_create', kwargs={'slug': self.object.slug})
 
 @login_required
 @require_http_methods(['GET', 'POST'])
@@ -196,10 +207,10 @@ def medianaranja2(request, my_answers, importances, candidates):
             max_score = score
             winner = candidate
     print (winner, (max_score*100.0 / sum(importances)))
-    
-    
 
-    
+
+
+
 
     return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
 
