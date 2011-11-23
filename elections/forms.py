@@ -7,6 +7,8 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         exclude = ('election')
+    class Media:
+        js = ('jquery.slug.js', )
 
 
 class CandidateForm(forms.ModelForm):

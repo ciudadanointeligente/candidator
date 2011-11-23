@@ -95,7 +95,21 @@ class CategoryCreateView(CreateView):
         return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('category_create', kwargs={'election_slug': self.object.election.slug})
+        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = Election.objects.get(slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
+            return super(CategoryCreateView, self).form_invalid(form)
+
+        return super(CategoryCreateView, self).form_valid(form)
 
 @login_required
 @require_http_methods(['GET', 'POST'])

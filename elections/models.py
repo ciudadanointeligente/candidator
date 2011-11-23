@@ -122,6 +122,9 @@ class Category(models.Model):
     def get_questions(self):
         return Question.objects.filter(category=self)
 
+    class Meta:
+        unique_together = ('election', 'slug')
+
     def __unicode__(self):
         return u"%s" % self.name
 

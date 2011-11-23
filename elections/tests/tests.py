@@ -151,9 +151,11 @@ class AssociateCandidatesAnswersTest(TestCase):
                                                             slug='barbaz')
         categories = [
             Category.objects.get_or_create(election=self.election,
-                                            name='Cat1'),
+                                            name='Cat1',
+                                            slug='cat1'),
             Category.objects.get_or_create(election=self.election,
-                                            name='Cat2'),
+                                            name='Cat2',
+                                            slug='cat2'),
         ]
         self.categories = [cat for cat, created in categories]
         category2, created = Category.objects.get_or_create(election=self.election2,
@@ -230,7 +232,7 @@ class TestRedirection(TestCase):
         user, created = User.objects.get_or_create(username="otroUsuario")
         election, created = Election.objects.get_or_create(name="mi nueva eleccion",slug="mi-nueva-eleccion",owner=user)
         url = reverse("medianaranja1",kwargs={'my_user': 'otroUsuario', 'election_slug':'mi-nueva-eleccion'})
-        expected = "/otroUsuario/mi-nueva-eleccion/medianaranja/"
+        expected = "/otroUsuario/mi-nueva-eleccion/medianaranja"
         self.assertEqual(url,expected)
 
 
