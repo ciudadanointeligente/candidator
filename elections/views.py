@@ -10,9 +10,10 @@ from django.views.generic import CreateView, DetailView
 from django.utils import simplejson as json
 from django.template.context import RequestContext
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
-from forms import CategoryForm, ElectionForm
+from forms import CandidateForm, CategoryForm, ElectionForm
 
 # Candidate views
 class CandidateDetailView(DetailView):
@@ -27,6 +28,7 @@ class CandidateDetailView(DetailView):
         return super(CandidateDetailView, self).get_queryset()
 
 
+# Election views
 class ElectionDetailView(DetailView):
     model = Election
 
@@ -50,12 +52,15 @@ class ElectionCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        # validate same slug for user
-        if self.model.objects.filter(owner=self.request.user, slug=self.object.slug).count() > 0:
-            return self.form_invalid(form)
         self.object.owner = self.request.user
-        self.object.save()
-        return redirect(self.get_success_url())
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una eleccion con ese slug."])
+            return super(ElectionCreateView, self).form_invalid(form)
+
+        return super(ElectionCreateView, self).form_valid(form)
 
 
 @login_required

@@ -6,21 +6,24 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Candidate, Election
+from elections.forms import CandidateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
+
 class CandidateModelTest(TestCase):
-    def test_create_candidate(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                           owner=user,
+    def setUp(self):
+        self.user, created = User.objects.get_or_create(username='joe')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
+    def test_create_candidate(self):
         candidate, created = Candidate.objects.get_or_create(first_name='Juan',
                                                             last_name='Candidato',
                                                             slug='juan-candidato',
-                                                            election=election)
+                                                            election=self.election)
 
         self.assertTrue(created)
         self.assertEqual(candidate.first_name, 'Juan')
@@ -29,20 +32,13 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.election, election)
 
     def test_create_two_candidate_with_same_election_with_same_slug(self):
-        user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                           owner=user,
-                                                           slug='barbaz',
-                                                           description='esta es una descripcion')
-
         candidate = Candidate.objects.create(first_name='Juan',
                                                             last_name='Candidato',
                                                             slug='juan-candidato',
-                                                            election=election)
+                                                            election=self.election)
 
         self.assertRaises(IntegrityError, Candidate.objects.create,
-                          first_name='Juanito', last_name='Candidatito', slug='juan-candidato', election=election)
+                          first_name='Juanito', last_name='Candidatito', slug='juan-candidato', election=self.election)
 
     def test_name_property(self):
         candidate = Candidate()
@@ -103,69 +99,83 @@ class CandidateDetailViewTest(TestCase):
                 mismo slug de candidato (inexistente en uno, pero existente en otra)
         '''
 
-'''
+
 class CandidateCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion')
 
-    def test_create_Candidate_by_user_without_login(self):
+    def test_create_candidate_by_user_without_login(self):
         user = self.user
 
-        request = self.client.get(reverse('Candidate_create'))
+        request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
 
         self.assertEquals(request.status_code, 302)
 
-    def test_create_Candidate_by_user_success(self):
+    def test_create_candidate_by_user_success(self):
         user = self.user
 
-        self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('Candidate_create'))
+        self.client.login(username=self.user.username, password=self.user.password)
+        request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CandidateForm))
 
-    def test_post_Candidate_create_with_same_slug(self):
-        Candidate = Candidate.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
+    def test_post_candidate_create_with_same_slug(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        self.client.login(username=self.user.username, password=self.user.password)
 
-        self.client.login(username='joe', password='doe')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
-        response = self.client.post(reverse('Candidate_create'), params)
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'first_name': 'first', 'last_name': 'last',
+                  'slug': candidate.slug, 'photo': f}
+        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
+        f.close()
 
         self.assertEquals(response.status_code, 200)
+        # falta revisar que no funcione el formulario
 
-    def test_post_Candidate_create_without_login(self):
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
-        response = self.client.post(reverse('Candidate_create'), params)
+    def test_post_candidate_create_without_login(self):
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+                  'slug': 'juan-candidato', 'photo': f}
+        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
+        f.close()
 
         self.assertEquals(response.status_code, 302)
 
-    def test_post_Candidate_create_logged(self):
-        self.client.login(username='joe', password='doe')
+    def test_post_candidate_create_logged(self):
+        self.client.login(username=self.user.username, password=self.user.password)
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
-        response = self.client.post(reverse('Candidate_create'), params, follow=True)
+        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+                  'slug': 'juan-candidato', 'photo': f}
+        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params, follow=True)
         f.seek(0)
 
         self.assertEquals(response.status_code, 200)
-        qs = Candidate.objects.filter(name='BarBaz')
+        qs = Candidate.objects.filter(slug=params.slug)
         self.assertEquals(qs.count(), 1)
-        Candidate = qs.get()
-        self.assertEquals(Candidate.name, 'BarBaz')
-        self.assertEquals(Candidate.slug, 'barbaz')
-        self.assertEquals(Candidate.description, 'esta es una descripcion')
-        self.assertEquals(f.read(), Candidate.logo.file.read())
-
+        candidate = qs.get()
+        self.assertEquals(candidate.first_name, params.first_name)
+        self.assertEquals(candidate.last_name, params.last_name)
+        self.assertEquals(f.read(), candidate.photo.file.read())
+        f.close()
         os.unlink(Candidate.logo.path)
-        self.assertEquals(Candidate.owner, self.user)
+        self.assertEquals(candidate.election, self.election)
         self.assertRedirects(response, reverse('candidate_create',
                                                kwargs={'slug': Candidate.slug}))
-'''
+
 
 class CandidateUrlsTest(TestCase):
     def test_create_url(self):
         expected = '/bar-baz/candidate/create'
-        result = reverse('candidate_create', kwargs={'slug': 'bar-baz' })
+        result = reverse('candidate_create', kwargs={'slug': 'bar-baz'})
         self.assertEquals(result, expected)
 
     def test_detail_url(self):

@@ -70,15 +70,10 @@ class ElectionCreateViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
 
     def test_create_election_by_user_without_login(self):
-        user = self.user
-
         request = self.client.get(reverse('election_create'))
-
         self.assertEquals(request.status_code, 302)
 
     def test_create_election_by_user_success(self):
-        user = self.user
-
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('election_create'))
 
@@ -89,14 +84,20 @@ class ElectionCreateViewTest(TestCase):
         election = Election.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
 
         self.client.login(username='joe', password='doe')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
         response = self.client.post(reverse('election_create'), params)
+        f.close()
 
         self.assertEquals(response.status_code, 200)
+        self.assertFormError(response, 'form', 'slug','Ya tienes una eleccion con ese slug.' )
+
 
     def test_post_election_create_without_login(self):
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion'}
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
         response = self.client.post(reverse('election_create'), params)
+        f.close()
 
         self.assertEquals(response.status_code, 302)
 

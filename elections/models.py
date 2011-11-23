@@ -19,7 +19,7 @@ class Election(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
-        unique_together = ('slug', 'owner')
+        unique_together = ('owner', 'slug')
 
     def __unicode__(self):
         return u"%s" % self.name
