@@ -13,8 +13,23 @@
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
-    $("#id_name").slug({
-        'target': $('#id_slug')
+    $('#id_first_name, #id_last_name').keyup(function() {
+        var first_name = $.trim($("#id_first_name").val());
+        var last_name = $.trim($("#id_last_name").val());
+        var value = "";
+        if (first_name != '' || last_name != '') {
+            if (first_name != '' && last_name != '') {
+                value = first_name + '-' + last_name
+            }
+            else if (first_name == '') {
+                value = last_name
+            }
+            else if (last_name == '') {
+                value = first_name
+            }
+        }
+        $('#id_slug').val($.slug(value));
     });
+
 </script>
 {% endblock %}
