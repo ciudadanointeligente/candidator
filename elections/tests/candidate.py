@@ -138,6 +138,8 @@ class CandidateCreateViewTest(TestCase):
         f.close()
 
         self.assertEquals(response.status_code, 200)
+        self.assertFormError(response, 'form', 'slug','Ya tienes un candidato con ese slug.' )
+
         # falta revisar que no funcione el formulario
 
     def test_post_candidate_create_without_login(self):
@@ -159,7 +161,7 @@ class CandidateCreateViewTest(TestCase):
         f.seek(0)
 
         self.assertEquals(response.status_code, 200)
-        qs = Candidate.objects.filter(slug=params.slug)
+        qs = Candidate.objects.filter(election= self.election, slug='juan-candidato')
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
         self.assertEquals(candidate.first_name, params.first_name)

@@ -12,7 +12,7 @@ class CategoryForm(forms.ModelForm):
 class CandidateForm(forms.ModelForm):
     class Meta:
         model = Candidate
-        exclude = ('election')
+        exclude = ('election', 'answers')
     class Media:
         js = ('jquery.slug.js', )
 

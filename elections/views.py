@@ -38,6 +38,29 @@ class ElectionDetailView(DetailView):
                                              slug=self.kwargs['slug'])
         return super(ElectionDetailView, self).get_queryset()
 
+class CandidateCreateView(CreateView):
+    model = Candidate
+    form_class = CandidateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CandidateCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('candidate_create', kwargs={'slug': self.object.election.slug})
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
+        self.object.election = election
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+            return super(CandidateCreateView, self).form_invalid(form)
+
+        return super(CandidateCreateView, self).form_valid(form)
 
 class ElectionCreateView(CreateView):
     model = Election
