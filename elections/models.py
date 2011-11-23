@@ -31,6 +31,7 @@ class Candidate(models.Model):
     slug = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
+    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)

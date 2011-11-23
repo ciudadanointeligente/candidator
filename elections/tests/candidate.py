@@ -29,7 +29,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.first_name, 'Juan')
         self.assertEqual(candidate.last_name, 'Candidato')
         self.assertEqual(candidate.slug, 'juan-candidato')
-        self.assertEqual(candidate.election, election)
+        self.assertEqual(candidate.election, self.election)
 
     def test_create_two_candidate_with_same_election_with_same_slug(self):
         candidate = Candidate.objects.create(first_name='Juan',
@@ -109,16 +109,12 @@ class CandidateCreateViewTest(TestCase):
                                                            description='esta es una descripcion')
 
     def test_create_candidate_by_user_without_login(self):
-        user = self.user
-
         request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
 
         self.assertEquals(request.status_code, 302)
 
     def test_create_candidate_by_user_success(self):
-        user = self.user
-
-        self.client.login(username=self.user.username, password=self.user.password)
+        self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
 
         self.assertTrue('form' in request.context)
@@ -129,7 +125,7 @@ class CandidateCreateViewTest(TestCase):
                                             last_name='Candidato',
                                             slug='juan-candidato',
                                             election=self.election)
-        self.client.login(username=self.user.username, password=self.user.password)
+        self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'first', 'last_name': 'last',
@@ -152,7 +148,7 @@ class CandidateCreateViewTest(TestCase):
         self.assertEquals(response.status_code, 302)
 
     def test_post_candidate_create_logged(self):
-        self.client.login(username=self.user.username, password=self.user.password)
+        self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'Juan', 'last_name': 'Candidato',
@@ -164,14 +160,14 @@ class CandidateCreateViewTest(TestCase):
         qs = Candidate.objects.filter(election= self.election, slug='juan-candidato')
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
-        self.assertEquals(candidate.first_name, params.first_name)
-        self.assertEquals(candidate.last_name, params.last_name)
+        self.assertEquals(candidate.first_name, params['first_name'])
+        self.assertEquals(candidate.last_name, params['last_name'])
         self.assertEquals(f.read(), candidate.photo.file.read())
         f.close()
-        os.unlink(Candidate.logo.path)
+        os.unlink(candidate.photo.path)
         self.assertEquals(candidate.election, self.election)
         self.assertRedirects(response, reverse('candidate_create',
-                                               kwargs={'slug': Candidate.slug}))
+                                               kwargs={'slug': candidate.election.slug}))
 
 
 class CandidateUrlsTest(TestCase):
