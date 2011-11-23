@@ -49,23 +49,41 @@ class Candidate(models.Model):
         self.answers = new_answers
         self.save()
 
-    def get_score(self, id_answers, importances):
-        #weights = [1, 2, 3, 4, 5]
+    def get_score(self, answers, importances):
+    
+        number_of_questions = []
+    
+        categories = Category.objects.filter(election=self.election)
+        for category in categories:
+            questions = Question.objects.filter(category=category)
+            number_of_questions.append(len(questions))
+        #print number_of_questions
+        
         candidate_answers = self.answers.all()
-        categories = Categories.objects.filter(election=self.election)
-        scores = [0]*len(categories)
-        user_preferences = []
-        for id in id_answers:
-            user_preferences.append(Answer.object.get(id=int(id)))
-        for x in user_preferences:
-            if x in candidate_answers:
-                position = categories.index(x.question.category)
-                scores[position] += 1 * int(importances[int(user_preferences.index(x))])
-        return_values = []
-        for i in range(len(scores)):
-             return_values.append((categories[i], scores[i]))
-        return return_values
+        index = 0
+        scores_by_question = []
+        for x in reversed(answers):
+            #print str(x) + " - " + str(importances[len(importances)-index-1])
+            #print len(x)
+            if len(x) != 0:
+                if x[0] == candidate_answers[index]:
+                    factor = 1
+                else:
+                    factor = 0
+            else:
+                factor = 0
+            scores_by_question.append(factor * importances[len(importances)-index-1])
+            index += 1
+        #print scores_by_question
 
+        init = 0
+        return_values = []
+        for i in range(len(number_of_questions)):
+            return_values.append(sum(scores_by_question[init:(number_of_questions[i]+init)]))
+            init = number_of_questions[i]
+        #print return_values
+        
+        return return_values
 
     @property
     def name(self):

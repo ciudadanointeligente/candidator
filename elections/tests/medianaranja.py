@@ -58,9 +58,9 @@ class TestMediaNaranja(TestCase):
         candidate2.associate_answer(self.answer2_2)
 
     def test_answers_form(self):
-        answers = {'1': self.answer1_1.pk, '2': self.answer1_2.pk}
-        importances = {'1':5, '2':3}
+        answers = [self.answer1_1.pk, self.answer1_2.pk]
+        importances = [5, 3]
         url = reverse("medianaranja2",kwargs={'user': 'joe', 'election':'barbaz'})
-        response = self.client.post(url, {'answers': answers, 'importances': importances})
+        response = self.client.post(url, answers, importances)
         expected_winner = {'candidate': (self.candidate1, 100), 'scores_by_category': [(self.category1, 100), (self.category2, 100)]}
         self.assertEqual(response.context['winner'],expected_winner)
