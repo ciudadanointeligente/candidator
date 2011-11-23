@@ -50,15 +50,15 @@ class Candidate(models.Model):
         self.save()
 
     def get_score(self, answers, importances):
-    
+
         number_of_questions = []
-    
+
         categories = Category.objects.filter(election=self.election)
         for category in categories:
             questions = Question.objects.filter(category=category)
             number_of_questions.append(len(questions))
         #print number_of_questions
-        
+
         candidate_answers = self.answers.all()
         index = 0
         scores_by_question = []
@@ -82,7 +82,7 @@ class Candidate(models.Model):
             return_values.append(sum(scores_by_question[init:(number_of_questions[i]+init)]))
             init = number_of_questions[i]
         #print return_values
-        
+
         return return_values
 
     @property
@@ -117,6 +117,7 @@ class Link(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+    slug = models.CharField(max_length=255)
 
     def get_questions(self):
         return Question.objects.filter(category=self)

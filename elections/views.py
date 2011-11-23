@@ -94,8 +94,8 @@ class CategoryCreateView(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
 
-    # def get_success_url(self):
-    #     return reverse('candidate_create', kwargs={'slug': self.object.slug})
+    def get_success_url(self):
+        return reverse('category_create', kwargs={'election_slug': self.object.election.slug})
 
 @login_required
 @require_http_methods(['GET', 'POST'])
