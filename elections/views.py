@@ -155,10 +155,10 @@ def medianaranja1(request, my_user, election_slug):
             ans_id = int(request.POST['question-'+str(i)])
             answers.append(Answer.objects.filter(id=ans_id))
             importances.append(int(request.POST['importance-'+str(i)]))
-        print answers
-        print importances
+        # print answers
+        # print importances
 
-        return medianaranja2(request, answers, importances)
+        return medianaranja2(request, answers, importances, candidates)
         #TODO: modificar medianaranja2 + calculo de puntaje
 
     else:
@@ -183,7 +183,24 @@ def medianaranja1(request, my_user, election_slug):
         return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
 
 
-def medianaranja2(request, answers, importance):
+def medianaranja2(request, my_answers, importances, candidates):
+    max_score = 0
+    winner = ''
+    score_all_candidates_by_categories = []
+    for candidate in candidates:
+        #print candidate.get_score(my_answers, importances)
+        #score = (sum(candidate.get_score(my_answers, importances)) / sum(importances)) * 100.0
+        #TODO score all candidates by categories --> get sum(importances) by categories
+        score = sum(candidate.get_score(my_answers, importances))
+        if score > max_score:
+            max_score = score
+            winner = candidate
+    print (winner, (max_score*100.0 / sum(importances)))
+    
+    
+
+    
+
     return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
 
 @login_required
