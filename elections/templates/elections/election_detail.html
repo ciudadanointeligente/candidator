@@ -6,10 +6,11 @@
 
 {% block content %}
 <img src="{{ MEDIA_URL }}{{ election.logo }}"><br/>
-<a href="{% url election_detail username=election.owner slug=election.slug %}">Eleccion: {{ election.name }}</a>
+Eleccion: <a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a>
 <br>
-
-Candidatos:
+<a href="{% url medianaranja1 my_user=election.owner.username election_slug=election.slug %}">Media Naranja</a>
+<br>
+Candidatos (<a href="{% url candidate_create slug=election.slug %}">Agregar Candidatos</a>):
 <ul>
 {% for candidate in election.candidate_set.all %}
     <li>
@@ -20,7 +21,7 @@ Candidatos:
 
 
 <br>
-Categorias:
+Categorias (<a href="{% url category_create election_slug=election.slug %}">Agregar Categoria</a>):
 <ul>
 {% for category in election.category_set.all %}
     <li>

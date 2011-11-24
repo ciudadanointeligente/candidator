@@ -18,9 +18,10 @@ urlpatterns = patterns('',
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
     url(r'^accounts/', include('registration.urls')),
 
-    url(r'^$', direct_to_template, {'template': 'index.html'}),
 
-    url(r'^elections/', include('elections.urls')),
+    url(r'^', include('elections.urls')),
+
+    url(r'^index/$', direct_to_template, {'template': 'index.html'}),
 
 )
 
