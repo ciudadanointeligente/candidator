@@ -129,7 +129,11 @@ class CandidateCreateViewTest(TestCase):
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'first', 'last_name': 'last',
-                  'slug': candidate.slug, 'photo': f}
+                  'slug': candidate.slug, 'photo': f,
+                  'form-TOTAL_FORMS': u'0',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',
+                  }
         response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
         f.close()
 
@@ -141,7 +145,10 @@ class CandidateCreateViewTest(TestCase):
     def test_post_candidate_create_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'Juan', 'last_name': 'Candidato',
-                  'slug': 'juan-candidato', 'photo': f}
+                  'slug': 'juan-candidato', 'photo': f,
+                  'form-TOTAL_FORMS': u'0',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
         f.close()
 
@@ -152,7 +159,10 @@ class CandidateCreateViewTest(TestCase):
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'Juan', 'last_name': 'Candidato',
-                  'slug': 'juan-candidato', 'photo': f}
+                  'slug': 'juan-candidato', 'photo': f,
+                  'form-TOTAL_FORMS': u'0',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params, follow=True)
         f.seek(0)
 

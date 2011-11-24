@@ -100,6 +100,9 @@ class PersonalInformation(models.Model):
     value = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
+    class Meta:
+        unique_together = ('label', 'candidate')
+
     def __unicode__(self):
         return u"%s" % self.label
 

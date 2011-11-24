@@ -54,6 +54,11 @@ class CandidateCreateView(CreateView):
         if self.request.POST:
             context['formset'] = CandidatePersonalInformationFormset(self.request.POST)
         else:
+            # data = {
+            #     'form-TOTAL_FORMS': u'1',
+            #     'form-INITIAL_FORMS': u'0',
+            #     'form-MAX_NUM_FORMS': u'',
+            # }
             context['formset'] = CandidatePersonalInformationFormset()
         return context
 
@@ -61,17 +66,29 @@ class CandidateCreateView(CreateView):
         return reverse('candidate_create', kwargs={'slug': self.object.election.slug})
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
-        self.object.election = election
-        try:
-            self.object.full_clean()
-        except ValidationError:
-            from django.forms.util import ErrorList
-            form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
-            return super(CandidateCreateView, self).form_invalid(form)
+        context = self.get_context_data()
+        formset = context['formset']
 
-        return super(CandidateCreateView, self).form_valid(form)
+        if formset.is_valid():
+
+            self.object = form.save(commit=False)
+            election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
+            self.object.election = election
+
+            try:
+                self.object.full_clean()
+                #self.object.save()
+                #for form in formset:
+                #    personal_information = form.save(commit=False)
+                #    personal_information.candidate = self.object
+                #    # personal_information.save()
+
+            except ValidationError:
+                from django.forms.util import ErrorList
+                form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+                return super(CandidateCreateView, self).form_invalid(form)
+
+            return super(CandidateCreateView, self).form_valid(form)
 
 class ElectionCreateView(CreateView):
     model = Election
