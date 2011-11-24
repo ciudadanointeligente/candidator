@@ -1,0 +1,202 @@
+
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #2D2D2D; background-color: #FFF; line-height:19px;}
+
+
+/* @FONT-FACE*/
+
+@font-face {
+    font-family: 'AllerItalic';
+    src: url('../fonts/aller_it-webfont.eot');
+    src: url('../fonts/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_it-webfont.woff') format('woff'),
+         url('../fonts/aller_it-webfont.ttf') format('truetype'),
+         url('../fonts/aller_it-webfont.svg#AllerItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBoldItalic';
+    src: url('../fonts/aller_bdit-webfont.eot');
+    src: url('../fonts/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bdit-webfont.woff') format('woff'),
+         url('../fonts/aller_bdit-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bdit-webfont.svg#AllernormalItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBold';
+    src: url('../fonts/aller_bd-webfont.eot');
+    src: url('../fonts/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bd-webfont.woff') format('woff'),
+         url('../fonts/aller_bd-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bd-webfont.svg#Allernormal') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerRegular';
+    src: url('../fonts/aller_rg-webfont.eot');
+    src: url('../fonts/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_rg-webfont.woff') format('woff'),
+         url('../fonts/aller_rg-webfont.ttf') format('truetype'),
+         url('../fonts/aller_rg-webfont.svg#AllerRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+/*====*/
+
+
+form{
+	margin:0px;
+	padding:0px;
+}
+input[type='text']{
+	padding:2px;
+	border:1px inset #666;
+}
+input[type='password']{
+	padding:2px;
+	border:1px inset #666;
+}
+textarea{
+	padding:1px;
+	border:1px inset #666;
+}
+select{
+	padding:0px;
+	border:1px solid #99cc33;
+}
+a{
+	color:#0141ad; /*azul de logo*/
+}
+a:visited{
+	color:#0141ad; /*azul de logo*/
+}
+h1{
+	color:#000000;
+	font-size:30px;
+	font-weight:100;
+}
+h2{
+	color:#000000;
+	font-size:20px;
+	font-weight:normal;
+}
+h3{
+	color:#000000;
+	font-size:18px;
+	font-weight:100;
+}
+img{
+	border:0px;
+}
+table{
+	font-size:12px;
+	padding:0px;
+	margin:0px;
+}
+
+.tablaEncuesta{
+	background:#ffffff;
+	font-size:12px;
+	border-collapse: collapse;
+	width:100%;
+}
+
+
+
+.tablaEncuesta .titulo{
+	font-weight:normal;
+	background:#A2B3BD;
+	font-size:14px;
+	color:#000000;
+	height:30px;
+	padding:20px;
+}
+.tablaEncuesta .titulo1{
+	font-weight:normal;
+	background:#ffffff;
+	font-size:16px;
+	color:#000000;
+	height:30px;
+	padding-left:10px;
+	border: 1px #ffffff solid;
+}
+.tablaEncuesta .titulo2{
+	font-family: AllerBold;
+    font-size: 12px;
+    font-weight: lighter !important;
+    text-transform: uppercase;
+	background:#EDEFF0;
+}
+
+
+.titulo1 .tablaEncuesta{
+	padding-top: 20px;
+}
+
+.tablaEncuesta .titulo2 td{
+	padding: 5px 15px;
+	
+}
+
+.tablaEncuesta .titulo2 td.titulo1{
+	padding: 0;
+	width:10px;
+	
+}
+
+
+.tablaResultados{
+	background:none repeat scroll 0 0 #EDEFF0;
+	font-size:12px;
+	border-collapse: collapse;
+	width:758px;
+	float: left;
+	clear: both;
+}
+.tablaResultados .titulo{
+	font-weight:normal;
+	background:#A2B3BD;
+	font-size:14px;
+	color:#000000;
+	height:30px;
+	padding-left:10px;
+}
+.tablaResultados .titulo2{
+	background:#ffffff;
+	font-weight:normal;
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left:10px;
+	height:30px;
+	border-top: 1px #A2B3BD solid;
+	border-bottom: 1px #A2B3BD solid;
+}
+.bodyOfMediaNaranja{
+	height:100%;
+	width: 760px;
+}
+.not-answered-yet{
+    background-color: red;
+}
+
+.tablaEncuesta input {
+    clear: left;
+    float: left;
+    margin: 5px 9px 10px;
+}
+
+.tablaEncuesta label {
+    display: block;
+}

@@ -9,7 +9,6 @@ from django_extensions.db.fields import AutoSlugField
 
 class Election(models.Model):
     name = models.CharField(max_length=255)
-    #slug = AutoSlugField(max_length=50, unique=True, populate_from=('slug_edit',))
     slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
     description = models.TextField(max_length=10000)
@@ -50,15 +49,15 @@ class Candidate(models.Model):
         self.save()
 
     def get_score(self, answers, importances):
-    
+
         number_of_questions = []
-    
+
         categories = Category.objects.filter(election=self.election)
         for category in categories:
             questions = Question.objects.filter(category=category)
             number_of_questions.append(len(questions))
         #print number_of_questions
-        
+
         candidate_answers = self.answers.all()
         index = 0
         scores_by_question = []
@@ -82,7 +81,7 @@ class Candidate(models.Model):
             return_values.append(sum(scores_by_question[init:(number_of_questions[i]+init)]))
             init = number_of_questions[i]
         #print return_values
-        
+
         return return_values
 
     @property
@@ -98,7 +97,7 @@ class Candidate(models.Model):
 
 class PersonalInformation(models.Model):
     label = models.CharField(max_length=255)
-    answer = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):

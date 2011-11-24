@@ -1,19 +1,22 @@
 # Create your views here.
-from django.http import HttpResponse, Http404
+
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.shortcuts import render_to_response, redirect, get_object_or_404
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView
-from django.utils import simplejson as json
-from django.template.context import RequestContext
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.forms import formsets
+from django.http import HttpResponse, Http404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template import RequestContext
+from django.template.context import RequestContext
+from django.utils import simplejson as json
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_http_methods
+from django.views.generic import CreateView, DetailView
 
+from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
-from forms import CandidateForm, CategoryForm, ElectionForm
+
 
 # Candidate views
 class CandidateDetailView(DetailView):
@@ -46,9 +49,17 @@ class CandidateCreateView(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super(CandidateCreateView, self).dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(CandidateCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = CandidatePersonalInformationFormset(self.request.POST)
+        else:
+            context['formset'] = CandidatePersonalInformationFormset()
+        return context
+
     def get_success_url(self):
         return reverse('candidate_create', kwargs={'slug': self.object.election.slug})
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
@@ -196,10 +207,10 @@ def medianaranja2(request, my_answers, importances, candidates):
             max_score = score
             winner = candidate
     print (winner, (max_score*100.0 / sum(importances)))
-    
-    
 
-    
+
+
+
 
     return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
 

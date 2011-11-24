@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import formsets
 from django.forms.formsets import formset_factory
-from elections.models import Candidate, Category, Election
+from elections.models import Candidate, Category, Election, PersonalInformation
 
 
 class CategoryForm(forms.ModelForm):
@@ -14,7 +15,15 @@ class CandidateForm(forms.ModelForm):
         model = Candidate
         exclude = ('election', 'answers')
     class Media:
-        js = ('jquery.slug.js', )
+        js = ('jquery.slug.js', 'jquery.formset.js', )
+
+
+class CandidatePersonalInformationForm(forms.ModelForm):
+    class Meta:
+        model = PersonalInformation
+        exclude = ('candidate', )
+
+CandidatePersonalInformationFormset = formsets.formset_factory(CandidatePersonalInformationForm, extra=1)
 
 
 class ElectionForm(forms.ModelForm):

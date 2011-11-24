@@ -1,0 +1,335 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #2D2D2D; background-color: #FFF; line-height:19px; overflow-x: hidden;
+    width: 100%;}
+
+
+/*
+ * Browser Reset
+ */
+
+
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	margin: 0;
+	padding: 0;
+}
+
+pre .cake-debug{ display: block; position:absolute; }
+
+fieldset, img { border: 0; }
+
+
+a:focus { outline: none; }
+
+
+
+html {
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+/*
+ * New standard values
+ */
+
+
+/* paragraph */
+p {	margin: 10px 0px 15px 0px; }
+
+/* lists */
+ul{margin: 0; padding: 0; list-style: none;}
+
+/* tables */
+td, th { padding: 1px; }
+
+/* links */
+a:link, a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'AllerBold';
+    font-weight: normal;
+    letter-spacing: 0.2px;
+	margin-bottom: 5px;
+	line-height: 100%;
+}
+
+h1 { font-size: 20px; }
+h2 { font-size: 17px; text-transform:uppercase; }
+h3 { font-size: 16px; }
+h4 { font-size: 13px; }
+h5 { font-size: 12px; }
+h6 { color: #8A8A8A;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.9px;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+/* horizontal rule */
+hr {
+	margin: 15px 0px 15px 0px;
+	display: block;
+	background: #c8c8c8;
+	height: 1px;
+	border: none;
+}
+
+/* blockquotes */
+blockquote {
+	margin: 10px 0 10px 15px;
+	padding: 0px 0px 0px 0px;
+	font-style: italic;
+	font-size: 130%
+}
+
+
+/* @FONT-FACE*/
+
+@font-face {
+    font-family: 'AllerItalic';
+    src: url('../fonts/aller_it-webfont.eot');
+    src: url('../fonts/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_it-webfont.woff') format('woff'),
+         url('../fonts/aller_it-webfont.ttf') format('truetype'),
+         url('../fonts/aller_it-webfont.svg#AllerItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBoldItalic';
+    src: url('../fonts/aller_bdit-webfont.eot');
+    src: url('../fonts/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bdit-webfont.woff') format('woff'),
+         url('../fonts/aller_bdit-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bdit-webfont.svg#AllerBoldItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBold';
+    src: url('../fonts/aller_bd-webfont.eot');
+    src: url('../fonts/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bd-webfont.woff') format('woff'),
+         url('../fonts/aller_bd-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bd-webfont.svg#AllerBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerRegular';
+    src: url('../fonts/aller_rg-webfont.eot');
+    src: url('../fonts/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_rg-webfont.woff') format('woff'),
+         url('../fonts/aller_rg-webfont.ttf') format('truetype'),
+         url('../fonts/aller_rg-webfont.svg#AllerRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/*LAYOUT*/
+
+.wrapper{
+	background-color: #F2F2F2;
+    margin: 20px auto;
+    padding: 20px;
+    width: 890px;
+	overflow: hidden;
+}
+.wrapBasic{
+	margin: auto;
+    width: 930px;
+}
+
+.wrapW{
+	background-color: #FFFFFF;
+    border: 1px solid #BCBEC0;
+    float: none;
+    overflow: hidden;
+    padding: 10px;
+}
+
+/*HEADER*/
+
+#mainHeader{
+	margin-top: -20px;
+	background: url(../img/bg_head.jpg) repeat-y 0 0 #fff;
+}
+
+.isotipo{
+	display: inline;
+    left: 10px;
+    margin-right: 6px;
+    position: relative;
+    top: 27px;
+    z-index: 4;
+}
+
+
+
+
+/*SIDEBAR LEFT*/
+
+#sidebarLeftContainer {
+	position: absolute;
+    width: 280px;
+    z-index: 100;
+	height: 100%;
+}
+
+#sidebarTrigger {
+    background: url("../img/trigger.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: right;
+    height: 110px;
+    left: 0px;
+    position: absolute;
+    text-indent: 10000px;
+    top: 20px;
+    width: 32px;
+    z-index: 3;
+    cursor: pointer;
+}
+
+#sidebarLeft {
+	 background-color: rgba(214, 220, 224, 0.9);
+    border-right: 2px solid white;
+    box-shadow: 1px 1px 1px #DDDDDD;
+    display: none;
+    float: left;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+    width: 260px;
+}
+.sidebarMenu{
+	left: 5px;
+    list-style: none outside none;
+    overflow: hidden;
+    position: relative;
+    top: 20px;
+    width: 248px;
+}
+
+.sidebarMenu li{
+    background-color: #FFFFFF;
+    height: 28px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    padding: 0;
+}
+.sidebarMenu li a img{width: 28px; height: 28px; float: left;}
+.sidebarMenu li a {
+	font-size: 12px;
+	color: #2D2D2D;
+}
+.sidebarMenu li a span {
+	float: left;
+    padding: 5px 7px;
+}
+
+.sidebarMenu li a:hover span {
+	text-decoration: underline;
+}
+
+/*==== Accordions ====*/
+.accordion h3{
+	background: url("../img/arrow_sprite.png") no-repeat scroll right 6px #EDEFF0;
+    color: #747A7E;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    padding: 5px 30px 5px 5px;
+    text-transform: uppercase;
+}
+
+.accordionContent{
+	margin-bottom: 5px;
+    padding: 4px 3px 15px;
+}
+.questionTip{background: url("../img/question_icon_grey.gif") no-repeat scroll 0 0 transparent; height: 14px; width: 20px; cursor: pointer;}
+.answerTip{background:url("../img/source_icon_grey.gif") no-repeat scroll 2px 4px transparent; height: 14px; width: 20px; cursor: pointer;}
+
+
+
+/*======= HOME ========*/
+
+#homeNavigation{}
+ul.homeNav{}
+.homeLi{
+	 background-color: #DAE2E5;
+    background-position: center top;
+    background-repeat: no-repeat;
+    border: 1px solid #C4D4D9;
+    border-radius: 22px 22px 22px 22px;
+	-moz-border-radius: 22px 22px 22px 22px;
+	-webkit-border-radius: 22px 22px 22px 22px;
+    float: left;
+    height: 237px;
+    margin-right: 29px;
+    overflow: hidden;
+    padding: 15px;
+    position: relative;
+    text-align: center;
+    width: 245px;
+	cursor: pointer;
+}
+
+.homeLi a{
+	display: block;
+    height: 100%;
+    margin: -10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.homeLi:hover{
+	box-shadow: 0px 0px 10px #8EA3AE inset;
+	-moz-box-shadow: 0px 0px 10px #8EA3AE inset;
+	-webkit-box-shadow: 0px 0px 10px #8EA3AE inset;
+	background-color: #C4D4D9;
+
+}
+
+.homeLi h2{
+	bottom: 10px;
+    color: #92A0A9;
+    font-size: 28px;
+    margin: 10px -15px;
+    position: absolute;
+    text-align: center;
+    width: 100%;}
+
+.homeLi:last-child{
+	margin-right: 0px;
+}
+
+.homeListMedianaranja{
+	background-image: url("../img/ic_media_home.png");
+
+}
+
+.homeListPerfiles {
+	background-image: url("../img/ic_profile_home.png");
+}
+
+.homeListComparar{
+	background-image: url("../img/ic_compara_home.png");
+}
+
+ul.homeNav ul.sidebarMenu{
+	 margin-bottom: 43px;
+}

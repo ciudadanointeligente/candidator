@@ -6,6 +6,23 @@
     <table>
     {{form.as_table}}
     </table>
+    <table id="id_contact_info_table" border="0" cellpadding="0" cellspacing="5">
+        <thead>
+            <tr>
+                <th scope="col">Label</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset.forms %}
+            <tr id="{{ form.prefix }}-row">
+                <td>{{ form.label }}</td>
+                <td>{{ form.value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ formset.management_form }}
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 {% endblock %}
@@ -30,6 +47,10 @@
         }
         $('#id_slug').val($.slug(value));
     });
-
+    $(function() {
+        $('#id_contact_info_table tbody tr').formset({
+            extraClasses: ['row1', 'row2', 'row3']
+        })
+    });
 </script>
 {% endblock %}
