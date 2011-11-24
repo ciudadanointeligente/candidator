@@ -97,6 +97,31 @@ class ElectionCreateView(CreateView):
         return super(ElectionCreateView, self).form_valid(form)
 
 
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = Election.objects.get(slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
+            return super(CategoryCreateView, self).form_invalid(form)
+
+        return super(CategoryCreateView, self).form_valid(form)
+
 @login_required
 @require_http_methods(['GET', 'POST'])
 def associate_answer_to_candidate(request, slug, election_slug):
@@ -207,11 +232,6 @@ def medianaranja2(request, my_answers, importances, candidates):
             max_score = score
             winner = candidate
     print (winner, (max_score*100.0 / sum(importances)))
-
-
-
-
-
     return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
 
 @login_required

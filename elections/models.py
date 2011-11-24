@@ -116,9 +116,13 @@ class Link(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+    slug = models.CharField(max_length=255)
 
     def get_questions(self):
         return Question.objects.filter(category=self)
+
+    class Meta:
+        unique_together = ('election', 'slug')
 
     def __unicode__(self):
         return u"%s" % self.name
