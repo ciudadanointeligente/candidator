@@ -50,39 +50,50 @@ class Candidate(models.Model):
 
     def get_score(self, answers, importances):
 
-        number_of_questions = []
+        number_of_questions = [] # Numero de preguntas por categoria
+        categories = Category.objects.filter(election=self.election) # Categorias
 
-        categories = Category.objects.filter(election=self.election)
         for category in categories:
             questions = Question.objects.filter(category=category)
             number_of_questions.append(len(questions))
-        #print number_of_questions
 
-        candidate_answers = self.answers.all()
+        importances_by_category = []
+        index = 0
+        for num in number_of_questions:
+            category_importance = 0.0
+            for i in range(num):
+                category_importance += importances[index]
+                index += 1
+            importances_by_category.append(category_importance)
+
+        sum_by_category = [0]*len(categories)
+        candidate_answers = self.answers.all() # Candidate answers
+
         index = 0
         scores_by_question = []
+        # answers = ARREGLO DE RESPUESTAS DEL FORMULARIO
+        # answers = [[], [], [<Answer: Si>], [<Answer: Si>]]
+
         for x in reversed(answers):
-            #print str(x) + " - " + str(importances[len(importances)-index-1])
-            #print len(x)
+
             if len(x) != 0:
-                if x[0] == candidate_answers[index]:
+                if x[0] in candidate_answers:
                     factor = 1
+                    value = factor * importances[len(importances)-index-1]
+                    pos = list(categories.all()).index(x[0].question.category)
+                    sum_by_category[pos] += value
+
                 else:
                     factor = 0
             else:
                 factor = 0
-            scores_by_question.append(factor * importances[len(importances)-index-1])
             index += 1
-        #print scores_by_question
 
-        init = 0
-        return_values = []
-        for i in range(len(number_of_questions)):
-            return_values.append(sum(scores_by_question[init:(number_of_questions[i]+init)]))
-            init = number_of_questions[i]
-        #print return_values
+	scores_by_category = []
+        for i in range(len(sum_by_category)):
+            scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
 
-        return return_values
+        return (sum(sum_by_category),scores_by_category)
 
     @property
     def name(self):

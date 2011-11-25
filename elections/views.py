@@ -211,7 +211,7 @@ def medianaranja1(request, my_user, election_slug):
         # print answers
         # print importances
 
-        return medianaranja2(request, answers, importances, candidates)
+        return medianaranja2(request, answers, importances, candidates, categories)
         #TODO: modificar medianaranja2 + calculo de puntaje
 
     else:
@@ -235,18 +235,41 @@ def medianaranja1(request, my_user, election_slug):
 
         return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
 
+def medianaranja2(request, my_answers, importances, candidates, categories):
 
-def medianaranja2(request, my_answers, importances, candidates):
-    max_score = 0
-    winner = ''
-    score_all_candidates_by_categories = []
+    scores_and_candidates = []
+
     for candidate in candidates:
-        #print candidate.get_score(my_answers, importances)
-        #score = (sum(candidate.get_score(my_answers, importances)) / sum(importances)) * 100.0
-        #TODO score all candidates by categories --> get sum(importances) by categories
-        score = sum(candidate.get_score(my_answers, importances))
-        if score > max_score:
-            max_score = score
-            winner = candidate
-    print (winner, (max_score*100.0 / sum(importances)))
-    return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
+        score = candidate.get_score(my_answers, importances)
+        global_score = score[0]
+        category_scores = score[1]
+        scores_and_candidates.append([global_score,category_scores,candidate])
+    scores_and_candidates.sort()
+    scores_and_candidates.reverse()
+
+    winner = scores_and_candidates[0]
+    other_candidates = scores_and_candidates[1:]
+    return render_to_response('medianaranja2.html', {'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))
+
+#@login_required
+#@require_http_methods(['GET', 'POST'])
+#def add_category(request, election_slug):
+#    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+
+#    if request.method == 'GET':
+#        form = CategoryForm()
+#        return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
+#    elif request.POST:
+#        form2 = CategoryForm(request.POST)
+#        if form2.is_valid():
+#            category = form2.save(commit=False)
+#            category.election = election
+#            category.save()
+#            form = CategoryForm()
+#            return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
+#        else:
+#            return render_to_response('add_category.html', {'form':form2}, context_instance=RequestContext(request))
+
+#        raise Http404
+#    else:
+#        raise Http404
