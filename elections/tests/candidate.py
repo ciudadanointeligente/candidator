@@ -135,6 +135,9 @@ class CandidateCreateViewTest(TestCase):
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
+                  'link-TOTAL_FORMS': u'0',
+                  'link-INITIAL_FORMS': u'0',
+                  'link-MAX_NUM_FORMS': u'',
                   }
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
         f.close()
@@ -150,7 +153,10 @@ class CandidateCreateViewTest(TestCase):
                   'slug': 'juan-candidato', 'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
-                  'form-MAX_NUM_FORMS': u'',}
+                  'form-MAX_NUM_FORMS': u'',
+                  'link-TOTAL_FORMS': u'0',
+                  'link-INITIAL_FORMS': u'0',
+                  'link-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
         f.close()
 
@@ -170,7 +176,10 @@ class CandidateCreateViewTest(TestCase):
                   'slug': 'juan-candidato', 'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
-                  'form-MAX_NUM_FORMS': u'',}
+                  'form-MAX_NUM_FORMS': u'',
+                  'link-TOTAL_FORMS': u'0',
+                  'link-INITIAL_FORMS': u'0',
+                  'link-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create',
                                         kwargs={'election_slug': 'strager_election_slug'}),
                                     params)
@@ -186,7 +195,10 @@ class CandidateCreateViewTest(TestCase):
                   'slug': 'juan-candidato', 'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
-                  'form-MAX_NUM_FORMS': u'',}
+                  'form-MAX_NUM_FORMS': u'',
+                  'link-TOTAL_FORMS': u'0',
+                  'link-INITIAL_FORMS': u'0',
+                  'link-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
 

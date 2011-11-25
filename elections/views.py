@@ -14,7 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView
 
-from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset
+from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
@@ -53,9 +53,11 @@ class CandidateCreateView(CreateView):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         if self.request.POST:
+            context['link_formset'] = CandidateLinkFormset(self.request.POST, prefix='link')
             context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
         else:
             context['personal_information_formset'] = CandidatePersonalInformationFormset()
+            context['link_formset'] = CandidateLinkFormset(prefix='link')
         return context
 
     def get_success_url(self):
@@ -64,8 +66,9 @@ class CandidateCreateView(CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         personal_information_formset = context['personal_information_formset']
+        link_formset = context['link_formset']
 
-        if personal_information_formset.is_valid():
+        if personal_information_formset.is_valid() and link_formset.is_valid():
             self.object = form.save(commit=False)
             election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
             self.object.election = election
@@ -77,6 +80,11 @@ class CandidateCreateView(CreateView):
                    personal_information = f.save(commit=False)
                    personal_information.candidate = self.object
                    personal_information.save()
+
+                for f in link_formset:
+                   link = f.save(commit=False)
+                   link.candidate = self.object
+                   link.save()
 
             except ValidationError:
                 from django.forms.util import ErrorList

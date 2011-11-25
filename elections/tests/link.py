@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import PersonalInformation, Candidate, Election
-from elections.forms import CandidatePersonalInformationFormset
+from elections.models import Link, Candidate, Election
+from elections.forms import CandidateLinkFormset
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
-class PersonalInformationModelTest(TestCase):
+class LinkModelTest(TestCase):
     def setUp(self):
         self.user, created = User.objects.get_or_create(username='joe')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -23,18 +23,19 @@ class PersonalInformationModelTest(TestCase):
                                                                   slug='juan-candidato',
                                                                   election=self.election)
 
-    def test_create_personal_information(self):
-        personal_information, created = PersonalInformation.objects.get_or_create(
-                                                            label='Nombre',
-                                                            value='Juan',
-                                                            candidate=self.candidate)
+    def test_create_link(self):
+        link, created = Link.objects.get_or_create(
+                                                    name='Google',
+                                                    url='http://www.google.com',
+                                                    candidate=self.candidate)
         self.assertTrue(created)
-        self.assertEqual(personal_information.label, 'Nombre')
-        self.assertEqual(personal_information.value, 'Juan')
-        self.assertEqual(personal_information.candidate, self.candidate)
+        self.assertEqual(link.name, 'Google')
+        self.assertEqual(link.url, 'http://www.google.com')
+        self.assertEqual(link.candidate, self.candidate)
 
 
-class CreateCandidatePersonalInformationViewTest(TestCase):
+
+class CreateCandidateLinkViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='asd@asd.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -47,41 +48,43 @@ class CreateCandidatePersonalInformationViewTest(TestCase):
                                                                   slug='juan-candidato',
                                                                   election=self.election)
 
-    def test_create_candidate_with_personal_information_by_user_success(self):
+    def test_create_candidate_with_link_by_user_success(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
 
-        self.assertTrue('personal_information_formset' in request.context)
-        self.assertTrue(isinstance(request.context['personal_information_formset'], CandidatePersonalInformationFormset))
+        self.assertTrue('link_formset' in request.context)
+        self.assertTrue(isinstance(request.context['link_formset'], CandidateLinkFormset))
 
 
-    def test_post_candidate_create_with_personal_information_logged(self):
+    def test_post_candidate_create_with_link_logged(self):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         params = {'first_name': 'Juan', 'last_name': 'Candidato',
                   'slug': 'nuevo_candidato_slug', 'photo': f,
-                  'form-TOTAL_FORMS': u'2',
+                  'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
-                  'form-0-label': 'Foo',
-                  'form-0-value': 'Bar',
-                  'form-1-label': 'Foo2',
-                  'form-1-value': 'Bar2',
-                  'link-TOTAL_FORMS': u'0',
+
+                  'link-TOTAL_FORMS': u'2',
                   'link-INITIAL_FORMS': u'0',
-                  'link-MAX_NUM_FORMS': u'',}
+                  'link-MAX_NUM_FORMS': u'',
+
+                  'link-0-name': 'Foo',
+                  'link-0-url': 'http://www.google.cl',
+                  'link-1-name': 'Foo2',
+                  'link-1-url': 'http://www.google.com'}
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
 
         candidate = Candidate.objects.get(slug=params['slug'])
-        self.assertEqual(candidate.personalinformation_set.count(), 2)
+        self.assertEqual(candidate.link_set.count(), 2)
 
-        personal_information = candidate.personalinformation_set.all()[0]
-        self.assertEqual(personal_information.label, params['form-0-label'])
-        self.assertEqual(personal_information.value, params['form-0-value'])
+        link = candidate.link_set.all()[0]
+        self.assertEqual(link.name, params['link-0-name'])
+        self.assertEqual(link.url, params['link-0-url'])
 
-        personal_information = candidate.personalinformation_set.all()[1]
-        self.assertEqual(personal_information.label, params['form-1-label'])
-        self.assertEqual(personal_information.value, params['form-1-value'])
+        link = candidate.link_set.all()[1]
+        self.assertEqual(link.name, params['link-1-name'])
+        self.assertEqual(link.url, params['link-1-url'])
 

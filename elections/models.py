@@ -116,12 +116,12 @@ class PersonalInformation(models.Model):
 
 
 class Link(models.Model):
-    link_description = models.CharField(max_length=255)
-    URL = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):
-        return u"%s" % self.link_description
+        return u"%s (%s)" % (self.name, self.url)
 
 
 class Category(models.Model):
