@@ -93,7 +93,7 @@ class Candidate(models.Model):
         for i in range(len(sum_by_category)):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
 
-        return (sum(sum_by_category),scores_by_category)
+        return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
     @property
     def name(self):
