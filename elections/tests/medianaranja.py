@@ -72,7 +72,7 @@ class TestMediaNaranja(TestCase):
         factor_question2 = (answers[1] == self.answer1_2.pk) * importances[1]
         score_category1 = factor_question1 * 100.0 / importances_by_category[0]
         score_category2 = factor_question2 * 100.0 / importances_by_category[1]
-        global_score = factor_question1 + factor_question2
+        global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
         url = reverse("medianaranja2",kwargs={'user': 'joe', 'election':'barbaz'})
         response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], 'importance-0': importances[0], 'importance-1': importances[1]})
         expected_winner = [global_score,[score_category1,score_category1], self.candidate1]
@@ -86,7 +86,7 @@ class TestMediaNaranja(TestCase):
         get_score2 = self.candidate2.get_score(answers, importances)
         get_score3 = self.candidate1.get_score(no_answers, importances)
         get_score4 = self.candidate2.get_score(no_answers, importances)
-        get_score1_expected = (8, [100.0,100.0])
+        get_score1_expected = (100.0, [100.0,100.0])
         get_score2_expected = (0, [0.0, 0.0])
 
         self.assertEqual(get_score1_expected, get_score1)
