@@ -53,6 +53,8 @@ class CategoryCreateViewTest(TestCase):
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CategoryForm))
+        self.assertTrue('election' in request.context)
+        self.assertTrue(isinstance(request.context['election'], Election))
 
     def test_post_category_create_with_same_slug(self):
         category = Category.objects.create(name="Bar1", slug="bar", election=self.election)
@@ -74,6 +76,21 @@ class CategoryCreateViewTest(TestCase):
                                     params)
 
         self.assertEquals(response.status_code, 302)
+
+    def test_get_category_create_with_login_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('category_create',
+                                    kwargs={'election_slug': 'strager_election_slug'}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_category_create_with_login_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'name': 'Bar', 'slug': 'bar'}
+        response = self.client.post(reverse('category_create',
+                                        kwargs={'election_slug': 'strager_election_slug'}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
 
     def test_post_category_create_logged(self):
         self.client.login(username='joe', password='doe')

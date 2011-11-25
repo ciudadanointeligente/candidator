@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for form in formset.forms %}
+            {% for form in personal_information_formset.forms %}
             <tr id="{{ form.prefix }}-row">
                 <td>{{ form.label }}</td>
                 <td>{{ form.value }}</td>
@@ -22,7 +22,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {{ formset.management_form }}
+    {{ personal_information_formset.management_form }}
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 {% endblock %}

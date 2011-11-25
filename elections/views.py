@@ -52,14 +52,9 @@ class CandidateCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = CandidatePersonalInformationFormset(self.request.POST)
+            context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
         else:
-            # data = {
-            #     'form-TOTAL_FORMS': u'1',
-            #     'form-INITIAL_FORMS': u'0',
-            #     'form-MAX_NUM_FORMS': u'',
-            # }
-            context['formset'] = CandidatePersonalInformationFormset()
+            context['personal_information_formset'] = CandidatePersonalInformationFormset()
         return context
 
     def get_success_url(self):
@@ -67,7 +62,7 @@ class CandidateCreateView(CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        formset = context['formset']
+        formset = context['personal_information_formset']
 
         if formset.is_valid():
 
@@ -122,12 +117,17 @@ class CategoryCreateView(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(CategoryCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
     def get_success_url(self):
         return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        election = Election.objects.get(slug=self.kwargs['election_slug'], owner=self.request.user)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         self.object.election = election
 
         try:
