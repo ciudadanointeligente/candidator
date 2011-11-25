@@ -51,6 +51,7 @@ class CandidateCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         if self.request.POST:
             context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
         else:
@@ -58,7 +59,7 @@ class CandidateCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('candidate_create', kwargs={'slug': self.object.election.slug})
+        return reverse('candidate_create', kwargs={'election_slug': self.object.election.slug})
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -67,7 +68,7 @@ class CandidateCreateView(CreateView):
         if formset.is_valid():
 
             self.object = form.save(commit=False)
-            election = Election.objects.get(owner = self.request.user, slug=self.kwargs['slug'])
+            election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
             self.object.election = election
 
             try:
@@ -94,7 +95,7 @@ class ElectionCreateView(CreateView):
         return super(ElectionCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('candidate_create', kwargs={'slug': self.object.slug})
+        return reverse('candidate_create', kwargs={'election_slug': self.object.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

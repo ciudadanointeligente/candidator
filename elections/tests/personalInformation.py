@@ -59,7 +59,7 @@ class CreateCandidatePersonalInformationViewTest(TestCase):
 
     def test_create_candidate_with_personal_information_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
+        request = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
 
         self.assertTrue('personal_information_formset' in request.context)
         self.assertTrue(isinstance(request.context['personal_information_formset'], CandidatePersonalInformationFormset))

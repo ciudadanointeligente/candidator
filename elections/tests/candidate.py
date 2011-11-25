@@ -109,16 +109,18 @@ class CandidateCreateViewTest(TestCase):
                                                            description='esta es una descripcion')
 
     def test_create_candidate_by_user_without_login(self):
-        request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
+        request = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
 
         self.assertEquals(request.status_code, 302)
 
     def test_create_candidate_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('candidate_create', kwargs={'slug': self.election.slug}))
+        request = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CandidateForm))
+        self.assertTrue('election' in request.context)
+        self.assertTrue(isinstance(request.context['election'], Election))
 
     def test_post_candidate_create_with_same_slug(self):
         candidate = Candidate.objects.create(first_name='Juan',
@@ -134,7 +136,7 @@ class CandidateCreateViewTest(TestCase):
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
                   }
-        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
         f.close()
 
         self.assertEquals(response.status_code, 200)
@@ -149,10 +151,32 @@ class CandidateCreateViewTest(TestCase):
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',}
-        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params)
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
         f.close()
 
         self.assertEquals(response.status_code, 302)
+
+    def test_get_candidate_create_with_login_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('candidate_create',
+                                    kwargs={'election_slug': 'strager_election_slug'}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_candidate_create_with_login_stranger_election(self):
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        self.client.login(username='joe', password='doe')
+
+        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+                  'slug': 'juan-candidato', 'photo': f,
+                  'form-TOTAL_FORMS': u'0',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',}
+        response = self.client.post(reverse('candidate_create',
+                                        kwargs={'election_slug': 'strager_election_slug'}),
+                                    params)
+        f.close()
+
+        self.assertEquals(response.status_code, 404)
 
     def test_post_candidate_create_logged(self):
         self.client.login(username='joe', password='doe')
@@ -163,7 +187,7 @@ class CandidateCreateViewTest(TestCase):
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',}
-        response = self.client.post(reverse('candidate_create', kwargs={'slug': self.election.slug}), params, follow=True)
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
 
         self.assertEquals(response.status_code, 200)
@@ -177,13 +201,13 @@ class CandidateCreateViewTest(TestCase):
         os.unlink(candidate.photo.path)
         self.assertEquals(candidate.election, self.election)
         self.assertRedirects(response, reverse('candidate_create',
-                                               kwargs={'slug': candidate.election.slug}))
+                                               kwargs={'election_slug': candidate.election.slug}))
 
 
 class CandidateUrlsTest(TestCase):
     def test_create_url(self):
         expected = '/bar-baz/candidate/create'
-        result = reverse('candidate_create', kwargs={'slug': 'bar-baz'})
+        result = reverse('candidate_create', kwargs={'election_slug': 'bar-baz'})
         self.assertEquals(result, expected)
 
     def test_detail_url(self):

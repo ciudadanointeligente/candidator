@@ -10,7 +10,7 @@ Eleccion: <a href="{% url election_detail username=election.owner slug=election.
 <br>
 <a href="{% url medianaranja1 my_user=election.owner.username election_slug=election.slug %}">Media Naranja</a>
 <br>
-Candidatos (<a href="{% url candidate_create slug=election.slug %}">Agregar Candidatos</a>):
+Candidatos (<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
 <ul>
 {% for candidate in election.candidate_set.all %}
     <li>

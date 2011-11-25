@@ -121,7 +121,7 @@ class ElectionCreateViewTest(TestCase):
         os.unlink(election.logo.path)
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('candidate_create',
-                                               kwargs={'slug': election.slug}))
+                                               kwargs={'election_slug': election.slug}))
 
 
 class ElectionUrlsTest(TestCase):
