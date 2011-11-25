@@ -15,7 +15,7 @@ urlpatterns = patterns('',
             name='associate_answer_candidate'),
 
     # Create Category View
-    url(r'^(?P<election_slug>[-\w]+)/category/create/$', CategoryCreateView.as_view(), name='category_create'),
+    url(r'^(?P<election_slug>[-\w]+)/category/create/?$', CategoryCreateView.as_view(), name='category_create'),
 
     # Create election view
     url(r'^election/create$', ElectionCreateView.as_view(), name='election_create'),
