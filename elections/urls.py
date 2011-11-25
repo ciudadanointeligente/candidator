@@ -6,12 +6,12 @@ from models import Election
 from views import associate_answer_to_candidate, ElectionCreateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CategoryCreateView
 
 urlpatterns = patterns('',
-    
+
     # Root
     url(r'^$', ListView.as_view(model=Election), name='election_list'),
 
     # Associate Candidate
-    url(r'^(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)/associate_answers/',
+    url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
             associate_answer_to_candidate,
             name='associate_answer_candidate'),
 

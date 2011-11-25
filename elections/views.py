@@ -142,9 +142,9 @@ class CategoryCreateView(CreateView):
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def associate_answer_to_candidate(request, slug, election_slug):
+def associate_answer_to_candidate(request, candidate_slug, election_slug):
     election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-    candidate = get_object_or_404(Candidate, slug=slug, election=election)
+    candidate = get_object_or_404(Candidate, slug=election_slug, election=election)
     if request.POST:
         answer_id = request.POST.get('answer', None)
         answer = get_object_or_404(Answer, pk=answer_id, question__category__election=election)
@@ -155,32 +155,9 @@ def associate_answer_to_candidate(request, slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
-'''
-@login_required
-@require_http_methods(['GET','POST'])
-def create_election(request, my_user):
-    if request.POST:
-        form = ElectionForm(request.POST, request.FILES)
-        if form.is_valid():
-            election_name = request.POST.get('name', None)
-            election_description = request.POST.get('description', None)
-            election_slug = request.POST.get('slug', None)
-            election_logo = request.FILES['logo']
-            election = Election(name = election_name, slug = election_slug, owner = request.user, description = election_description, logo = election_logo)
-            #this code is because form doesnt validate owner
-            bad_election = Election.objects.filter(slug = election_slug, owner = request.user)
 
-            if len(bad_election) > 0:
-                return render_to_response('elections/create_election.html', {'form': form, 'error_duplicated_slug': True}, context_instance = RequestContext(request))
-            election.save()
-            return redirect('/elections/success_create_election/')
-        else:
-            return render_to_response('elections/create_election.html', {'form': form}, context_instance = RequestContext(request))
-    return render_to_response('elections/create_election.html', {'form': ElectionForm}, context_instance = RequestContext(request))
-'''
-
-def success_create_election(request):
-    return render_to_response('elections/success_create_election.html')
+# def success_create_election(request):
+#     return render_to_response('elections/success_create_election.html')
 
 def medianaranja1(request, username, election_slug):
 

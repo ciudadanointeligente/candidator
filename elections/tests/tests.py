@@ -172,21 +172,21 @@ class AssociateCandidatesAnswersTest(TestCase):
     def test_get_associate_answers_to_candidate_view(self):
         # GET without login
         request = self.client.get(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate2.slug,
+                                            kwargs={'candidate_slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 302)
 
         # GET of non existing candidate/user pair associated with the logged in user
         self.client.login(username='joe', password='joe')
         request = self.client.get(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate2.slug,
+                                            kwargs={'candidate_slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 404)
 
         # GET of existing candidate/user pair associated with the logged in user
         self.client.login(username='doe', password='joe')
         request=self.client.get(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate.slug,
+                                            kwargs={'candidate_slug': self.candidate.slug,
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 200)
 
@@ -198,21 +198,21 @@ class AssociateCandidatesAnswersTest(TestCase):
 
     def test_post_associate_answer_to_candidate_view(self):
         request = self.client.post(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate2.slug,
+                                            kwargs={'candidate_slug': self.candidate2.slug,
                                                     'election_slug': self.election.slug}),
                                  {'answer': self.answer.pk})
         self.assertEquals(request.status_code, 302)
 
         self.client.login(username='joe', password='joe')
         request = self.client.post(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate2.slug,
+                                            kwargs={'candidate_slug': self.candidate2.slug,
                                                      'election_slug': self.election.slug}),
                                  {'answer': self.answer.pk})
         self.assertEquals(request.status_code, 404)
 
         self.client.login(username='doe', password='joe')
         request=self.client.post(reverse('associate_answer_candidate',
-                                            kwargs={'slug': self.candidate.slug,
+                                            kwargs={'candidate_slug': self.candidate.slug,
                                                     'election_slug': self.election.slug}),
                                  {'answer': self.answer.pk})
         self.assertEquals(request.status_code, 200)
@@ -221,7 +221,7 @@ class AssociateCandidatesAnswersTest(TestCase):
 
         self.client.login(username='doe', password='joe')
         request=self.client.post(reverse('associate_answer_candidate',
-                                         kwargs={'slug': self.candidate.slug,
+                                         kwargs={'candidate_slug': self.candidate.slug,
                                                  'election_slug': self.election.slug}),
                                  {'answer': self.answer2.pk})
         self.assertEquals(request.status_code, 404)

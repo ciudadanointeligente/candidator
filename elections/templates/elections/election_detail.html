@@ -8,7 +8,7 @@
 <img src="{{ MEDIA_URL }}{{ election.logo }}"><br/>
 Eleccion: <a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a>
 <br>
-<a href="{% url medianaranja1 my_user=election.owner.username election_slug=election.slug %}">Media Naranja</a>
+<a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>
 <br>
 Candidatos (<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
 <ul>
