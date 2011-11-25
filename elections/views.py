@@ -181,14 +181,11 @@ def create_election(request, my_user):
 def success_create_election(request):
     return render_to_response('elections/success_create_election.html')
 
-def medianaranja1(request, my_user, election_slug):
+def medianaranja1(request, username, election_slug):
 
     if request.method == "POST":
-        #importances = request.POST["importance"]
-        #id_answers = request.POST['question']
-        #answer_importance = [ (answer[id], importances[id]) for id in answers.keys()]
 
-        user_list = User.objects.filter(username=my_user)
+        user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
             raise Http404
         election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
@@ -204,18 +201,14 @@ def medianaranja1(request, my_user, election_slug):
         answers = []
 
         for i in range(number_of_questions):
-        #    answers.append(Answer.objects.get(id=int(request.POST['question-'+str(i)])))
             ans_id = int(request.POST['question-'+str(i)])
             answers.append(Answer.objects.filter(id=ans_id))
             importances.append(int(request.POST['importance-'+str(i)]))
-        # print answers
-        # print importances
 
         return medianaranja2(request, answers, importances, candidates, categories)
-        #TODO: modificar medianaranja2 + calculo de puntaje
 
     else:
-        u = User.objects.filter(username=my_user)
+        u = User.objects.filter(username=username)
         if len(u) == 0:
             raise Http404
         e = Election.objects.filter(owner=u[0],slug=election_slug)
