@@ -50,8 +50,8 @@ class Candidate(models.Model):
 
     def get_score(self, answers, importances):
 
-        number_of_questions = [] # Numero de preguntas por categoria
-        categories = Category.objects.filter(election=self.election) # Categorias
+        number_of_questions = [] # Number of questions per category
+        categories = Category.objects.filter(election=self.election) 
 
         for category in categories:
             questions = Question.objects.filter(category=category)
@@ -71,7 +71,7 @@ class Candidate(models.Model):
 
         index = 0
         scores_by_question = []
-        # answers = ARREGLO DE RESPUESTAS DEL FORMULARIO
+        # answers = array of form's answers
         # answers = [[], [], [<Answer: Si>], [<Answer: Si>]]
 
         for x in reversed(answers):

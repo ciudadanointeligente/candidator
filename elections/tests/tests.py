@@ -227,12 +227,3 @@ class AssociateCandidatesAnswersTest(TestCase):
         self.assertEquals(request.status_code, 404)
 
 
-class TestRedirection(TestCase):
-    def test_reverse_routing_elections_correctly(self):
-        user, created = User.objects.get_or_create(username="otroUsuario")
-        election, created = Election.objects.get_or_create(name="mi nueva eleccion",slug="mi-nueva-eleccion",owner=user)
-        url = reverse("medianaranja1",kwargs={'my_user': 'otroUsuario', 'election_slug':'mi-nueva-eleccion'})
-        expected = "/otroUsuario/mi-nueva-eleccion/medianaranja"
-        self.assertEqual(url,expected)
-
-
