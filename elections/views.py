@@ -63,21 +63,20 @@ class CandidateCreateView(CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        formset = context['personal_information_formset']
+        personal_information_formset = context['personal_information_formset']
 
-        if formset.is_valid():
-
+        if personal_information_formset.is_valid():
             self.object = form.save(commit=False)
             election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
             self.object.election = election
 
             try:
                 self.object.full_clean()
-                #self.object.save()
-                #for form in formset:
-                #    personal_information = form.save(commit=False)
-                #    personal_information.candidate = self.object
-                #    # personal_information.save()
+                self.object.save()
+                for f in personal_information_formset:
+                   personal_information = f.save(commit=False)
+                   personal_information.candidate = self.object
+                   personal_information.save()
 
             except ValidationError:
                 from django.forms.util import ErrorList
@@ -155,9 +154,6 @@ def associate_answer_to_candidate(request, candidate_slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
-
-# def success_create_election(request):
-#     return render_to_response('elections/success_create_election.html')
 
 def medianaranja1(request, username, election_slug):
 

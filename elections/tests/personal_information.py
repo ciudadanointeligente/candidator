@@ -8,6 +8,7 @@ from django.db import IntegrityError
 from elections.models import PersonalInformation, Candidate, Election
 from elections.forms import CandidatePersonalInformationFormset
 
+dirname = os.path.dirname(os.path.abspath(__file__))
 
 class PersonalInformationModelTest(TestCase):
     def setUp(self):
@@ -32,14 +33,6 @@ class PersonalInformationModelTest(TestCase):
         self.assertEqual(personal_information.value, 'Juan')
         self.assertEqual(personal_information.candidate, self.candidate)
 
-    def test_create_two_personal_information_with_same_label(self):
-        personal_information = PersonalInformation.objects.create(
-                                                            label='Nombre',
-                                                            value='Juan',
-                                                            candidate=self.candidate)
-
-        self.assertRaises(IntegrityError, PersonalInformation.objects.create,
-                          label='Nombre', value='Pedro', candidate=self.candidate)
 
 class CreateCandidatePersonalInformationViewTest(TestCase):
     def setUp(self):
@@ -54,9 +47,6 @@ class CreateCandidatePersonalInformationViewTest(TestCase):
                                                                   slug='juan-candidato',
                                                                   election=self.election)
 
-    # def test_create_candidate_with_personal_information_test(self):
-    #     pass
-
     def test_create_candidate_with_personal_information_by_user_success(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
@@ -64,32 +54,31 @@ class CreateCandidatePersonalInformationViewTest(TestCase):
         self.assertTrue('personal_information_formset' in request.context)
         self.assertTrue(isinstance(request.context['personal_information_formset'], CandidatePersonalInformationFormset))
 
-    def test_post_candidate_create_with_personal_information_with_same_label(self):
-        pass
 
     def test_post_candidate_create_with_personal_information_logged(self):
-        pass
-# class CreatePersonalInformationTest(TestCase):
-#     def setUp(self):
-#         self.user, created = User.objects.get_or_create(username='joe', password='doe')
-#         self.election, created = Election.objects.get_or_create(name='BarBaz',
-#                                                            owner=self.user,
-#                                                            slug='barbaz',
-#                                                            description='esta es una descripcion')
+        self.client.login(username='joe', password='doe')
 
-#         self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-#                                                                   last_name='Candidato',
-#                                                                   slug='juan-candidato',
-#                                                                   election=self.election)
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+                  'slug': 'nuevo_candidato_slug', 'photo': f,
+                  'form-TOTAL_FORMS': u'2',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',
+                  'form-0-label': 'Foo',
+                  'form-0-value': 'Bar',
+                  'form-1-label': 'Foo2',
+                  'form-1-value': 'Bar2'}
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
+        f.seek(0)
 
-#     def test_create_personal_information_by_user_without_login(self):
-#         request = self.client.get(reverse('personal_information_create',
-#                                     kwargs={'candidate_slug': self.candidate.slug}))
-#         self.assertEquals(request.status_code, 302)
+        candidate = Candidate.objects.get(slug=params['slug'])
+        self.assertEqual(candidate.personalinformation_set.count(), 2)
 
-#     def test_create_personal_information_by_user_success(self):
-#         self.client.login(username='joe', password='doe')
-#         request = self.client.get(reverse('personal_information_create', kwargs={'candidate_slug': self.candidate.slug}))
+        personal_information = candidate.personalinformation_set.all()[0]
+        self.assertEqual(personal_information.label, params['form-0-label'])
+        self.assertEqual(personal_information.value, params['form-0-value'])
 
-#         self.assertTrue('form' in request.context)
-#         self.assertTrue(isinstance(request.context['form'], CandidatePersonalInformationForm))
+        personal_information = candidate.personalinformation_set.all()[1]
+        self.assertEqual(personal_information.label, params['form-1-label'])
+        self.assertEqual(personal_information.value, params['form-1-value'])
+

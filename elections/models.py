@@ -51,7 +51,7 @@ class Candidate(models.Model):
     def get_score(self, answers, importances):
 
         number_of_questions = [] # Number of questions per category
-        categories = Category.objects.filter(election=self.election) 
+        categories = Category.objects.filter(election=self.election)
 
         for category in categories:
             questions = Question.objects.filter(category=category)
@@ -89,7 +89,7 @@ class Candidate(models.Model):
                 factor = 0
             index += 1
 
-	scores_by_category = []
+        scores_by_category = []
         for i in range(len(sum_by_category)):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
 
@@ -110,9 +110,6 @@ class PersonalInformation(models.Model):
     label = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
-
-    class Meta:
-        unique_together = ('label', 'candidate')
 
     def __unicode__(self):
         return u"%s" % self.label
