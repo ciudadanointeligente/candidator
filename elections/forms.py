@@ -47,6 +47,12 @@ class ElectionForm(forms.ModelForm):
         js = ('jquery.slug.js', )
 
 
+class ElectionUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Election
+        exclude = ('owner', 'slug')
+
+
 class QuestionForm(forms.Form):
     question = forms.IntegerField(widget=forms.HiddenInput)
     answers = forms.ChoiceField()
