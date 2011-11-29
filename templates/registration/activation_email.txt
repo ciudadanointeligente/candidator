@@ -1,0 +1,6 @@
+Remember to activate your account or it will expire after {{expiration_days}} days.
+
+To activate your account, click the following link or paste it in the address bar of your browser
+<a href="http://{{ site.domain }}{% url registration_activate activation_key %}">
+http://{{ site.domain }}{% url registration_activate activation_key %}
+</a>

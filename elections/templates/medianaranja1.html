@@ -1,0 +1,125 @@
+{% extends "elections/base.html" %}
+
+{% block title %}
+{{ block.super }} Election
+{% endblock title %}
+
+{% block content %}
+<h1>{{election}}</h1>
+
+
+<form action="" method="POST">{% csrf_token %}
+
+{% for cat,data in stt %}
+    <h1>{{cat.name}}</h1>
+    {% for num,preg,ans_list in data %}
+    <h4>{{preg.question}}</h4>
+    	{% for ans in ans_list %}
+    	<input type="radio" name="question-{{num}}" value="{{ans.id}}" />{{ans.caption}}<br />
+    	{% endfor %}
+    	<!-- value = -1 is meant for default answers -->
+        <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
+        Ninguna de las anteriores representa mi posición<br />
+		<h4>Importancia</h4>
+	    <input type="radio" name="importance-{{num}}" value="1" /> 1<br />
+    <input type="radio" name="importance-{{num}}" value="2" /> 2<br />
+    <input type="radio" name="importance-{{num}}" value="3" checked="checked" /> 3<br />
+    <input type="radio" name="importance-{{num}}" value="4" /> 4<br />
+    <input type="radio" name="importance-{{num}}" value="5" /> 5<br />
+    {% endfor %}
+    <hr/>
+{% endfor %}
+
+<input type="submit" value="Encontrar mi Media Naranja" />
+
+
+</form>
+
+
+
+<!--
+<br><hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for category in categories.all %}
+    <h2>{{ category.name }}</h2>
+    {% for question in category.question_set.all %}
+    <ul>
+        <li style='float: left; display: block;'>
+            <h4>{{ question.question }}</h4>
+            <ul class='answers'>
+            {% for answer in question.answer_set.all %}
+                <li>
+                    <label>
+	                    <input type="radio" name="question[{{ question.pk }}]" value="{{ answer.pk }}"/>
+                        {{ answer.caption }}
+                    </label>
+                </li>
+                {% empty %}
+                <li>
+                    <strong>No hay respuestas asociadas</strong>
+                </li>
+            {% endfor %}
+                <li>
+                    <label>
+                        <input type="radio" name="question[{{ question.pk }}]" value="-1" checked="checked" />
+                        Ninguna de las anteriores representa mi posición
+                    </label>
+                </li>
+            </ul>
+        </li>
+        <li style='float: left; display: block;'>
+            <h4>Importancia</h4>
+            <ul style='list-style: none;'>
+                <li style='float: left;'>
+                    <label>
+                        <input type="radio" name="importance[{{ question.pk }}]" value="1" /> 1
+                    </label>
+                </li>
+                <li style='float: left;'>
+                    <label>
+                        <input type="radio" name="importance[{{ question.pk }}]" value="2" /> 2
+                    </label>
+                </li>
+                <li style='float: left;'>
+                    <label>
+                        <input type="radio" name="importance[{{ question.pk }}]" value="3" checked="checked" /> 3
+                    </label>
+                </li>
+                <li style='float: left;'>
+                    <label>
+                        <input type="radio" name="importance[{{ question.pk }}]" value="4" /> 4
+                    </label>
+                </li>
+                <li style='float: left;'>
+                    <label>
+                        <input type="radio" name="importance[{{ question.pk }}]" value="5" /> 5
+                    </label>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <br style='clear: both;'/>
+    {% endfor %}
+{% empty %}
+    <h2>No hay categorías</h2>
+{% endfor %}
+<p>
+    <input type="submit" value="Encontrar mi Media Naranja" />
+</p>
+</form>-->
+{% endblock content %}

@@ -1,0 +1,50 @@
+<html>
+<body>
+
+
+<h1>Tu media naranja es: {{winner.2}} con un {{winner.0}} %</h1>
+
+<table><tr>
+
+<td>
+{% for category in categories %}
+<p>{{category}}</p>
+{% endfor %}
+</td>
+
+<td>
+{% for category_score in winner.1 %}
+<p>{{category_score}}</p>
+{% endfor %}
+</td>
+</tr></table>
+
+<br>
+<hr>
+<br>
+
+{% for data_candidate in others %}
+
+<h3>{{data_candidate.2}} = {{data_candidate.0}}%</h3>
+
+<table><tr>
+
+<td>
+{% for category in categories %}
+<p>{{category}}</p>
+{% endfor %}
+</td>
+
+<td>
+{% for category_score in data_candidate.1 %}
+<p>{{category_score}}</p>
+{% endfor %}
+</td>
+</tr></table>
+
+{% endfor%}
+
+</body>
+</html>
+
+

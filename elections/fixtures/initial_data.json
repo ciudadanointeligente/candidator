@@ -1,1 +1,184 @@
-[{"pk": 1, "model": "elections.election", "fields": {"owner": 2, "created_at": "2011-11-10 16:33:51", "name": "cei 2012", "updated_at": "2011-11-10 16:44:56", "slug": "cei-2012"}}, {"pk": 1, "model": "elections.candidate", "fields": {"first_name": "Juanito", "last_name": "Perez", "created_at": "2011-11-10 16:34:30", "updated_at": "2011-11-10 16:34:30", "election": 1, "slug": "juanito-perez"}}, {"pk": 2, "model": "elections.candidate", "fields": {"first_name": "Candidato", "last_name": "Tester", "created_at": "2011-11-10 16:35:03", "updated_at": "2011-11-10 16:35:03", "election": 1, "slug": "candidato-tester"}}, {"pk": 3, "model": "elections.candidate", "fields": {"first_name": "Foo", "last_name": "Bar", "created_at": "2011-11-10 16:44:56", "updated_at": "2011-11-10 16:44:56", "election": 1, "slug": "foo-bar"}}]
+[
+  {
+    "pk": 1,
+    "model": "elections.election",
+    "fields": {
+      "owner": 1,
+      "created_at": "2011-11-10 16:33:51",
+      "name": "cei 2012",
+      "updated_at": "2011-11-15 16:55:46",
+      "slug": "cei-2012"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.candidate",
+    "fields": {
+      "first_name": "Juanito",
+      "last_name": "Perez",
+      "created_at": "2011-11-10 16:34:30",
+      "updated_at": "2011-11-15 17:06:36",
+      "answers": [
+        8
+      ],
+      "election": 1,
+      "slug": "juanito-perez"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.candidate",
+    "fields": {
+      "first_name": "Candidato",
+      "last_name": "Tester",
+      "created_at": "2011-11-10 16:35:03",
+      "updated_at": "2011-11-10 16:35:03",
+      "answers": [],
+      "election": 1,
+      "slug": "candidato-tester"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "elections.candidate",
+    "fields": {
+      "first_name": "Foo",
+      "last_name": "Bar",
+      "created_at": "2011-11-10 16:44:56",
+      "updated_at": "2011-11-10 16:44:56",
+      "answers": [],
+      "election": 1,
+      "slug": "foo-bar"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.category",
+    "fields": {
+      "name": "Politicas Publicas",
+      "election": 1,
+      "slug": "politicas-publicas"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.category",
+    "fields": {
+      "name": "Politicas Monetarias",
+      "election": 1,
+      "slug": "politicas-monetarias"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.question",
+    "fields": {
+      "category": 1,
+      "question": "Esta de a cuerdo con los paros?"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.question",
+    "fields": {
+      "category": 1,
+      "question": "Le gusta ir a las marchas?"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "elections.question",
+    "fields": {
+      "category": 2,
+      "question": "Quiere gastar su plata carreteando?"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "elections.question",
+    "fields": {
+      "category": 2,
+      "question": "Quiere robarse la plata del CEI?"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Si",
+      "question": 4
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "No",
+      "question": 4
+    }
+  },
+  {
+    "pk": 3,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Si",
+      "question": 3
+    }
+  },
+  {
+    "pk": 4,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "No",
+      "question": 3
+    }
+  },
+  {
+    "pk": 5,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "A veces",
+      "question": 3
+    }
+  },
+  {
+    "pk": 6,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Nunca",
+      "question": 2
+    }
+  },
+  {
+    "pk": 7,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Siempre",
+      "question": 2
+    }
+  },
+  {
+    "pk": 8,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "De vez en cuando",
+      "question": 2
+    }
+  },
+  {
+    "pk": 9,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Puro perder clases",
+      "question": 1
+    }
+  },
+  {
+    "pk": 10,
+    "model": "elections.answer",
+    "fields": {
+      "caption": "Si, la llevan",
+      "question": 1
+    }
+  }
+]

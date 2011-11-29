@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Activation failed</title>
+</head>
+<body>
+{% if not account %}
+    The activation key used doesn't exist or is no longer active. Please register again.
+{% else %}
+    <h1>Success!</h1>
+    <p>
+        <a href="{% url auth_login %}">Login</a>
+    </p>
+{% endif %}
+</body>
+</html>
