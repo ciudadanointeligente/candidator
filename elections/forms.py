@@ -20,6 +20,14 @@ class CandidateForm(forms.ModelForm):
         js = ('jquery.slug.js', 'jquery.formset.js', )
 
 
+class CandidateUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Candidate
+        exclude = ('slug', 'election', 'answers')
+    class Media:
+        js = ('jquery.formset.js', )
+
+
 class CandidatePersonalInformationForm(forms.ModelForm):
     class Meta:
         model = PersonalInformation

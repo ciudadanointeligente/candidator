@@ -12,9 +12,9 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
@@ -31,15 +31,35 @@ class CandidateDetailView(DetailView):
         return super(CandidateDetailView, self).get_queryset()
 
 
-# Election views
-class ElectionDetailView(DetailView):
-    model = Election
+class CandidateUpdateView(UpdateView):
+    model = Candidate
+    form_class = CandidateUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CandidateUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(owner__username=self.kwargs['username'],
+        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
                                              slug=self.kwargs['slug'])
-        return super(ElectionDetailView, self).get_queryset()
+        return super(CandidateUpdateView, self).get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateUpdateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('candidate_update', kwargs={'slug': self.kwargs['slug'], 'election_slug': self.object.election.slug})
+
+#    def form_valid(self, form):
+#        self.object = form.save(commit=False)
+#        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+#        self.object.election = election
+#        self.object.save()
+#        return super(CandidateUpdateView, self).form_valid(form)
+
 
 class CandidateCreateView(CreateView):
     model = Candidate
@@ -92,6 +112,18 @@ class CandidateCreateView(CreateView):
                 return super(CandidateCreateView, self).form_invalid(form)
 
             return super(CandidateCreateView, self).form_valid(form)
+
+
+# Election views
+class ElectionDetailView(DetailView):
+    model = Election
+
+    def get_queryset(self):
+        if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(owner__username=self.kwargs['username'],
+                                             slug=self.kwargs['slug'])
+        return super(ElectionDetailView, self).get_queryset()
+
 
 class ElectionCreateView(CreateView):
     model = Election
