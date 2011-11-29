@@ -12,9 +12,9 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
+from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, CategoryUpdateForm
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
@@ -146,6 +146,44 @@ class CategoryCreateView(CreateView):
             return super(CategoryCreateView, self).form_invalid(form)
 
         return super(CategoryCreateView, self).form_valid(form)
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryUpdateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+
+    def get_queryset(self):
+        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                             slug=self.kwargs['slug'])
+        return super(ElectionDetailView, self).get_queryset()
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+        # self.object.slug = self.kwargs['slug']
+        # self.object.save()
+
+        # try:
+        #     self.object.full_clean()
+        # except ValidationError:
+        #     from django.forms.util import ErrorList
+        #     form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
+        #     return super(CategoryCreateView, self).form_invalid(form)
+
+        return super(CategoryUpdateView, self).form_valid(form)
 
 @login_required
 @require_http_methods(['GET', 'POST'])
