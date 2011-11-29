@@ -14,7 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
@@ -59,6 +59,19 @@ class CandidateUpdateView(UpdateView):
 #        self.object.election = election
 #        self.object.save()
 #        return super(CandidateUpdateView, self).form_valid(form)
+
+
+
+class ElectionUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionUpdateForm
+
+    def get_success_url(self):
+        return reverse('election_update', kwargs={'slug': self.object.slug})
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionUpdateView, self).dispatch(request, *args, **kwargs)
 
 
 class CandidateCreateView(CreateView):
