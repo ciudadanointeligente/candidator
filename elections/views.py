@@ -12,9 +12,9 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset
+from forms import CandidateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
 
 
@@ -40,6 +40,19 @@ class ElectionDetailView(DetailView):
             return self.model.objects.filter(owner__username=self.kwargs['username'],
                                              slug=self.kwargs['slug'])
         return super(ElectionDetailView, self).get_queryset()
+
+
+class ElectionUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionUpdateForm
+
+    def get_success_url(self):
+        return reverse('election_update', kwargs={'slug': self.object.slug})
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionUpdateView, self).dispatch(request, *args, **kwargs)
+
 
 class CandidateCreateView(CreateView):
     model = Candidate
