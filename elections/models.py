@@ -48,15 +48,16 @@ class Candidate(models.Model):
         self.answers = new_answers
         self.save()
 
-    def get_score(self, answers, importances):
-
+    def get_number_of_questions_by_category(self):
         number_of_questions = [] # Number of questions per category
         categories = Category.objects.filter(election=self.election)
-
         for category in categories:
             questions = Question.objects.filter(category=category)
             number_of_questions.append(len(questions))
+        return number_of_questions
 
+    def get_importances_by_category(self, importances):
+        number_of_questions = self.get_number_of_questions_by_category()
         importances_by_category = []
         index = 0
         for num in number_of_questions:
@@ -65,34 +66,34 @@ class Candidate(models.Model):
                 category_importance += importances[index]
                 index += 1
             importances_by_category.append(category_importance)
+        return importances_by_category
 
+    def get_sum_importances_by_category(self, answers, importances):
+        categories = Category.objects.filter(election=self.election)
         sum_by_category = [0]*len(categories)
         candidate_answers = self.answers.all() # Candidate answers
-
         index = 0
-        scores_by_question = []
-        # answers = array of form's answers
-        # answers = [[], [], [<Answer: Si>], [<Answer: Si>]]
-
+        # example answers = [[], [], [<Answer: Si>], [<Answer: Si>]]
         for x in reversed(answers):
-
             if len(x) != 0:
                 if x[0] in candidate_answers:
                     factor = 1
                     value = factor * importances[len(importances)-index-1]
                     pos = list(categories.all()).index(x[0].question.category)
                     sum_by_category[pos] += value
-
                 else:
                     factor = 0
             else:
                 factor = 0
             index += 1
+        return sum_by_category
 
+    def get_score(self, answers, importances):
+        sum_by_category = self.get_sum_importances_by_category(answers, importances)
+        importances_by_category = self.get_importances_by_category(importances)
         scores_by_category = []
         for i in range(len(sum_by_category)):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
-
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
     @property

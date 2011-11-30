@@ -77,6 +77,31 @@ class TestMediaNaranja(TestCase):
         response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], 'importance-0': importances[0], 'importance-1': importances[1]})
         expected_winner = [global_score,[score_category1,score_category1], self.candidate1]
         self.assertEqual(response.context['winner'],expected_winner)
+
+    def test_get_number_of_questions_by_category(self):
+        number_by_questions_expected = [1,1]
+        number_by_questions = self.candidate1.get_number_of_questions_by_category()
+        number_by_questions2 = self.candidate2.get_number_of_questions_by_category()
+        self.assertEqual(number_by_questions_expected, number_by_questions)
+        self.assertEqual(number_by_questions_expected, number_by_questions2)
+
+    def test_get_importances_by_category(self):
+        importances = [5, 3]
+        importances_by_category_expected = [5,3]
+        importances_by_category = self.candidate1.get_importances_by_category(importances)
+        importances_by_category2 = self.candidate2.get_importances_by_category(importances)
+        self.assertEqual(importances_by_category_expected, importances_by_category)
+        self.assertEqual(importances_by_category_expected, importances_by_category2)
+
+    def test_get_sum_importances_by_category(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [5, 3]
+        sum_importances_by_category_expected = [5,3]
+        sum_importances_by_category_expected2 = [0,0]
+        sum_importances_by_category = self.candidate1.get_sum_importances_by_category(answers, importances)
+        sum_importances_by_category2 = self.candidate2.get_sum_importances_by_category(answers, importances)
+        self.assertEqual(sum_importances_by_category_expected, sum_importances_by_category)
+        self.assertEqual(sum_importances_by_category_expected2, sum_importances_by_category2)
         
     def test_get_score(self):
         answers = [[self.answer1_1], [self.answer1_2]]
