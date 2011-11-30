@@ -1,22 +1,38 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'candidator.views.home', name='home'),
-    # url(r'^candidator/', include('candidator.foo.urls')),
+from elections.views import ElectionDetailView
 
-    # Uncomment the admin/doc line below to enable admin documentation:
+urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
     (r'^profiles/', include('profiles.urls')),
 
-    url(r'^elections/', include('elections.urls')),
+    # django-registration urls, maps common registration urls to the ones in django.contrib.auth
+    url(r'^accounts/', include('registration.urls')),
+
+
+    url(r'^', include('elections.urls')),
+
+    url(r'^index/$', direct_to_template, {'template': 'index.html'}),
+
 )
+
+
+from django.conf import settings
+if settings.DEBUG:
+    from django.conf.urls.static import static
+
+    urlpatterns += static( settings.USER_FILES, document_root=settings.STATIC_ROOT )
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   )

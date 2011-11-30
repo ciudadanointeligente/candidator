@@ -1,10 +1,18 @@
+<!doctype html>
 <html>
-
-<title>{% block title%}Candidator{% endblock title %}</title>
+<head>
+    <title>{% block title%}Candidator{% endblock title %}</title>
+    {% block extra_head %}
+    {% endblock extra_head %}
+</head>
 <body>
 
 {% block content %}
 {% endblock content %}
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+{% block extra_js %}
+{% endblock extra_js %}
 </body>
 </html>
+<html>
