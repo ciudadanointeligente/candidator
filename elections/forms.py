@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formsets
 from django.forms.formsets import formset_factory
-from elections.models import Candidate, Category, Election, PersonalInformation, Link
+from elections.models import Candidate, Category, Election, PersonalInformation, Link, Report
 
 
 class CategoryForm(forms.ModelForm):
@@ -90,3 +90,9 @@ def question_formset_factory(category):
         form.set_question(questions[index])
         index += 1
     return formset
+
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model=Report
+        exclude=('content_object', 'object_id', 'content_type', 'owner')

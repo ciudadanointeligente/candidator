@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.forms import ModelForm
 from django_extensions.db.fields import AutoSlugField
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 # Create your models here.
 
@@ -157,3 +159,15 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.caption
+
+
+class Report(models.Model):
+    owner = models.ForeignKey('auth.User', null=True)
+    reason = models.TextField(max_length=512)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('report_detail', None, {'pk': self.pk})

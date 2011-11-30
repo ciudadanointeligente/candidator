@@ -1,15 +1,20 @@
 
 from django.conf.urls.defaults import patterns, url
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView, CreateView
 
-from models import Election
-from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpdateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CandidateUpdateView, CategoryCreateView, CategoryUpdateView
+from models import Election, Report
+from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpdateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CandidateUpdateView, CategoryCreateView, CategoryUpdateView, ReportCreateView
 
 
 urlpatterns = patterns('',
 
     # Root
     url(r'^$', ListView.as_view(model=Election), name='election_list'),
+
+    # Create Report
+    url(r'^report/(?P<content_type>\d+)/(?P<object_id>\d+)/?$', ReportCreateView.as_view(), name='report'),
+    # Detail Report
+    url(r'^report/(?P<pk>\d+)/?$', DetailView.as_view(model=Report), name='report_detail'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
@@ -43,4 +48,5 @@ urlpatterns = patterns('',
 
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)/?$', CandidateDetailView.as_view(), name='candidate_detail'),
+    
 )
