@@ -18,10 +18,10 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm,\
                   CandidatePersonalInformationForm, CandidatePersonalInformationFormset,\
                   CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm,\
-                  ReportForm, PersonalDataForm, BackgroundCategoryForm
+                  ReportForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm
 from models import Election, Candidate, Answer, PersonalInformation,\
                    Link, Category, Question, Report, PersonalData,\
-                   BackgroundCategory
+                   BackgroundCategory, Background
 
 
 # Candidate views
@@ -280,6 +280,39 @@ class BackgroundCategoryCreateView(CreateView):
             return super(BackgroundCategoryCreateView, self).form_invalid(form)
 
         return super(BackgroundCategoryCreateView, self).form_valid(form)
+
+
+class BackgroundCreateView(CreateView):
+    model = Background
+    form_class = BackgroundForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BackgroundCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BackgroundCreateView, self).get_context_data(**kwargs)
+        background_category = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
+        context['election'] = background_category.election
+        return context
+
+    def get_success_url(self):
+        return reverse('background_create', kwargs={'background_category_slug': self.object.category.slug})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        background_category = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
+        self.object.category = background_category
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes un antecedente con ese slug."])
+            return super(BackgroundCreateView, self).form_invalid(form)
+
+        return super(BackgroundCreateView, self).form_valid(form)
+
 
 
 @login_required

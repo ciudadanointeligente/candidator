@@ -7,7 +7,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
                   CategoryUpdateView, ReportCreateView, PersonalDataCreateView,\
-                  BackgroundCategoryCreateView
+                  BackgroundCategoryCreateView, BackgroundCreateView
 
 
 urlpatterns = patterns('',
@@ -51,6 +51,9 @@ urlpatterns = patterns('',
 
     # Create BackgroundCategory
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
+
+    # Create Background
+    url(r'^(?P<background_category_slug>[-\w]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/?$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
