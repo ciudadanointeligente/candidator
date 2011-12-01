@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
 
 from models import Election, Report
-from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpdateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CandidateUpdateView, CategoryCreateView, CategoryUpdateView, ReportCreateView, PersonalDataCreateView
+from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpdateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CandidateUpdateView, CategoryCreateView, CategoryUpdateView, ReportCreateView, PersonalDataCreateView, BackgroundCategoryCreateView
 
 
 urlpatterns = patterns('',
@@ -45,7 +45,8 @@ urlpatterns = patterns('',
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
 
-
+    # Create BackgroundCategory
+    url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/?$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),

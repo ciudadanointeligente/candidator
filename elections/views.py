@@ -15,8 +15,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm, ReportForm, PersonalDataForm
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, Report, PersonalData
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm, ReportForm, PersonalDataForm, BackgroundCategoryForm
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, Report, PersonalData, BackgroundCategory
 
 
 # Candidate views
@@ -244,6 +244,37 @@ class PersonalDataCreateView(CreateView):
             return super(PersonalDataCreateView, self).form_invalid(form)
 
         return super(PersonalDataCreateView, self).form_valid(form)
+
+
+class BackgroundCategoryCreateView(CreateView):
+    model = BackgroundCategory
+    form_class = BackgroundCategoryForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BackgroundCategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BackgroundCategoryCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('background_category_create', kwargs={'election_slug': self.object.election.slug})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una categoria de antecedentes con ese slug."])
+            return super(BackgroundCategoryCreateView, self).form_invalid(form)
+
+        return super(BackgroundCategoryCreateView, self).form_valid(form)
 
 
 @login_required

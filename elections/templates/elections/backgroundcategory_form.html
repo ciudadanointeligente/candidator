@@ -3,15 +3,15 @@
 
 {% block content %}
 
-<h2>Datos Personales</h2>
+<h2>Categorias de Antecedentes</h2>
 <ul>
-{% for personal_data in election.personaldata_set.all %}
-    <li>{{ personal_data.label }}</li>
+{% for background_category in election.backgroundcategory_set.all %}
+    <li>{{ background_category.name }}</li>
 {% endfor %}
 </ul>
 <br>
 
-<h2>Agregar Dato Personal</h2>
+<h2>Agregar Categoria de Antecedentes</h2>
 
 <form method="POST">{% csrf_token %}
     <table>
@@ -19,14 +19,12 @@
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
-<a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a>
-
 {% endblock %}
 
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
-    $("#id_label").slug({
+    $("#id_name").slug({
         'target': $('#id_slug')
     });
 </script>
