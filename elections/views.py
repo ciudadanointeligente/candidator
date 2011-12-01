@@ -15,8 +15,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm, ReportForm
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, Report
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm, ReportForm, PersonalDataForm
+from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, Report, PersonalData
 
 
 # Candidate views
@@ -53,13 +53,6 @@ class CandidateUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('candidate_update', kwargs={'slug': self.kwargs['slug'], 'election_slug': self.object.election.slug})
-
-#    def form_valid(self, form):
-#        self.object = form.save(commit=False)
-#        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
-#        self.object.election = election
-#        self.object.save()
-#        return super(CandidateUpdateView, self).form_valid(form)
 
 
 
@@ -219,17 +212,39 @@ class CategoryUpdateView(UpdateView):
         self.object = form.save(commit=False)
         election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         self.object.election = election
-        # self.object.slug = self.kwargs['slug']
-        # self.object.save()
-
-        # try:
-        #     self.object.full_clean()
-        # except ValidationError:
-        #     from django.forms.util import ErrorList
-        #     form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
-        #     return super(CategoryCreateView, self).form_invalid(form)
-
         return super(CategoryUpdateView, self).form_valid(form)
+
+
+class PersonalDataCreateView(CreateView):
+    model = PersonalData
+    form_class = PersonalDataForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PersonalDataCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonalDataCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('personal_data_create', kwargs={'election_slug': self.kwargs['election_slug']})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes un dato personal con ese slug."])
+            return super(PersonalDataCreateView, self).form_invalid(form)
+
+        return super(PersonalDataCreateView, self).form_valid(form)
+
 
 @login_required
 @require_http_methods(['GET', 'POST'])

@@ -57,7 +57,7 @@
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 
-<a href="">Siguiente (Datos Personales)</a>
+<a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a>
 
 {% endblock %}
 

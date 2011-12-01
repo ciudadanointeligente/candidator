@@ -1,0 +1,31 @@
+{% extends 'elections/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>Datos Personales</h2>
+<ul>
+{% for personal_data in election.personaldata_set.all %}
+    <li>{{ personal_data.label }}</li>
+{% endfor %}
+</ul>
+<br>
+
+<h2>Agregar Dato Personal</h2>
+
+<form method="POST">{% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="{% trans "Guardar" %}" />
+</form>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+    $("#id_label").slug({
+        'target': $('#id_slug')
+    });
+</script>
+{% endblock %}
