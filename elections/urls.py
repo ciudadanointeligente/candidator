@@ -3,7 +3,11 @@ from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
 
 from models import Election, Report
-from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpdateView, ElectionDetailView, CandidateDetailView, CandidateCreateView, CandidateUpdateView, CategoryCreateView, CategoryUpdateView, ReportCreateView, PersonalDataCreateView, BackgroundCategoryCreateView
+from views import associate_answer_to_candidate, ElectionCreateView,\
+                  ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
+                  CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
+                  CategoryUpdateView, ReportCreateView, PersonalDataCreateView,\
+                  BackgroundCategoryCreateView
 
 
 urlpatterns = patterns('',

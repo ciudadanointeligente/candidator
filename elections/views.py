@@ -15,8 +15,13 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm, ReportForm, PersonalDataForm, BackgroundCategoryForm
-from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question, Report, PersonalData, BackgroundCategory
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm,\
+                  CandidatePersonalInformationForm, CandidatePersonalInformationFormset,\
+                  CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm,\
+                  ReportForm, PersonalDataForm, BackgroundCategoryForm
+from models import Election, Candidate, Answer, PersonalInformation,\
+                   Link, Category, Question, Report, PersonalData,\
+                   BackgroundCategory
 
 
 # Candidate views
