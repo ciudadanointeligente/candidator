@@ -250,7 +250,7 @@ def post_medianaranja1(request, username, election_slug):
     user_list = User.objects.filter(username=username)
     if len(user_list) == 0:
         raise Http404
-    
+
     election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
 
     candidates = election.candidate_set.all()
@@ -324,7 +324,7 @@ class ReportCreateView(CreateView):
     def dispatch(self, request, *args, **kwargs):
         self.report_object = self._get_report_object(**kwargs)
         return super(ReportCreateView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, *args, **kwargs):
         context = super(ReportCreateView, self).get_context_data(*args, **kwargs)
         context['report_object'] = self.report_object
@@ -343,4 +343,4 @@ class ReportCreateView(CreateView):
         except ContentType.DoesNotExist:
             raise Http404
         return self.report_object
-        
+

@@ -9,7 +9,7 @@ from views import associate_answer_to_candidate, ElectionCreateView, ElectionUpd
 urlpatterns = patterns('',
 
     # Root
-    url(r'^$', ListView.as_view(model=Election), name='election_list'),
+    url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
 
     # Create Report
     url(r'^report/(?P<content_type>\d+)/(?P<object_id>\d+)/?$', ReportCreateView.as_view(), name='report'),
@@ -48,5 +48,5 @@ urlpatterns = patterns('',
 
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)/?$', CandidateDetailView.as_view(), name='candidate_detail'),
-    
+
 )

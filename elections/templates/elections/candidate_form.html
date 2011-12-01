@@ -2,6 +2,18 @@
 {% load i18n %}
 
 {% block content %}
+
+<h2>Candidatos:</h2>
+<ul>
+{% for candidate in election.candidate_set.all %}
+<li>{{ candidate.name }}</li>
+{% endfor %}
+</ul>
+
+<br>
+
+<h2>Agregar Candidato</h2>
+
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <table>
     {{form.as_table}}
@@ -44,6 +56,9 @@
     {{ link_formset.management_form }}
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+
+<a href="">Siguiente (Datos Personales)</a>
+
 {% endblock %}
 
 {% block extra_js %}

@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^', include('elections.urls')),
 
     url(r'^index/$', direct_to_template, {'template': 'index.html'}),
+
+    url(r'^$', redirect_to, {'url': '/accounts/login/'}),
 
 )
 
