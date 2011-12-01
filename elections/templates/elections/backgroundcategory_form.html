@@ -6,7 +6,14 @@
 <h2>Categorias de Antecedentes</h2>
 <ul>
 {% for background_category in election.backgroundcategory_set.all %}
-    <li>{{ background_category.name }}</li>
+    <li>
+    {{ background_category.name }} <a href="{% url background_create background_category_slug=background_category.slug %}">(Agregar Antecedente)</a>
+    <ul>
+    {% for background in background_category.background_set.all %}
+        <li>{{ background.name }}</li>
+    {% endfor %}
+    </ul>
+    </li>
 {% endfor %}
 </ul>
 <br>

@@ -292,12 +292,12 @@ class BackgroundCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(BackgroundCreateView, self).get_context_data(**kwargs)
-        background_category = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
-        context['election'] = background_category.election
+        context['background_category'] = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
+        # context['election'] = background_category.election
         return context
 
     def get_success_url(self):
-        return reverse('background_create', kwargs={'background_category_slug': self.object.category.slug})
+        return reverse('background_category_create', kwargs={'election_slug': self.object.category.election.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

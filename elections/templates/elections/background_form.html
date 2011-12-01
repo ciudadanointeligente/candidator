@@ -1,0 +1,34 @@
+{% extends 'elections/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>Antecedentes para {{ background_category.name }}</h2>
+<ul>
+{% for background in background_category.background_set.all %}
+    <li>{{ background.name }}</li>
+{% endfor %}
+</ul>
+<br>
+
+<h2>Agregar Antecedente</h2>
+
+<form method="POST">{% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="{% trans "Guardar" %}" />
+</form>
+
+<a href="{% url background_category_create election_slug=background_category.election.slug %}">volver</a>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+    $("#id_name").slug({
+        'target': $('#id_slug')
+    });
+</script>
+{% endblock %}

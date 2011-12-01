@@ -57,8 +57,8 @@ class BackgroundCreateView(TestCase):
         self.assertEqual(request.status_code, 200)
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], BackgroundForm))
-        self.assertTrue('election' in request.context)
-        self.assertTrue(isinstance(request.context['election'], Election))
+        self.assertTrue('background_category' in request.context)
+        self.assertTrue(isinstance(request.context['background_category'], BackgroundCategory))
 
     def test_post_background_create_with_same_slug(self):
         background, created = Background.objects.get_or_create(category=self.background_category,
@@ -114,5 +114,5 @@ class BackgroundCreateView(TestCase):
         self.assertEqual(background.category, self.background_category)
         self.assertEqual(background.slug, params['slug'])
 
-        self.assertRedirects(response, reverse('background_create',
-                                               kwargs={'background_category_slug': self.background_category.slug}))
+        self.assertRedirects(response, reverse('background_category_create',
+                                               kwargs={'election_slug': self.election.slug}))

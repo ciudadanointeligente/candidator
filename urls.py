@@ -21,9 +21,9 @@ urlpatterns = patterns('',
 
     url(r'^', include('elections.urls')),
 
-    url(r'^index/$', direct_to_template, {'template': 'index.html'}),
+    url(r'^$', redirect_to, {'url': '/index'}),
 
-    url(r'^$', redirect_to, {'url': '/accounts/login/'}),
+    url(r'^index/?$', direct_to_template, {'template': 'index.html'}),
 
 )
 
