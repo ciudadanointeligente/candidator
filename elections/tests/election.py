@@ -158,6 +158,30 @@ class ElectionUpdateViewTest(TestCase):
 
         self.assertEquals(response.status_code, 302)
 
+    def test_get_election_update_strager_election(self):
+        self.client.login(username='joe', password='doe')
+
+        user2 = User.objects.create_user(username='Doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='foobar', slug='foobarbar', owner=user2)
+
+        response = self.client.get(reverse('election_update',
+                                    kwargs={'slug': election2.slug}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_election_update_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+
+        user2 = User.objects.create_user(username='Doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='foobar', slug='foobarbar', owner=user2)
+
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f}
+        response = self.client.post(reverse('election_update',
+                                        kwargs={'slug': election2.slug}),
+                                    params)
+        f.seek(0)
+        self.assertEqual(response.status_code, 404)
+
     def test_post_election_update_logged(self):
         self.client.login(username='joe', password='doe')
 

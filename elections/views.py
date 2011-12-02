@@ -48,7 +48,9 @@ class CandidateUpdateView(UpdateView):
     def get_queryset(self):
         if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
             return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'])
+                                                  slug=self.kwargs['slug'],
+                                                  election__owner=self.request.user)
+
         return super(CandidateUpdateView, self).get_queryset()
 
     def get_context_data(self, **kwargs):
@@ -70,6 +72,7 @@ class ElectionUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        election = get_object_or_404(Election, slug=kwargs['slug'], owner=request.user)
         return super(ElectionUpdateView, self).dispatch(request, *args, **kwargs)
 
 
@@ -210,7 +213,8 @@ class CategoryUpdateView(UpdateView):
     def get_queryset(self):
         if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
             return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'])
+                                             slug=self.kwargs['slug'],
+                                             election__owner=self.request.user)
         return super(ElectionDetailView, self).get_queryset()
 
     def form_valid(self, form):
