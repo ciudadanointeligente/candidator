@@ -18,7 +18,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm,\
                   CandidatePersonalInformationForm, CandidatePersonalInformationFormset,\
                   CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm,\
-                  PersonalDataForm, BackgroundCategoryForm, BackgroundForm
+                  PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
 from models import Election, Candidate, Answer, PersonalInformation,\
                    Link, Category, Question, PersonalData,\
                    BackgroundCategory, Background
@@ -316,6 +316,29 @@ class BackgroundCreateView(CreateView):
             return super(BackgroundCreateView, self).form_invalid(form)
 
         return super(BackgroundCreateView, self).form_valid(form)
+
+
+class QuestionCreateView(CreateView):
+    model = Question
+    form_class = QuestionForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(QuestionCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionCreateView, self).get_context_data(**kwargs)
+        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('question_create', kwargs={'category_pk': self.object.category.pk})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        category = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
+        self.object.category = category
+        return super(QuestionCreateView, self).form_valid(form)
 
 
 

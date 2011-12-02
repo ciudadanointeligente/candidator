@@ -13,7 +13,7 @@ from django.test.client import Client
 
 
 from elections.models import Candidate, Election, Category, Question, Answer
-from elections.forms import question_formset_factory, QuestionForm, CategoryForm, ElectionForm
+from elections.forms import question_formset_factory, MediaNaranjaForm, CategoryForm, ElectionForm
 
 
 class QuestionFormTest(TestCase):
@@ -36,44 +36,14 @@ class QuestionFormTest(TestCase):
         self.assertEquals(formset.max_num, 2)
         self.assertEquals(formset.total_form_count(), 2)
         form = formset[0]
-        self.assertTrue(isinstance(form, QuestionForm))
+        self.assertTrue(isinstance(form, MediaNaranjaForm))
         self.assertEquals(form.fields['answers'].choices, question_choices)
         self.assertEquals(form.fields['question'], question1.pk)
 
         form = formset[1]
-        self.assertTrue(isinstance(form, QuestionForm))
+        self.assertTrue(isinstance(form, MediaNaranjaForm))
         self.assertEquals(form.fields['answers'].choices, [])
         self.assertEquals(form.fields['question'], question2.pk)
-
-
-
-
-class QuestionsTest(TestCase):
-    def test_create_question(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz')
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                            election=election)
-        question = Question.objects.create(question='Foo', category=category)
-        self.assertEquals(question.question, 'Foo')
-        self.assertEquals(question.category, category)
-
-
-class AnswersTest(TestCase):
-    def test_create_answer(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz')
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                            election=election)
-        question, created = Question.objects.get_or_create(question='Foo',
-                                                            category=category)
-        answer = Answer.objects.create(question=question, caption='Bar')
-        self.assertEquals(answer.caption, 'Bar')
-        self.assertEquals(answer.question, question)
 
 
 class CandidateAnswerTest(TestCase):

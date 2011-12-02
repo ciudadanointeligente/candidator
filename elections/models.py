@@ -169,8 +169,8 @@ class Question(models.Model):
     question = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
 
-    def get_answers(self):
-        return Answer.objects.filter(question=self)
+    # def get_answers(self):
+    #     return Answer.objects.filter(question=self)
 
     def __unicode__(self):
         return u"%s" % self.question
