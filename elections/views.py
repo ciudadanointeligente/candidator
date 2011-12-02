@@ -18,9 +18,9 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm,\
                   CandidatePersonalInformationForm, CandidatePersonalInformationFormset,\
                   CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm,\
-                  ReportForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm
+                  PersonalDataForm, BackgroundCategoryForm, BackgroundForm
 from models import Election, Candidate, Answer, PersonalInformation,\
-                   Link, Category, Question, Report, PersonalData,\
+                   Link, Category, Question, PersonalData,\
                    BackgroundCategory, Background
 
 
@@ -401,30 +401,4 @@ def medianaranja2(request, my_answers, importances, candidates, categories):
     return render_to_response('medianaranja2.html', {'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))
 
 
-class ReportCreateView(CreateView):
-    model = Report
-    form_class = ReportForm
-
-    def dispatch(self, request, *args, **kwargs):
-        self.report_object = self._get_report_object(**kwargs)
-        return super(ReportCreateView, self).dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ReportCreateView, self).get_context_data(*args, **kwargs)
-        context['report_object'] = self.report_object
-        return context
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.content_object = self.report_object
-        self.object.save()
-        return redirect(self.get_success_url())
-
-    def _get_report_object(self, **kwargs):
-        try:
-            model_class = ContentType.objects.get(pk=kwargs['content_type']).model_class()
-            self.report_object = get_object_or_404(model_class, pk=kwargs['object_id'])
-        except ContentType.DoesNotExist:
-            raise Http404
-        return self.report_object
 

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import formsets
 from django.forms.formsets import formset_factory
 from elections.models import Candidate, Category, Election,\
-                PersonalInformation, Link, Report, PersonalData,\
+                PersonalInformation, Link, PersonalData,\
                 BackgroundCategory, Background
 
 
@@ -115,7 +115,4 @@ def question_formset_factory(category):
     return formset
 
 
-class ReportForm(forms.ModelForm):
-    class Meta:
-        model=Report
-        exclude=('content_object', 'object_id', 'content_type', 'owner')
+

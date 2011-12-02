@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'profiles',
     'smart_profile',
     'elections',
+    'report_objects',
     'django_extensions',
     # Django-registration
     'registration',
