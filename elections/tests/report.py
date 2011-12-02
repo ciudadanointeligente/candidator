@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.template import Template, Context
 
 from elections.models import Report
 from elections.forms import ReportForm
@@ -53,6 +54,19 @@ class ReportCreateViewTest(TestCase):
         url = reverse('report', kwargs={'object_id': user.pk, 'content_type': 1000})
         response = self.client.post(url, params={'reason': 'lorem ipsum dolor sit amet'}, follow=True)
         self.assertEqual(response.status_code, 404)
+
+
+class ReportTemplatetagTest(TestCase):
+    def test_get_url_for(self):
+        user = User.objects.create_user(username='foo', password='bar', email='foo@bar.com')
+        content_type = ContentType.objects.get_for_model(User)
+        result = Template(
+            '{% load report_tags %}'
+            '{% report_url user %}'
+        ).render(Context({
+            'user': user
+        }))
+        self.assertEquals(result, reverse('report', kwargs={'object_id': user.pk, 'content_type': content_type.pk}))
 
 class ReportURLTest(TestCase):
     
