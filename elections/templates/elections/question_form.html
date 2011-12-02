@@ -3,12 +3,19 @@
 
 
 {% block content %}
+<h2>Preguntas en categoria {{ category.name }}</h2>
+{% for question in category.question_set.all %}
+    <li>{{ question.question }}</li>
+{% endfor %}
 
-<h2>Agregar Pregunta</h2>
+
+<h2>Agregar pregunta</h2>
 <form method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+<a href="{% url category_create election_slug=category.election.slug %}">volver</a>
+
 {% endblock %}

@@ -104,5 +104,5 @@ class QuestionCreateViewTest(TestCase):
         self.assertEquals(question.question, params['question'])
         self.assertEquals(question.category, self.category)
 
-        self.assertRedirects(response, reverse('question_create',
-                                               kwargs={'category_pk': self.category.pk}))
+        self.assertRedirects(response, reverse('category_create',
+                                               kwargs={'election_slug': self.election.slug}))

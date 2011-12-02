@@ -120,8 +120,8 @@ class CategoryCreateViewTest(TestCase):
         self.assertEquals(category.slug, 'barbaz')
         self.assertEquals(category.election, self.election)
 
-        self.assertRedirects(response, reverse('election_detail',
-                                               kwargs={'username':self.user.username, 'slug': self.election.slug}))
+        self.assertRedirects(response, reverse('category_create',
+                                               kwargs={'election_slug': self.election.slug}))
 
 class CategoryUpdateViewTest(TestCase):
     def setUp(self):

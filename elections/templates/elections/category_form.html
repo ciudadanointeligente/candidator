@@ -2,12 +2,29 @@
 {% load i18n %}
 
 {% block content %}
+<h2>Categorias en <a href="{% url election_detail slug=election.slug username=election.owner%}">Elección {{ election.name }}</a></h2>
+<ul>
+{% for category in election.category_set.all %}
+    <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">(Agregar Pregunta)</a>
+    <ul>
+        {% for question in category.question_set.all %}
+            <li>{{ question.question }}</li>
+        {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>
+
+
+<h2>Agregar categoria</h2>
 <form method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+
+<a href="{% url election_detail slug=election.slug username=election.owner %}">finalizar</a>
 {% endblock %}
 
 {% block extra_js %}

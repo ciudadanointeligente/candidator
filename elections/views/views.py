@@ -129,7 +129,7 @@ class CategoryCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+        return reverse('category_create', kwargs={'election_slug': self.object.election.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -283,7 +283,7 @@ class QuestionCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('question_create', kwargs={'category_pk': self.object.category.pk})
+        return reverse('category_create', kwargs={'election_slug': self.object.category.election.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
