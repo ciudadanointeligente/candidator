@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{ election.logo }}"><br/>
+<img src="{{ MEDIA_URL }}{{ election.logo }}" high = "200" width = "202"><br/>
 <h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
 <br>
 <a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>

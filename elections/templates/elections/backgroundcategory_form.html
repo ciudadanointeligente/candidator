@@ -4,7 +4,7 @@
 {% block content %}
 
 <h2>Categorias de Antecedentes</h2>
-<ul>
+<ul id="lista_categorias">
 {% for background_category in election.backgroundcategory_set.all %}
     <li>
     {{ background_category.name }} <a href="{% url background_create background_category_slug=background_category.slug %}">(Agregar Antecedente)</a>
@@ -26,13 +26,19 @@
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
-
-<a href="{% url category_create election_slug=election.slug %}">Siguiente(Questionario)</a>
+<div id="link_next">
+</div>
+<!-- <a href="{% url category_create election_slug=election.slug %}">Siguiente(Questionario)</a> -->
 {% endblock %}
 
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
+    $(function(){
+        if($("#lista_categorias li").size() > 0){
+            $("#link_next").append('<a href="{% url category_create election_slug=election.slug %}">Siguiente (Agregar Cuestionario)</a>');
+        }
+    })
     $("#id_name").slug({
         'target': $('#id_slug')
     });

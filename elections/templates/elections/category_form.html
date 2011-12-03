@@ -3,7 +3,7 @@
 
 {% block content %}
 <h2>Categorias en <a href="{% url election_detail slug=election.slug username=election.owner%}">Elección {{ election.name }}</a></h2>
-<ul>
+<ul id="lista_categorias">
 {% for category in election.category_set.all %}
     <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">(Agregar Pregunta)</a>
     <ul>
@@ -23,13 +23,20 @@
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+<div id="link_next">
+</div>
 
-<a href="{% url election_detail slug=election.slug username=election.owner %}">finalizar</a>
+<!-- <a href="{% url election_detail slug=election.slug username=election.owner %}">finalizar</a> -->
 {% endblock %}
 
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
+    $(function(){
+        if($("#lista_categorias li").size() > 0){
+            $("#link_next").append('<a href="{% url election_detail slug=election.slug username=election.owner %}">Finalizar</a>');
+        }
+    })
     $("#id_name").slug({
         'target': $('#id_slug')
     });
