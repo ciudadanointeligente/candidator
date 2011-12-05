@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 
     (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/lettuce', include('adminlettuce.urls')),
 
     (r'^profiles/', include('profiles.urls')),
 

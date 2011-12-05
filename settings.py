@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'grappelli',
     'django.contrib.admin',
+    'lettuce.django',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'debug_toolbar',
@@ -148,6 +149,7 @@ INSTALLED_APPS = (
     'django_extensions',
     # Django-registration
     'registration',
+    'adminlettuce',
 )
 
 # A sample logging configuration. The only tangible logging
