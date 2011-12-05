@@ -6,5 +6,41 @@
 
 {% block content %}
 <img src="{{ MEDIA_URL }}{{ election.logo }}"><br/>
-<a href="{% url election_detail username=election.owner slug=election.slug %}">Eleccion: {{ election.name }}</a>
+Eleccion: <a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
+<br>
+<a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>
+<br>
+Candidatos (<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
+<ul>
+{% for candidate in election.candidate_set.all %}
+    <li>
+    <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
+    <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
+    </li>
+{% endfor %}
+</ul>
+
+
+<br>
+Categorias (<a href="{% url category_create election_slug=election.slug %}">Agregar Categoria</a>):
+<ul>
+{% for category in election.category_set.all %}
+    <li>
+    {{ category.name }} <a href="{% url category_update election_slug=election.slug slug=category.slug %}">(Editar)</a>
+    <ul>
+        {% for question in category.question_set.all %}
+            <li>
+            {{ question.question}}
+            <ul>
+                {% for answer in question.answer_set.all %}
+                    <li>{{ answer.caption }}</li>
+                {% endfor %}
+            </ul>
+            </li>
+        {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>
+
 {% endblock content %}

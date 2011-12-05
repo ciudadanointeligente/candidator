@@ -194,7 +194,7 @@ DEBUG_TOOLBAR_CONFIG = {
 AUTH_PROFILE_MODULE = 'smart_profile.Profile'
 
 # Redirect to this url after login
-LOGIN_REDIRECT_URL = '/elections/'
+LOGIN_REDIRECT_URL = '/'
 
 # Account activation days, one-week window
 ACCOUNT_ACTIVATION_DAYS = 7

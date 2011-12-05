@@ -22,8 +22,7 @@ urlpatterns = patterns('',
 
     url(r'^', include('elections.urls')),
 
-    (r'^$', direct_to_template, {'template': 'index.html'}),
-
+    url(r'^index/$', direct_to_template, {'template': 'index.html'}),
 
 )
 

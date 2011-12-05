@@ -9,7 +9,6 @@ from django_extensions.db.fields import AutoSlugField
 
 class Election(models.Model):
     name = models.CharField(max_length=255)
-    #slug = AutoSlugField(max_length=50, unique=True, populate_from=('slug_edit',))
     slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
     description = models.TextField(max_length=10000)
@@ -19,7 +18,7 @@ class Election(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
-        unique_together = ('slug', 'owner')
+        unique_together = ('owner', 'slug')
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -31,6 +30,7 @@ class Candidate(models.Model):
     slug = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
+    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -48,23 +48,53 @@ class Candidate(models.Model):
         self.answers = new_answers
         self.save()
 
-    def get_score(self, id_answers, importances):
-        #weights = [1, 2, 3, 4, 5]
-        candidate_answers = self.answers.all()
-        categories = Categories.objects.filter(election=self.election)
-        scores = [0]*len(categories)
-        user_preferences = []
-        for id in id_answers:
-            user_preferences.append(Answer.object.get(id=int(id)))
-        for x in user_preferences:
-            if x in candidate_answers:
-                position = categories.index(x.question.category)
-                scores[position] += 1 * int(importances[int(user_preferences.index(x))])
-        return_values = []
-        for i in range(len(scores)):
-             return_values.append((categories[i], scores[i]))
-        return return_values
+    def get_number_of_questions_by_category(self):
+        number_of_questions = [] # Number of questions per category
+        categories = Category.objects.filter(election=self.election)
+        for category in categories:
+            questions = Question.objects.filter(category=category)
+            number_of_questions.append(len(questions))
+        return number_of_questions
 
+    def get_importances_by_category(self, importances):
+        number_of_questions = self.get_number_of_questions_by_category()
+        importances_by_category = []
+        index = 0
+        for num in number_of_questions:
+            category_importance = 0.0
+            for i in range(num):
+                category_importance += importances[index]
+                index += 1
+            importances_by_category.append(category_importance)
+        return importances_by_category
+
+    def get_sum_importances_by_category(self, answers, importances):
+        categories = Category.objects.filter(election=self.election)
+        sum_by_category = [0]*len(categories)
+        candidate_answers = self.answers.all() # Candidate answers
+        index = 0
+        # example answers = [[], [], [<Answer: Si>], [<Answer: Si>]]
+        for x in reversed(answers):
+            if len(x) != 0:
+                if x[0] in candidate_answers:
+                    factor = 1
+                    value = factor * importances[len(importances)-index-1]
+                    pos = list(categories.all()).index(x[0].question.category)
+                    sum_by_category[pos] += value
+                else:
+                    factor = 0
+            else:
+                factor = 0
+            index += 1
+        return sum_by_category
+
+    def get_score(self, answers, importances):
+        sum_by_category = self.get_sum_importances_by_category(answers, importances)
+        importances_by_category = self.get_importances_by_category(importances)
+        scores_by_category = []
+        for i in range(len(sum_by_category)):
+            scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
+        return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
     @property
     def name(self):
@@ -79,7 +109,7 @@ class Candidate(models.Model):
 
 class PersonalInformation(models.Model):
     label = models.CharField(max_length=255)
-    answer = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):
@@ -87,20 +117,24 @@ class PersonalInformation(models.Model):
 
 
 class Link(models.Model):
-    link_description = models.CharField(max_length=255)
-    URL = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):
-        return u"%s" % self.link_description
+        return u"%s (%s)" % (self.name, self.url)
 
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+    slug = models.CharField(max_length=255)
 
     def get_questions(self):
         return Question.objects.filter(category=self)
+
+    class Meta:
+        unique_together = ('election', 'slug')
 
     def __unicode__(self):
         return u"%s" % self.name

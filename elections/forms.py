@@ -1,11 +1,51 @@
 from django import forms
+from django.forms import formsets
 from django.forms.formsets import formset_factory
-from elections.models import Category, Election
+from elections.models import Candidate, Category, Election, PersonalInformation, Link
+
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         exclude = ('election')
+    class Media:
+        js = ('jquery.slug.js', )
+
+class CategoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        exclude = ('election', 'slug')
+
+class CandidateForm(forms.ModelForm):
+    class Meta:
+        model = Candidate
+        exclude = ('election', 'answers')
+    class Media:
+        js = ('jquery.slug.js', 'jquery.formset.js', )
+
+
+class CandidateUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Candidate
+        exclude = ('slug', 'election', 'answers')
+    class Media:
+        js = ('jquery.formset.js', )
+
+
+class CandidatePersonalInformationForm(forms.ModelForm):
+    class Meta:
+        model = PersonalInformation
+        exclude = ('candidate', )
+
+CandidatePersonalInformationFormset = formsets.formset_factory(CandidatePersonalInformationForm, extra=1)
+
+class CandidateLinkForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        exclude = ('candidate', )
+
+CandidateLinkFormset = formsets.formset_factory(CandidateLinkForm, extra=1)
+
 
 class ElectionForm(forms.ModelForm):
     class Meta:
@@ -13,6 +53,12 @@ class ElectionForm(forms.ModelForm):
         exclude = ('owner')
     class Media:
         js = ('jquery.slug.js', )
+
+
+class ElectionUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Election
+        exclude = ('owner', 'slug')
 
 
 class QuestionForm(forms.Form):

@@ -1,18 +1,22 @@
 # Create your views here.
-from django.http import HttpResponse, Http404
+
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.shortcuts import render_to_response, redirect, get_object_or_404
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView
-from django.utils import simplejson as json
-from django.template.context import RequestContext
 from django.contrib.auth.models import User
+from django.forms import formsets
+from django.http import HttpResponse, Http404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template import RequestContext
+from django.template.context import RequestContext
+from django.utils import simplejson as json
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_http_methods
+from django.views.generic import CreateView, DetailView, UpdateView
 
+from forms import CandidateForm, CandidateUpdateForm, CategoryForm, ElectionForm, CandidatePersonalInformationForm, CandidatePersonalInformationFormset, CandidateLinkFormset, ElectionUpdateForm, CategoryUpdateForm
 from models import Election, Candidate, Answer, PersonalInformation, Link, Category, Question
-from forms import CategoryForm, ElectionForm
+
 
 # Candidate views
 class CandidateDetailView(DetailView):
@@ -27,6 +31,103 @@ class CandidateDetailView(DetailView):
         return super(CandidateDetailView, self).get_queryset()
 
 
+class CandidateUpdateView(UpdateView):
+    model = Candidate
+    form_class = CandidateUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CandidateUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                             slug=self.kwargs['slug'])
+        return super(CandidateUpdateView, self).get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateUpdateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('candidate_update', kwargs={'slug': self.kwargs['slug'], 'election_slug': self.object.election.slug})
+
+#    def form_valid(self, form):
+#        self.object = form.save(commit=False)
+#        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+#        self.object.election = election
+#        self.object.save()
+#        return super(CandidateUpdateView, self).form_valid(form)
+
+
+
+class ElectionUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionUpdateForm
+
+    def get_success_url(self):
+        return reverse('election_update', kwargs={'slug': self.object.slug})
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionUpdateView, self).dispatch(request, *args, **kwargs)
+
+
+class CandidateCreateView(CreateView):
+    model = Candidate
+    form_class = CandidateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CandidateCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        if self.request.POST:
+            context['link_formset'] = CandidateLinkFormset(self.request.POST, prefix='link')
+            context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
+        else:
+            context['personal_information_formset'] = CandidatePersonalInformationFormset()
+            context['link_formset'] = CandidateLinkFormset(prefix='link')
+        return context
+
+    def get_success_url(self):
+        return reverse('candidate_create', kwargs={'election_slug': self.object.election.slug})
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        personal_information_formset = context['personal_information_formset']
+        link_formset = context['link_formset']
+
+        if personal_information_formset.is_valid() and link_formset.is_valid():
+            self.object = form.save(commit=False)
+            election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+            self.object.election = election
+
+            try:
+                self.object.full_clean()
+                self.object.save()
+                for f in personal_information_formset:
+                   personal_information = f.save(commit=False)
+                   personal_information.candidate = self.object
+                   personal_information.save()
+
+                for f in link_formset:
+                   link = f.save(commit=False)
+                   link.candidate = self.object
+                   link.save()
+
+            except ValidationError:
+                from django.forms.util import ErrorList
+                form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+                return super(CandidateCreateView, self).form_invalid(form)
+
+            return super(CandidateCreateView, self).form_valid(form)
+
+
+# Election views
 class ElectionDetailView(DetailView):
     model = Election
 
@@ -46,23 +147,94 @@ class ElectionCreateView(CreateView):
         return super(ElectionCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('candidate_create', kwargs={'slug': self.object.slug})
+        return reverse('candidate_create', kwargs={'election_slug': self.object.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        # validate same slug for user
-        if self.model.objects.filter(owner=self.request.user, slug=self.object.slug).count() > 0:
-            return self.form_invalid(form)
         self.object.owner = self.request.user
-        self.object.save()
-        return redirect(self.get_success_url())
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una eleccion con ese slug."])
+            return super(ElectionCreateView, self).form_invalid(form)
 
+        return super(ElectionCreateView, self).form_valid(form)
+
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryCreateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
+            return super(CategoryCreateView, self).form_invalid(form)
+
+        return super(CategoryCreateView, self).form_valid(form)
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryUpdateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        return context
+
+    def get_success_url(self):
+        return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
+
+    def get_queryset(self):
+        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
+            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                             slug=self.kwargs['slug'])
+        return super(ElectionDetailView, self).get_queryset()
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+        # self.object.slug = self.kwargs['slug']
+        # self.object.save()
+
+        # try:
+        #     self.object.full_clean()
+        # except ValidationError:
+        #     from django.forms.util import ErrorList
+        #     form._errors["slug"] = ErrorList([u"Ya tienes una categoria con ese slug."])
+        #     return super(CategoryCreateView, self).form_invalid(form)
+
+        return super(CategoryUpdateView, self).form_valid(form)
 
 @login_required
 @require_http_methods(['GET', 'POST'])
-def associate_answer_to_candidate(request, slug, election_slug):
+def associate_answer_to_candidate(request, candidate_slug, election_slug):
     election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-    candidate = get_object_or_404(Candidate, slug=slug, election=election)
+    candidate = get_object_or_404(Candidate, slug=election_slug, election=election)
     if request.POST:
         answer_id = request.POST.get('answer', None)
         answer = get_object_or_404(Answer, pk=answer_id, question__category__election=election)
@@ -73,110 +245,72 @@ def associate_answer_to_candidate(request, slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
-'''
-@login_required
-@require_http_methods(['GET','POST'])
-def create_election(request, my_user):
-    if request.POST:
-        form = ElectionForm(request.POST, request.FILES)
-        if form.is_valid():
-            election_name = request.POST.get('name', None)
-            election_description = request.POST.get('description', None)
-            election_slug = request.POST.get('slug', None)
-            election_logo = request.FILES['logo']
-            election = Election(name = election_name, slug = election_slug, owner = request.user, description = election_description, logo = election_logo)
-            #this code is because form doesnt validate owner
-            bad_election = Election.objects.filter(slug = election_slug, owner = request.user)
+def post_medianaranja1(request, username, election_slug):
+    user_list = User.objects.filter(username=username)
+    if len(user_list) == 0:
+        raise Http404
+    
+    election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
 
-            if len(bad_election) > 0:
-                return render_to_response('elections/create_election.html', {'form': form, 'error_duplicated_slug': True}, context_instance = RequestContext(request))
-            election.save()
-            return redirect('/elections/success_create_election/')
-        else:
-            return render_to_response('elections/create_election.html', {'form': form}, context_instance = RequestContext(request))
-    return render_to_response('elections/create_election.html', {'form': ElectionForm}, context_instance = RequestContext(request))
-'''
+    candidates = election.candidate_set.all()
+    categories = election.category_set.all()
 
-def success_create_election(request):
-    return render_to_response('elections/success_create_election.html')
+    number_of_questions = 0
+    for c in categories:
+        number_of_questions += len(c.get_questions())
 
-def medianaranja1(request, my_user, election_slug):
+    importances = []
+    answers = []
+
+    for i in range(number_of_questions):
+        ans_id = int(request.POST['question-'+str(i)])
+        answers.append(Answer.objects.filter(id=ans_id))
+        importances.append(int(request.POST['importance-'+str(i)]))
+
+    return medianaranja2(request, answers, importances, candidates, categories)
+
+def get_medianaranja1(request, username, election_slug):
+    u = User.objects.filter(username=username)
+    if len(u) == 0:
+        raise Http404
+    e = Election.objects.filter(owner=u[0],slug=election_slug)
+    if len(e) == 0:
+        raise Http404
+
+    send_to_template = []
+    counter = 0
+    for x in e[0].category_set.all():
+        empty_questions = []
+        list_questions = x.get_questions()
+        for i in range(len(list_questions)):
+            y = list_questions[i]
+            empty_questions.append((counter,y,y.get_answers()))
+            counter += 1
+        send_to_template.append((x,empty_questions))
+
+    return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
+
+
+def medianaranja1(request, username, election_slug):
 
     if request.method == "POST":
-        #importances = request.POST["importance"]
-        #id_answers = request.POST['question']
-        #answer_importance = [ (answer[id], importances[id]) for id in answers.keys()]
-
-        user_list = User.objects.filter(username=my_user)
-        if len(user_list) == 0:
-            raise Http404
-        election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
-
-        candidates = election.candidate_set.all()
-        categories = election.category_set.all()
-
-        number_of_questions = 0
-        for c in categories:
-            number_of_questions += len(c.get_questions())
-
-        importances = []
-        answers = []
-
-        for i in range(number_of_questions):
-        #    answers.append(Answer.objects.get(id=int(request.POST['question-'+str(i)])))
-            ans_id = int(request.POST['question-'+str(i)])
-            answers.append(Answer.objects.filter(id=ans_id))
-            importances.append(int(request.POST['importance-'+str(i)]))
-        print answers
-        print importances
-
-        return medianaranja2(request, answers, importances)
-        #TODO: modificar medianaranja2 + calculo de puntaje
+        return post_medianaranja1(request, username, election_slug)
 
     else:
-        u = User.objects.filter(username=my_user)
-        if len(u) == 0:
-            raise Http404
-        e = Election.objects.filter(owner=u[0],slug=election_slug)
-        if len(e) == 0:
-            raise Http404
+        return get_medianaranja1(request, username, election_slug)
 
-        send_to_template = []
-        counter = 0
-        for x in e[0].category_set.all():
-            empty_questions = []
-            list_questions = x.get_questions()
-            for i in range(len(list_questions)):
-                y = list_questions[i]
-                empty_questions.append((counter,y,y.get_answers()))
-                counter += 1
-            send_to_template.append((x,empty_questions))
+def medianaranja2(request, my_answers, importances, candidates, categories):
 
-        return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
+    scores_and_candidates = []
 
+    for candidate in candidates:
+        score = candidate.get_score(my_answers, importances)
+        global_score = score[0]
+        category_scores = score[1]
+        scores_and_candidates.append([global_score,category_scores,candidate])
+    scores_and_candidates.sort()
+    scores_and_candidates.reverse()
 
-def medianaranja2(request, answers, importance):
-    return render_to_response('medianaranja2.html', {}, context_instance = RequestContext(request))
-
-@login_required
-@require_http_methods(['GET', 'POST'])
-def add_category(request, election_slug):
-    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-
-    if request.method == 'GET':
-        form = CategoryForm()
-        return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
-    elif request.POST:
-        form2 = CategoryForm(request.POST)
-        if form2.is_valid():
-            category = form2.save(commit=False)
-            category.election = election
-            category.save()
-            form = CategoryForm()
-            return render_to_response('add_category.html', {'form':form}, context_instance=RequestContext(request))
-        else:
-            return render_to_response('add_category.html', {'form':form2}, context_instance=RequestContext(request))
-
-        raise Http404
-    else:
-        raise Http404
+    winner = scores_and_candidates[0]
+    other_candidates = scores_and_candidates[1:]
+    return render_to_response('medianaranja2.html', {'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))

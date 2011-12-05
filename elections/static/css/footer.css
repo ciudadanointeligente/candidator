@@ -1,0 +1,99 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+/*===== FOOTER ======*/
+
+#footer{
+	background-color: #6CADDF;
+    display: block;
+    height: 290px;
+    margin-top: 100px;
+    overflow: hidden;
+    padding: 20px;
+}
+#footer .wrapFoot{ background-color: #fff;
+   background-color: #FFFFFF;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+    width: 890px;
+	height: 56px;
+}
+
+.wrapFoot .proyectoDe{
+ 	float: left;
+	display: block
+
+ }
+
+.wrapFoot .FCI{
+ 	float: right;
+	display: block;
+	width: 300px;
+	text-align: right;
+ }
+ .wrapFoot .FCI h3{ float: right; right: 20px; text-align: right;}
+
+
+ .wrapFoot h3{
+	background: none repeat scroll 0 0 transparent;
+    color: white;
+    font-size: 13px;
+    position: absolute;
+    text-align: left;
+    text-transform: uppercase;
+    top: -20px;
+ }
+
+ .logos li{
+	border-right: 2px dotted #6CADDF;
+    float: left;
+    height: 55px;
+    overflow: visible;
+    padding: 0 25px;
+}
+
+ .logos li:first-child{
+    padding: 0 25px 0 0;
+}
+
+#medianaranjaFooter #footer {
+	clear: both;
+    float: left;
+    margin-top: 20px;
+    width: 720px;
+}
+
+
+#medianaranjaFooter #footer .wrapFoot{ 
+ padding: 15px;
+    width: 691px;
+	
+}
+
+#medianaranjaFooter #footer .wrapFoot{ 
+ padding: 15px;
+    width: 691px;
+	
+}
+
+
+#medianaranjaFooter #footer .wrapFoot .logos{
+	margin: 0 0 0 -40px;
+    list-style: none outside none;
+}
+
+#medianaranjaFooter .wrapFoot h3{
+	top: -32px;
+	
+}
+
+#medianaranjaFooter .wrapFoot .proyectoDe{
+}
+
+#medianaranjaFooter .wrapFoot .FCI{
+	width: 135px;
+	
+}
