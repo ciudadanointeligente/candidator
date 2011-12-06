@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'profiles',
     'smart_profile',
     'elections',
+    'report_objects',
     'django_extensions',
     # Django-registration
     'registration',
@@ -192,7 +193,7 @@ DEBUG_TOOLBAR_CONFIG = {
 AUTH_PROFILE_MODULE = 'smart_profile.Profile'
 
 # Redirect to this url after login
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/elections/'
 
 # Account activation days, one-week window
 ACCOUNT_ACTIVATION_DAYS = 7

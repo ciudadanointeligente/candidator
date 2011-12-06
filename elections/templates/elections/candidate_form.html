@@ -2,11 +2,23 @@
 {% load i18n %}
 
 {% block content %}
+
+<h2>Candidatos Elección "{{ election.name }}":</h2>
+<ul id="lista_candidatos">
+{% for candidate in election.candidate_set.all %}
+<li>{{ candidate.name }}</li>
+{% endfor %}
+</ul>
+
+<br>
+
+<h2>Agregar Candidato</h2>
+
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
-    <table id="id_personal_information_table" border="0" cellpadding="0" cellspacing="5">
+    <!-- <table id="id_personal_information_table" border="0" cellpadding="0" cellspacing="5">
         <thead>
             <tr>
                 <th scope="col">Label</th>
@@ -38,12 +50,17 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>
+    </table> -->
 
     {{ personal_information_formset.management_form }}
     {{ link_formset.management_form }}
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
+<div id="link_next">
+
+<div/>
+<!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
+
 {% endblock %}
 
 {% block extra_js %}
@@ -75,6 +92,19 @@
         $('#id_link_table tbody tr').formset({
             extraClasses: ['row1', 'row2', 'row3']
         })
+        // $(".add-row").click(function(){
+        //     if($("#table_body tr").size() >= 5){
+        //         $(".add-row").hide();
+        //         $(".delete-row").click(function(){
+        //             if($("#table_body tr").size() < 5){
+        //                 $(".add-row").show();
+        //             }
+        //         })
+        //     }
+        // })
+        if($("#lista_candidatos li").size() > 0){
+            $("#link_next").append('<a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a>');
+        }
     });
 </script>
 {% endblock %}

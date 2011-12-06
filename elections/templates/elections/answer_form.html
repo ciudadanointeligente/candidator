@@ -1,0 +1,21 @@
+{% extends 'elections/base.html' %}
+{% load i18n %}
+
+
+{% block content %}
+<h2>Respuestas para pregunta {{ question.question }}</h2>
+{% for answer in question.answer_set.all %}
+    <li>{{ answer.caption }}</li>
+{% endfor %}
+
+
+<h2>Agregar respuesta</h2>
+<form method="POST">{% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="{% trans "Guardar" %}" />
+</form>
+<a href="{% url category_create election_slug=question.category.election.slug %}">volver</a>
+
+{% endblock %}
