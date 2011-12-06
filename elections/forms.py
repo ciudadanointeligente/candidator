@@ -31,21 +31,20 @@ class PersonalDataForm(forms.ModelForm):
         model = PersonalData
         exclude = ('election')
     class Media:
-        js = ('jquery.slug.js', 'jquery.formset.js', )
+        js = ('jquery.formset.js', )
 
 class BackgroundCategoryForm(forms.ModelForm):
     class Meta:
         model = BackgroundCategory
         exclude = ('election')
     class Media:
-        js = ('jquery.slug.js', 'jquery.formset.js', )
+        js = ('jquery.formset.js', )
 
 class BackgroundForm(forms.ModelForm):
     class Meta:
         model = Background
         exclude = ('category')
-    class Media:
-        js = ('jquery.slug.js', 'jquery.formset.js', )
+
 
 class CandidateUpdateForm(forms.ModelForm):
     class Meta:

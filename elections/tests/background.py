@@ -15,8 +15,7 @@ class BackgroundModelTest(TestCase):
                                                             owner=self.user,
                                                             slug='barbaz')
         self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='FooBar',
-                                                                    slug='foobar')
+                                                                    name='FooBar')
 
     def test_create_background(self):
         background, created = Background.objects.get_or_create(category=self.background_category,
@@ -33,18 +32,17 @@ class BackgroundCreateView(TestCase):
                                                             owner=self.user,
                                                             slug='barbaz')
         self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='FooBar',
-                                                                    slug='foobar')
+                                                                    name='FooBar')
 
     def test_create_background_by_user_without_login(self):
         request = self.client.get(reverse('background_create',
-                                    kwargs={'background_category_slug': self.background_category.slug}))
+                                    kwargs={'background_category_pk': self.background_category.pk}))
         self.assertEquals(request.status_code, 302)
 
     def test_create_background_by_user_success(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('background_create',
-                                    kwargs={'background_category_slug': self.background_category.slug}))
+                                    kwargs={'background_category_pk': self.background_category.pk}))
 
         self.assertEqual(request.status_code, 200)
         self.assertTrue('form' in request.context)
@@ -55,7 +53,7 @@ class BackgroundCreateView(TestCase):
     def test_post_background_create_without_login(self):
         params = {'name': 'Bar'}
         response = self.client.post(reverse('background_create',
-                                        kwargs={'background_category_slug': self.background_category.slug}),
+                                        kwargs={'background_category_pk': self.background_category.pk}),
                                     params)
 
         self.assertEquals(response.status_code, 302)
@@ -63,7 +61,7 @@ class BackgroundCreateView(TestCase):
     def test_get_background_create_with_login_stranger_background_category(self):
         self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('background_create',
-                                    kwargs={'background_category_slug': 'strager_background_category_slug'}))
+                                    kwargs={'background_category_pk': 97965678765}))
         self.assertEquals(response.status_code, 404)
 
     def test_post_background_create_with_login_stranger_background_category(self):
@@ -71,7 +69,7 @@ class BackgroundCreateView(TestCase):
 
         params = {'name': 'Bar'}
         response = self.client.post(reverse('background_create',
-                                        kwargs={'background_category_slug': 'strager_background_category_slug'}),
+                                        kwargs={'background_category_pk': 23678543567}),
                                     params)
         self.assertEquals(response.status_code, 404)
 
@@ -80,7 +78,7 @@ class BackgroundCreateView(TestCase):
 
         params = {'name': 'Bar'}
         response = self.client.post(reverse('background_create',
-                                        kwargs={'background_category_slug': self.background_category.slug}),
+                                        kwargs={'background_category_pk': self.background_category.pk}),
                                     params,
                                     follow=True)
 

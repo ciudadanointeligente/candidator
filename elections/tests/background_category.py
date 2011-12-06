@@ -17,19 +17,11 @@ class BackgroundCategoryModelTest(TestCase):
 
     def test_create_background_category(self):
         background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='foo',
-                                                                    slug='foo')
+                                                                    name='foo')
         self.assertTrue(created)
         self.assertEqual(background_category.name, 'foo')
         self.assertEqual(background_category.election, self.election)
-        self.assertEqual(background_category.slug, 'foo')
 
-    def test_create_background_category_with_same_slug(self):
-        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='foo',
-                                                                    slug='foo')
-        self.assertRaises(IntegrityError, BackgroundCategory.objects.create,
-                      name='fooabr', slug='foo', election=self.election)
 
 class BackgroundCategoryCreateView(TestCase):
     def setUp(self):
@@ -54,22 +46,9 @@ class BackgroundCategoryCreateView(TestCase):
         self.assertTrue('election' in request.context)
         self.assertTrue(isinstance(request.context['election'], Election))
 
-    def test_post_background_category_create_with_same_slug(self):
-        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='foo',
-                                                                    slug='foo')
-        self.client.login(username='joe', password='doe')
-        params = {'name': 'Bar', 'slug': 'foo'}
-        response = self.client.post(reverse('background_category_create',
-                                        kwargs={'election_slug': self.election.slug}),
-                                    params)
-
-        self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug','Ya tienes una categoria de antecedentes con ese slug.' )
-
 
     def test_post_background_category_create_without_login(self):
-        params = {'name': 'Bar', 'slug': 'bar'}
+        params = {'name': 'Bar'}
         response = self.client.post(reverse('background_category_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params)
@@ -85,7 +64,7 @@ class BackgroundCategoryCreateView(TestCase):
     def test_post_background_category_create_with_login_stranger_election(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'name': 'Bar', 'slug': 'bar'}
+        params = {'name': 'Bar'}
         response = self.client.post(reverse('background_category_create',
                                         kwargs={'election_slug': 'strager_election_slug'}),
                                     params)
@@ -94,7 +73,7 @@ class BackgroundCategoryCreateView(TestCase):
     def test_post_background_category_create_logged(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'name': 'Bar', 'slug': 'bar'}
+        params = {'name': 'Bar'}
         response = self.client.post(reverse('background_category_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params,
@@ -106,7 +85,6 @@ class BackgroundCategoryCreateView(TestCase):
         background_category = qs.get()
         self.assertEqual(background_category.name, params['name'])
         self.assertEqual(background_category.election, self.election)
-        self.assertEqual(background_category.slug, params['slug'])
 
         self.assertRedirects(response, reverse('background_category_create',
                                                kwargs={'election_slug': self.election.slug}))

@@ -52,7 +52,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
 
     # Create Background
-    url(r'^(?P<background_category_slug>[-\w]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
+    url(r'^(?P<background_category_pk>[0-9]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/?$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),

@@ -117,6 +117,7 @@ class PersonalInformation(models.Model):
     def __unicode__(self):
         return u"%s" % self.label
 
+
 class PersonalData(models.Model):
     label = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
@@ -124,11 +125,8 @@ class PersonalData(models.Model):
 
 class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
-    class Meta:
-        unique_together = ('slug', 'election')
 
 class Background(models.Model):
     name = models.CharField(max_length=255)

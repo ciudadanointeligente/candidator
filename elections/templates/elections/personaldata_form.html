@@ -28,13 +28,10 @@
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
-	$(function(){
-		if($("#lista_datos li").size() > 0){
+    $(function(){
+        if($("#lista_datos li").size() > 0){
             $("#link_next").append('<a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a>');
         }
-    });
-    $("#id_label").slug({
-        'target': $('#id_slug')
     });
 </script>
 {% endblock %}

@@ -7,7 +7,7 @@
 <ul id="lista_categorias">
 {% for background_category in election.backgroundcategory_set.all %}
     <li>
-    {{ background_category.name }} <a href="{% url background_create background_category_slug=background_category.slug %}">(Agregar Antecedente)</a>
+    {{ background_category.name }} <a href="{% url background_create background_category_pk=background_category.pk %}">(Agregar Antecedente)</a>
     <ul>
     {% for background in background_category.background_set.all %}
         <li>{{ background.name }}</li>
@@ -39,8 +39,5 @@
             $("#link_next").append('<a href="{% url category_create election_slug=election.slug %}">Siguiente (Agregar Cuestionario)</a>');
         }
     })
-    $("#id_name").slug({
-        'target': $('#id_slug')
-    });
 </script>
 {% endblock %}

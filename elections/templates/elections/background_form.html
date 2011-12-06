@@ -23,12 +23,3 @@
 <a href="{% url background_category_create election_slug=background_category.election.slug %}">volver</a>
 
 {% endblock %}
-
-{% block extra_js %}
-{{ form.media }}
-<script type="text/javascript">
-    $("#id_name").slug({
-        'target': $('#id_slug')
-    });
-</script>
-{% endblock %}
