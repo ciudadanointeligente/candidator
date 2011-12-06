@@ -1,3 +1,4 @@
 from views import *
 
-from election import *
+from election_views import *
+from answer_views import *
