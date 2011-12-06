@@ -195,14 +195,6 @@ class PersonalDataCreateView(CreateView):
         self.object = form.save(commit=False)
         election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         self.object.election = election
-
-        try:
-            self.object.full_clean()
-        except ValidationError:
-            from django.forms.util import ErrorList
-            form._errors["slug"] = ErrorList([u"Ya tienes un dato personal con ese slug."])
-            return super(PersonalDataCreateView, self).form_invalid(form)
-
         return super(PersonalDataCreateView, self).form_valid(form)
 
 

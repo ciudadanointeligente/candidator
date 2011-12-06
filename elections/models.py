@@ -119,11 +119,8 @@ class PersonalInformation(models.Model):
 
 class PersonalData(models.Model):
     label = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
-    class Meta:
-        unique_together = ('slug', 'election')
 
 class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)

@@ -17,19 +17,11 @@ class PersonalDataModelTest(TestCase):
 
     def test_create_personal_data(self):
         personal_data, created = PersonalData.objects.get_or_create(election=self.election,
-                                                                    label='foo',
-                                                                    slug='foo')
+                                                                    label='foo')
         self.assertTrue(created)
         self.assertEqual(personal_data.label, 'foo')
         self.assertEqual(personal_data.election, self.election)
-        self.assertEqual(personal_data.slug, 'foo')
 
-    def test_create_personal_data_with_same_slug(self):
-        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
-                                                                    label='foo',
-                                                                    slug='foo')
-        self.assertRaises(IntegrityError, PersonalData.objects.create,
-                      label='fooabr', slug='foo', election=self.election)
 
 class PersonalDataCreateView(TestCase):
     def setUp(self):
@@ -54,22 +46,8 @@ class PersonalDataCreateView(TestCase):
         self.assertTrue('election' in request.context)
         self.assertTrue(isinstance(request.context['election'], Election))
 
-    def test_post_personal_data_create_with_same_slug(self):
-        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
-                                                                    label='foo',
-                                                                    slug='foo')
-        self.client.login(username='joe', password='doe')
-        params = {'label': 'Bar', 'slug': 'foo'}
-        response = self.client.post(reverse('personal_data_create',
-                                        kwargs={'election_slug': self.election.slug}),
-                                    params)
-
-        self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug','Ya tienes un dato personal con ese slug.' )
-
-
     def test_post_personal_data_create_without_login(self):
-        params = {'label': 'Bar', 'slug': 'bar'}
+        params = {'label': 'Bar'}
         response = self.client.post(reverse('personal_data_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params)
@@ -85,7 +63,7 @@ class PersonalDataCreateView(TestCase):
     def test_post_personal_data_create_with_login_stranger_election(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'label': 'Bar', 'slug': 'bar'}
+        params = {'label': 'Bar'}
         response = self.client.post(reverse('personal_data_create',
                                         kwargs={'election_slug': 'strager_election_slug'}),
                                     params)
@@ -94,7 +72,7 @@ class PersonalDataCreateView(TestCase):
     def test_post_personal_data_create_logged(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'label': 'Bar', 'slug': 'bar'}
+        params = {'label': 'Bar'}
         response = self.client.post(reverse('personal_data_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params,
@@ -106,7 +84,6 @@ class PersonalDataCreateView(TestCase):
         personal_data = qs.get()
         self.assertEqual(personal_data.label, params['label'])
         self.assertEqual(personal_data.election, self.election)
-        self.assertEqual(personal_data.slug, params['slug'])
 
         self.assertRedirects(response, reverse('personal_data_create',
                                                kwargs={'election_slug': self.election.slug}))

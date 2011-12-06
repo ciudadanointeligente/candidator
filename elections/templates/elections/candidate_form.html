@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h2>Candidatos:</h2>
+<h2>Candidatos Elección "{{ election.name }}":</h2>
 <ul id="lista_candidatos">
 {% for candidate in election.candidate_set.all %}
 <li>{{ candidate.name }}</li>
@@ -57,7 +57,7 @@
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 <div id="link_next">
-    
+
 <div/>
 <!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
 
