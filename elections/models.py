@@ -132,11 +132,8 @@ class BackgroundCategory(models.Model):
 
 class Background(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
     category = models.ForeignKey('BackgroundCategory')
 
-    class Meta:
-        unique_together = ('slug', 'category')
 
 class Link(models.Model):
     name = models.CharField(max_length=255)

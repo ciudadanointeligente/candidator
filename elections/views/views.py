@@ -240,7 +240,6 @@ class BackgroundCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(BackgroundCreateView, self).get_context_data(**kwargs)
         context['background_category'] = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
-        # context['election'] = background_category.election
         return context
 
     def get_success_url(self):
@@ -250,14 +249,6 @@ class BackgroundCreateView(CreateView):
         self.object = form.save(commit=False)
         background_category = get_object_or_404(BackgroundCategory, slug=self.kwargs['background_category_slug'], election__owner=self.request.user)
         self.object.category = background_category
-
-        try:
-            self.object.full_clean()
-        except ValidationError:
-            from django.forms.util import ErrorList
-            form._errors["slug"] = ErrorList([u"Ya tienes un antecedente con ese slug."])
-            return super(BackgroundCreateView, self).form_invalid(form)
-
         return super(BackgroundCreateView, self).form_valid(form)
 
 
