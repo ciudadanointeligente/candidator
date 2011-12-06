@@ -8,7 +8,13 @@
     <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">(Agregar Pregunta)</a>
     <ul>
         {% for question in category.question_set.all %}
-            <li>{{ question.question }}</li>
+            <li>{{ question.question }} <a href="{% url answer_create question_pk=question.pk %}">(Agregar Respuesta)</a>
+            <ul>
+            {% for answer in question.answer_set.all %}
+                <li>{{ answer.caption }}</li>
+            {% endfor %}
+            </ul>
+            </li>
         {% endfor %}
     </ul>
     </li>
