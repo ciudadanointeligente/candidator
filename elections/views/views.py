@@ -272,7 +272,7 @@ class QuestionCreateView(CreateView):
 @require_http_methods(['GET', 'POST'])
 def associate_answer_to_candidate(request, candidate_slug, election_slug):
     election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-    candidate = get_object_or_404(Candidate, slug=election_slug, election=election)
+    candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
     if request.POST:
         answer_id = request.POST.get('answer', None)
         answer = get_object_or_404(Answer, pk=answer_id, question__category__election=election)
