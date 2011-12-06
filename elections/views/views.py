@@ -322,7 +322,7 @@ def get_medianaranja1(request, username, election_slug):
         list_questions = x.get_questions()
         for i in range(len(list_questions)):
             y = list_questions[i]
-            empty_questions.append((counter,y,y.get_answers()))
+            empty_questions.append((counter,y,y.answer_set.all()))
             counter += 1
         send_to_template.append((x,empty_questions))
 
