@@ -5,17 +5,32 @@
 {% endblock title %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{ election.logo }}"><br/>
-Eleccion: <a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
+<img src="{{ MEDIA_URL }}{{ election.logo }}" high = "200" width = "202"><br/>
+<h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
 <br>
 <a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>
 <br>
-Candidatos (<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
+<h2>Candidatos</h2>(<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
 <ul>
 {% for candidate in election.candidate_set.all %}
     <li>
     <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
     <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
+    </li>
+{% endfor %}
+</ul>
+
+<h2>Antecedentes</h2>(<a href="{% url background_category_create election_slug=election.slug %}">Agregar Antecedentes</a>)
+
+<ul>
+{% for background_category in election.backgroundcategory_set.all %}
+    <li>
+    {{ background_category.name }}
+    <ul>
+    {% for background in background_category.background_set.all %}
+        <li>{{ background.name }}</li>
+    {% endfor %}
+    </ul>
     </li>
 {% endfor %}
 </ul>

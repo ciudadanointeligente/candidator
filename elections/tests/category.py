@@ -120,8 +120,8 @@ class CategoryCreateViewTest(TestCase):
         self.assertEquals(category.slug, 'barbaz')
         self.assertEquals(category.election, self.election)
 
-        self.assertRedirects(response, reverse('election_detail',
-                                               kwargs={'username':self.user.username, 'slug': self.election.slug}))
+        self.assertRedirects(response, reverse('category_create',
+                                               kwargs={'election_slug': self.election.slug}))
 
 class CategoryUpdateViewTest(TestCase):
     def setUp(self):
@@ -164,19 +164,31 @@ class CategoryUpdateViewTest(TestCase):
         self.assertEquals(response.status_code, 302)
 
     def test_get_category_update_with_login_stranger_election(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='BarBaz',
+                                            owner=user2,
+                                            slug='barbaz')
+        category2 = Category.objects.create(name="Bar1", slug="bar", election=election2)
+
         self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('category_update',
-                                    kwargs={'slug': 'strager_election_slug',
-                                            'election_slug': self.election.slug}))
+                                    kwargs={'slug': category2.slug,
+                                            'election_slug': election2.slug}))
         self.assertEquals(response.status_code, 404)
 
     def test_post_category_update_with_login_stranger_election(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='BarBaz',
+                                            owner=user2,
+                                            slug='barbaz')
+        category2 = Category.objects.create(name="Bar1", slug="bar", election=election2)
+
         self.client.login(username='joe', password='doe')
 
         params = {'name': 'Bar'}
         response = self.client.post(reverse('category_update',
-                                        kwargs={'slug': 'strager_election_slug',
-                                                'election_slug': self.election.slug}),
+                                    kwargs={'slug': category2.slug,
+                                            'election_slug': election2.slug}),
                                     params)
         self.assertEquals(response.status_code, 404)
 

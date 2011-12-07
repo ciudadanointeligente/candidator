@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.forms import ModelForm
 from django_extensions.db.fields import AutoSlugField
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 # Create your models here.
 
@@ -116,6 +118,21 @@ class PersonalInformation(models.Model):
         return u"%s" % self.label
 
 
+class PersonalData(models.Model):
+    label = models.CharField(max_length=255)
+    election = models.ForeignKey('Election')
+
+
+class BackgroundCategory(models.Model):
+    name = models.CharField(max_length=255)
+    election = models.ForeignKey('Election')
+
+
+class Background(models.Model):
+    name = models.CharField(max_length=255)
+    category = models.ForeignKey('BackgroundCategory')
+
+
 class Link(models.Model):
     name = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
@@ -144,8 +161,8 @@ class Question(models.Model):
     question = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
 
-    def get_answers(self):
-        return Answer.objects.filter(question=self)
+    # def get_answers(self):
+    #     return Answer.objects.filter(question=self)
 
     def __unicode__(self):
         return u"%s" % self.question
@@ -157,3 +174,5 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.caption
+
+

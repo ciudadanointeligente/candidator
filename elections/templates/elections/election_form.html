@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+<h2>Crear Elección</h2>
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <table>
     {{form.as_table}}

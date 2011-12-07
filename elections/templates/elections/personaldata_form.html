@@ -1,0 +1,37 @@
+{% extends 'elections/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>Datos Personales</h2>
+<ul id="lista_datos">
+{% for personal_data in election.personaldata_set.all %}
+    <li>{{ personal_data.label }}</li>
+{% endfor %}
+</ul>
+<br>
+
+<h2>Agregar Dato Personal</h2>
+
+<form method="POST">{% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+    <input type="submit" value="{% trans "Guardar" %}" />
+</form>
+<div id="link_next">
+</div>
+<!-- <a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a> -->
+
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+    $(function(){
+        if($("#lista_datos li").size() > 0){
+            $("#link_next").append('<a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a>');
+        }
+    });
+</script>
+{% endblock %}
