@@ -1,0 +1,89 @@
+{% extends "elections/base.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
+{% endblock extra_head %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js">
+{% endblock extra_js %}
+
+{% block title %}
+{{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
+{% endblock title %}
+
+{% block content %}
+
+    <div class="wrapper">
+        <article class="wrapW">
+            <ul id="errors"></ul>
+            <div class="leftContent">
+                <header class="comparisonBox">
+                    <div class="candidatesLists">
+                        <div class="firstCandidate">
+                            <select name="firstCandidate">
+                                <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                                {% for candidate in election.candidate_set.all %}
+                                <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <div class="basicProfileContainer">
+                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                            <ul class="candidateBasicProfileInfo">
+                                <li>
+                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
+                                    <span class="candidateBasicComparisonAnswer"></span>
+                                </li>
+                                <li>
+                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
+                                    <span class="candidateBasicComparisonAnswer"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="secondCandidate">
+                        <select name="secondCandidate">
+                            <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                            {% for candidate in election.candidate_set.all %}
+                            <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="basicProfileContainer">
+                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                            <ul class="candidateBasicProfileInfo">
+                                <li>
+                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
+                                    <span class="candidateBasicComparisonAnswer"></span>
+                                </li>
+                                <li>
+                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
+                                    <span class="candidateBasicComparisonAnswer"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- /candidatesLists-->
+            </header>
+            <section id ="result" class="comparisonResult" >
+                <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+            </section>
+        </div>
+        <aside class="categories">
+            <h3 class="categoriesTitle">{% trans "Temas" %}</h3>
+            <ul class="categoriesList">
+                {% for category in election.category_set.all %}
+                <li>
+                    <input type="radio" name="category" id="category-{{ category.slug }}" {% if forloop.first %}checked="checked" {% endif %}value="14"  />
+                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
+                </li>
+                {% endfor %}
+            </ul>
+        </aside>
+   </article>
+</div>
+{% endblock content %}
