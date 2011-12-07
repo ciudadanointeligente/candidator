@@ -75,6 +75,37 @@ class ElectionDetailViewTest(TestCase):
         self.assertEquals(response.status_code, 404)
 
 
+class ElectionCompareViewTest(TestCase):
+    def test_compare_existing_election_view(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        response = self.client.get(reverse('election_compare',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug}))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEquals(response.context['election'], election)
+
+    def test_compare_non_existing_election_view(self):
+        user = User.objects.create(username='foobar')
+        response = self.client.get(reverse('election_compare',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': 'asd-asd'}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_compare_non_existing_election_for_user_view(self):
+        user = User.objects.create(username='foobar')
+        user2 = User.objects.create(username='barbaz')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
+        response = self.client.get(reverse('election_compare',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug}))
+        self.assertEquals(response.status_code, 404)
+
+
 class ElectionCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -216,7 +247,13 @@ class ElectionUrlsTest(TestCase):
         result = reverse('election_detail', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
 
+    def test_compare_url(self):
+        expected = '/juanito/eleccion-la-florida/compare'
+        result = reverse('election_compare', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
+        self.assertEquals(result, expected)
+
     def test_update_url(self):
         expected = '/election/eleccion-la-florida/update'
         result = reverse('election_update', kwargs={'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
+
