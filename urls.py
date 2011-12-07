@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -18,10 +18,13 @@ urlpatterns = patterns('',
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
     url(r'^accounts/', include('registration.urls')),
 
+    url(r'^', include('report_objects.urls')),
 
     url(r'^', include('elections.urls')),
 
-    url(r'^index/$', direct_to_template, {'template': 'index.html'}),
+    url(r'^$', redirect_to, {'url': '/index'}),
+
+    url(r'^index/?$', direct_to_template, {'template': 'index.html'}),
 
 )
 
