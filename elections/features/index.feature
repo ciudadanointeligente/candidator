@@ -5,7 +5,7 @@ Feature: Create an Election
 
     Scenario: Create a new Election and access it
         Given I as user "userone" create the election "election one" con slug "election-one"
-        When I access "/user-one/election-one"
+        When I access "/userone/election-one"
         Then I get the response code 200
 
     Scenario: Can not access an inexistent election

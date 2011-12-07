@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.contrib.auth.models import User
 from django.conf import settings
+from elections.forms import *
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,8 +29,8 @@ def given_i_as_user_group1_create_the_election_group2(step, username, election_n
     f = open('/home/feli/candidator/elections/features/media/dummy.jpg', 'rb')
     params = {'name': election_name, 'slug': slug, 'description': 'esta es una descripcion', 'logo': f}
     response = world.browser.post(reverse('election_create'), params, follow=True)
-    print response.context['form'].errors
-    assert response.context['form'].is_valid()
+    f.close()
+    assert isinstance(response.context['form'],CandidateForm)
 
 
 @step(u'When I access "([^"]*)"')
@@ -38,7 +39,8 @@ def when_i_access_group1(step, address):
 
 @step(u'Then I get the response code (\d+)')
 def then_i_get_the_response_code_d(step, status_code):
-    assert world.response.status_code == int(status_code)
+    response_status_code = world.response.status_code
+    assert response_status_code == int(status_code), 'Got the response code '+str(response_status_code)
 
 @step(u'Given I access the url "([^"]*)"')
 def given_i_access_the_url_group1(step, address):
