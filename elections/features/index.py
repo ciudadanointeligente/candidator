@@ -26,7 +26,7 @@ def delete_user(scenario):
 @step(u'Given I as user "([^"]*)" create the election "([^"]*)" con slug "([^"]*)"')
 def given_i_as_user_group1_create_the_election_group2(step, username, election_name, slug):
     world.browser.login(username=username, password='userone')
-    f = open('/home/feli/candidator/elections/features/media/dummy.jpg', 'rb')
+    f = open('elections/features/media/dummy.jpg', 'rb')
     params = {'name': election_name, 'slug': slug, 'description': 'esta es una descripcion', 'logo': f}
     response = world.browser.post(reverse('election_create'), params, follow=True)
     f.close()
