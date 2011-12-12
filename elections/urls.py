@@ -1,4 +1,3 @@
-
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
 
@@ -42,6 +41,9 @@ urlpatterns = patterns('',
 
     # Election detail view
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/?$', ElectionDetailView.as_view(), name='election_detail'),
+
+    # Election compare view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/?$', 'candidator.elections.views.election_compare_view', name='election_compare'),
 
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
