@@ -118,7 +118,6 @@ class BackgroundCandidateModelTest(TestCase):
         self.assertEqual(background_candidate.background, self.background)
         self.assertEqual(background_candidate.value, 'new_value')
 
-
 class BackgroundCandidateCreateView(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
