@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, PersonalData
+from elections.models import Election, PersonalData, Candidate, PersonalDataCandidate
 from elections.forms import PersonalDataForm
 
 
@@ -87,3 +87,31 @@ class PersonalDataCreateView(TestCase):
 
         self.assertRedirects(response, reverse('personal_data_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+
+
+class PersonalDataCandidateModelTest(TestCase):
+    def test_personal_data_candidate_create(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+        personal_data_candidate, created = PersonalDataCandidate.objects.get_or_create(candidate=self.candidate,
+                                                                                       personal_data=self.personal_data,
+                                                                                       value='new_value')
+
+        self.assertEqual(personal_data_candidate.candidate, self.candidate)
+        self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
+        self.assertEqual(personal_data_candidate.value, 'new_value')
+
+
+class PersonalDataCandidateCreateViewTest(TestCase):
+    def function(self):
+        pass
