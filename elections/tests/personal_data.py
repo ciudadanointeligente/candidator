@@ -148,25 +148,48 @@ class PersonalDataCandidateCreateViewTest(TestCase):
     def test_post_personal_data_candidate_create_without_login(self):
         params = {'value': 'Bar'}
         response = self.client.post(reverse('personal_data_candidate_create',
-                                    kwargs={'candidate_pk': 9869698,
-                                            'personal_data_pk': 876876}),
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}),
                                     params)
 
         self.assertEquals(response.status_code, 302)
 
-    def test_get_personal_data_candidate_create_with_login_stranger_background_category(self):
+    def test_get_personal_data_candidate_create_with_login_stranger_candidate(self):
+        self.user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
+                                                                    label='foo')
+        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election2)
+
         self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('background_create',
-                                    kwargs={'candidate_pk': 9869698,
-                                            'personal_data_pk': 876876}))
+        response = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate2.pk,
+                                            'personal_data_pk': self.personal_data2.pk}))
         self.assertEquals(response.status_code, 404)
 
-    def test_post_personal_data_candidate_create_with_login_stranger_background_category(self):
+    def test_post_personal_data_candidate_create_with_login_stranger_candidate(self):
+        self.user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
+                                                                    label='foo')
+        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election2)
+
         self.client.login(username='joe', password='doe')
 
-        params = {'name': 'Bar'}
-        response = self.client.post(reverse('background_create',
-                                        kwargs={'background_category_pk': 23678543567}),
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                        kwargs={'candidate_pk': self.candidate2.pk,
+                                                'personal_data_pk': self.personal_data2.pk}),
                                     params)
         self.assertEquals(response.status_code, 404)
 
@@ -188,6 +211,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
         self.assertEqual(personal_data_candidate.candidate, self.candidate)
         self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
 
-        # self.assertRedirects(response, reverse('background_category_create',
-        #                                        kwargs={'election_slug': self.election.slug}))
+        self.assertRedirects(response, reverse('personal_data_candidate_create',
+                                               kwargs={'candidate_pk': self.candidate.pk,
+                                                       'personal_data_pk': self.personal_data.pk}))
 
