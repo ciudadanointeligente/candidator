@@ -30,9 +30,13 @@ class Candidate(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
+
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
-    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
+
+    personal_data = models.ManyToManyField('PersonalData', through='PersonalDataCandidate')
+    background = models.ManyToManyField('Background', through='BackgroundCandidate')
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -122,21 +126,27 @@ class PersonalData(models.Model):
     label = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
-    class Meta:
-        verbose_name_plural = 'Personal data'
+
+class PersonalDataCandidate(models.Model):
+    candidate = models.ForeignKey(Candidate)
+    personal_data = models.ForeignKey(PersonalData)
+    value = models.CharField(max_length=255)
 
 
 class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
-    class Meta:
-        verbose_name_plural = 'Background categories'
-
 
 class Background(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('BackgroundCategory')
+
+
+class BackgroundCandidate(models.Model):
+    candidate = models.ForeignKey(Candidate)
+    background = models.ForeignKey(Background)
+    value = models.CharField(max_length=255)
 
 
 class Link(models.Model):
@@ -158,7 +168,6 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('election', 'slug')
-        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return u"%s" % self.name

@@ -109,7 +109,7 @@ class PersonalDataCandidateModelTest(TestCase):
 
         self.assertEqual(personal_data_candidate.candidate, self.candidate)
         self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
-        self.assertEqual(personal_data_candidate.value, self.new_value)
+        self.assertEqual(personal_data_candidate.value, 'new_value')
 
 
 class PersonalDataCandidateCreateViewTest(TestCase):

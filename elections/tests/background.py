@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, BackgroundCategory, Background
+from elections.models import Election, BackgroundCategory, Background, BackgroundCandidate, Candidate
 from elections.forms import BackgroundForm
 
 
@@ -91,3 +91,34 @@ class BackgroundCreateView(TestCase):
 
         self.assertRedirects(response, reverse('background_category_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+
+class BackgroundCandidateModelTest(TestCase):
+    def test_background_candidate_create(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+
+        self.background, created = Background.objects.get_or_create(category=self.background_category,
+                                                                name='foo')
+
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+        background_candidate, created = BackgroundCandidate.objects.get_or_create(candidate=self.candidate,
+                                                                                       background=self.background,
+                                                                                       value='new_value')
+
+        self.assertEqual(background_candidate.candidate, self.candidate)
+        self.assertEqual(background_candidate.background, self.background)
+        self.assertEqual(background_candidate.value, 'new_value')
+
+
+class PersonalDataCandidateCreateViewTest(TestCase):
+    def function(self):
+        pass
