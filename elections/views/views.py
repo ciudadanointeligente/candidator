@@ -29,12 +29,8 @@ class CandidateDetailView(DetailView):
     model = Candidate
 
     def get_queryset(self):
-        if self.kwargs.has_key('username') and self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(election__owner__username=self.kwargs['username'],
-                                             election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'])
-
-        return super(CandidateDetailView, self).get_queryset()
+        return super(CandidateDetailView, self).get_queryset().filter(
+            election__owner__username=self.kwargs['username'], election__slug=self.kwargs['election_slug'])
 
 
 class CandidateUpdateView(UpdateView):
@@ -46,11 +42,12 @@ class CandidateUpdateView(UpdateView):
         return super(CandidateUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return super(CandidateUpdateView, self).get_queryset().filter(election__slug=self.kwargs['election_slug'], election__owner=self.request.user)
+        return super(CandidateUpdateView, self).get_queryset().filter(election__slug=self.kwargs['election_slug'],
+            election__owner=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(CandidateUpdateView, self).get_context_data(**kwargs)
-        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        context['election'] = self.object.election
         return context
 
     def get_success_url(self):
@@ -157,11 +154,8 @@ class CategoryUpdateView(UpdateView):
         return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
 
     def get_queryset(self):
-        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'],
-                                             election__owner=self.request.user)
-        return super(ElectionDetailView, self).get_queryset()
+        return super(CategoryUpdateView, self).get_queryset().filter(election__slug=self.kwargs['election_slug'],
+            election__owner=self.request.user)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -279,11 +273,7 @@ def associate_answer_to_candidate(request, candidate_slug, election_slug):
             context_instance=RequestContext(request))
 
 def post_medianaranja1(request, username, election_slug):
-    user_list = User.objects.filter(username=username)
-    if len(user_list) == 0:
-        raise Http404
-
-    election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
+    election = get_object_or_404(Election, slug=election_slug, owner__username=username)
 
     candidates = election.candidate_set.all()
     categories = election.category_set.all()
@@ -303,16 +293,11 @@ def post_medianaranja1(request, username, election_slug):
     return medianaranja2(request, answers, importances, candidates, categories)
 
 def get_medianaranja1(request, username, election_slug):
-    u = User.objects.filter(username=username)
-    if len(u) == 0:
-        raise Http404
-    e = Election.objects.filter(owner=u[0],slug=election_slug)
-    if len(e) == 0:
-        raise Http404
+    e = get_object_or_404(Election, owner__username=username, slug=election_slug)
 
     send_to_template = []
     counter = 0
-    for x in e[0].category_set.all():
+    for x in e.category_set.all():
         empty_questions = []
         list_questions = x.get_questions()
         for i in range(len(list_questions)):
@@ -321,7 +306,7 @@ def get_medianaranja1(request, username, election_slug):
             counter += 1
         send_to_template.append((x,empty_questions))
 
-    return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
+    return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e, 'categories': e.category_set}, context_instance = RequestContext(request))
 
 
 def medianaranja1(request, username, election_slug):
