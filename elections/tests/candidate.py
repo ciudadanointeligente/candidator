@@ -269,41 +269,43 @@ class CandidateUpdateViewTest(TestCase):
         self.assertEquals(response.status_code, 302)
 
     def test_get_candidate_update_with_login_stranger_election(self):
-        self.client.login(username='joe', password='doe')
+
 
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2, created = Election.objects.get_or_create(name='BarBaz',
                                                            owner=user2,
-                                                           slug='barbaz',
+                                                           slug='barbaz3',
                                                            description='esta es una descripcion')
 
         candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
                                             last_name='Candidato',
-                                            slug='juan-candidato',
+                                            slug='juan-candidato2',
                                             election=election2)
 
-
+        self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('candidate_update',
                                     kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
         self.assertEquals(response.status_code, 404)
 
     def test_post_candidate_update_with_login_stranger_election(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        self.client.login(username='joe', password='doe')
+
 
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2, created = Election.objects.get_or_create(name='BarBaz',
                                                            owner=user2,
-                                                           slug='barbaz',
+                                                           slug='barbaz2',
                                                            description='esta es una descripcion')
 
         candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
                                             last_name='Candidato',
-                                            slug='juan-candidato',
+                                            slug='juan-candidato2',
                                             election=election2)
 
         params = {'first_name': 'Juan', 'last_name': 'Candidato',
                   'photo': f,}
+
+        self.client.login(username='joe', password='doe')
         response = self.client.post(reverse('candidate_update',
                                         kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}),
                                     params)

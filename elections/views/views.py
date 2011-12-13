@@ -46,12 +46,7 @@ class CandidateUpdateView(UpdateView):
         return super(CandidateUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                                  slug=self.kwargs['slug'],
-                                                  election__owner=self.request.user)
-
-        return super(CandidateUpdateView, self).get_queryset()
+        return super(CandidateUpdateView, self).get_queryset().filter(election__slug=self.kwargs['election_slug'], election__owner=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(CandidateUpdateView, self).get_context_data(**kwargs)
