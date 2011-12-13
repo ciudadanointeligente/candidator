@@ -14,31 +14,31 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import AnswerForm
+from elections.forms import BackgroundCategoryForm, BackgroundForm
 
 # Import models
-from elections.models import Answer, Question
+from elections.models import Background, BackgroundCategory
 
 
-# Answer View
-class AnswerCreateView(CreateView):
-    model = Answer
-    form_class = AnswerForm
+# Background Views
+class BackgroundCreateView(CreateView):
+    model = Background
+    form_class = BackgroundForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(AnswerCreateView, self).dispatch(request, *args, **kwargs)
+        return super(BackgroundCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(AnswerCreateView, self).get_context_data(**kwargs)
-        context['question'] = get_object_or_404(Question, pk=self.kwargs['question_pk'], category__election__owner=self.request.user)
+        context = super(BackgroundCreateView, self).get_context_data(**kwargs)
+        context['background_category'] = get_object_or_404(BackgroundCategory, pk=self.kwargs['background_category_pk'], election__owner=self.request.user)
         return context
 
     def get_success_url(self):
-        return reverse('category_create', kwargs={'election_slug': self.object.question.category.election.slug})
+        return reverse('background_category_create', kwargs={'election_slug': self.object.category.election.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        question = get_object_or_404(Question, pk=self.kwargs['question_pk'], category__election__owner=self.request.user)
-        self.object.question = question
-        return super(AnswerCreateView, self).form_valid(form)
+        background_category = get_object_or_404(BackgroundCategory, pk=self.kwargs['background_category_pk'], election__owner=self.request.user)
+        self.object.category = background_category
+        return super(BackgroundCreateView, self).form_valid(form)

@@ -13,10 +13,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
+# Import forms
 from elections.forms import ElectionForm, ElectionUpdateForm
+
+# Import models
 from elections.models import Election
 
 
+# Election Views
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
