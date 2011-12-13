@@ -1,5 +1,3 @@
-from views import *
-
 from answer_views import *
 from background_views import *
 from background_category_views import *
