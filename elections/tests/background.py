@@ -117,8 +117,3 @@ class BackgroundCandidateModelTest(TestCase):
         self.assertEqual(background_candidate.candidate, self.candidate)
         self.assertEqual(background_candidate.background, self.background)
         self.assertEqual(background_candidate.value, 'new_value')
-
-
-class PersonalDataCandidateCreateViewTest(TestCase):
-    def function(self):
-        pass
