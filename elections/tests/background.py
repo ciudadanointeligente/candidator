@@ -136,6 +136,22 @@ class BackgroundCandidateCreateView(TestCase):
                                                             slug='juan-candidato',
                                                             election=self.election)
 
+        self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election2,
+                                                                    name='FooBar')
+
+        self.background2, created = Background.objects.get_or_create(category=self.background_category2,
+                                                                name='foo')
+
+        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election2)
+
     def test_create_background_candidate_by_user_without_login(self):
         response = self.client.get(reverse('background_candidate_create',
                                     kwargs={'candidate_pk': self.candidate.pk,
@@ -167,8 +183,9 @@ class BackgroundCandidateCreateView(TestCase):
 
     def test_get_background_candidate_create_with_login_stranger_background_category(self):
         self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('background_create',
-                                    kwargs={'background_category_pk': 97965678765}))
+        response = self.client.get(reverse('background_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate2.pk,
+                                            'background_pk': self.background2.pk}))
         self.assertEquals(response.status_code, 404)
 
     def test_post_background_candidate_create_with_login_stranger_background_category(self):
@@ -176,8 +193,8 @@ class BackgroundCandidateCreateView(TestCase):
 
         params = {'value': 'Bar'}
         response = self.client.get(reverse('background_candidate_create',
-                                    kwargs={'candidate_pk': self.candidate.pk,
-                                            'background_pk': self.background.pk}),
+                                    kwargs={'candidate_pk': self.candidate2.pk,
+                                            'background_pk': self.background2.pk}),
                                     params)
         self.assertEquals(response.status_code, 404)
 
