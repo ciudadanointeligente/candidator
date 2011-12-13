@@ -122,10 +122,16 @@ class PersonalData(models.Model):
     label = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
+    class Meta:
+        verbose_name_plural = 'Personal data'
+
 
 class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+
+    class Meta:
+        verbose_name_plural = 'Background categories'
 
 
 class Background(models.Model):
@@ -152,6 +158,7 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('election', 'slug')
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return u"%s" % self.name
