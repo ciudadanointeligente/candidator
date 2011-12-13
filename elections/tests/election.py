@@ -243,7 +243,7 @@ class ElectionUrlsTest(TestCase):
         self.assertEquals(result, expected)
 
     def test_detail_url(self):
-        expected = '/juanito/eleccion-la-florida'
+        expected = '/juanito/eleccion-la-florida/'
         result = reverse('election_detail', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
 
