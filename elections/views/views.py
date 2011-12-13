@@ -22,4 +22,3 @@ from elections.models import Election, Candidate, Answer, PersonalInformation,\
                    Link, Category, Question, PersonalData,\
                    BackgroundCategory, Background
 
-

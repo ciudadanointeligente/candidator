@@ -39,10 +39,7 @@ class ElectionDetailView(DetailView):
     model = Election
 
     def get_queryset(self):
-        if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(owner__username=self.kwargs['username'],
-                                             slug=self.kwargs['slug'])
-        return super(ElectionDetailView, self).get_queryset()
+        return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
 
 class ElectionCreateView(CreateView):
@@ -71,12 +68,5 @@ class ElectionCreateView(CreateView):
 
 # Election views that aren't generic
 def election_compare_view(request, username, slug):
-    user = User.objects.filter(username=username)
-    if len(user) == 0:
-        raise Http404
-    election = Election.objects.filter(owner=user[0],slug=slug)
-    if len(election) == 0:
-        raise Http404
-
-    context = {'election': election[0]}
-    return render_to_response('elections/election_compare.html', {'election': election[0] }, context_instance = RequestContext(request))
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
