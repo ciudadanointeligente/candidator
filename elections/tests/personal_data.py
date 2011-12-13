@@ -113,5 +113,81 @@ class PersonalDataCandidateModelTest(TestCase):
 
 
 class PersonalDataCandidateCreateViewTest(TestCase):
-    def function(self):
-        pass
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+    def test_create_personal_data_candidate_by_user_without_login(self):
+        request = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}))
+        self.assertEquals(request.status_code, 302)
+
+    def test_create_personal_data_candidate_by_user_success(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}))
+
+        self.assertEqual(request.status_code, 200)
+        self.assertTrue('form' in request.context)
+        self.assertTrue(isinstance(request.context['form'], PersonalDataCandidateForm))
+        self.assertTrue('candidate' in request.context)
+        self.assertTrue(isinstance(request.context['candidate'], Candidate))
+        self.assertTrue('personal_data' in request.context)
+        self.assertTrue(isinstance(request.context['personal_data'], PersonalData))
+
+    def test_post_personal_data_candidate_create_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': 9869698,
+                                            'personal_data_pk': 876876}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_get_personal_data_candidate_create_with_login_stranger_background_category(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('background_create',
+                                    kwargs={'candidate_pk': 9869698,
+                                            'personal_data_pk': 876876}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_personal_data_candidate_create_with_login_stranger_background_category(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'name': 'Bar'}
+        response = self.client.post(reverse('background_create',
+                                        kwargs={'background_category_pk': 23678543567}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_personal_data_candidate_create_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        qs = PersonalDataCandidate.objects.filter(value='Bar')
+        self.assertEquals(qs.count(), 1)
+        personal_data_candidate = qs.get()
+        self.assertEqual(personal_data_candidate.value, params['value'])
+        self.assertEqual(personal_data_candidate.candidate, self.candidate)
+        self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
+
+        # self.assertRedirects(response, reverse('background_category_create',
+        #                                        kwargs={'election_slug': self.election.slug}))
+
