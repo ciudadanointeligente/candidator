@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Candidate, Election
+from elections.models import Candidate, Election, PersonalData, PersonalDataCandidate
 from elections.forms import CandidateUpdateForm, CandidateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -61,6 +61,21 @@ class CandidateModelTest(TestCase):
         expected_name = 'Juanito Perez'
 
         self.assertEqual(candidate.name, expected_name)
+
+    def test_get_personal_data(self):
+        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        personal_data_candidate, created = PersonalDataCandidate.objects.get_or_create(candidate=candidate,
+                                                                                       personal_data=personal_data,
+                                                                                       value='new_value')
+
+        personal_data_set = candidate.get_personal_data
+        self.assertEqual(personal_data_set, {'foo': 'new_value'})
 
 
 class CandidateDetailViewTest(TestCase):

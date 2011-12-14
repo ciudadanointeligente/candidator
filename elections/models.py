@@ -1,4 +1,5 @@
 import os
+import re
 from django.db import models
 from django.conf import settings
 from django.forms import ModelForm
@@ -6,9 +7,11 @@ from django_extensions.db.fields import AutoSlugField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
+twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
+
+
 # Create your models here.
-
-
 class Election(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
@@ -103,6 +106,13 @@ class Candidate(models.Model):
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
     @property
+    def get_personal_data(self):
+        pd_dict = {}
+        for pd in self.personal_data.all():
+            pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+        return pd_dict
+
+    @property
     def name(self):
         return u"%(first_name)s %(last_name)s" % {
             'first_name': self.first_name,
@@ -132,6 +142,9 @@ class PersonalDataCandidate(models.Model):
     personal_data = models.ForeignKey(PersonalData)
     value = models.CharField(max_length=255)
 
+    def __unicode__(self):
+        return self.candidate.name + " - " + self.personal_data.label
+
 
 class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -153,6 +166,13 @@ class Link(models.Model):
     name = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
+
+    @property
+    def css_class(self):
+        if facebook_regexp.match(self.url):
+            return "facebook"
+        elif twitter_regexp.match(self.url):
+            return "twitter"
 
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
