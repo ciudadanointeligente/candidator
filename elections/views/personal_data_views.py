@@ -14,7 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import PersonalDataForm
+from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
 # Import models
 from elections.models import Election, Candidate, PersonalData
@@ -42,3 +42,21 @@ class PersonalDataCreateView(CreateView):
         election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         self.object.election = election
         return super(PersonalDataCreateView, self).form_valid(form)
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def personal_data_candidate_create(request, candidate_pk, personal_data_pk):
+    candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
+    personal_data = get_object_or_404(PersonalData, pk=personal_data_pk, election__owner=request.user)
+
+    if request.POST:
+        value = request.POST.get('value', None)
+        candidate.add_personal_data(personal_data, value)
+
+        return HttpResponse(json.dumps({personal_data.label: value}),
+                            content_type='application/json')
+    form = PersonalDataCandidateForm()
+    return render_to_response(\
+            'elections/personal_data_associate.html',
+            {'candidate': candidate, 'personal_data': personal_data, 'form':form},
+            context_instance=RequestContext(request))

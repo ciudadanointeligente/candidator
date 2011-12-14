@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, PersonalData, Candidate, PersonalDataCandidate
-from elections.forms import PersonalDataForm
+from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
 
 class PersonalDataModelTest(TestCase):
@@ -204,14 +204,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
                                     follow=True)
 
         self.assertEquals(response.status_code, 200)
-        qs = PersonalDataCandidate.objects.filter(value='Bar')
-        self.assertEquals(qs.count(), 1)
-        personal_data_candidate = qs.get()
-        self.assertEqual(personal_data_candidate.value, params['value'])
-        self.assertEqual(personal_data_candidate.candidate, self.candidate)
-        self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
+        self.assertEquals(response.content, '{"%s": "%s"}' % (self.personal_data.label, params['value']))
 
-        self.assertRedirects(response, reverse('personal_data_candidate_create',
-                                               kwargs={'candidate_pk': self.candidate.pk,
-                                                       'personal_data_pk': self.personal_data.pk}))
-
+        expected = {self.personal_data.label: params['value']}
+        self.assertEquals(self.candidate.get_personal_data, expected)
