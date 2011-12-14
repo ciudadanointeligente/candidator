@@ -15,24 +15,24 @@
 
     <div class="wrapper">
         <nav id="homeNavigation">
-        <ul class="homeNav">
-        <li class="homeLi homeListMedianaranja">
-        <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
-        <h2>Media <br />Naranja</h2>
-        </a>
-        </li>
-        <li class="homeLi homeListPerfiles">
-        <a href="profiles">
-        <h2> Perfil de Candidatos</h2>
-        </a>
-        </li>
-<li class="homeLi homeListComparar">
-        <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
-        <h2>Compará <br> candidatos </h2>
-        </a>
-        </li>
-        </ul>
+            <ul class="homeNav">
+                <li class="homeLi homeListMedianaranja">
+                    <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
+                        <h2>Media <br/>Naranja</h2>
+                    </a>
+                </li>
+                <li class="homeLi homeListPerfiles">
+                    <a href="profiles">
+                        <h2> Perfil de Candidatos</h2>
+                    </a>
+                </li>
+                <li class="homeLi homeListComparar">
+                    <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
+                        <h2>Compará <br> candidatos </h2>
+                    </a>
+                </li>
+            </ul>
         </nav>
-        </div>
+    </div>
 
 {% endblock content %}
