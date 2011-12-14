@@ -1,6 +1,8 @@
-<html>
-<head><title>Prueba</title></head>
-<style type="text/css">
+{% extends "elections/base_edits.html" %}
+
+{% block title %}Candidator - Asociar respuestas candidato{% endblock %}
+{% block extra_head %}
+    <style type="text/css">
     .answer {
         cursor: pointer;
         text-decoration: underline;
@@ -8,8 +10,10 @@
     .answer.active {
         font-weight: bold;
     }
-</style>
-<body>
+    </style>
+{% endblock extra_head %}
+
+{% block content %}
 <h1>{{ candidate.name }}</h1>
 {% for category in categories.all %}
     <h2>{{ category.name }}</h2>
@@ -31,7 +35,9 @@
 {% empty %}
     <h2>No hay categorías</h2>
 {% endfor %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+{% endblock content %}
+
+{% block extra_js %}
 <script>
 $(".answer").click(function(e){
     var answerId = $(this).attr('id');
@@ -50,5 +56,4 @@ $(".answer").click(function(e){
     'json');
 });
 </script>
-</body>
-</html>
+{% endblock extra_js %}

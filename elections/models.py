@@ -168,6 +168,7 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('election', 'slug')
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return u"%s" % self.name
