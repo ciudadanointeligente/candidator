@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Candidate, Election, BackgroundCategory, Background, BackgroundCandidate, , PersonalData, PersonalDataCandidate
+from elections.models import Candidate, Election, BackgroundCategory, Background, BackgroundCandidate, PersonalData, PersonalDataCandidate
 from elections.forms import CandidateUpdateForm, CandidateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -108,6 +108,51 @@ class CandidateModelTest(TestCase):
                          'FooBar2' : {'foo3': 'BarFoo3'}}
         self.assertEqual(candidate.get_background, expected_dict)
 
+    def test_add_personal_data(self):
+        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        personal_data2, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo2')
+
+        candidate.add_personal_data(personal_data, 'new_value')
+        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value'})
+
+        candidate.add_personal_data(personal_data, 'new_value2')
+        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2'})
+
+        candidate.add_personal_data(personal_data2, 'new_value3')
+        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2', 'foo2':'new_value3'})
+
+
+    def test_add_background(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo')
+
+        background2, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo2')
+
+        candidate.add_background(background, 'BarFoo')
+        expected = {'FooBar' : {'foo': 'BarFoo'}}
+        self.assertEqual(candidate.get_background, expected)
+
+        candidate.add_background(background, 'BarFoo2')
+        expected = {'FooBar' : {'foo': 'BarFoo2'}}
+        self.assertEqual(candidate.get_background, expected)
+
+        candidate.add_background(background2, 'BarFoo3')
+        expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2':'BarFoo3'}}
+        self.assertEqual(candidate.get_background, expected)
 
 class CandidateDetailViewTest(TestCase):
     def setUp(self):

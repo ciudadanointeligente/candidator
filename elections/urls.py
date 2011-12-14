@@ -7,7 +7,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
                   CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
-                  AnswerCreateView
+                  AnswerCreateView, personal_data_candidate_create
 
 
 urlpatterns = patterns('',
@@ -59,6 +59,9 @@ urlpatterns = patterns('',
 
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
+
+    # Create PersonalDataCandidate
+    url(r'^(?P<candidate_pk>[0-9]+)/(?P<personal_data_pk>[0-9]+)/personal_data_associate' , personal_data_candidate_create, name='personal_data_candidate_create'),
 
     # Create BackgroundCategory
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
