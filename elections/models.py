@@ -114,6 +114,14 @@ class Candidate(models.Model):
         background_candidate = BackgroundCandidate(background=background, candidate=self, value=value)
         background_candidate.save()
 
+    def add_personal_data(self, personal_data, value):
+        pdc = PersonalDataCandidate.objects.filter(personal_data=personal_data, candidate=self)
+        if len(pdc) > 0:
+            for pd in pdc:
+                pd.delete()
+        personal_data = PersonalDataCandidate(personal_data=personal_data, candidate=self, value=value)
+        personal_data.save()
+
     @property
     def get_background(self):
         backgrounds = {}
