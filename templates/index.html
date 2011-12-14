@@ -1,9 +1,13 @@
+{% extends "elections/base_edits.html" %}
+{% load i18n %}
+
 <html>
 <head>
     <title>Index</title>
 </head>
 <body>
 
+{% block content %}
 <ul>
 <li><a href="/admin/">Administrador</a></li>
 <li></li>
@@ -11,6 +15,7 @@
 <li><a href="/accounts/login/">Login Usuario</a></li>
 <li><a href="/elections">Elecciones</a></li>
 </ul>
+{% endblock content %}
 
 </body>
 </html>

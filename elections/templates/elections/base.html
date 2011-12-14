@@ -32,6 +32,8 @@
                     <li> <a href="compare">COMPARA</a></li>
                     {% if user.is_authenticated %}
                     	<li> <a href="{% url auth_logout %}">LOGOUT</a> </li>
+                    {% else %}
+                    	<li> <a href="{% url auth_login %}">LOGIN</a> </li>
                     {% endif %}
                 </ul>
             </div>
