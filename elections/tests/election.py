@@ -257,3 +257,12 @@ class ElectionUrlsTest(TestCase):
         result = reverse('election_update', kwargs={'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
 
+    def test_profiles_url(self):
+        expected = '/juanito/eleccion-la-florida/profiles'
+        result = reverse('election_detail_profiles', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
+        self.assertEquals(result, expected)
+
+    def test_profiles_url(self):
+        expected = '/juanito/eleccion-la-florida/admin'
+        result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
+        self.assertEquals(result, expected)

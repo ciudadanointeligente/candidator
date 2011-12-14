@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="homeLi homeListPerfiles">
-                    <a href="profiles">
+                    <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">
                         <h2> Perfil de Candidatos</h2>
                     </a>
                 </li>

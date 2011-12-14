@@ -1,0 +1,31 @@
+{% extends "elections/base.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
+{% endblock extra_head %}
+
+{% block extra_js %}
+{% endblock extra_js %}
+
+{% block title %}
+    {{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
+{% endblock title %}
+
+{% block content %}
+
+    <div id="" class="wrapper">
+        <!----------ProfileHome----->
+        <ul class="profileHome">
+            {% for candidate in election.candidate_set.all %}
+            <li>
+                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                    <img src="/img/candidate/imagepath/alfonsin0.jpg" alt="" width="115" height="144">
+                    <span>{{ candidate.name }}</span>
+                </a>
+            </li>
+            {% endfor %}{# election.candidate_set.all #}
+        </ul>
+    </div>
+
+{% endblock content %}
