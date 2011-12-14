@@ -103,6 +103,14 @@ class Candidate(models.Model):
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
 
+    def add_background(self, background, value):
+        bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
+        if len(bcs) > 0:
+            for bc in bcs:
+                bc.delete()
+        background_candidate = BackgroundCandidate(background=background, candidate=self, value=value)
+        background_candidate.save()
+
     @property
     def get_background(self):
         backgrounds = {}
