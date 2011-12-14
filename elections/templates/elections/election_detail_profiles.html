@@ -20,7 +20,7 @@
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
-                    <img src="/img/candidate/imagepath/alfonsin0.jpg" alt="" width="115" height="144">
+                    <img src="{{ candidate.photo.url }}" alt="" width="115" height="144">
                     <span>{{ candidate.name }}</span>
                 </a>
             </li>
