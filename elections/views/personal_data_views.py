@@ -53,7 +53,7 @@ def personal_data_candidate_create(request, candidate_pk, personal_data_pk):
         value = request.POST.get('value', None)
         candidate.add_personal_data(personal_data, value)
 
-        return HttpResponse(json.dumps({personal_data.label: value}),
+        return HttpResponse(json.dumps({"value": value}),
                             content_type='application/json')
     form = PersonalDataCandidateForm()
     return render_to_response(\

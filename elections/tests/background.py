@@ -207,14 +207,10 @@ class BackgroundCandidateCreateView(TestCase):
                                     params,
                                     follow=True)
 
-        self.assertEquals(response.status_code, 200)
-        qs = BackgroundCandidate.objects.filter(value='Bar')
-        self.assertEquals(qs.count(), 1)
-        background_candidate = qs.get()
-        self.assertEqual(background_candidate.value, params['value'])
-        self.assertEqual(background_candidate.candidate, self.candidate)
-        self.assertEqual(background_candidate.background, self.background)
 
-        self.assertRedirects(response, reverse('background_candidate_create',
-                                    kwargs={'candidate_pk': self.candidate.pk,
-                                            'background_pk': self.background.pk}))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
+
+        expected = { self.background_category.name : { self.background.name: 'Bar'}}
+        self.assertEquals(self.candidate.get_background, expected)

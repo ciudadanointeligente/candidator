@@ -204,7 +204,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
                                     follow=True)
 
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content, '{"%s": "%s"}' % (self.personal_data.label, params['value']))
+        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
 
         expected = {self.personal_data.label: params['value']}
         self.assertEquals(self.candidate.get_personal_data, expected)
