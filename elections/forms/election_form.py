@@ -3,7 +3,7 @@ from django.forms import formsets
 from django.forms.formsets import formset_factory
 from elections.models import Category, Election, PersonalData,\
                 BackgroundCategory, Background, Question, Answer,\
-                PersonalDataCandidate
+                PersonalDataCandidate, BackgroundCandidate
 
 
 class ElectionForm(forms.ModelForm):
@@ -72,3 +72,8 @@ class BackgroundForm(forms.ModelForm):
     class Meta:
         model = Background
         exclude = ('category')
+
+class BackgroundCandidateForm(forms.ModelForm):
+    class Meta:
+        model = BackgroundCandidate
+        exclude = ('candidate', 'background')

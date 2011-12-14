@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, BackgroundCategory, Background, BackgroundCandidate, Candidate
-from elections.forms import BackgroundForm
+from elections.forms import BackgroundForm, BackgroundCandidateForm
 
 
 class BackgroundModelTest(TestCase):
@@ -206,8 +206,6 @@ class BackgroundCandidateCreateView(TestCase):
                                             'background_pk': self.background.pk}),
                                     params,
                                     follow=True)
-
-
 
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, '{"value": "%s"}' % params['value'])

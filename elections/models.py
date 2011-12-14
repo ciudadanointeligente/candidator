@@ -185,8 +185,8 @@ class Background(models.Model):
 
 
 class BackgroundCandidate(models.Model):
-    candidate = models.ForeignKey(Candidate)
-    background = models.ForeignKey(Background)
+    candidate = models.ForeignKey('Candidate')
+    background = models.ForeignKey('Background')
     value = models.CharField(max_length=255)
 
 

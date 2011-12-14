@@ -14,10 +14,10 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import BackgroundCategoryForm, BackgroundForm
+from elections.forms import BackgroundCategoryForm, BackgroundForm, BackgroundCandidateForm
 
 # Import models
-from elections.models import Background, BackgroundCategory
+from elections.models import Background, BackgroundCategory, Candidate
 
 
 # Background Views
@@ -42,3 +42,22 @@ class BackgroundCreateView(CreateView):
         background_category = get_object_or_404(BackgroundCategory, pk=self.kwargs['background_category_pk'], election__owner=self.request.user)
         self.object.category = background_category
         return super(BackgroundCreateView, self).form_valid(form)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def background_candidate_create(request, candidate_pk, background_pk):
+    candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
+    background = get_object_or_404(Background, pk=background_pk, category__election__owner=request.user)
+
+    if request.POST:
+        value = request.POST.get('value', None)
+        print value
+        candidate.add_background(background, value)
+        return HttpResponse(json.dumps({"value": value}),
+                            content_type='application/json')
+    form = BackgroundCandidateForm()
+    return render_to_response(\
+            'elections/background_associate.html',
+            {'candidate': candidate, 'background': background, 'form':form},
+            context_instance=RequestContext(request))
