@@ -162,9 +162,20 @@ blockquote {
 
 /*HEADER*/
 
+.header_color{
+	background: -moz-linear-gradient(left, rgba(128,182,226,0.6) 0%, rgba(128,182,226,1) 51%, rgba(128,182,226,0.6) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(128,182,226,0.6)), color-stop(51%,rgba(128,182,226,1)), color-stop(100%,rgba(128,182,226,0.6))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* IE10+ */
+background: linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9980b6e2', endColorstr='#9980b6e2',GradientType=1 ); /* IE6-9 */
+}
+	
+
 #mainHeader{
 	margin-top: -20px;
-	background: url(../img/bg_head.jpg) repeat-y 0 0 #fff;
+	padding-bottom:15px;
 }
 
 .isotipo{
@@ -173,6 +184,15 @@ blockquote {
     margin-right: 6px;
     position: relative;
     top: 27px;
+    z-index: 4;
+}
+
+.logo_ciudadano{
+	display: inline;
+    left: 400px;
+    margin-right: 6px;
+    position: relative;
+    top: 17px;
     z-index: 4;
 }
 
