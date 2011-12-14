@@ -105,6 +105,18 @@ class Candidate(models.Model):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
+
+    @property
+    def get_background(self):
+        backgrounds = {}
+        for background in self.background.all():
+            backgrounds[background.category.name] = {}
+
+        for background in self.background.all():
+            backgrounds[background.category.name][background.name] = self.backgroundcandidate_set.get(background=background).value
+
+        return backgrounds
+
     @property
     def get_personal_data(self):
         pd_dict = {}
