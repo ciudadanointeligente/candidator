@@ -44,7 +44,7 @@ class ElectionDetailView(DetailView):
 # My Election views
 class MyElectionListView(ListView):
     model = Election
-
+    
     def get_queryset(self):
         return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 

@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
+from django.contrib.auth.decorators import login_required
 
 from models import Election
 from views import associate_answer_to_candidate, ElectionCreateView,\
@@ -16,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
 
     # My Elections
-    url(r'^(?P<username>[-\w]+)/my_elections/?$', login_required(MyElectionListView.as_view()), name='my_election_list'),
+    url(r'^(?P<username>[-\w]+)/my_elections/?$', MyElectionListView.as_view(), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
