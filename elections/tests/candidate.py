@@ -165,7 +165,8 @@ class CandidateDetailViewTest(TestCase):
         self.candidate = Candidate.objects.create(first_name='Juan',
                                                             last_name='Candidato',
                                                             slug='juan-candidato',
-                                                            election=self.election)
+                                                            election=self.election,
+                                                            photo='photos/dummy.jpg')
 
     def test_detail_existing_candidate_view(self):
         response = self.client.get(reverse('candidate_detail',

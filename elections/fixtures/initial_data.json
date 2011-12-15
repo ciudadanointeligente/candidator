@@ -16,6 +16,7 @@
     "fields": {
       "first_name": "Juanito",
       "last_name": "Perez",
+      "photo": "photos/dummy.jpg",
       "created_at": "2011-11-10 16:34:30",
       "updated_at": "2011-11-15 17:06:36",
       "answers": [
@@ -31,6 +32,7 @@
     "fields": {
       "first_name": "Candidato",
       "last_name": "Tester",
+      "photo": "photos/dummy.jpg",
       "created_at": "2011-11-10 16:35:03",
       "updated_at": "2011-11-10 16:35:03",
       "answers": [],
@@ -44,6 +46,7 @@
     "fields": {
       "first_name": "Foo",
       "last_name": "Bar",
+      "photo": "photos/dummy.jpg",
       "created_at": "2011-11-10 16:44:56",
       "updated_at": "2011-11-10 16:44:56",
       "answers": [],
