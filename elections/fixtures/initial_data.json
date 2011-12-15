@@ -195,11 +195,35 @@
     }
   },
   {
+    "pk": 2,
+    "model": "elections.backgroundcategory",
+    "fields": {
+      "name": "Educacion",
+      "election": 1
+    }
+  },
+  {
     "pk": 1,
     "model": "elections.background",
     "fields": {
       "category": 1,
       "name": "Partido politico actual"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.background",
+    "fields": {
+      "category": 2,
+      "name": "Secundaria"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "elections.background",
+    "fields": {
+      "category": 2,
+      "name": "Universitaria"
     }
   },
   {
@@ -242,6 +266,24 @@
     "fields": {
       "value": "CCC",
       "background": 1,
+      "candidate": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.backgroundcandidate",
+    "fields": {
+      "value": "Colegio a",
+      "background": 2,
+      "candidate": 1
+    }
+  },
+  {
+    "pk": 3,
+    "model": "elections.backgroundcandidate",
+    "fields": {
+      "value": "Universidad B",
+      "background": 3,
       "candidate": 1
     }
   }
