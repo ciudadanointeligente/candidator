@@ -75,6 +75,27 @@ class ElectionDetailViewTest(TestCase):
         self.assertEquals(response.status_code, 404)
 
 
+class MyElectionListViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+
+    def test_list_elections_from_a_user_without_login(self):
+        response = self.client.get(reverse('my_election_list',
+                                           kwargs={
+                                               'username': self.user.username
+                                               }))
+        self.assertEquals(response.status_code, 302)
+
+    def test_list_elections_from_other_user_logged(self):
+        user = User.objects.create(username='foobar')
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('my_election_list',
+                                           kwargs={
+                                               'username': user.username
+                                               }))
+        self.assertEquals(response.status_code, 200)
+
+
 class ElectionCompareViewTest(TestCase):
     def test_compare_existing_election_view(self):
         user = User.objects.create(username='foobar')
