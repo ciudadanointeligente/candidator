@@ -5,7 +5,8 @@
 Candidato: {{ candidate.name }}
 <br>
 Dato personal: {{ personal_data.label }}
-<span id="text_value"></span>
+<br>
+Valor: <span id="text_value"></span>
 
 <h2>Agregar Dato Personal</h2>
 
@@ -20,12 +21,6 @@ Dato personal: {{ personal_data.label }}
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
-    $(function(){
-
-
-
-    });
-
 $("#guardar").click(function(e){
     var value = $("#id_value").val();
     console.log(value);
