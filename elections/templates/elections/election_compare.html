@@ -1,10 +1,6 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
 
-
-
-
-
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
@@ -14,21 +10,52 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
 
     <script type="text/javascript">
-    function get_comparation_data(current_select){
+    function get_checked_radio_button_value(){
+        var radio_buttons = document.getElementsByName("category")
+        for(i=0;i<radio_buttons.length;i++){
+	   if(radio_buttons[i].checked) return radio_buttons[i].value
+	}
+    }
 
-	var first_select  = document.getElementById("firstCandidate")
+    function get_base_url(){
+	var actual_direction  = location.href
+	var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
+	var position_pattern  = actual_direction.indexOf(reference_pattern)
+	var pre_direction     = actual_direction.substring(0,position_pattern)
+        var final_direction   = pre_direction + reference_pattern
+        return final_direction
+    }
+
+    function get_comparation_data_in_select(current_select){
+
+    	var first_select  = document.getElementById("firstCandidate")
         var second_select = document.getElementById("secondCandidate")
-	//var radio_option  = document.getElementById("")
+        var radio_buttons = document.getElementsByName("category")
 
 	if(current_select.name == "firstCandidate"){
 		if(second_select.value == "0") alert('Llamo a Ajax por: '+first_select.value)
 		else if(second_select.value == first_select.value) alert('Error')
-		else alert('Ejecuto comparacion: '+first_select.value+'_vs_'+second_select.value+'_in_')
+                else{
+                   var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
+                   window.location     = final_direction
+		}   
 	}
 	else{
 		if(first_select.value == "0") alert('Llamo a Ajax por: '+second_select.value)
 		else if(second_select.value == first_select.value) alert('Error')
-		else alert('Ejecuto comparacion: '+first_select.value+'_vs_'+second_select.value+'_in_')
+                else{
+                   var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
+                   window.location     = final_direction
+		}
+	}
+    }
+
+    function get_comparation_data_in_radio_button(current_radio_button){
+	var first_select  = document.getElementById("firstCandidate")
+        var second_select = document.getElementById("secondCandidate")
+        if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
+            var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + current_radio_button.value
+            window.location     = final_direction
 	}
     }
     </script>
@@ -49,7 +76,7 @@
                     <div class="candidatesLists">
 
                         <div class="firstCandidate">
-                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data(this)">
+                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this)">
                                 <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
                                 <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
@@ -73,7 +100,7 @@
 
                     <div class="secondCandidate">
 
-                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data(this)">
+                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this)">
 
                             <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
@@ -107,7 +134,7 @@
             <ul class="categoriesList">
                 {% for category in election.category_set.all %}
                 <li>
-                    <input type="radio" name="category" id="category-{{ category.slug }}" {% if forloop.first %}checked="checked" {% endif %}value="14"  />
+                    <input type="radio" name="category" {% if forloop.first %}checked="checked" {% endif %} value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
                 </li>
                 {% endfor %}
