@@ -7,7 +7,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
                   CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
-                  AnswerCreateView, personal_data_candidate_create, background_candidate_create
+                  AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView
 
 
 urlpatterns = patterns('',
@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     # Root
     url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
 
+    # My Elections
+    url(r'^(?P<username>[-\w]+)/my_elections/?$', login_required(MyElectionListView.as_view()), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
