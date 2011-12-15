@@ -11,7 +11,7 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
 # Import forms
 from elections.forms import ElectionForm, ElectionUpdateForm
@@ -40,6 +40,13 @@ class ElectionDetailView(DetailView):
 
     def get_queryset(self):
         return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
+
+# My Election views
+class MyElectionListView(ListView):
+    model = Election
+    
+    def get_queryset(self):
+        return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
 
 class ElectionCreateView(CreateView):
