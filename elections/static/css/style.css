@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #2D2D2D; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -58,7 +58,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 { font-size: 20px; }
-h2 { font-size: 17px; text-transform:uppercase; }
+h2 { color: #80B6E2;
+    font-size: 34px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    text-transform: uppercase; }
 h3 { font-size: 16px; }
 h4 { font-size: 13px; }
 h5 { font-size: 12px; }
@@ -175,7 +179,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9980b6e2', e
 
 #mainHeader{
 	margin-top: -20px;
-	padding-bottom:15px;
+	padding-bottom:20px;
+	padding-top:5px;
 }
 
 .isotipo{
@@ -352,4 +357,73 @@ ul.homeNav{}
 
 ul.homeNav ul.sidebarMenu{
 	 margin-bottom: 43px;
+}
+
+/*======= WIZARD ========*/
+
+.fondo_formulario{
+	background:#FFF;
+	box-shadow: -1px 1px 8px 1px #666666;
+	width:400px;
+	position:relative;
+    left: 50%;
+    margin-left: -200px;
+	overflow:hidden;
+}
+
+.fondo_wizard{
+	background-color:#a1b2b8;
+	padding-bottom:25px;
+	padding-top:25px;
+	opacity:0.6;
+}
+
+.numero_on{
+	font-size:36px;
+	color:#80b6e2;
+	font-family: 'AllerBold';
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.numero_off{
+	font-size:36px;
+	color:#e8e8e8;
+	font-family: 'AllerBold';
+	padding-bottom:20px;
+}
+
+.uno{
+	padding-left:15px;
+	position:relative;
+}
+
+.dos{
+	padding-left: 80px;
+	position:relative;
+	margin-top:-39px;
+}
+
+.tres{
+	padding-left: 160px;
+	position:relative;
+	margin-top:-39px;
+}
+
+.cuatro{
+	padding-left: 240px;
+	position:relative;
+	margin-top:-39px;
+}
+
+.cinco{
+	padding-left: 320px;
+	position:relative;
+	margin-top:-39px;
+}
+
+.instrucciones{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-style:italic;
+	font-size:12px;
 }

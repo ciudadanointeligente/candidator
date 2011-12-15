@@ -29,11 +29,12 @@ nav ul ul li { float:none; }
 
 /* Main nav styles */
 #mainNavigation{
-	background-color: #6CADDF;
+	background-color: #74A7D9;
     color: #FFFFFF;
     display: block;
     font-family: 'AllerRegular',Helvetica,Arial,sans-serif;
-    font-size: 13px;
+    font-size: 12px;
+    letter-spacing: 1px;
     overflow: hidden;
     position: relative;
 }
@@ -44,7 +45,7 @@ nav ul ul li { float:none; }
 
 #mainNavigation li{
 	padding: 5px 10px;
-	border-left: 2px dotted #fff;
+	border-left: 2px dotted #A7C7E3;
 }
 
 #mainNavigation li a{
