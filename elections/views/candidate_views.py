@@ -109,3 +109,14 @@ class CandidateCreateView(CreateView):
                 return super(CandidateCreateView, self).form_invalid(form)
 
             return super(CandidateCreateView, self).form_valid(form)
+
+@login_required
+@require_http_methods(['GET'])
+def candidate_data_update(request, election_slug, slug):
+    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+    candidate = get_object_or_404(Candidate, slug=slug, election=election)
+
+    return render_to_response(\
+            'elections/candidate_data_update.html',
+            {'candidate': candidate, 'election': election},
+            context_instance=RequestContext(request))

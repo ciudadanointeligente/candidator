@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
+from django.contrib.auth.decorators import login_required
 
 from models import Election
 from views import associate_answer_to_candidate, ElectionCreateView,\
@@ -7,7 +8,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
                   CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
-                  AnswerCreateView, personal_data_candidate_create, background_candidate_create
+                  AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
+                  candidate_data_update
 
 
 urlpatterns = patterns('',
@@ -15,6 +17,8 @@ urlpatterns = patterns('',
     # Root
     url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
 
+    # My Elections
+    url(r'^(?P<username>[-\w]+)/my_elections/?$', MyElectionListView.as_view(), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
@@ -51,11 +55,20 @@ urlpatterns = patterns('',
     # Election compare view
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare$', 'candidator.elections.views.election_compare_view', name='election_compare'),
 
+    # Election compare view with 1 candidate
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
+
+    # Election compare view with both candidates (and considering one category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)_vs_(?P<second_candidate_slug>[-\w]+)_in_(?P<category_slug>[-\w]+)$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
+
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
 
     # Create candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
+
+    # Candidate data Update (PersonalData and Background)
+    url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', candidate_data_update, name='candidate_data_update'),
 
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),

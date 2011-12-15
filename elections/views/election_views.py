@@ -11,7 +11,7 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
 # Import forms
 from elections.forms import ElectionForm, ElectionUpdateForm
@@ -41,6 +41,13 @@ class ElectionDetailView(DetailView):
     def get_queryset(self):
         return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
+# My Election views
+class MyElectionListView(ListView):
+    model = Election
+    
+    def get_queryset(self):
+        return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
+
 
 class ElectionCreateView(CreateView):
     model = Election
@@ -65,8 +72,15 @@ class ElectionCreateView(CreateView):
 
         return super(ElectionCreateView, self).form_valid(form)
 
-
 # Election views that aren't generic
 def election_compare_view(request, username, slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+
+def election_compare_view_one_candidate(request, username, slug, first_candidate_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+
+def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_cadidate_slug, category_slug):
     election = get_object_or_404(Election, owner__username=username, slug=slug)
     return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))

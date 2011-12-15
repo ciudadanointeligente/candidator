@@ -77,7 +77,7 @@ class CandidateModelTest(TestCase):
         personal_data_set = candidate.get_personal_data
         self.assertEqual(personal_data_set, {'foo': 'new_value'})
 
-    def test_get_background_data(self):
+    def test_get_background(self):
         candidate = Candidate.objects.create(first_name='Juan',
                                             last_name='Candidato',
                                             slug='juan-candidato',
@@ -165,7 +165,8 @@ class CandidateDetailViewTest(TestCase):
         self.candidate = Candidate.objects.create(first_name='Juan',
                                                             last_name='Candidato',
                                                             slug='juan-candidato',
-                                                            election=self.election)
+                                                            election=self.election,
+                                                            photo='photos/dummy.jpg')
 
     def test_detail_existing_candidate_view(self):
         response = self.client.get(reverse('candidate_detail',
@@ -437,3 +438,58 @@ class CandidateUrlsTest(TestCase):
         expected = '/juanito/bar-baz/juan-candidato'
         result = reverse('candidate_detail', kwargs={'username': 'juanito', 'election_slug': 'bar-baz', 'slug': 'juan-candidato'})
         self.assertEquals(result, expected)
+
+
+class CandidateDataUpdateTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion')
+
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election,
+                                            photo='photos/dummy.jpg')
+
+    def test_get_update_candidate_data_by_user_without_login(self):
+        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+
+        self.assertEquals(request.status_code, 302)
+
+    def test_get_update_candidate_data_by_user_success(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+
+
+        self.assertTrue('candidate' in request.context)
+        self.assertEqual(request.context['candidate'], self.candidate)
+        self.assertTrue('election' in request.context)
+        self.assertEqual(request.context['election'], self.election)
+
+    def test_update_candidate_data_strager_candidate(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user2,
+                                                           slug='barbaz2',
+                                                           description='esta es una descripcion')
+
+        candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato2',
+                                            election=election2,
+                                            photo='photos/dummy.jpg')
+
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
+        self.assertEquals(request.status_code, 404)
+
+    def test_post_candidate_data_update_405(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('candidate_data_update',
+                                    kwargs={'slug': self.candidate.slug,
+                                            'election_slug': self.election.slug}),
+                                    {'var':'foo'})
+        self.assertEquals(request.status_code, 405)
