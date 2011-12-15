@@ -201,7 +201,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.client.login(username='joe', password='doe')
 
         params = {'value': 'Bar'}
-        response = self.client.get(reverse('background_candidate_create',
+        response = self.client.post(reverse('background_candidate_create',
                                     kwargs={'candidate_pk': self.candidate.pk,
                                             'background_pk': self.background.pk}),
                                     params,

@@ -77,7 +77,7 @@ class CandidateModelTest(TestCase):
         personal_data_set = candidate.get_personal_data
         self.assertEqual(personal_data_set, {'foo': 'new_value'})
 
-    def test_get_background_data(self):
+    def test_get_background(self):
         candidate = Candidate.objects.create(first_name='Juan',
                                             last_name='Candidato',
                                             slug='juan-candidato',

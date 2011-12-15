@@ -52,7 +52,6 @@ def background_candidate_create(request, candidate_pk, background_pk):
 
     if request.POST:
         value = request.POST.get('value', None)
-        print value
         candidate.add_background(background, value)
         return HttpResponse(json.dumps({"value": value}),
                             content_type='application/json')
