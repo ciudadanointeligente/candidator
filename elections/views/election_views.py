@@ -70,3 +70,14 @@ class ElectionCreateView(CreateView):
 def election_compare_view(request, username, slug):
     election = get_object_or_404(Election, owner__username=username, slug=slug)
     return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+
+def election_compare_view_one_candidate(request, username, slug, first_candidate_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+
+def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_cadidate_slug, category_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+
+
+

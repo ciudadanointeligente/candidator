@@ -1,13 +1,37 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
 
+
+
+
+
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
 {% endblock extra_head %}
 
 {% block extra_js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
+
+    <script type="text/javascript">
+    function get_comparation_data(current_select){
+
+	var first_select  = document.getElementById("firstCandidate")
+        var second_select = document.getElementById("secondCandidate")
+	//var radio_option  = document.getElementById("")
+
+	if(current_select.name == "firstCandidate"){
+		if(second_select.value == "0") alert('Llamo a Ajax por: '+first_select.value)
+		else if(second_select.value == first_select.value) alert('Error')
+		else alert('Ejecuto comparacion: '+first_select.value+'_vs_'+second_select.value+'_in_')
+	}
+	else{
+		if(first_select.value == "0") alert('Llamo a Ajax por: '+second_select.value)
+		else if(second_select.value == first_select.value) alert('Error')
+		else alert('Ejecuto comparacion: '+first_select.value+'_vs_'+second_select.value+'_in_')
+	}
+    }
+    </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -21,14 +45,17 @@
             <ul id="errors"></ul>
             <div class="leftContent">
                 <header class="comparisonBox">
+
                     <div class="candidatesLists">
+
                         <div class="firstCandidate">
-                            <select name="firstCandidate">
+                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data(this)">
                                 <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
                                 <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
                                 {% endfor %}
                             </select>
+
                         <div class="basicProfileContainer">
                             <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                             <ul class="candidateBasicProfileInfo">
@@ -43,13 +70,18 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="secondCandidate">
-                        <select name="secondCandidate">
+
+                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data(this)">
+
                             <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
                             <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
                             {% endfor %}
+
                         </select>
+
                         <div class="basicProfileContainer">
                             <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                             <ul class="candidateBasicProfileInfo">
