@@ -7,7 +7,9 @@
       "created_at": "2011-11-10 16:33:51",
       "name": "cei 2012",
       "updated_at": "2011-11-15 16:55:46",
-      "slug": "cei-2012"
+      "slug": "cei-2012",
+      "description": "Elecciones CEI 2012",
+      "logo": "photos/dummy.jpg"
     }
   },
   {
@@ -182,6 +184,65 @@
     "fields": {
       "caption": "Si, la llevan",
       "question": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.backgroundcategory",
+    "fields": {
+      "name": "Tendencia Politica",
+      "election": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.background",
+    "fields": {
+      "category": 1,
+      "name": "Partido politico actual"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.personaldata",
+    "fields": {
+      "election": 1,
+      "label": "Nacimiento"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.personaldata",
+    "fields": {
+      "election": 1,
+      "label": "Profesion"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.personaldatacandidate",
+    "fields": {
+      "personal_data": 1,
+      "value": "13/13/13",
+      "candidate": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "elections.personaldatacandidate",
+    "fields": {
+      "personal_data": 2,
+      "value": "Estudiante",
+      "candidate": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "elections.backgroundcandidate",
+    "fields": {
+      "value": "CCC",
+      "background": 1,
+      "candidate": 1
     }
   }
 ]
