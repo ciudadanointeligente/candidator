@@ -382,7 +382,6 @@ ul.homeNav ul.sidebarMenu{
 	font-size:36px;
 	color:#80b6e2;
 	font-family: 'AllerBold';
-	padding-top:20px;
 	padding-bottom:20px;
 }
 
@@ -396,6 +395,8 @@ ul.homeNav ul.sidebarMenu{
 .uno{
 	padding-left:25px;
 	position:relative;
+	margin-top:0px;
+	padding-top:20px;
 }
 
 .dos{

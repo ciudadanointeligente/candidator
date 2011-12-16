@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -37,7 +37,7 @@ html {
 
 
 /* paragraph */
-p {	margin: 10px 0px 15px 0px; }
+p {	margin: 10px 25px 5px;}
 
 /* lists */
 ul{margin: 0; padding: 0; list-style: none;}
@@ -171,7 +171,6 @@ blockquote {
 	font-family:Georgia, "Times New Roman", Times, serif;
 	font-style:italic;
 	font-size:12px;
-	padding: 0 25px 8px;
 }
 
 .tit_fondoverde{
@@ -182,9 +181,12 @@ blockquote {
 	text-transform:uppercase;
 	letter-spacing:1px;
 	background-color:#a1b2b8;
-	margin-left:25px;
 	border: 1px none #94A9AF;
 }
+span.tit_fondoverde{
+	margin-left:25px;
+}
+
 
 .tit_fondoceleste{
 	font-size:12px;
@@ -197,33 +199,8 @@ blockquote {
 	background-color:#a1b2b8;
 }
 
-.cuadro{
-	padding:4px 25px 15px;
-}
-
-.cuadro input {
-	background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-    height: 17px;
-    width: 350px;
-}
-
-.cuadro textarea{
-	height:60px;
-	width:350px;
-	background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-}
-
-.cuadro input#id_logo{
-	height:20px;
-	width:350px;
-}
-
-
 .bt_siguiente{
 	width:50px;
-	margin-left:25px;
 	float:right;
 	margin-bottom:15px;
 }
@@ -231,6 +208,29 @@ blockquote {
 .errorlist{
 	font-family:Georgia, "Times New Roman", Times, serif;
 	font-size:12px;
-	margin-left:25px;
 	color:#333;
+}
+
+form{
+	margin-top: -25px;
+}
+
+p input{
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    width: 350px;
+	margin-top:3px;
+}
+
+p textarea{
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 60px;
+    width: 350px;
+	margin-top:5px;
+}	
+
+div.instrucciones{
+	margin-left:25px;
 }
