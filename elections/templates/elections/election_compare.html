@@ -92,14 +92,21 @@
 			    {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+
+
+                            {% if first_candidate %}
+                               
+                                {% for key, value in first_candidate.get_personal_data.items %}
+                            
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+                            
+                            {% endif %}
+
                             </ul>
                         </div>
                     </div>
@@ -124,21 +131,60 @@
 			    {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+
+
+                            {% if second_candidate %}
+                               
+                                {% for key, value in second_candidate.get_personal_data.items %}
+                            
+
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+                            
+                            {% endif %}
+
                             </ul>
+
                         </div>
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
             <section id ="result" class="comparisonResult" >
-                <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+
+                {% if first_candidate and second_candidate %}
+
+                <h3>{{ selected_category.name }}</h3>
+
+                {% for answer in answers %}
+
+                   <div class="questionInComparison">{{ answer.0 }}</div>
+
+                   <div class="answerSpace">
+
+                        <ul class="firstCandidatesAnswer">
+                            <li class=" answerInComparison answered"> 
+                                {% if answer.1 == "no answer" %}
+                                   No hay respuesta</li>
+                                {% else %}
+                                   {{ answer.1 }}</li>
+                                {% endif %}
+                        </ul>
+
+                        <ul class="secondCandidatesAnswer">
+                            <li class=" answerInComparison answered"> {{ answer.2 }}</li>
+                        </ul>
+
+                    </div>
+
+                {% endfor %}
+
+                {% else %}
+                    <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+                {% endif %}
             </section>
         </div>
         <aside class="categories">
