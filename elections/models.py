@@ -148,8 +148,7 @@ class Candidate(models.Model):
         }
 
     def get_questions_by_category(self, category):
-        this_category = Category.objects.filter(election=self.election, name=category)
-        questions = this_category.get_questions()
+        questions = category.get_questions()
         return questions
 
     def get_answer_by_question(self, question):
@@ -159,7 +158,7 @@ class Candidate(models.Model):
                 return answer.caption
         return "no answer"
     
-    def all_answers_by_category(self, category):
+    def get_all_answers_by_category(self, category):
         all_answers = []
         all_questions = get_questions_by_category(category)
         for question in all_questions:

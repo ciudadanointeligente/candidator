@@ -89,4 +89,6 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     if first_candidate == second_candidate:
         raise Http404
     selected_category = get_object_or_404(Category, election=election, slug=category_slug)
-    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category':selected_category }, context_instance = RequestContext(request))
+    first_candidate_answers = first_candidate.get_all_answers_by_category(selected_category)
+    second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category':selected_category, 'first_candidate_answers':first_candidate_answers, 'second_candidate_answers':second_candidate_answers }, context_instance = RequestContext(request))
