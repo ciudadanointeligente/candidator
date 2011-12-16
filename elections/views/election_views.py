@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from elections.forms import ElectionForm, ElectionUpdateForm
 
 # Import models
-from elections.models import Election
+from elections.models import Election, Candidate, Category
 
 
 # Election Views
@@ -79,8 +79,14 @@ def election_compare_view(request, username, slug):
 
 def election_compare_view_one_candidate(request, username, slug, first_candidate_slug):
     election = get_object_or_404(Election, owner__username=username, slug=slug)
-    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate}, context_instance = RequestContext(request))
 
-def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_cadidate_slug, category_slug):
+def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_candidate_slug, category_slug):
     election = get_object_or_404(Election, owner__username=username, slug=slug)
-    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
+    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+    second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
+    if first_candidate == second_candidate:
+        raise Http404
+    selected_category = get_object_or_404(Category, election=election, slug=category_slug)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category':selected_category }, context_instance = RequestContext(request))
