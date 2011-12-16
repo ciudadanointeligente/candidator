@@ -14,10 +14,10 @@
 	
 </div>
 
-	<div>
+	<div class="header_color">
         <header class="wrapBasic" id="mainHeader">
-            <a href="/"><img src="{{ STATIC_URL }}img/isotipo_vi.png" class="isotipo">
-            <img src="{{ STATIC_URL }}img/logotipo_vi.png" class="logotipo">
+            <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
+            <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
             </a>
 
             <h1 style="display: none;">Vota inteligente</h1>
@@ -36,9 +36,10 @@
             </div>
         </nav>
       </div>
-
+<div class="fondo_wizard">
 {% block content %}
 {% endblock content %}
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 {% block extra_js %}
@@ -46,36 +47,6 @@
 </body>
 
 	<div id="footer">
-		<article class="wrapFoot">
-			<section class="proyectoDe">
-				<h3>Un proyecto de</h3>
-				<ul class="logos">
-					<li>
-						<a href="http://poderciudadano.org">
-							<img src="{{ STATIC_URL}}img/PODERCIUDADANO_LOGO.jpg" class="">
-	      				</a>
-					</li>
-					<li>
-						<a href="http://www.cippec.org">
-							<img src="{{ STATIC_URL }}img/CIPPEC_LOGO.jpg" class="" style="margin-top: 10px;">
-	      				</a>
-					</li>
-					<li>
-						<a href="http://yoquierosaber.org">
-							<img src="{{ STATIC_URL }}img/YOQUIEROSABER_LOGO.jpg" class="">
-	      				</a>
-					</li>
-				</ul>
-			</section>
-			<section class="FCI">
-				<h3>Desarrollado por:</h3>
-				<a href="http://ciudadanointeligente.org">
-							<img src="{{ STATIC_URL }}img/FCI_LOGO.jpg" style="margin-top: -6px;">
-	      				</a>
-			</section>
-
-		</article>
-
 	</div>
 
 </html>

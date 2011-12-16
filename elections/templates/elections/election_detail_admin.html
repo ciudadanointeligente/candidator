@@ -16,6 +16,7 @@
     <li>
     <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
     <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
+    <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug %}">(llenar plantilla)</a>
     </li>
 {% endfor %}
 </ul>
