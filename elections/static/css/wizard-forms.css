@@ -1,0 +1,236 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 13px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+    width: 100%;}
+
+
+/*
+ * Browser Reset
+ */
+
+
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	margin: 0;
+	padding: 0;
+}
+label{font-weight: normal;}
+
+pre .cake-debug{ display: block; position:absolute; }
+
+fieldset, img { border: 0; }
+
+
+a:focus { outline: none; }
+
+
+
+html {
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+/*
+ * New standard values
+ */
+
+
+/* paragraph */
+p {	margin: 10px 0px 15px 0px; }
+
+/* lists */
+ul{margin: 0; padding: 0; list-style: none;}
+
+/* tables */
+td, th { padding: 1px; }
+
+/* links */
+a:link, a:visited { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'AllerBold';
+    font-weight: normal;
+    letter-spacing: 0.2px;
+	margin-bottom: 5px;
+	line-height: 100%;
+}
+
+h1 { font-size: 20px; }
+h2 { color: #80B6E2;
+    font-size: 34px;
+    padding-bottom: 8px;
+    padding-left: 25px;
+    text-transform: uppercase; }
+h3 { font-size: 16px; }
+h4 { font-size: 13px; }
+h5 { font-size: 12px; }
+h6 { color: #8A8A8A;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.9px;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+/* horizontal rule */
+hr {
+	margin: 15px 0px 15px 0px;
+	display: block;
+	background: #c8c8c8;
+	height: 1px;
+	border: none;
+}
+
+/* blockquotes */
+blockquote {
+	margin: 10px 0 10px 15px;
+	padding: 0px 0px 0px 0px;
+	font-style: italic;
+	font-size: 130%
+}
+
+
+/* @FONT-FACE*/
+
+@font-face {
+    font-family: 'AllerItalic';
+    src: url('../fonts/aller_it-webfont.eot');
+    src: url('../fonts/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_it-webfont.woff') format('woff'),
+         url('../fonts/aller_it-webfont.ttf') format('truetype'),
+         url('../fonts/aller_it-webfont.svg#AllerItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBoldItalic';
+    src: url('../fonts/aller_bdit-webfont.eot');
+    src: url('../fonts/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bdit-webfont.woff') format('woff'),
+         url('../fonts/aller_bdit-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bdit-webfont.svg#AllerBoldItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerBold';
+    src: url('../fonts/aller_bd-webfont.eot');
+    src: url('../fonts/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_bd-webfont.woff') format('woff'),
+         url('../fonts/aller_bd-webfont.ttf') format('truetype'),
+         url('../fonts/aller_bd-webfont.svg#AllerBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AllerRegular';
+    src: url('../fonts/aller_rg-webfont.eot');
+    src: url('../fonts/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/aller_rg-webfont.woff') format('woff'),
+         url('../fonts/aller_rg-webfont.ttf') format('truetype'),
+         url('../fonts/aller_rg-webfont.svg#AllerRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/*LAYOUT*/
+
+.wrapper{
+	background-color: #F2F2F2;
+    margin: 20px auto;
+    padding: 20px;
+    width: 890px;
+	overflow: hidden;
+}
+.wrapBasic{
+	margin: auto;
+    width: 930px;
+}
+
+.wrapW{
+	background-color: #FFFFFF;
+    border: 1px solid #BCBEC0;
+    float: none;
+    overflow: hidden;
+    padding: 10px;
+}
+
+/* FORMULARIOS */
+
+.instrucciones{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-style:italic;
+	font-size:12px;
+	padding: 0 25px 8px;
+}
+
+.tit_fondoverde{
+	font-size:12px;
+	color:#fff;
+	font-family: 'AllerBold';
+	padding: 2px 4px 1px 6px;
+	text-transform:uppercase;
+	letter-spacing:1px;
+	background-color:#a1b2b8;
+	margin-left:25px;
+	border: 1px none #94A9AF;
+}
+
+.tit_fondoceleste{
+	font-size:12px;
+	color:#fff;
+	font-family: 'AllerBold';
+	padding-top:20px;
+	padding-bottom:20px;
+	text-transform:uppercase;
+	letter-spacing:1px;
+	background-color:#a1b2b8;
+}
+
+.cuadro{
+	padding:4px 25px 15px;
+}
+
+.cuadro input {
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    width: 350px;
+}
+
+.cuadro textarea{
+	height:60px;
+	width:350px;
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+}
+
+.cuadro input#id_logo{
+	height:20px;
+	width:350px;
+}
+
+
+.bt_siguiente{
+	width:50px;
+	margin-left:25px;
+	float:right;
+	margin-bottom:15px;
+}
+
+.errorlist{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:12px;
+	margin-left:25px;
+	color:#333;
+}

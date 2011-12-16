@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import os
 import re
 from django.db import models
@@ -13,11 +15,11 @@ twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
 
 # Create your models here.
 class Election(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name="Nombre de la elección:")
+    slug = models.CharField(max_length=255, verbose_name="así quedará el link de la elección:")
     owner = models.ForeignKey('auth.User')
-    description = models.TextField(max_length=10000)
-    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False)
+    description = models.TextField(max_length=10000, verbose_name="DESCRIPCIÓN DE LA ELECCIÓN:")
+    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False, verbose_name="por último define la fecha y escoge una imagen que la represente")
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)

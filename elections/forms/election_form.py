@@ -12,6 +12,9 @@ class ElectionForm(forms.ModelForm):
         exclude = ('owner')
     class Media:
         js = ('jquery.slug.js', )
+        css = {
+            'all': ('css/wizard-forms.css',)
+            }
 
 
 class ElectionUpdateForm(forms.ModelForm):

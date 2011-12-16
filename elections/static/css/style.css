@@ -15,6 +15,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,
 	margin: 0;
 	padding: 0;
 }
+label{font-weight: normal;}
 
 pre .cake-debug{ display: block; position:absolute; }
 
@@ -194,7 +195,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9980b6e2', e
 
 .logo_ciudadano{
 	display: inline;
-    left: 400px;
+    left: 390px;
     margin-right: 6px;
     position: relative;
     top: 17px;
@@ -375,7 +376,6 @@ ul.homeNav ul.sidebarMenu{
 	background-color:#a1b2b8;
 	padding-bottom:25px;
 	padding-top:25px;
-	opacity:0.6;
 }
 
 .numero_on{
@@ -394,36 +394,31 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .uno{
-	padding-left:15px;
+	padding-left:25px;
 	position:relative;
 }
 
 .dos{
-	padding-left: 80px;
+	padding-left: 90px;
 	position:relative;
 	margin-top:-39px;
 }
 
 .tres{
-	padding-left: 160px;
+	padding-left: 170px;
 	position:relative;
 	margin-top:-39px;
 }
 
 .cuatro{
-	padding-left: 240px;
+	padding-left: 250px;
 	position:relative;
 	margin-top:-39px;
 }
 
 .cinco{
-	padding-left: 320px;
+	padding-left: 330px;
 	position:relative;
 	margin-top:-39px;
 }
-
-.instrucciones{
-	font-family:Georgia, "Times New Roman", Times, serif;
-	font-style:italic;
-	font-size:12px;
-}
+	

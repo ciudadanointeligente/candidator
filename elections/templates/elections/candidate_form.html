@@ -3,6 +3,8 @@
 
 {% block content %}
 
+<div class="fondo_formulario">
+
 <h2>Candidatos Elección "{{ election.name }}":</h2>
 <ul id="lista_candidatos">
 {% for candidate in election.candidate_set.all %}
@@ -60,6 +62,8 @@
 
 <div/>
 <!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
+
+</div>
 
 {% endblock %}
 
