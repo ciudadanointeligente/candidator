@@ -1,8 +1,7 @@
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "elections/base_edits.html" %}
+{% block title %}
+	Candidator - Logout
+{% endblock title %}
+{% block content %}
     You have logged out, to log in again you should click <a href="{% url auth_login %}">here</a>
-</body>
-</html>
+{% endblock content %}

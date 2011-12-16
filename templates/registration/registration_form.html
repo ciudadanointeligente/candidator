@@ -1,8 +1,6 @@
-<html>
-<head>
-    <title>Registration</title>
-</head>
-<body>
+{% extends "elections/base_edits.html" %}
+    {% block title %}Registration{% endblock title %}
+{% block content %}
   <h1>Create an account</h1>
   <form action="." method="post">
     {% csrf_token %}
@@ -51,5 +49,4 @@
     <br/>
     <input type="submit" value="Create the account" />
   </label>
-</body>
-</html>
+{% endblock content %}

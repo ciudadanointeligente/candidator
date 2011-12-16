@@ -77,23 +77,36 @@
 
                         <div class="firstCandidate">
                             <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this)">
-                                <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                                <option name="options1" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
-                                <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                                <option name="options1" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                 {% endfor %}
                             </select>
 
                         <div class="basicProfileContainer">
+
+			    {% if first_candidate %}
+                            <img class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
+			    {% else %}
                             <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+			    {% endif %}
+
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+
+
+                            {% if first_candidate %}
+                               
+                                {% for key, value in first_candidate.get_personal_data.items %}
+                            
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+                            
+                            {% endif %}
+
                             </ul>
                         </div>
                     </div>
@@ -102,31 +115,76 @@
 
                         <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this)">
 
-                            <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                            <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
-                            <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                            <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                             {% endfor %}
 
                         </select>
 
                         <div class="basicProfileContainer">
+
+			    {% if second_candidate %}
+                            <img class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
+			    {% else %}
                             <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+			    {% endif %}
+
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+
+
+                            {% if second_candidate %}
+                               
+                                {% for key, value in second_candidate.get_personal_data.items %}
+                            
+
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+                            
+                            {% endif %}
+
                             </ul>
+
                         </div>
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
             <section id ="result" class="comparisonResult" >
-                <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+
+                {% if first_candidate and second_candidate %}
+
+                <h3>{{ selected_category.name }}</h3>
+
+                {% for answer in answers %}
+
+                   <div class="questionInComparison">{{ answer.0 }}</div>
+
+                   <div class="answerSpace">
+
+                        <ul class="firstCandidatesAnswer">
+                            <li class=" answerInComparison answered"> 
+                                {% if answer.1 == "no answer" %}
+                                   No hay respuesta</li>
+                                {% else %}
+                                   {{ answer.1 }}</li>
+                                {% endif %}
+                        </ul>
+
+                        <ul class="secondCandidatesAnswer">
+                            <li class=" answerInComparison answered"> {{ answer.2 }}</li>
+                        </ul>
+
+                    </div>
+
+                {% endfor %}
+
+                {% else %}
+                    <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+                {% endif %}
             </section>
         </div>
         <aside class="categories">
@@ -134,7 +192,13 @@
             <ul class="categoriesList">
                 {% for category in election.category_set.all %}
                 <li>
-                    <input type="radio" name="category" {% if forloop.first %}checked="checked" {% endif %} value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
+                    <input type="radio" name="category"
+		    {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %} 
+                    {% else %}
+                        {% if forloop.first %}checked="checked"{% endif %} 
+                    {% endif %}
+                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
                 </li>
                 {% endfor %}

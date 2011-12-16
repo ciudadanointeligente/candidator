@@ -1,0 +1,81 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+{% load candidate_tags %}
+
+{% block content %}
+
+<h1>Eleccion: {{ election.name }}</h1>
+<h2>Candidato: {{ candidate.name }}</h2>
+
+<h3>Datos Personales</h3>
+<ul>
+{% for personal_data in election.personaldata_set.all %}
+    <li>
+        {{ personal_data.label }} :
+        <input id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/>
+        <a class="save-personal-data" href="">guardar</a>
+        <span id="status-pd-{{ personal_data.pk}}"></span>
+    </li>
+{% endfor %}
+</ul>
+
+<h3>Antecedentes</h3>
+<ul>
+{% for background_category in election.backgroundcategory_set.all %}
+    <li>
+    {{ background_category.name }}
+    <ul>
+    {% for background in background_category.background_set.all %}
+        <li>
+            {{ background.name }} :
+            <input id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
+            <a class="save-background" href="">guardar</a></li>
+            <span id="status-b-{{ background.pk}}"></span>
+    {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>
+
+<a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a>
+{% endblock %}
+
+
+{% block extra_js %}
+<script type="text/javascript">
+$(".save-personal-data").click(function(e){
+    var value_text = $(this).prev("input");
+    var value = value_text.val();
+    var personal_data_pk = value_text.attr('pk');
+
+    $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
+    {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'value': value
+    },
+    function(data) {
+        $("#status-pd-"+personal_data_pk).text("guardado!");
+    },
+    'json');
+    return false;
+});
+
+$(".save-background").click(function(e){
+    var value_text = $(this).prev("input");
+    var value = value_text.val();
+    var background_pk = value_text.attr('pk');
+
+    $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+    {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'value': value
+    },
+    function(data) {
+        $("#status-b-"+background_pk).text("guardado!");
+    },
+    'json');
+    return false;
+});
+
+</script>
+{% endblock %}
