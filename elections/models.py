@@ -147,6 +147,26 @@ class Candidate(models.Model):
             'last_name': self.last_name
         }
 
+    def get_questions_by_category(self, category):
+        this_category = Category.objects.filter(election=self.election, name=category)
+        questions = this_category.get_questions()
+        return questions
+
+    def get_answer_by_question(self, question):
+        candidate_answers = self.answers
+        for answer in candidate_answers:
+            if answer.question == question:
+                return answer.caption
+        return "no answer"
+    
+    def all_answers_by_category(self, category):
+        all_answers = []
+        all_questions = get_questions_by_category(category)
+        for question in all_questions:
+            candidate_answer = get_answer_by_question(question)
+            all_answers.append((question,answer))
+        return all_answers
+
     def __unicode__(self):
         return self.name
 
