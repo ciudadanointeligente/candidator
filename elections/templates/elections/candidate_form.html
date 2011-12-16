@@ -5,8 +5,22 @@
 
 <div class="fondo_formulario">
 
-<h2>Candidatos Elección "{{ election.name }}":</h2>
+<div class="numero_off uno">1.</div>
+
+<div class="numero_on dos">2.</div>
+
+<div class="numero_off tres">3.</div>
+
+<div class="numero_off cuatro">4.</div>
+
+<div class="numero_off cinco">5.</div>
+
+<h2>Candidatos</h2>
+
+<div class="instrucciones">¿Quiénes son los candidatos?</div>
+
 <ul id="lista_candidatos">
+<span class="tit_fondoverde">candidato 1</span>
 {% for candidate in election.candidate_set.all %}
 <li>{{ candidate.name }}</li>
 {% endfor %}
@@ -14,12 +28,9 @@
 
 <br>
 
-<h2>Agregar Candidato</h2>
-
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
+    {{form.as_p}}
+ 
     <!-- <table id="id_personal_information_table" border="0" cellpadding="0" cellspacing="5">
         <thead>
             <tr>
@@ -56,14 +67,17 @@
 
     {{ personal_information_formset.management_form }}
     {{ link_formset.management_form }}
-    <input type="submit" value="{% trans "Guardar" %}" />
-</form>
-<div id="link_next">
+    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
 
-<div/>
-<!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
+
+
+</form>
 
 </div>
+
+
+<!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
+
 
 {% endblock %}
 

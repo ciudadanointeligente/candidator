@@ -16,9 +16,8 @@ class Election(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
-    description = models.TextField(max_length=10000)
-    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False)
-
+    description = models.TextField(max_length=10000, verbose_name="DESCRIPCIÓN DE LA ELECCIÓN:")
+    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
@@ -30,8 +29,8 @@ class Election(models.Model):
 
 
 class Candidate(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, verbose_name="Nombre:")
+    last_name = models.CharField(max_length=255, verbose_name="Apellido:")
     slug = models.CharField(max_length=255)
     photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
 

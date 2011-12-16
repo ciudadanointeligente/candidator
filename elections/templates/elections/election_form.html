@@ -18,36 +18,32 @@
 
 <h2>Elección</h2>
 
-<div class="instrucciones">Primero debes escoger el...</div>
+<div class="instrucciones">Primero debes escoger el...</div><br />
 
 <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
     <!--table>
     {{form.as_table}}
     </table-->
     {{ form.non_field_errors }}
-    <div class="fieldWrapper">
+    <p class="fieldWrapper">
         {{ form.name.errors }}
-        <label for="id_name" class="tit_fondoverde">{{form.name.label_tag}}</label>
-    <div class="cuadro">{{ form.name }}</div>
-    </div>
+        <label for="id_name" class="tit_fondoverde">{{form.name.label_tag}}</label>{{ form.name }}
+    </p>
     
-    <div class="fieldWrapper">
+    <p class="fieldWrapper">
         {{ form.slug.errors }}
-        <label for="id_slug" class="instrucciones">{{form.slug.label_tag}}</label>
-    <div class="cuadro">{{ form.slug }}</div>
-    </div>
+        <label for="id_slug" class="instrucciones">{{form.slug.label_tag}}</label>{{ form.slug }}
+    </p>
     
-    <div class="fieldWrapper">
+    <p class="fieldWrapper">
         {{ form.name.errors }}
-        <label for="id_description" class="tit_fondoverde">{{form.description.label_tag}}</label>
-    <div class="cuadro">{{ form.description }}</div>
-    </div>
+        <label for="id_description" class="tit_fondoverde">{{form.description.label_tag}}</label>{{ form.description }}
+    </p>
     
-     <div class="fieldWrapper">
+     <p class="fieldWrapper">
         {{ form.logo.errors }}
-        <label for="id_logo" class="instrucciones">{{form.logo.label_tag}}</label>
-    <div class="cuadro examinar">{{ form.logo }}</div>
-    </div>
+        <label for="id_logo" class="instrucciones">{{form.logo.label_tag}}</label>{{ form.logo }}
+    </p>
   
     <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
 </form>
