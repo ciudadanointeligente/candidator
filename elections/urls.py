@@ -61,6 +61,14 @@ urlpatterns = patterns('',
     # Election compare view with 1 candidate
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
 
+    # Asynchronous call for compare view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/async-call/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
+
+
+
+
+
+
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
 
