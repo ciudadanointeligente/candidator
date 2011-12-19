@@ -3,7 +3,19 @@
 
 {% block content %}
 
-<h2>Datos Personales</h2>
+<div class="fondo_formulario">
+
+<div class="numero_off uno">1.</div>
+
+<div class="numero_off dos">2.</div>
+
+<div class="numero_on tres">3.</div>
+
+<div class="numero_off cuatro">4.</div>
+
+<div class="numero_off cinco">5.</div>
+
+<h2>Datos Personales:</h2>
 <ul id="lista_datos">
 {% for personal_data in election.personaldata_set.all %}
     <li>{{ personal_data.label }}</li>
@@ -11,17 +23,17 @@
 </ul>
 <br>
 
-<h2>Agregar Dato Personal</h2>
-
 <form method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
-    <input type="submit" value="{% trans "Guardar" %}" />
+    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
 </form>
 <div id="link_next">
 </div>
 <!-- <a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a> -->
+
+</div>
 
 {% endblock %}
 

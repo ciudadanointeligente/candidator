@@ -183,6 +183,7 @@ blockquote {
 	background-color:#a1b2b8;
 	border: 1px none #94A9AF;
 }
+
 span.tit_fondoverde{
 	margin-left:25px;
 }
@@ -197,6 +198,7 @@ span.tit_fondoverde{
 	text-transform:uppercase;
 	letter-spacing:1px;
 	background-color:#a1b2b8;
+	border: 1px none #94A9AF;
 }
 
 .bt_siguiente{
@@ -209,6 +211,9 @@ span.tit_fondoverde{
 	font-family:Georgia, "Times New Roman", Times, serif;
 	font-size:12px;
 	color:#333;
+	margin-bottom: -10px;
+    margin-left: 25px;
+    margin-top: 10px;
 }
 
 form{
@@ -220,7 +225,7 @@ p input{
     border: 1px solid #DCDCDC;
     height: 17px;
     width: 350px;
-	margin-top:3px;
+	margin-top:-3px;
 }
 
 p textarea{
@@ -228,8 +233,12 @@ p textarea{
     border: 1px solid #DCDCDC;
     height: 60px;
     width: 350px;
-	margin-top:5px;
-}	
+	margin-top:3px;
+}
+
+p input#id_name{
+	margin-top:3px;
+}
 
 div.instrucciones{
 	margin-left:25px;
