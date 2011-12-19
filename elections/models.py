@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
 import re
@@ -15,12 +15,11 @@ twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
 
 # Create your models here.
 class Election(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Nombre de la elección:")
-    slug = models.CharField(max_length=255, verbose_name="así quedará el link de la elección:")
+    name = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255)
     owner = models.ForeignKey('auth.User')
     description = models.TextField(max_length=10000, verbose_name="DESCRIPCIÓN DE LA ELECCIÓN:")
     logo = models.ImageField(upload_to = 'logos/', null =False, blank = False, verbose_name="por último escoge una imagen que la represente:")
-
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
@@ -135,7 +134,6 @@ class Candidate(models.Model):
 
         return backgrounds
 
-    @property
     def get_personal_data(self):
         pd_dict = {}
         for pd in self.personal_data.all():

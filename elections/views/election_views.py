@@ -94,12 +94,13 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
     return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers }, context_instance = RequestContext(request))
 
-def election_compare_asynchronous_call(request, candidate_slug, election_slug, username):
+def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     if request.POST:
-        election = get_object_or_404(Election, slug=election_slug, owner=username)
+        election = get_object_or_404(Election, slug=slug, owner__username=username)
         candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
         personal_data = candidate.get_personal_data()
-        return HttpResponse(json.dumps({'personal_data': personal_data}),
-                                        content_type='application/json')
+        photo_route = str(candidate.photo.url)
+        json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
     else:
         raise Http404

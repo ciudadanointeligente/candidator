@@ -26,23 +26,43 @@
         return final_direction
     }
 
+    function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
+
+        $("#"+div_id).empty();
+        var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
+	$.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json) {
+               var data = json["personal_data"]
+	       for (var key in data) {
+		$("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
+                var candidate_photo = document.getElementById(photo_id)
+                candidate_photo.src = json["photo_route"]
+	       }},'json');
+    }
+
     function get_comparation_data_in_select(current_select){
 
     	var first_select  = document.getElementById("firstCandidate")
         var second_select = document.getElementById("secondCandidate")
         var radio_buttons = document.getElementsByName("category")
+        var error_div     = document.getElementById("sameCandidates")
+        error_div.style.display = "none"
 
 	if(current_select.name == "firstCandidate"){
-		if(second_select.value == "0") alert('Llamo a Ajax por: '+first_select.value)
-		else if(second_select.value == first_select.value) alert('Error')
+		if(second_select.value == "0"){ async_call_for_candidate_data(first_select.value,"first_candidate_div","first_candidate_photo") }
+		else if(second_select.value == first_select.value){
+                   error_div.style.display = "inline"
+                }
                 else{
                    var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
                    window.location     = final_direction
 		}   
 	}
 	else{
-		if(first_select.value == "0") alert('Llamo a Ajax por: '+second_select.value)
-		else if(second_select.value == first_select.value) alert('Error')
+		if(first_select.value == "0"){ async_call_for_candidate_data(second_select.value,"second_candidate_div","second_candidate_photo") }
+		else if(second_select.value == first_select.value){
+                   error_div.style.display = "inline"
+		}
                 else{
                    var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
                    window.location     = final_direction
@@ -69,8 +89,10 @@
 
     <div class="wrapper">
         <article class="wrapW">
-            <ul id="errors"></ul>
+	
+            <div id="sameCandidates" style="display:none"><ul id="errors"><li id="errors">Los 2 candidatos son iguales</li></ul></div>
             <div class="leftContent">
+
                 <header class="comparisonBox">
 
                     <div class="candidatesLists">
@@ -86,13 +108,13 @@
                         <div class="basicProfileContainer">
 
 			    {% if first_candidate %}
-                            <img class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
+                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
 			    {% else %}
-                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
 			    {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
-
+			    <div id="first_candidate_div" class="first_candidate_div">
 
                             {% if first_candidate %}
                                
@@ -107,6 +129,7 @@
                             
                             {% endif %}
 
+			    </div>
                             </ul>
                         </div>
                     </div>
@@ -125,12 +148,13 @@
                         <div class="basicProfileContainer">
 
 			    {% if second_candidate %}
-                            <img class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
+                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
 			    {% else %}
-                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
 			    {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
+			    <div id="second_candidate_div" class="second_candidate_div">
 
 
                             {% if second_candidate %}
@@ -147,6 +171,7 @@
                             
                             {% endif %}
 
+			    </div>
                             </ul>
 
                         </div>
