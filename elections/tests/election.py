@@ -1,3 +1,4 @@
+from django.core.files.base import File
 import os
 from django.conf import settings
 from django.test import TestCase
@@ -5,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election
+from elections.models import Election, Candidate, Category
 from elections.forms import ElectionForm, ElectionUpdateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -80,20 +81,15 @@ class MyElectionListViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
 
     def test_list_elections_from_a_user_without_login(self):
-        response = self.client.get(reverse('my_election_list',
-                                           kwargs={
-                                               'username': self.user.username
-                                               }))
-        self.assertEquals(response.status_code, 302)
+        response = self.client.get(reverse('my_election_list'))
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + reverse('my_election_list'))
 
-    def test_list_elections_from_other_user_logged(self):
-        user = User.objects.create(username='foobar')
+    def test_list_elections_logged(self):
         self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('my_election_list',
-                                           kwargs={
-                                               'username': user.username
-                                               }))
+        response = self.client.get(reverse('my_election_list'))
         self.assertEquals(response.status_code, 200)
+        self.assertTrue('user' in response.context)
+        self.assertEqual(response.context['user'], self.user)
 
 
 class ElectionCompareViewTest(TestCase):
@@ -129,8 +125,9 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_one_candidate_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        response = self.client.get(reverse('election_compare',
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election, photo=File(f))
+        response = self.client.get(reverse('election_compare_one_candidate',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
@@ -140,8 +137,8 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_one_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        response = self.client.get(reverse('election_compare',
+        candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
+        response = self.client.get(reverse('election_compare_one_candidate',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
@@ -151,61 +148,62 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_two_candidates_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz' slug='tar-taz', election=election)
-        category = Category.objects.Create(name='asdf', election=election, slug='asdf')
-        response = self.client.get(reverse('election_compare',
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election, photo=File(f))
+        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election, photo=File(f))
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
                                                'first_candidate_slug': first_candidate.slug,
                                                'second_candidate_slug': second_candidate.slug,
-                                               'category': category}))
+                                               'category_slug': category}))
         self.assertEquals(response.status_code, 200)
 
     def test_compare_two_candidates_category_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz' slug='tar-taz', election=election)
-        category = Category.objects.Create(name='asdf', election=election, slug='asdf')
-        response = self.client.get(reverse('election_compare',
+        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
+        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
                                                'first_candidate_slug': first_candidate.slug,
                                                'second_candidate_slug': second_candidate.slug,
-                                               'category': 'asdf2'}))
+                                               'category_slug': 'asdf2'}))
         self.assertEquals(response.status_code, 404)
 
     def test_compare_two_candidates_first_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz' slug='tar-taz', election=election)
-        category = Category.objects.Create(name='asdf', election=election, slug='asdf')
-        response = self.client.get(reverse('election_compare',
+        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
+        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
                                                'first_candidate_slug': 'asdf',
                                                'second_candidate_slug': second_candidate.slug,
-                                               'category': category}))
+                                               'category_slug': category}))
         self.assertEquals(response.status_code, 404)
 
     def test_compare_two_candidates_second_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz' slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz' slug='tar-taz', election=election)
-        category = Category.objects.Create(name='asdf', election=election, slug='asdf')
-        response = self.client.get(reverse('election_compare',
+        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
+        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
                                                'username': user.username,
                                                'slug': election.slug,
                                                'first_candidate_slug': first_candidate.slug,
                                                'second_candidate_slug': 'asdf',
-                                               'category': category}))
+                                               'category_slug': category}))
         self.assertEquals(response.status_code, 404)
 
     
@@ -357,12 +355,12 @@ class ElectionUrlsTest(TestCase):
     
     def test_compare_one_candidate_url(self):
         expected = '/juanito/eleccion-la-florida/compare/my-candidate'
-        result = reverse('election_compare', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida', 'first_candidate_slug':'my-candidate'})
+        result = reverse('election_compare_one_candidate', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida', 'first_candidate_slug':'my-candidate'})
         self.assertEquals(result, expected)
 
     def test_compare_two_candidates_url(self):
         expected = '/juanito/eleccion-la-florida/compare/my-candidate_vs_other-candidate_in_this-category'
-        result = reverse('election_compare', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida', 'first_candidate_slug':'my-candidate', 'second_candidate_slug':'other-candidate', 'category_slug':'this-category'})
+        result = reverse('election_compare_two_candidates', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida', 'first_candidate_slug':'my-candidate', 'second_candidate_slug':'other-candidate', 'category_slug':'this-category'})
         self.assertEquals(result, expected)
 
     def test_update_url(self):

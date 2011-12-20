@@ -123,10 +123,10 @@ class AssociateCandidatesAnswersTest(TestCase):
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 200)
 
-        self.assertTrue(request.context.has_key('candidate'))
+        self.assertTrue('candidate' in request.context)
         self.assertEquals(request.context['candidate'], self.candidate)
 
-        self.assertTrue(request.context.has_key('categories'))
+        self.assertTrue('categories' in request.context)
         self.assertEquals(list(request.context['categories'].all()), self.categories)
 
     def test_post_associate_answer_to_candidate_view(self):
