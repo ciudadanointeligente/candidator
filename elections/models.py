@@ -134,6 +134,7 @@ class Candidate(models.Model):
 
         return backgrounds
 
+    @property
     def get_personal_data(self):
         pd_dict = {}
         for pd in self.personal_data.all():

@@ -62,6 +62,7 @@ class CandidateModelTest(TestCase):
 
         self.assertEqual(candidate.name, expected_name)
 
+    @property
     def test_get_personal_data(self):
         candidate, created = Candidate.objects.get_or_create(first_name='Juan',
                                                             last_name='Candidato',

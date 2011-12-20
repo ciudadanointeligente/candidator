@@ -81,20 +81,15 @@ class MyElectionListViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
 
     def test_list_elections_from_a_user_without_login(self):
-        response = self.client.get(reverse('my_election_list',
-                                           kwargs={
-                                               'username': self.user.username
-                                               }))
-        self.assertEquals(response.status_code, 302)
+        response = self.client.get(reverse('my_election_list'))
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + reverse('my_election_list'))
 
-    def test_list_elections_from_other_user_logged(self):
-        user = User.objects.create(username='foobar')
+    def test_list_elections_logged(self):
         self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('my_election_list',
-                                           kwargs={
-                                               'username': user.username
-                                               }))
+        response = self.client.get(reverse('my_election_list'))
         self.assertEquals(response.status_code, 200)
+        self.assertTrue('user' in response.context)
+        self.assertEqual(response.context['user'], self.user)
 
 
 class ElectionCompareViewTest(TestCase):
