@@ -1,4 +1,5 @@
 {% extends "elections/base_edits.html" %}
+{% load i18n %}
 
 {% block title %}Candidator - Asociar respuestas candidato{% endblock %}
 {% block extra_head %}
@@ -19,15 +20,21 @@
     <h2>{{ category.name }}</h2>
     <ul>
     {% for question in category.question_set.all %}
-        <li>{{ question.question }}
+        <li id="question-{{ question.pk }}">{{ question.question }}
             <ul>
             {% for answer in question.answer_set.all %}
                 <li class="answer{% if answer in candidate.answers.all %} active{% endif %}" id="answer-{{ answer.pk }}">
                 {{ answer.caption }}
                 </li>
-            {% empty %}
-                <li>No hay respuestas asociadas</li>
+
             {% endfor %}
+                <li>
+                    <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
+                        {% csrf_token %}
+                        <input type="text" name="caption" />
+                        <input type="submit" value="{% trans 'crear' %}" />
+                    </form>
+                </li>
             </ul>
         </li>
     {% endfor %}
@@ -39,7 +46,14 @@
 
 {% block extra_js %}
 <script>
-$(".answer").click(function(e){
+    $('.answerform').live('submit', function (e) {
+        e.preventDefault()
+        $.post($(this).attr('action'), $(this).serialize(), function (json) {
+            $('#question-' + json.question + ' > ul > li:last-child').before('<li class="answer" id="answer-' + json.pk + '">' + json.caption + '</li>')
+        });
+        $('input[name=caption]', this).val('');
+    });
+$(".answer").live('click', function(e){
     var answerId = $(this).attr('id');
     answerId = answerId.substr(answerId.indexOf('-')+1);
     console.log(answerId);
