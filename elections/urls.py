@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
 
     # My Elections
-    url(r'^my_elections/?$', login_required(TemplateView.as_view(template_name="elections/election_list.html")), name='my_election_list'),
+    url(r'^my_elections/?$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
