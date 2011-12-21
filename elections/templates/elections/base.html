@@ -11,10 +11,10 @@
 </head>
 <body>
 <div>
-	
+
 </div>
 
-	<div class="header_color">
+    <div class="header_color">
         <header class="wrapBasic" id="mainHeader">
             <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
             <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
@@ -23,17 +23,17 @@
             <h1 style="display: none;">Vota inteligente</h1>
         </header>
         <nav id="mainNavigation">
-        	<div class="wrapBasic">
+            <div class="wrapBasic">
                 <ul>
-                	<li> <a href="/index">INDEX</a> </li> 
-		    		<li> <a href="#">QUIÉNES SOMOS</a></li>
-                    <li> <a href="medianaranja">MEDIA NARANJA</a></li>
-                    <li> <a href="#">PERFIL DE CANDIDATOS</a></li>
-                    <li> <a href="compare">COMPARA</a></li>
+                    <li> <a href="/index">INDEX</a> </li>
+                    <li> <a href="#">QUIÉNES SOMOS</a></li>
+                    <li> <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">MEDIA NARANJA</a></li>
+                    <li> <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">PERFIL DE CANDIDATOS</a></li>
+                    <li> <a href="{% url election_compare username=election.owner.username slug=election.slug %}">COMPARA</a></li>
                     {% if user.is_authenticated %}
-                    	<li> <a href="{% url auth_logout %}">LOGOUT</a> </li>
+                        <li> <a href="{% url auth_logout %}">LOGOUT</a> </li>
                     {% else %}
-                    	<li> <a href="{% url auth_login %}">LOGIN</a> </li>
+                        <li> <a href="{% url auth_login %}">LOGIN</a> </li>
                     {% endif %}
                 </ul>
             </div>
@@ -48,8 +48,8 @@
 {% endblock extra_js %}
 </body>
 
-	<div id="footer">
-	</div>
+    <div id="footer">
+    </div>
 
 </html>
 <html>
