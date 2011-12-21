@@ -1,61 +1,54 @@
 {% extends "elections/base.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block extra_js %}
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+{% endblock extra_js %}
 
 {% block title %}
-{{ block.super }} Election
+    {{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
 {% endblock title %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{ election.logo }}" high = "200" width = "202"><br/>
-<h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
-<br>
-<a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>
-<br>
-<h2>Candidatos</h2>(<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
-<ul>
-{% for candidate in election.candidate_set.all %}
-    <li>
-    <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
-    <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
-    </li>
-{% endfor %}
-</ul>
-
-<h2>Antecedentes</h2>(<a href="{% url background_category_create election_slug=election.slug %}">Agregar Antecedentes</a>)
-
-<ul>
-{% for background_category in election.backgroundcategory_set.all %}
-    <li>
-    {{ background_category.name }}
-    <ul>
-    {% for background in background_category.background_set.all %}
-        <li>{{ background.name }}</li>
-    {% endfor %}
-    </ul>
-    </li>
-{% endfor %}
-</ul>
-
-
-<br>
-Categorias (<a href="{% url category_create election_slug=election.slug %}">Agregar Categoria</a>):
-<ul>
-{% for category in election.category_set.all %}
-    <li>
-    {{ category.name }} <a href="{% url category_update election_slug=election.slug slug=category.slug %}">(Editar)</a>
-    <ul>
-        {% for question in category.question_set.all %}
-            <li>
-            {{ question.question}}
-            <ul>
-                {% for answer in question.answer_set.all %}
-                    <li>{{ answer.caption }}</li>
-                {% endfor %}
+    <div class="wrapper">
+        <nav id="homeNavigation">
+            <ul class="homeNav">
+                <li class="homeLi homeListMedianaranja">
+                    <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
+                        <h2>Media <br/>Naranja</h2>
+                    </a>
+                </li>
+                <li class="homeLi homeListPerfiles">
+                    <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">
+                        <h2> Perfil de Candidatos</h2>
+                    </a>
+                </li>
+                <li class="homeLi homeListComparar">
+                    <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
+                        <h2>Compará <br> candidatos </h2>
+                    </a>
+                </li>
             </ul>
-            </li>
-        {% endfor %}
-    </ul>
-    </li>
-{% endfor %}
-</ul>
+        </nav>
+            <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
+            data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
+                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
+                                                           class="fb_ltr"
+                                                           src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890"></iframe></span>
+        </div>
+    </div>
+
 
 {% endblock content %}

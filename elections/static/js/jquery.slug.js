@@ -93,7 +93,7 @@ DEBUG = null;
             slug = slug.replace(re, value);
         });
 
-        return slug;
+        return slug.toLowerCase();
 
     };
 

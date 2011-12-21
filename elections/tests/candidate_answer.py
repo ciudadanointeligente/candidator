@@ -1,10 +1,3 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -13,37 +6,7 @@ from django.test.client import Client
 
 
 from elections.models import Candidate, Election, Category, Question, Answer
-from elections.forms import question_formset_factory, MediaNaranjaForm, CategoryForm, ElectionForm
-
-
-class QuestionFormTest(TestCase):
-    '''
-    TODO: Test for QuestionForm
-    '''
-    def test_question_factory(self):
-        user, created = User.objects.get_or_create(username='foo')
-        election, created = Election.objects.get_or_create(name='foo', owner=user)
-        category, created = Category.objects.get_or_create(name='foo', election=election)
-        question1, created = Question.objects.get_or_create(question='bar', category=category)
-        answers = [
-            Answer.objects.create(caption='si', question=question1),
-            Answer.objects.create(caption='no', question=question1),
-        ]
-        question_choices = [(a.pk, a.caption) for a in answers]
-        question2, created = Question.objects.get_or_create(question='baz', category=category)
-        formset = question_formset_factory(category)
-
-        self.assertEquals(formset.max_num, 2)
-        self.assertEquals(formset.total_form_count(), 2)
-        form = formset[0]
-        self.assertTrue(isinstance(form, MediaNaranjaForm))
-        self.assertEquals(form.fields['answers'].choices, question_choices)
-        self.assertEquals(form.fields['question'], question1.pk)
-
-        form = formset[1]
-        self.assertTrue(isinstance(form, MediaNaranjaForm))
-        self.assertEquals(form.fields['answers'].choices, [])
-        self.assertEquals(form.fields['question'], question2.pk)
+from elections.forms import CategoryForm, ElectionForm
 
 
 class CandidateAnswerTest(TestCase):
@@ -160,10 +123,10 @@ class AssociateCandidatesAnswersTest(TestCase):
                                                     'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 200)
 
-        self.assertTrue(request.context.has_key('candidate'))
+        self.assertTrue('candidate' in request.context)
         self.assertEquals(request.context['candidate'], self.candidate)
 
-        self.assertTrue(request.context.has_key('categories'))
+        self.assertTrue('categories' in request.context)
         self.assertEquals(list(request.context['categories'].all()), self.categories)
 
     def test_post_associate_answer_to_candidate_view(self):

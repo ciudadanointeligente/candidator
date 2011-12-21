@@ -1,0 +1,40 @@
+{% extends "elections/base_edits.html" %}
+
+{% block content %}
+
+Candidato: {{ candidate.name }}
+<br>
+Dato personal: {{ personal_data.label }}
+<br>
+Valor: <span id="text_value"></span>
+
+<h2>Agregar Dato Personal</h2>
+
+<form method="POST">{% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+</form>
+<a id="guardar" href="">guardar</a>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+$("#guardar").click(function(e){
+    var value = $("#id_value").val();
+    console.log(value);
+    $.post('{% url personal_data_candidate_create candidate_pk=candidate.pk personal_data_pk=personal_data.pk %}',
+    {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'value': value
+    },
+    function(data) {
+        $("#text_value").text(data.value);
+    },
+    'json');
+    return false;
+});
+
+</script>
+{% endblock %}

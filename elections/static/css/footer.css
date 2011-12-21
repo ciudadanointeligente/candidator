@@ -6,14 +6,15 @@
 /*===== FOOTER ======*/
 
 #footer{
-	background-color: #6CADDF;
+	background-color:#74a7d9;
     display: block;
-    height: 290px;
-    margin-top: 100px;
     overflow: hidden;
     padding: 20px;
+	height:31px;
 }
-#footer .wrapFoot{ background-color: #fff;
+
+#footer .wrapFoot{ 
+	background-color: #fff;
    background-color: #FFFFFF;
     margin: 20px auto;
     padding: 20px;

@@ -11,12 +11,16 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
+# Import forms
 from elections.forms import ElectionForm, ElectionUpdateForm
-from elections.models import Election
+
+# Import models
+from elections.models import Election, Candidate, Category
 
 
+# Election Views
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
@@ -35,10 +39,14 @@ class ElectionDetailView(DetailView):
     model = Election
 
     def get_queryset(self):
-        if self.kwargs.has_key('username') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(owner__username=self.kwargs['username'],
-                                             slug=self.kwargs['slug'])
-        return super(ElectionDetailView, self).get_queryset()
+        return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
+
+# My Election views
+class MyElectionListView(ListView):
+    model = Election
+    
+    def get_queryset(self):
+        return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
 
 class ElectionCreateView(CreateView):
@@ -64,15 +72,35 @@ class ElectionCreateView(CreateView):
 
         return super(ElectionCreateView, self).form_valid(form)
 
-
-# Election views that aren't generic
+# Election views that are not generic
 def election_compare_view(request, username, slug):
-    user = User.objects.filter(username=username)
-    if len(user) == 0:
-        raise Http404
-    election = Election.objects.filter(owner=user[0],slug=slug)
-    if len(election) == 0:
-        raise Http404
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
 
-    context = {'election': election[0]}
-    return render_to_response('elections/election_compare.html', {'election': election[0] }, context_instance = RequestContext(request))
+def election_compare_view_one_candidate(request, username, slug, first_candidate_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate}, context_instance = RequestContext(request))
+
+def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_candidate_slug, category_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+    second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
+    if first_candidate == second_candidate:
+        raise Http404
+    selected_category = get_object_or_404(Category, election=election, slug=category_slug)
+    first_candidate_answers = first_candidate.get_all_answers_by_category(selected_category)
+    second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
+    answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers }, context_instance = RequestContext(request))
+
+def election_compare_asynchronous_call(request, username, slug, candidate_slug):
+    if request.POST:
+        election = get_object_or_404(Election, slug=slug, owner__username=username)
+        candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
+        personal_data = candidate.get_personal_data
+        photo_route = str(candidate.photo.url)
+        json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    else:
+        raise Http404

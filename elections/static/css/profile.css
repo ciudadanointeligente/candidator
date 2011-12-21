@@ -22,28 +22,29 @@ h3 {
 /*-----------candidatesBasicInformation---------*/
 
 .candidatesBasicInformation {
-	position: relative;
-	line-height: 21px;
-	 margin-bottom: 30px;
+    position: relative;
+    line-height: 21px;
+     margin-bottom: 30px;
 }
 
-.candidatesBasicInformation header{ 
-	left: 180px;
+.candidatesBasicInformation header{
+    left: 180px;
     position: absolute;
     top: 10px;
-	width: 622px;
+    width: 622px;
 }
 
 header h2{
-	background: none repeat scroll 0 0 #A2B2BD;
+    background: none repeat scroll 0 0 #A2B2BD;
     border: 1px solid #99AAB1;
     color: white;
     display: block;
+    font-size: 17px;
     padding: 4px 9px;
 }
 
 .profileImg{
-	float: left;
+    float: left;
     height: 200px;
     overflow: hidden;
     width: 160px;
@@ -52,16 +53,16 @@ header h2{
     float: left;
     font-size: 13px;
     margin-left: 18px;
-	width: 330px;
-	margin-top: 35px;
+    width: 330px;
+    margin-top: 35px;
 }
 
 span.profile-description{
-	font-family: 'AllerBold';
-	
+    font-family: 'AllerBold';
+
 }
 .enlacesPersonales{
-	float: right;
+    float: right;
     font-family: 'AllerItalic';
     font-size: 12px;
     letter-spacing: 0;
@@ -71,19 +72,19 @@ span.profile-description{
     width: 266px;
 }
 
-.enlacesPersonales a{ 
-	background: url("../img/ic_arrow_right.png") no-repeat scroll 3px -3px transparent;
+.enlacesPersonales a{
+    background: url("../img/ic_arrow_right.png") no-repeat scroll 3px -3px transparent;
     color: #99AAB1;
     padding-left: 26px;
 }
 .ulEnlacesPersonales{}
 
-.enlacesPersonales .twitter a{ 
-	background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+.enlacesPersonales .twitter a{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
 }
 
-.enlacesPersonales .facebook a{ 
-	background: url("../img/ic_fb.png") no-repeat scroll 6px -3px transparent;
+.enlacesPersonales .facebook a{
+    background: url("../img/ic_fb.png") no-repeat scroll 6px -3px transparent;
 }
 
 .twitter{}
@@ -93,7 +94,7 @@ span.profile-description{
 /*==== aside buttons ====*/
 
 .profileAside{
-	border-left: 1px dotted #99AAB1;
+    border-left: 1px dotted #99AAB1;
     display: block;
     float: right;
     height: 200px;
@@ -103,7 +104,7 @@ span.profile-description{
 }
 
 .sideButton{
-	border: 1px solid #E2E3E4;
+    border: 1px solid #E2E3E4;
     border-radius: 10px 10px 10px 10px;
     display: block;
     font-family: 'AllerBold',Helvetica,Arial,sans-serif;
@@ -120,7 +121,7 @@ span.profile-description{
     width: 50px;
 }
 .sideButton a{
-	 bottom: 1px;
+     bottom: 1px;
     cursor: pointer;
     display: block;
     height: 15px;
@@ -129,13 +130,13 @@ span.profile-description{
     position: absolute;
     text-align: center;
     width: 50px;
-	color: #747B7E;
+    color: #747B7E;
 }
 
 .sideButton a:hover{text-decoration: none;}
 
 .sideButton.medianaranja a{
-	bottom: 7px;
+    bottom: 7px;
 }
 
 .compare{background: url("../img/bt_compare.gif") no-repeat scroll 0 -0 transparent;}
@@ -156,10 +157,10 @@ span.profile-description{
 /*==== TRAYECTORIA Y POSICIONES===*/
 
 .trayectoriaYPosiciones{
-	background: url("../img/bg_Section2.png") repeat-x scroll 0 2px, 
-				url("../img/line_v.gif") repeat-y scroll 0 0pt,
-				url("../img/line_v.gif") repeat-y scroll right 0pt, 
-				url("../img/dotline.gif") repeat-y scroll 300px 50px #FFFFFF;
+    background: url("../img/bg_Section2.png") repeat-x scroll 0 2px,
+                url("../img/line_v.gif") repeat-y scroll 0 0pt,
+                url("../img/line_v.gif") repeat-y scroll right 0pt,
+                url("../img/dotline.gif") repeat-y scroll 300px 50px #FFFFFF;
     border-bottom: 1px solid #BCBEC0;
     margin-bottom: 30px;
     overflow: hidden;
@@ -172,29 +173,29 @@ span.profile-description{
     width: 277px;
 }
 .trayectoria, .posiciones{
-	float: left;
+    float: left;
 }
 
 .trayectoria h2, .posiciones h2{
-	background: none repeat scroll 0 0 #A2B2BD;
+    background: none repeat scroll 0 0 #A2B2BD;
     color: white;
     display: block;
     font-size: 14px;
     margin: -10px -10px 22px;
     padding: 6px 9px;
-	border: 1px solid #99AAB1;
+    border: 1px solid #99AAB1;
 }
 
 .trayectoria h2{border-right: none;}
 
  .posiciones h2{
-	 border-left: medium none;
+     border-left: medium none;
     margin-left: -20px;
-    padding-left: 20px; 
-	 }
+    padding-left: 20px;
+     }
 
 .posiciones{
-	margin-left: 10px;
+    margin-left: 10px;
     width: 563px;
 }
 
@@ -204,8 +205,8 @@ span.profile-description{
 
 /*==== Accordions ====*/
 .trayectoria  .accordion h3{
-	background-color: #B0D0ED;
-	color: #fff;
+    background-color: #B0D0ED;
+    color: #fff;
 }
 .answer{}
 

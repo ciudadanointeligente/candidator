@@ -167,8 +167,8 @@ class CategoryUpdateViewTest(TestCase):
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2 = Election.objects.create(name='BarBaz',
                                             owner=user2,
-                                            slug='barbaz')
-        category2 = Category.objects.create(name="Bar1", slug="bar", election=election2)
+                                            slug='barbaz2')
+        category2 = Category.objects.create(name="Bar1", slug="bar2", election=election2)
 
         self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('category_update',
@@ -180,8 +180,8 @@ class CategoryUpdateViewTest(TestCase):
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2 = Election.objects.create(name='BarBaz',
                                             owner=user2,
-                                            slug='barbaz')
-        category2 = Category.objects.create(name="Bar1", slug="bar", election=election2)
+                                            slug='barbaz2')
+        category2 = Category.objects.create(name="Bar1", slug="bar2", election=election2)
 
         self.client.login(username='joe', password='doe')
 

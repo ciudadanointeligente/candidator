@@ -1,9 +1,8 @@
+{% extends "elections/base_edits.html" %}
+
 {% load url from future %}
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
+{% block title %}Login {% endblock title %}
+{% block content %}
     {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
@@ -24,6 +23,4 @@
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
-
-</body>
-</html>
+{% endblock content %}

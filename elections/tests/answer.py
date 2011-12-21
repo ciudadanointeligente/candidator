@@ -1,10 +1,10 @@
-
+from django.conf import settings
 from django.test import TestCase
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.client import Client
-
+from django.utils import simplejson
 
 from elections.models import Candidate, Election, Category, Question, Answer
 from elections.forms import AnswerForm
@@ -92,3 +92,57 @@ class AnswerCreateViewTest(TestCase):
 
         self.assertRedirects(response, reverse('category_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+
+class CreateAnswerWithCategoryAjax(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='joe', email='joe@doe.cl')
+        self.user2 = User.objects.create_user(username='doe', password='joe', email='dow@doe.cl')
+        self.election = Election.objects.create(name='BarBaz',
+            owner=self.user,
+            slug='barbaz')
+        self.category = Category.objects.create(name='FooCat',
+            election=self.election)
+        self.question = Question.objects.create(question='Foo',
+            category=self.category)
+
+        self.url = reverse('answer_create_ajax', kwargs={'question_pk': self.question.pk})
+
+    def test_post_without_login(self):
+        params = {'caption': 'Foo bar'}
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_not_owned(self):
+        self.client.login(username=self.user2.username, password='joe')
+        params = {'caption': 'Foo bar'}
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 403)
+
+    def test_non_existing_question(self):
+        url = reverse('answer_create_ajax', kwargs={'question_pk': 0})
+        self.client.login(username=self.user.username, password='joe')
+        params = {'caption': 'Foo bar'}
+        response = self.client.post(url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_owner(self):
+        self.client.login(username=self.user.username, password='joe')
+        params = {'caption': 'Foo bar'}
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        answer = Answer.objects.filter(question=self.question)
+        self.assertEqual(answer.count(), 1)
+        answer = answer.get()
+        self.assertEqual(answer.caption, params['caption'])
+        self.assertEqual(simplejson.loads(response.content),
+                {'pk': answer.pk, 'caption': answer.caption, 'question': self.question.pk})
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_get_no_ajax(self):
+        self.client.login(username=self.user.username, password='joe')
+        params = {'caption': 'Foo bar'}
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 400)
+        response = self.client.post(self.url, params)
+        self.assertEqual(response.status_code, 400)

@@ -1,14 +1,34 @@
-{% extends 'elections/base.html' %}
+{% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
 {% block content %}
-<h2>Categorias en <a href="{% url election_detail slug=election.slug username=election.owner%}">Elección {{ election.name }}</a></h2>
+
+<div class="fondo_formulario">
+
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+    </div>
+    <div class="numero_off cuatro">
+        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+    </div>
+    <div class="numero_on cinco">5.</div>
+
+    <h2>
+        Cuestionario
+    </h2>
 <ul id="lista_categorias">
 {% for category in election.category_set.all %}
-    <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">(Agregar Pregunta)</a>
+    <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">{% trans '(Agregar Pregunta)' %}</a>
     <ul>
         {% for question in category.question_set.all %}
-            <li>{{ question.question }} <a href="{% url answer_create question_pk=question.pk %}">(Agregar Respuesta)</a>
+            <li>{{ question.question }}
+                <a href="{% url answer_create question_pk=question.pk %}">
+                    {% trans '(Agregar Respuesta)' %}
+                </a>
             <ul>
             {% for answer in question.answer_set.all %}
                 <li>{{ answer.caption }}</li>
@@ -22,7 +42,7 @@
 </ul>
 
 
-<h2>Agregar categoria</h2>
+<h2>{% trans 'Agregar categoria' %}</h2>
 <form method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
@@ -40,7 +60,7 @@
 <script type="text/javascript">
     $(function(){
         if($("#lista_categorias li").size() > 0){
-            $("#link_next").append('<a href="{% url election_detail slug=election.slug username=election.owner %}">Finalizar</a>');
+            $("#link_next").append('<a href="{% url election_detail slug=election.slug username=election.owner %}">{% trans 'Finalizar' %}</a>');
         }
     })
     $("#id_name").slug({

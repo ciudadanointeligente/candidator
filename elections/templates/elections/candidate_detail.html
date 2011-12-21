@@ -1,183 +1,149 @@
 {% extends "elections/base.html" %}
+{% load i18n %}
+{% load election_tags %}
+
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css">
 {% endblock extra_head %}
 
+{% block extra_js %}
+<script type="text/javascript" src="{{ STATIC_URL }}/js/accordionForProfiles.js"></script>
+<script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e7a236a4a5434b2"></script>
+{% endblock extra_js %}
+
 {% block title %}
-{{ block.super }} Election
+    {{ block.super }} Election
 {% endblock title %}
+
 {% block content %}
 <div id="candidatesProfile" class="wrapper">
-<div class="candidatesBasicInformation wrapW">
-<article>
-    <div class="candidatesBasicInformation wrapW">
-        <header>
-            <h2>
-<a href="{% url candidate_detail username=candidate.election.owner.username election_slug=candidate.election.slug slug=candidate.slug %}">{{ candidate.name }}</a></h2>
-        </header>
-        <div>
-            <div class="profileImg"><img src="{{ MEDIA_URL }}{{ candidate.photo }}" alt="{{ candidate.name }}"/></div>
+    <article>
+        <div class="candidatesBasicInformation wrapW">
 
-            <section class="personalInfo">
-                <h3 style="display:none;">Información personal</h3>
-                <span class="profile-description">Nacimiento: </span><br />
-                <span class="profile-description">Profesión: </span><br />
-                <span class="profile-description">Estado Civil: </span><br />
-                <span class="profile-description">Hijos: </span><br />
-                <span class="profile-description">Religión: </span><br />
+            <header>
+                <h2>{{ candidate.name }}</h2>
+            </header>
 
-            </section>
-            <section class="enlacesPersonales">
-                <h3 style="display:none;">Enlaces personales:</h3>
-                <ul class="ulEnlacesPersonales">
-                    <li class="twitter"><a href="http://www.twitter.com/" target="_blank">Twitter</a></li>
-                    <li class="facebook"><a href="http://www.facebook.com" target="_blank">Facebook</a></li>
-                    <li><a href="#" target="_blank">link</a></li>
+            <div>
+                <div class="profileImg">
+                    <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}">
+                </div>
+
+                <section class="personalInfo">
+                    <h3 style="display:none;">{% trans "Información personal" %}</h3>
+                    {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
+                        <span class="profile-description">{{ personal_data_label }}: {{ personal_data_value }}</span>
+                    {% endfor %}
+                </section>
+                <aside class="profileAside">
+                    <div class="sideButton compare">
+                        <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}">
+                            {% trans "Compará" %}
+                        </a>
+                    </div>
+                    <div class="sideButton medianaranja">
+                        <a href="{% url medianaranja1 election_slug=candidate.election.slug username=candidate.election.owner.username %}">
+                            {% trans "Media<wbr>Naranja" %}
+                        </a>
+                    </div>
+
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox sideButton share">
+                        <!-- AddThis Button BEGIN -->
+                        <a class="addthis_button"
+                           href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2">
+                            {% trans "Compartí" %}
+                        </a>
+
+                        <!-- AddThis Button END -->
+                        <div class="atclear"></div>
+                    </div>
+                    <!-- AddThis Button END -->
+                </aside>
+                <section class="enlacesPersonales">
+                    <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
+                    <ul class="ulEnlacesPersonales">
+                        {% for link in candidate.link_set.all %}
+                        <li class="{{ link.css_class }}"><a rel="external" href="{{ link.url }}">{{ link.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </section>
-
-
+            </div>
         </div>
-    </div>  <!--ends candidate basic information-->
-         <section class="trayectoriaYPosiciones">
-                 <section class="trayectoria">
-                    <h2>Antecedentes: </h2>
-                     <div class="brdotted">
-                        <div class="accordion">
-                            <h3>Tendencia política: </h3>
-                            <div class="accordionContent">
-                                <span class="profile-description">Partido político actual: </span><br />
-                                <ul>
-                                <?php foreach ($profile['CandidateParty'] as $party) {
-                                ?>
-                                    <li><?php echo $party['starting_year'].'-'.$party['ending_year'].', '.$party['party']; ?></li>
-                                <?php
-                                }
-                                ?>
-                                </ul>
+        <!--ends candidate basic information-->
+        <section class="trayectoriaYPosiciones">
+            <section class="trayectoria">
+                <h2>{% trans "Antecedentes" %}: </h2>
+
+                <div class="brdotted">
+                    <div class="accordion">
+                        {% for background_category, background_items in candidate.get_background.items %}
+                        <h3>{{ background_category }}: </h3>
+
+                        <div class="accordionContent">
+                            {% for background_label, background_value in background_items.items %}
+                            <span class="profile-description">{{ background_label }}: </span>{{ background_value }}<br>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--ends accordion-->
+                </div>
+                <!--ends brdotted-->
+            </section>
+            <!--ends trayectoria-->
+
+            <section class="posiciones">
+
+                <h2>{% trans "Posición política en" %}: </h2>
+
+                <div class="accordion">
+                    {% for category in candidate.election.category_set.all %}
+                    <div class="category">
+                        <h3>{{ category.name }}</h3>
+                        <div class="accordionContent">
+                            {% for question in category.question_set.all %}
+                            <h4>{{ question.question }}</h4>
+                            <div class="answerContainer">
+                                <span style="opacity:1;" class="answer">
+                                    {% answer_for_candidate_and_question candidate question %}
+                                </span>
+                                <br>
                             </div>
+                            {% endfor %}
+                        </div>
+                        <!--ends accordionContent-->
+                    </div>
+                    <!--ends category-->
+                    {% endfor %}{# end category_set #}
+                </div>
+                <!-- ends accordion-->
+            </section>
+            <!--ends posiciones-->
+        </section>
+        <!--ends trayectoriaYPosiciones-->
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
 
-                            <h3>Experiencia política: </h3>
-                            <div class="accordionContent">
-                                <ul>
-                                <?php
-                                foreach ($profile['CandidatePoliticalExperience'] as $type) {
-                                ?>
-                                    <h4><?php echo $type['description'];?></h4>
-                                    <?php foreach ($type['experiences'] as $experience) {
-                                    ?>
-                                    <li><?php echo $experience['starting_year'].'-'.$experience['ending_year'].', '.$experience['position']; ?></li>
-                                    <?php
-                                    }
-                                }
-                                ?>
-                                </ul>
-
-                            </div>
-
-                            <h3>Educación:</h3>
-                            <div class="accordionContent">
-                                <span class="profile-description">Educación secundaria: </span><?php echo $profile['CandidateProfile']['highschool'];?><br />
-                                <span class="profile-description">Educación universitaria: </span>
-                                <ul>
-                                    <?php
-                                        foreach ($profile['CandidateUniversityStudy'] as $universityStudy) {
-                                    ?>
-                                    <li><?php echo $universityStudy['career'].', '.$universityStudy['university'].', '.$universityStudy['ending_year'];?></li>
-                                    <?php
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
-
-                            <h3>Antecedentes laborales: </h3>
-                            <div class="accordionContent">
-                                <ul>
-                                    <?php
-                                    foreach ($profile['CandidateWorkExperience'] as $workExperience) {
-                                    ?>
-                                    <li><?php echo $workExperience['starting_year'].'-'.$workExperience['ending_year'].': '.$workExperience['position'].' en '.$workExperience['company'];?></li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                             </div>
-
-                             <h3>Ingresos</h3>
-                             <div class="accordionContent">
-                                 <span class="profile-description">Ingresos: </span><?php echo $profile['CandidateProfile']['assets'];?><br />
-                             </div>
-                        </div><!--ends accordion-->
-                    </div>  <!--ends brdotted-->
-                </section><!--ends trayectoria-->
-
-                <section class="posiciones">
-
-                        <h2>Posicion política en: </h2>
-                        <div class="accordion">
-                            <?php foreach ($categories as $category) { ?>
-                            <div class="category">
-                                <h3><?php echo $category['Category']['name'];?></h3>
-                                <div class="accordionContent">
-                                    <?php
-                                    foreach ($category['Question'] as $question) {
-                                        $questionDescription = $question['question'];
-
-                                    ?>
-                                   <h4><?php echo $questionDescription;?><?php
-                                    if ($question['explanation']) {
-                                    ?>
-                                    <span class="has-an-explanation question questionTip" tooltip_message="<?php echo $question['explanation'];?>">&nbsp;</span><br />
-                                    <?php
-                                    }
-                                    ?></h4>
-                                    <div class="answerContainer">
-                                        <?php
-                                        $amountOfAnswers = 0;
-                                        foreach ($question['Answer'] as $answer ) {
-                                        if (!empty($answer['Weight']) && $answer['Weight'][0]['weighting']!=0 ) {
-                                            $amountOfAnswers++;
-                                            ?>
-                                            <span style="opacity:<?php echo $answer['Weight'][0]['weighting'];?>;" class="answer"><?php echo $answer['answer'];?></span>
-                                            <?php
-                                            if (!empty($answer['Weight'][0]['SourceOfAnswer'])) {
-                                            ?>
-                                            <span class="has-an-explanation answer answerTip" tooltip_message="<?php
-
-                                                foreach ($answer['Weight'][0]['SourceOfAnswer'] as $source) {
-                                                echo '&#8226;<span class=\'sentence\'>&quot;'.Sanitize::html($source['sentence']).'&quot;</span> el '.$this->Time->format('d/m/Y',$source['date']).' ';
-                                                if (!is_null($source['link']) && $source['link']!='') {
-                                                echo '<a class=\'media-name\' href=\''.$source['link'].'\' target=\'_blank\'>'.Sanitize::html($source['media_name']).'</a><br />';
-                                                }
-                                                else {
-                                                echo Sanitize::html($source['media_name']);
-                                                }
-
-                                            }
-                                            ?>">&nbsp;</span>
-                                            <?php
-                                            }
-                                            echo "<br />";
-                                        }
-                                        ?>
-                                        <?php
-                                        }
-                                        if ($amountOfAnswers == 0) {
-                                        ?>
-                                        <span class="has-an-explanation">Sin información</span><br />
-                                        <?php
-                                        }
-                                        ?>
-                                        </div>
-                                    <?php }?>
-                                </div><!--ends accordionContent-->
-                            </div><!--ends category-->
-                            <?php } ?>
-                      </div>  <!-- ends accordion-->
-                </section><!--ends posiciones-->
-        </section><!--ends trayectoriaYPosiciones-->
-</article>
-</div>
+        <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="890">
+            <span>
+                <iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
+                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; " class="fb_ltr" src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890">
+                </iframe>
+            </span>
+        </div>
+    </article>
 </div>
 {% endblock content %}

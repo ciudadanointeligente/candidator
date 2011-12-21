@@ -1,43 +1,54 @@
-{% extends 'elections/base.html' %}
+{% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
 {% block content %}
 
-<h2>Categorias de Antecedentes</h2>
-<ul id="lista_categorias">
-{% for background_category in election.backgroundcategory_set.all %}
-    <li>
-    {{ background_category.name }} <a href="{% url background_create background_category_pk=background_category.pk %}">(Agregar Antecedente)</a>
-    <ul>
-    {% for background in background_category.background_set.all %}
-        <li>{{ background.name }}</li>
-    {% endfor %}
+<div class="fondo_formulario">
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+    </div>
+    <div class="numero_on cuatro">4.</div>
+    <div class="numero_off cinco">5.</div>
+
+    <h2>Antecedentes</h2>
+    <ul id="lista_categorias">
+        {% for background_category in election.backgroundcategory_set.all %}
+        <li>
+            <span class="tit_fondoverde">
+                {% blocktrans with num=forloop.counter %}Categoría de Antecedentes #{{ num }}{% endblocktrans %}
+            </span>
+            &nbsp;{{ background_category.name }}
+            <br/>
+            <a href="{% url background_create background_category_pk=background_category.pk %}">(+)</a>
+            <ul>
+            {% for background in background_category.background_set.all %}
+                <li>{{ background.name }}</li>
+            {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
     </ul>
-    </li>
-{% endfor %}
-</ul>
-<br>
+    <br/>
+    <form name='backgroundcategory' method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
+            <img src="{{ STATIC_URL }}img/bt_siguiente.png" />
+        </a>
+    </form>
 
-<h2>Agregar Categoria de Antecedentes</h2>
-
-<form method="POST">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <input type="submit" value="{% trans "Guardar" %}" />
-</form>
-<div id="link_next">
+    {% if election.backgroundcategory_set.count %}
+    <div id="link_next">
+        <a href="{% url category_create election_slug=election.slug %}">{% trans "Siguiente (Agregar Cuestionario)" %}</a>
+    </div>
+    {% endif %}
 </div>
-<!-- <a href="{% url category_create election_slug=election.slug %}">Siguiente(Questionario)</a> -->
+
 {% endblock %}
 
 {% block extra_js %}
 {{ form.media }}
-<script type="text/javascript">
-    $(function(){
-        if($("#lista_categorias li").size() > 0){
-            $("#link_next").append('<a href="{% url category_create election_slug=election.slug %}">Siguiente (Agregar Cuestionario)</a>');
-        }
-    })
-</script>
 {% endblock %}
