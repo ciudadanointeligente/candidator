@@ -20,7 +20,7 @@ class Election(models.Model):
     slug = models.CharField(max_length=255, verbose_name=_("SLUG:"))
     owner = models.ForeignKey('auth.User')
     description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
-    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False, verbose_name="por último escoge una imagen que la represente:")
+    logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"))
@@ -36,7 +36,7 @@ class Candidate(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Nombre:")
     last_name = models.CharField(max_length=255, verbose_name="Apellido:")
     slug = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
+    photo = models.ImageField(upload_to = 'photos/', blank = True)
 
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
@@ -193,7 +193,7 @@ class PersonalInformation(models.Model):
 
 
 class PersonalData(models.Model):
-    label = models.CharField(max_length=255)
+    label = models.CharField(_('Nuevo dato personal'),max_length=255)
     election = models.ForeignKey('Election')
 
     def __unicode__(self):
@@ -210,7 +210,7 @@ class PersonalDataCandidate(models.Model):
 
 
 class BackgroundCategory(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(_(u"Nueva categoría de antecedentes"), max_length=255)
     election = models.ForeignKey('Election')
 
     def __unicode__(self):

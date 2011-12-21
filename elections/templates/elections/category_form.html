@@ -2,11 +2,24 @@
 {% load i18n %}
 
 {% block content %}
-<h2>
-    {% url election_detail slug=election.slug username=election.owner as election_url%}
-    {% blocktrans with election_name=election.name %}
-        Categorías en <a href="{{ election_url }}">Elección {{ election_name }}</a>
-    {% endblocktrans %}</h2>
+
+<div class="fondo_formulario">
+
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+    </div>
+    <div class="numero_off cuatro">
+        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+    </div>
+    <div class="numero_on cinco">5.</div>
+
+    <h2>
+        Cuestionario
+    </h2>
 <ul id="lista_categorias">
 {% for category in election.category_set.all %}
     <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">{% trans '(Agregar Pregunta)' %}</a>

@@ -6,7 +6,7 @@ from elections.models import Candidate, PersonalInformation, Link
 class CandidateForm(forms.ModelForm):
     class Meta:
         model = Candidate
-        exclude = ('election', 'answers', 'personal_data', 'background')
+        exclude = ('election', 'answers', 'personal_data', 'background', 'photo')
     class Media:
         js = ('js/jquery.slug.js', 'js/jquery.formset.js', )
         css = {
@@ -26,6 +26,9 @@ class CandidatePersonalInformationForm(forms.ModelForm):
     class Meta:
         model = PersonalInformation
         exclude = ('candidate', )
+        css = {
+            'all': ('css/wizard-forms.css',)
+            }
 
 CandidatePersonalInformationFormset = formsets.formset_factory(CandidatePersonalInformationForm, extra=1)
 

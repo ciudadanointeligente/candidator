@@ -4,34 +4,39 @@
 {% block content %}
 
 <div class="fondo_formulario">
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_on tres">3.</div>
+    <div class="numero_off cuatro">4.</div>
+    <div class="numero_off cinco">5.</div>
 
-<div class="numero_off uno">1.</div>
+    <h2>Datos Personales:</h2>
+    <ul id="lista_datos">
+        {% for personal_data in election.personaldata_set.all %}
+        <li>
+            <span class="tit_fondoverde">
+                {% blocktrans with num=forloop.counter %}Dato Personal #{{ num }}{% endblocktrans %}
+            </span>
+            &nbsp;{{ personal_data.label }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br/>
 
-<div class="numero_off dos">2.</div>
+    <form name='personaldata' method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
+            <img src="{{ STATIC_URL }}img/bt_siguiente.png" />
+        </a>
+    </form>
 
-<div class="numero_on tres">3.</div>
-
-<div class="numero_off cuatro">4.</div>
-
-<div class="numero_off cinco">5.</div>
-
-<h2>Datos Personales:</h2>
-<ul id="lista_datos">
-{% for personal_data in election.personaldata_set.all %}
-    <li>{{ personal_data.label }}</li>
-{% endfor %}
-</ul>
-<br>
-
-<form name='personaldata' method="POST">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['personaldata'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
-</form>
-<div id="link_next">
-</div>
-<!-- <a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a> -->
+    {% if election.personaldata_set.count %}
+    <div id="link_next">
+        <a href="{% url background_category_create election_slug=election.slug %}">{% trans "Siguiente (Agregar Antecedentes)" %}</a>
+    </div>
+    {% endif %}
 
 </div>
 
@@ -39,11 +44,4 @@
 
 {% block extra_js %}
 {{ form.media }}
-<script type="text/javascript">
-    $(function(){
-        if($("#lista_datos li").size() > 0){
-            $("#link_next").append('<a href="{% url background_category_create election_slug=election.slug %}">Siguiente (Agregar Antecedentes)</a>');
-        }
-    });
-</script>
 {% endblock %}

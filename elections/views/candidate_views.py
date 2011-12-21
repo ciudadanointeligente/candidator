@@ -74,46 +74,65 @@ class CandidateCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CandidateCreateView, self).get_context_data(**kwargs)
         context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
-        if self.request.POST:
-            context['link_formset'] = CandidateLinkFormset(self.request.POST, prefix='link')
-            context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
-        else:
-            context['personal_information_formset'] = CandidatePersonalInformationFormset()
-            context['link_formset'] = CandidateLinkFormset(prefix='link')
         return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(CandidateCreateView, self).get_context_data(**kwargs)
+    #     context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+    #     if self.request.POST:
+    #         context['link_formset'] = CandidateLinkFormset(self.request.POST, prefix='link')
+    #         context['personal_information_formset'] = CandidatePersonalInformationFormset(self.request.POST)
+    #     else:
+    #         context['personal_information_formset'] = CandidatePersonalInformationFormset()
+    #         context['link_formset'] = CandidateLinkFormset(prefix='link')
+    #     return context
 
     def get_success_url(self):
         return reverse('candidate_create', kwargs={'election_slug': self.object.election.slug})
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        personal_information_formset = context['personal_information_formset']
-        link_formset = context['link_formset']
+        self.object = form.save(commit=False)
+        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+        self.object.election = election
+        try:
+            self.object.full_clean()
+            self.object.save()
+        except ValidationError:
+            from django.forms.util import ErrorList
+            form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+            return super(CandidateCreateView, self).form_invalid(form)
+        return super(CandidateCreateView, self).form_valid(form)
 
-        if personal_information_formset.is_valid() and link_formset.is_valid():
-            self.object = form.save(commit=False)
-            election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
-            self.object.election = election
 
-            try:
-                self.object.full_clean()
-                self.object.save()
-                for f in personal_information_formset:
-                   personal_information = f.save(commit=False)
-                   personal_information.candidate = self.object
-                   personal_information.save()
+    # def form_valid(self, form):
+    #     context = self.get_context_data()
+    #     personal_information_formset = context['personal_information_formset']
+    #     link_formset = context['link_formset']
 
-                for f in link_formset:
-                   link = f.save(commit=False)
-                   link.candidate = self.object
-                   link.save()
+    #     if personal_information_formset.is_valid() and link_formset.is_valid():
+    #         self.object = form.save(commit=False)
+    #         election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+    #         self.object.election = election
 
-            except ValidationError:
-                from django.forms.util import ErrorList
-                form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
-                return super(CandidateCreateView, self).form_invalid(form)
+    #         try:
+    #             self.object.full_clean()
+    #             self.object.save()
+    #             for f in personal_information_formset:
+    #                personal_information = f.save(commit=False)
+    #                personal_information.candidate = self.object
+    #                personal_information.save()
 
-            return super(CandidateCreateView, self).form_valid(form)
+    #             for f in link_formset:
+    #                link = f.save(commit=False)
+    #                link.candidate = self.object
+    #                link.save()
+
+    #         except ValidationError:
+    #             from django.forms.util import ErrorList
+    #             form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+    #             return super(CandidateCreateView, self).form_invalid(form)
+
+    #         return super(CandidateCreateView, self).form_valid(form)
 
 @login_required
 @require_http_methods(['GET'])
