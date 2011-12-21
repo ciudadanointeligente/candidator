@@ -226,6 +226,8 @@ class BackgroundCandidate(models.Model):
     background = models.ForeignKey('Background')
     value = models.CharField(max_length=255)
 
+    def __unicode__(self):
+        return u'%s: %s' % (self.candidate, self.value)
 
 
 
