@@ -23,11 +23,11 @@
 </ul>
 <br>
 
-<form method="POST">{% csrf_token %}
+<form name='personaldata' method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
-    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
+    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['personaldata'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
 </form>
 <div id="link_next">
 </div>
