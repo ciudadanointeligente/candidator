@@ -98,7 +98,7 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     if request.POST:
         election = get_object_or_404(Election, slug=slug, owner__username=username)
         candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
-        personal_data = candidate.get_personal_data()
+        personal_data = candidate.get_personal_data
         photo_route = str(candidate.photo.url)
         json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
         return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
