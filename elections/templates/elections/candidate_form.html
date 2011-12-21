@@ -24,9 +24,10 @@
         {% for candidate in election.candidate_set.all %}
             <li>
                 <span class="tit_fondoverde">
-                    {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %}
+                    {{ candidate.name }} <a href="#">X</a>         
+                    <!--{% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %}-->
                 </span>
-                {{ candidate.name }}
+                <!--{{ candidate.name }}-->
             </li>
         {% endfor %}
     </ul>

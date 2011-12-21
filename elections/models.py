@@ -36,7 +36,7 @@ class Candidate(models.Model):
     first_name = models.CharField(max_length=255, verbose_name="Nombre:")
     last_name = models.CharField(max_length=255, verbose_name="Apellido:")
     slug = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
+    photo = models.ImageField(upload_to = 'photos/', null =True, blank = True)
 
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
