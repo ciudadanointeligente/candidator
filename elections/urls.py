@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
 from django.contrib.auth.decorators import login_required
+from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
 from views import associate_answer_to_candidate, ElectionCreateView,\
@@ -24,6 +25,10 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
             associate_answer_to_candidate,
             name='associate_answer_candidate'),
+    # Create Answer Ajax
+    url(r'answer_create/(?P<question_pk>\d+).json',
+            AnswerCreateAjaxView.as_view(),
+            name='answer_create_ajax'),
 
     # Create Category View
     url(r'^(?P<election_slug>[-\w]+)/category/create/?$', CategoryCreateView.as_view(), name='category_create'),

@@ -52,6 +52,22 @@ class CandidateModelTest(TestCase):
 
         self.assertRaises(IntegrityError, Candidate.objects.create,
                           first_name='Juanito', last_name='Candidatito', slug='juan-candidato', election=self.election)
+    
+    
+    def test_create_two_candidate_with_same_slug_in_different_election(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)                                                     
+        election2 = Election.objects.get_or_create(name='BarBaz2',
+                                                           owner=self.user,
+                                                           slug='barbaz2',
+                                                           description='esta es una descripcion')
+        candidate2 = Candidate.objects.create(first_name='Juan',
+                                                            las_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=election2)      
+        self.assertEqual(candidate.slug, candidate2.slug)
 
     def test_name_property(self):
         candidate = Candidate()
