@@ -24,6 +24,11 @@ from elections.models import Election, Candidate
 class CandidateDetailView(DetailView):
     model = Candidate
 
+    def get_context_data(self, **kwargs):
+        context = super(CandidateDetailView, self).get_context_data(**kwargs)
+        context['election'] = self.object.election
+        return context
+
     def get_queryset(self):
         if self.kwargs.has_key('username') and self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
             return self.model.objects.filter(election__owner__username=self.kwargs['username'],
