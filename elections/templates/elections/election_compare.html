@@ -7,6 +7,16 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
 
     <script type="text/javascript">
@@ -230,5 +240,11 @@
             </ul>
         </aside>
    </article>
+   <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
+            data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
+                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
+                                                           class="fb_ltr"
+                                                           src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890"></iframe></span>
+        </div>
 </div>
 {% endblock content %}
