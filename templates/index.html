@@ -15,7 +15,7 @@
 <li><a href="/accounts/login/">Login Usuario</a></li>
 <li><a href="/elections">Elecciones</a></li>
 {% if user.is_authenticated %}
-	<li><a href="{{user.username}}/my_elections">Mis Elecciones</a></li>
+	<li><a href="/my_elections">Mis Elecciones</a></li>
 {% endif %}
 </ul>
 {% endblock content %}
