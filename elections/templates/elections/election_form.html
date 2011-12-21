@@ -1,59 +1,61 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
-
 {% block content %}
 
-<div class="fondo_formulario">
+    <div class="fondo_formulario">
 
-<div class="numero_on uno">1.</div>
+        <div class="numero_on uno">1.</div>
 
-<div class="numero_off dos">2.</div>
+        <div class="numero_off dos">2.</div>
 
-<div class="numero_off tres">3.</div>
+        <div class="numero_off tres">3.</div>
 
-<div class="numero_off cuatro">4.</div>
+        <div class="numero_off cuatro">4.</div>
 
-<div class="numero_off cinco">5.</div>
+        <div class="numero_off cinco">5.</div>
 
-<h2>Elección</h2>
+        <h2>{% trans 'Elección' %}</h2>
 
-<div class="instrucciones">Primero debes escoger el...</div><br />
+        <div class="instrucciones">{% trans 'Primero debes escoger el...' %}</div>
+        <br/>
 
-<form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
-    {{ form.non_field_errors }}
-    <p class="fieldWrapper">
-        {{ form.name.errors }}
-        <label for="id_name" class="tit_fondoverde">{{form.name.label}}</label>{{ form.name }}
-    </p>
-    
-    <p class="fieldWrapper">
-        {{ form.slug.errors }}
-        <label for="id_slug" class="instrucciones">{{form.slug.label}}</label>{{ form.slug }}
-    </p>
-    
-    <p class="fieldWrapper">
-        {{ form.name.errors }}
-        <label for="id_description" class="tit_fondoverde">{{form.description.label}}</label>{{ form.description }}
-    </p>
-    
-     <p class="fieldWrapper">
-        {{ form.logo.errors }}
-        <label for="id_logo" class="instrucciones">{{form.logo.label}}</label>{{ form.logo }}
-    </p>
-  
-    <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"><img src= "/static/img/bt_siguiente.png" /></a>
-</form>
+        <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <p class="fieldWrapper">
+                {{ form.name.errors }}
+                <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>{{ form.name }}
+            </p>
 
-</div>
+            <p class="fieldWrapper">
+                {{ form.slug.errors }}
+                <label for="id_slug" class="instrucciones">{{ form.slug.label }}</label>{{ form.slug }}
+            </p>
+
+            <p class="fieldWrapper">
+                {{ form.name.errors }}
+                <label for="id_description"
+                       class="tit_fondoverde">{{ form.description.label }}</label>{{ form.description }}
+            </p>
+
+            <p class="fieldWrapper">
+                {{ form.logo.errors }}
+                <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>{{ form.logo }}
+            </p>
+
+            <a class="bt_siguiente" href="javascript: void(0);"
+               onclick="document.forms['newelection'].submit();return false;"><img src="/static/img/bt_siguiente.png"/></a>
+        </form>
+
+    </div>
 
 {% endblock %}
 
 {% block extra_js %}
-{{ form.media }}
-<script type="text/javascript">
-    $("#id_name").slug({
-        'target': $('#id_slug')
-    });
-</script>
+    {{ form.media }}
+    <script type="text/javascript">
+        $("#id_name").slug({
+            'target':$('#id_slug')
+        });
+    </script>
 {% endblock %}
