@@ -210,7 +210,11 @@
                         </ul>
 
                         <ul class="secondCandidatesAnswer">
-                            <li class=" answerInComparison answered"> {{ answer.2 }}</li>
+                            <li class=" answerInComparison answered"> {% if answer.2 == "no answer" %}
+                                   No hay respuesta</li>
+                                {% else %}
+                                   {{ answer.2 }}</li>
+                                {% endif %}
                         </ul>
 
                     </div>
