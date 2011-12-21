@@ -24,27 +24,37 @@
             {{ form.non_field_errors }}
             <p class="fieldWrapper">
                 {{ form.name.errors }}
-                <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>{{ form.name }}
+                <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>
+                {{ form.name }}
+            </p>
+
+            <p class="fieldWrapper">
+                {{ form.date.errors }}
+                <label for="id_date" class="tit_fondoverde">{{ form.date.label }}</label>
+                {{ form.date }}
             </p>
 
             <p class="fieldWrapper">
                 {{ form.slug.errors }}
-                <label for="id_slug" class="instrucciones">{{ form.slug.label }}</label>{{ form.slug }}
+                <label for="id_slug" class="instrucciones">{{ form.slug.label }}</label>
+                {{ form.slug }}
             </p>
 
             <p class="fieldWrapper">
                 {{ form.name.errors }}
-                <label for="id_description"
-                       class="tit_fondoverde">{{ form.description.label }}</label>{{ form.description }}
+                <label for="id_description" class="tit_fondoverde">{{ form.description.label }}</label>
+                {{ form.description }}
             </p>
 
             <p class="fieldWrapper">
                 {{ form.logo.errors }}
-                <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>{{ form.logo }}
+                <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>
+                {{ form.logo }}
             </p>
 
-            <a class="bt_siguiente" href="javascript: void(0);"
-               onclick="document.forms['newelection'].submit();return false;"><img src="/static/img/bt_siguiente.png"/></a>
+            <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
+               <img src="/static/img/bt_siguiente.png"/>
+            </a>
         </form>
 
     </div>

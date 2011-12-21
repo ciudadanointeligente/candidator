@@ -8,6 +8,7 @@ from django.forms import ModelForm
 from django_extensions.db.fields import AutoSlugField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
 twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
@@ -15,13 +16,14 @@ twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
 
 # Create your models here.
 class Election(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name=_("NAME:"))
+    slug = models.CharField(max_length=255, verbose_name=_("SLUG:"))
     owner = models.ForeignKey('auth.User')
-    description = models.TextField(max_length=10000, verbose_name="DESCRIPCIÓN DE LA ELECCIÓN:")
+    description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
     logo = models.ImageField(upload_to = 'logos/', null =False, blank = False, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+    date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"))
 
     class Meta:
         unique_together = ('owner', 'slug')
@@ -158,7 +160,7 @@ class Candidate(models.Model):
             if answer.question == question:
                 return answer.caption
         return "no answer"
-    
+
     def get_all_answers_by_category(self, category):
         all_answers = []
         all_questions = self.get_questions_by_category(category)
