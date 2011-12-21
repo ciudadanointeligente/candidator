@@ -187,12 +187,15 @@ class PersonalInformation(models.Model):
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):
-        return u"%s" % self.label
+        return u"%s: %s" % (self.candidate, self.label)
 
 
 class PersonalData(models.Model):
     label = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
+
+    def __unicode__(self):
+        return u'%s (%s)' % (self.label, self.election)
 
 
 class PersonalDataCandidate(models.Model):
@@ -208,16 +211,22 @@ class BackgroundCategory(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
 
+    def __unicode__(self):
+        return u'%s (%s)' % (self.name, self.election)
+
 
 class Background(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('BackgroundCategory')
-
+    def __unicode__(self):
+        return u'%s: %s (%s)' % (self.category, self.name, self.category.election)
 
 class BackgroundCandidate(models.Model):
     candidate = models.ForeignKey('Candidate')
     background = models.ForeignKey('Background')
     value = models.CharField(max_length=255)
+
+
 
 
 class Link(models.Model):
