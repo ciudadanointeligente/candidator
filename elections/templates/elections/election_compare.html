@@ -23,15 +23,15 @@
     function get_checked_radio_button_value(){
         var radio_buttons = document.getElementsByName("category")
         for(i=0;i<radio_buttons.length;i++){
-	   if(radio_buttons[i].checked) return radio_buttons[i].value
-	}
+           if(radio_buttons[i].checked) return radio_buttons[i].value
+        }
     }
 
     function get_base_url(){
-	var actual_direction  = location.href
-	var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
-	var position_pattern  = actual_direction.indexOf(reference_pattern)
-	var pre_direction     = actual_direction.substring(0,position_pattern)
+    var actual_direction  = location.href
+    var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
+    var position_pattern  = actual_direction.indexOf(reference_pattern)
+    var pre_direction     = actual_direction.substring(0,position_pattern)
         var final_direction   = pre_direction + reference_pattern
         return final_direction
     }
@@ -40,53 +40,68 @@
 
         $("#"+div_id).empty();
         var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
-	$.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
+         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json) {
-               var data = json["personal_data"]
-	       for (var key in data) {
-		$("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
-                var candidate_photo = document.getElementById(photo_id)
-                candidate_photo.src = json["photo_route"]
-	       }},'json');
+                var data = json["personal_data"]
+                for (var key in data) {
+                    $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
+                    var candidate_photo = document.getElementById(photo_id)
+                    candidate_photo.src = json["photo_route"]
+                }
+            }, 'json');
     }
 
-    function get_comparation_data_in_select(current_select){
+    function get_comparation_data_in_select(current_select) {
 
-    	var first_select  = document.getElementById("firstCandidate")
+        var first_select  = document.getElementById("firstCandidate")
         var second_select = document.getElementById("secondCandidate")
         var radio_buttons = document.getElementsByName("category")
         var error_div     = document.getElementById("sameCandidates")
         error_div.style.display = "none"
 
-	if(current_select.name == "firstCandidate"){
-		if(second_select.value == "0"){ async_call_for_candidate_data(first_select.value,"first_candidate_div","first_candidate_photo") }
-		else if(second_select.value == first_select.value){
-                   error_div.style.display = "inline"
-                }
-                else{
-                   var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
-                   window.location     = final_direction
-		}   
-	}
-	else{
-		if(first_select.value == "0"){ async_call_for_candidate_data(second_select.value,"second_candidate_div","second_candidate_photo") }
-		else if(second_select.value == first_select.value){
-                   error_div.style.display = "inline"
-		}
-                else{
-                   var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + get_checked_radio_button_value()
-                   window.location     = final_direction
-		}
-	}
+        if(current_select.name == "firstCandidate") {
+            if(second_select.value == "0"){
+                async_call_for_candidate_data(first_select.value,"first_candidate_div","first_candidate_photo")
+            }
+            else if (second_select.value == first_select.value) {
+               error_div.style.display = "inline"
+            }
+            else{
+                var final_direction = get_base_url() +"/";
+                if (first_select.value < second_select.value)
+                    final_direction += first_select.value + "_vs_" + second_select.value;
+                else
+                    final_direction += second_select.value + "_vs_" + first_select.value;
+                final_direction +=  "_in_" + get_checked_radio_button_value();
+                window.location = final_direction;
+            }
+        }
+        else{
+            if(first_select.value == "0") {
+                async_call_for_candidate_data(second_select.value,"second_candidate_div","second_candidate_photo");
+            }
+            else if(second_select.value == first_select.value){
+               error_div.style.display = "inline";
+            }
+            else{
+                var final_direction = get_base_url() +"/";
+                if (first_select.value < second_select.value)
+                    final_direction += first_select.value + "_vs_" + second_select.value;
+                else
+                    final_direction += second_select.value + "_vs_" + first_select.value;
+                final_direction +=  "_in_" + get_checked_radio_button_value();
+                window.location = final_direction;
+            }
+        }
     }
 
     function get_comparation_data_in_radio_button(current_radio_button){
-	var first_select  = document.getElementById("firstCandidate")
-        var second_select = document.getElementById("secondCandidate")
+        var first_select  = document.getElementById("firstCandidate");
+        var second_select = document.getElementById("secondCandidate");
         if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
             var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + current_radio_button.value
             window.location     = final_direction
-	}
+        }
     }
     </script>
 {% endblock extra_js %}
@@ -99,7 +114,7 @@
 
     <div class="wrapper">
         <article class="wrapW">
-	
+
             <div id="sameCandidates" style="display:none"><ul id="errors"><li id="errors">Los 2 candidatos son iguales</li></ul></div>
             <div class="leftContent">
 
@@ -117,29 +132,29 @@
 
                         <div class="basicProfileContainer">
 
-			    {% if first_candidate %}
+                {% if first_candidate %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
-			    {% else %}
+                {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
-			    {% endif %}
+                {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
-			    <div id="first_candidate_div" class="first_candidate_div">
+                <div id="first_candidate_div" class="first_candidate_div">
 
                             {% if first_candidate %}
-                               
+
                                 {% for key, value in first_candidate.get_personal_data.items %}
-                            
+
                                     <li>
                                         <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
                                         <span class="candidateBasicComparisonAnswer">{{ value }}</span>
                                     </li>
 
                                 {% endfor %}
-                            
+
                             {% endif %}
 
-			    </div>
+                </div>
                             </ul>
                         </div>
                     </div>
@@ -157,20 +172,20 @@
 
                         <div class="basicProfileContainer">
 
-			    {% if second_candidate %}
+                {% if second_candidate %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
-			    {% else %}
+                {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
-			    {% endif %}
+                {% endif %}
 
                             <ul class="candidateBasicProfileInfo">
-			    <div id="second_candidate_div" class="second_candidate_div">
+                <div id="second_candidate_div" class="second_candidate_div">
 
 
                             {% if second_candidate %}
-                               
+
                                 {% for key, value in second_candidate.get_personal_data.items %}
-                            
+
 
                                     <li>
                                         <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
@@ -178,10 +193,10 @@
                                     </li>
 
                                 {% endfor %}
-                            
+
                             {% endif %}
 
-			    </div>
+                </div>
                             </ul>
 
                         </div>
@@ -201,7 +216,7 @@
                    <div class="answerSpace">
 
                         <ul class="firstCandidatesAnswer">
-                            <li class=" answerInComparison answered"> 
+                            <li class=" answerInComparison answered">
                                 {% if answer.1 == "no answer" %}
                                    No hay respuesta</li>
                                 {% else %}
@@ -232,10 +247,10 @@
                 {% for category in election.category_set.all %}
                 <li>
                     <input type="radio" name="category"
-		    {% if selected_category %}
-                        {% if selected_category == category %}checked="checked"{% endif %} 
+            {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %}
                     {% else %}
-                        {% if forloop.first %}checked="checked"{% endif %} 
+                        {% if forloop.first %}checked="checked"{% endif %}
                     {% endif %}
                     value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
