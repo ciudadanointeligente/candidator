@@ -17,11 +17,13 @@ class ElectionModelTest(TestCase):
         election, created = Election.objects.get_or_create(name='BarBaz',
                                                            owner=user,
                                                            slug='barbaz',
-                                                           description='esta es una descripcion')
+                                                           description='esta es una descripcion',
+                                                           date='27 de Diciembre')
         self.assertTrue(created)
         self.assertEqual(election.name, 'BarBaz')
         self.assertEqual(election.owner, user)
         self.assertEqual(election.slug, 'barbaz')
+        self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
 
     def test_create_two_election_by_same_user_with_same_slug(self):
@@ -206,7 +208,7 @@ class ElectionCompareViewTest(TestCase):
                                                'category_slug': category}))
         self.assertEquals(response.status_code, 404)
 
-    
+
 class ElectionCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -352,7 +354,7 @@ class ElectionUrlsTest(TestCase):
         expected = '/juanito/eleccion-la-florida/compare'
         result = reverse('election_compare', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
-    
+
     def test_compare_one_candidate_url(self):
         expected = '/juanito/eleccion-la-florida/compare/my-candidate'
         result = reverse('election_compare_one_candidate', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida', 'first_candidate_slug':'my-candidate'})
