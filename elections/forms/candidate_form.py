@@ -8,7 +8,7 @@ class CandidateForm(forms.ModelForm):
         model = Candidate
         exclude = ('election', 'answers', 'personal_data', 'background')
     class Media:
-        js = ('jquery.slug.js', 'jquery.formset.js', )
+        js = ('js/jquery.slug.js', 'js/jquery.formset.js', )
         css = {
             'all': ('css/wizard-forms.css',)
             }
@@ -19,7 +19,7 @@ class CandidateUpdateForm(forms.ModelForm):
         model = Candidate
         exclude = ('slug', 'election', 'answers', 'personal_data', 'background')
     class Media:
-        js = ('jquery.formset.js', )
+        js = ('js/jquery.formset.js', )
 
 
 class CandidatePersonalInformationForm(forms.ModelForm):

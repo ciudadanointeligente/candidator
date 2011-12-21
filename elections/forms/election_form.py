@@ -11,7 +11,7 @@ class ElectionForm(forms.ModelForm):
         model = Election
         exclude = ('owner')
     class Media:
-        js = ('jquery.slug.js', )
+        js = ('js/jquery.slug.js', )
         css = {
             'all': ('css/wizard-forms.css',)
             }
@@ -28,7 +28,7 @@ class CategoryForm(forms.ModelForm):
         model = Category
         exclude = ('election')
     class Media:
-        js = ('jquery.slug.js', )
+        js = ('js/jquery.slug.js', )
 
 
 class CategoryUpdateForm(forms.ModelForm):
@@ -54,21 +54,21 @@ class PersonalDataForm(forms.ModelForm):
         model = PersonalData
         exclude = ('election')
     class Media:
-        js = ('jquery.formset.js', )
+        js = ('js/jquery.formset.js', )
 
 class PersonalDataCandidateForm(forms.ModelForm):
     class Meta:
         model = PersonalDataCandidate
         exclude = ('candidate', 'personal_data')
     class Media:
-        js = ('jquery.formset.js', )
+        js = ('js/jquery.formset.js', )
 
 class BackgroundCategoryForm(forms.ModelForm):
     class Meta:
         model = BackgroundCategory
         exclude = ('election')
     class Media:
-        js = ('jquery.formset.js', )
+        js = ('js/jquery.formset.js', )
 
 
 class BackgroundForm(forms.ModelForm):

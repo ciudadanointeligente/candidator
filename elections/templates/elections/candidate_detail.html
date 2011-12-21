@@ -8,8 +8,7 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
-<script type="text/javascript" src="/js/accordionForProfiles.js"></script>
-<article>
+<script type="text/javascript" src="{{ STATIC_URL }}/js/accordionForProfiles.js"></script>
 <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e7a236a4a5434b2"></script>
 {% endblock extra_js %}
 
@@ -18,165 +17,129 @@
 {% endblock title %}
 
 {% block content %}
-    <div id="candidatesProfile" class="wrapper">
-    <div class="candidatesBasicInformation wrapW">
+<div id="candidatesProfile" class="wrapper">
+    <article>
+        <div class="candidatesBasicInformation wrapW">
 
-        <header>
-            <h2>{{ candidate.name }}</h2>
-        </header>
+            <header>
+                <h2>{{ candidate.name }}</h2>
+            </header>
 
-        <div>
-            <div class="profileImg">
-                <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}">
-            </div>
-
-            <section class="personalInfo">
-                <h3 style="display:none;">{% trans "Información personal" %}</h3>
-                {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
-                    <span class="profile-description">{{ personal_data_label }}: {{ personal_data_value }}</span>
-                {% endfor %}
-            </section>
-            <aside class="profileAside">
-                <div class="sideButton compare"><a href="/compare/jorge-altamira">Compará</a></div>
-                <div class="sideButton medianaranja">
-                    <a href="{% url medianaranja1 election_slug=candidate.election.slug username=candidate.election.owner.username %}">
-                        {% trans "Media<wbr>Naranja" %}
-                    </a>
+            <div>
+                <div class="profileImg">
+                    <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}">
                 </div>
 
-                <!-- AddThis Button BEGIN -->
-                <div class="addthis_toolbox sideButton share">
+                <section class="personalInfo">
+                    <h3 style="display:none;">{% trans "Información personal" %}</h3>
+                    {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
+                        <span class="profile-description">{{ personal_data_label }}: {{ personal_data_value }}</span>
+                    {% endfor %}
+                </section>
+                <aside class="profileAside">
+                    <div class="sideButton compare"><a href="/compare/jorge-altamira">Compará</a></div>
+                    <div class="sideButton medianaranja">
+                        <a href="{% url medianaranja1 election_slug=candidate.election.slug username=candidate.election.owner.username %}">
+                            {% trans "Media<wbr>Naranja" %}
+                        </a>
+                    </div>
+
                     <!-- AddThis Button BEGIN -->
-                    <a class="addthis_button"
-                       href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2">
-                        {% trans "Compartí" %}
-                    </a>
+                    <div class="addthis_toolbox sideButton share">
+                        <!-- AddThis Button BEGIN -->
+                        <a class="addthis_button"
+                           href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2">
+                            {% trans "Compartí" %}
+                        </a>
 
+                        <!-- AddThis Button END -->
+                        <div class="atclear"></div>
+                    </div>
                     <!-- AddThis Button END -->
-                    <div class="atclear"></div>
-                </div>
-
-                <!-- AddThis Button END -->
-            </aside>
-            <section class="enlacesPersonales">
-                <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
-                <ul class="ulEnlacesPersonales">
-                    {% for link in candidate.link_set.all %}
-                    <li class="{{ link.css_class }}"><a rel="external" href="{{ link.url }}">{{ link.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </section>
-
-
+                </aside>
+                <section class="enlacesPersonales">
+                    <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
+                    <ul class="ulEnlacesPersonales">
+                        {% for link in candidate.link_set.all %}
+                        <li class="{{ link.css_class }}"><a rel="external" href="{{ link.url }}">{{ link.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
         </div>
-    </div>
-    <!--ends candidate basic information-->
-    <section class="trayectoriaYPosiciones">
-        <section class="trayectoria">
-            <h2>{% trans "Antecedentes" %}: </h2>
+        <!--ends candidate basic information-->
+        <section class="trayectoriaYPosiciones">
+            <section class="trayectoria">
+                <h2>{% trans "Antecedentes" %}: </h2>
 
-            <div class="brdotted">
+                <div class="brdotted">
+                    <div class="accordion">
+                        {% for background_category, background_items in candidate.get_background.items %}
+                        <h3>{{ background_category }}: </h3>
+
+                        <div class="accordionContent">
+                            {% for background_label, background_value in background_items.items %}
+                            <span class="profile-description">{{ background_label }}: </span>{{ background_value }}<br>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--ends accordion-->
+                </div>
+                <!--ends brdotted-->
+            </section>
+            <!--ends trayectoria-->
+
+            <section class="posiciones">
+
+                <h2>{% trans "Posición política en" %}: </h2>
+
                 <div class="accordion">
-                    {% for background_category, background_items in candidate.get_background.items %}
-                    <h3>{{ background_category }}: </h3>
-
-                    <div class="accordionContent">
-                        {% for background_label, background_value in background_items.items %}
-                        <span class="profile-description">{{ background_label }}: </span>{{ background_value }}<br>
-                        {% endfor %}
+                    {% for category in candidate.election.category_set.all %}
+                    <div class="category">
+                        <h3>{{ category.name }}</h3>
+                        <div class="accordionContent">
+                            {% for question in category.question_set.all %}
+                            <h4>{{ question.question }}</h4>
+                            <div class="answerContainer">
+                                <span style="opacity:1;" class="answer">
+                                    {% answer_for_candidate_and_question candidate question %}
+                                </span>
+                                <br>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!--ends accordionContent-->
                     </div>
-                    {% endfor %}
+                    <!--ends category-->
+                    {% endfor %}{# end category_set #}
                 </div>
-                <!--ends accordion-->
-            </div>
-            <!--ends brdotted-->
+                <!-- ends accordion-->
+            </section>
+            <!--ends posiciones-->
         </section>
-        <!--ends trayectoria-->
-
-        <section class="posiciones">
-
-            <h2>{% trans "Posición política en" %}: </h2>
-
-            <div class="accordion">
-                {% for category in candidate.election.category_set.all %}
-                <div class="category">
-                    <h3>{{ category.name }}</h3>
-
-                    <div class="accordionContent">
-                        {% for question in category.question_set.all %}
-                        <h4>{{ question.question }}</h4>
-
-                        <div class="answerContainer">
-                            <span style="opacity:1;" class="answer">
-                                {% answer_for_candidate_and_question candidate question %}
-                            </span>
-                            <br></div>
-                        {% endfor %}
-                    </div>
-                    <!--ends accordionContent-->
-                </div>
-                <!--ends category-->
-                {% endfor %}{# end category_set #}
-            </div>
-            <!-- ends accordion-->
-        </section>
-        <!--ends posiciones-->
-    </section>
-    <!--ends trayectoriaYPosiciones-->
-    <div id="fb-root"></div>
-    <script>(function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-    <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
-         data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
-                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
-                                                           class="fb_ltr"
-                                                           src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890"></iframe></span>
-    </div></article>
-
-
-    <script>
-        $(document).ready(function () {
-            $('.has-an-explanation.question:not([tooltip_message=""])').qtip({
-                content:{
-                    attr:'tooltip_message'
-                },
-                position:{
-                    my:'bottom left',
-                    at:'top right'
-                },
-                style:{
-                    classes:'explanationQuestion'
-                },
-                hide:{
-                    delay:300
+        <!--ends trayectoriaYPosiciones-->
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
                 }
-            });
-            $('.has-an-explanation.answer:not([tooltip_message=""])').qtip({
-                content:{
-                    attr:'tooltip_message'
-                },
-                position:{
-                    my:'top left'
-                },
-                style:{
-                    classes:'explanationAnswer'
-                },
-                hide:{
-                    fixed:true,
-                    delay:300
-                }
-            });
-        });
-    </script>    </div>
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
 
-
+        <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="890">
+            <span>
+                <iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
+                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; " class="fb_ltr" src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890">
+                </iframe>
+            </span>
+        </div>
+    </article>
+</div>
 {% endblock content %}
