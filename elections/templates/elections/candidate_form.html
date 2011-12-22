@@ -1,110 +1,76 @@
-{% extends 'elections/base.html' %}
+{% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
 {% block content %}
 
-<h2>Candidatos Elección "{{ election.name }}":</h2>
-<ul id="lista_candidatos">
-{% for candidate in election.candidate_set.all %}
-<li>{{ candidate.name }}</li>
-{% endfor %}
-</ul>
+<div class="fondo_formulario">
 
-<br>
+    <div class="numero_off uno">1.</div>
+    <div class="numero_on dos">2.</div>
+    <div class="numero_off tres">3.</div>
+    <div class="numero_off cuatro">4.</div>
+    <div class="numero_off cinco">5.</div>
 
-<h2>Agregar Candidato</h2>
+    <h2>{% trans 'Candidatos' %}</h2>
+    <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
+    <ul id="lista_candidatos">
+        {% for candidate in election.candidate_set.all %}
+        <li>
+            <span class="tit_fondoverde">
+                {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %}
+            </span>
+            &nbsp;{{ candidate.name }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br/>
 
-<form method="POST" enctype="multipart/form-data">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <!-- <table id="id_personal_information_table" border="0" cellpadding="0" cellspacing="5">
-        <thead>
-            <tr>
-                <th scope="col">Label</th>
-                <th scope="col">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in personal_information_formset.forms %}
-            <tr id="{{ form.prefix }}-row">
-                <td>{{ form.label }}</td>
-                <td>{{ form.value }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+           <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+        </a>
+    </form>
 
-    <table id="id_link_table" border="0" cellpadding="0" cellspacing="5">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in link_formset.forms %}
-            <tr id="{{ form.prefix }}-row">
-                <td>{{ form.name }}</td>
-                <td>{{ form.url }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table> -->
+    {% if election.candidate_set.count %}
+    <div id="link_next">
+        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans "Siguiente (Datos Personales)" %}</a>
+    </div>
+    {% endif %}
 
-    {{ personal_information_formset.management_form }}
-    {{ link_formset.management_form }}
-    <input type="submit" value="{% trans "Guardar" %}" />
-</form>
-<div id="link_next">
-
-<div/>
-<!-- <a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a> -->
 
 {% endblock %}
 
 {% block extra_js %}
-{{ form.media }}
-<script type="text/javascript">
+    {{ form.media }}
+    <script type="text/javascript">
 
-    $(function() {
-        $('#id_first_name, #id_last_name').keyup(function() {
-            var first_name = $.trim($("#id_first_name").val());
-            var last_name = $.trim($("#id_last_name").val());
-            var value = "";
-            if (first_name != '' || last_name != '') {
-                if (first_name != '' && last_name != '') {
-                    value = first_name + '-' + last_name
+        $(function () {
+            $('#id_first_name, #id_last_name').keyup(function () {
+                var first_name = $.trim($("#id_first_name").val());
+                var last_name = $.trim($("#id_last_name").val());
+                var value = "";
+                if (first_name != '' || last_name != '') {
+                    if (first_name != '' && last_name != '') {
+                        value = first_name + '-' + last_name
+                    }
+                    else if (first_name == '') {
+                        value = last_name
+                    }
+                    else if (last_name == '') {
+                        value = first_name
+                    }
                 }
-                else if (first_name == '') {
-                    value = last_name
-                }
-                else if (last_name == '') {
-                    value = first_name
-                }
-            }
-            $('#id_slug').val($.slug(value));
+                $('#id_slug').val($.slug(value));
+            });
+
+            $('#id_personal_information_table tbody tr').formset({
+                extraClasses:['row1', 'row2', 'row3']
+            })
+            $('#id_link_table tbody tr').formset({
+                extraClasses:['row1', 'row2', 'row3']
+            })
         });
-
-        $('#id_personal_information_table tbody tr').formset({
-            extraClasses: ['row1', 'row2', 'row3']
-        })
-        $('#id_link_table tbody tr').formset({
-            extraClasses: ['row1', 'row2', 'row3']
-        })
-        // $(".add-row").click(function(){
-        //     if($("#table_body tr").size() >= 5){
-        //         $(".add-row").hide();
-        //         $(".delete-row").click(function(){
-        //             if($("#table_body tr").size() < 5){
-        //                 $(".add-row").show();
-        //             }
-        //         })
-        //     }
-        // })
-        if($("#lista_candidatos li").size() > 0){
-            $("#link_next").append('<a href="{% url personal_data_create election_slug=election.slug %}">Siguiente (Datos Personales)</a>');
-        }
-    });
-</script>
+    </script>
 {% endblock %}

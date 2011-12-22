@@ -1,23 +1,29 @@
+# -*- coding: utf-8 -*-
+
 import os
+import re
 from django.db import models
 from django.conf import settings
 from django.forms import ModelForm
 from django_extensions.db.fields import AutoSlugField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
+
+facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
+twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
+
 
 # Create your models here.
-
-
 class Election(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name=_("NAME:"))
+    slug = models.CharField(max_length=255, verbose_name=_("SLUG:"))
     owner = models.ForeignKey('auth.User')
-    description = models.TextField(max_length=10000)
-    logo = models.ImageField(upload_to = 'logos/', null =False, blank = False)
-
+    description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
+    logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+    date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"))
 
     class Meta:
         unique_together = ('owner', 'slug')
@@ -27,12 +33,16 @@ class Election(models.Model):
 
 
 class Candidate(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, verbose_name="Nombre:")
+    last_name = models.CharField(max_length=255, verbose_name="Apellido:")
     slug = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to = 'photos/', blank = True)
+
     election = models.ForeignKey('Election')
     answers = models.ManyToManyField('Answer', blank=True)
-    photo = models.ImageField(upload_to = 'photos/', null =False, blank = False)
+
+    personal_data = models.ManyToManyField('PersonalData', through='PersonalDataCandidate')
+    background = models.ManyToManyField('Background', through='BackgroundCandidate')
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -98,12 +108,76 @@ class Candidate(models.Model):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
+
+    def add_background(self, background, value):
+        bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
+        if len(bcs) > 0:
+            for bc in bcs:
+                bc.delete()
+        background_candidate = BackgroundCandidate(background=background, candidate=self, value=value)
+        background_candidate.save()
+
+    def add_personal_data(self, personal_data, value):
+        pdc = PersonalDataCandidate.objects.filter(personal_data=personal_data, candidate=self)
+        if len(pdc) > 0:
+            for pd in pdc:
+                pd.delete()
+        personal_data = PersonalDataCandidate(personal_data=personal_data, candidate=self, value=value)
+        personal_data.save()
+
+    @property
+    def get_background(self):
+        backgrounds = {}
+        for background in self.background.all():
+            backgrounds[background.category.name] = {}
+
+        for background in self.background.all():
+            backgrounds[background.category.name][background.name] = self.backgroundcandidate_set.get(background=background).value
+
+        return backgrounds
+
+    @property
+    def get_personal_data(self):
+        pd_dict = {}
+        for pd in self.personal_data.all():
+            pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+        return pd_dict
+
     @property
     def name(self):
         return u"%(first_name)s %(last_name)s" % {
             'first_name': self.first_name,
             'last_name': self.last_name
         }
+
+    def get_questions_by_category(self, category):
+        questions = category.get_questions()
+        return questions
+
+    def get_answer_by_question(self, question):
+        candidate_answers = self.answers
+        for answer in candidate_answers.all():
+            if answer.question == question:
+                return answer.caption
+        return "no answer"
+
+    def get_all_answers_by_category(self, category):
+        all_answers = []
+        all_questions = self.get_questions_by_category(category)
+        for question in all_questions:
+            candidate_answer = self.get_answer_by_question(question)
+            all_answers.append((question,candidate_answer))
+        return all_answers
+
+    def get_answers_two_candidates(self, candidate, category):
+        all_answers = []
+        all_questions = self.get_questions_by_category(category)
+        for question in all_questions:
+            first_candidate_answer = self.get_answer_by_question(question)
+            second_candidate_answer = candidate.get_answer_by_question(question)
+            all_answers.append((question,first_candidate_answer,second_candidate_answer))
+        return all_answers
+
 
     def __unicode__(self):
         return self.name
@@ -115,28 +189,61 @@ class PersonalInformation(models.Model):
     candidate = models.ForeignKey('Candidate')
 
     def __unicode__(self):
-        return u"%s" % self.label
+        return u"%s: %s" % (self.candidate, self.label)
 
 
 class PersonalData(models.Model):
-    label = models.CharField(max_length=255)
+    label = models.CharField(_('Nuevo dato personal'),max_length=255)
     election = models.ForeignKey('Election')
+
+    def __unicode__(self):
+        return u'%s (%s)' % (self.label, self.election)
+
+
+class PersonalDataCandidate(models.Model):
+    candidate = models.ForeignKey(Candidate)
+    personal_data = models.ForeignKey(PersonalData)
+    value = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.candidate.name + " - " + self.personal_data.label
 
 
 class BackgroundCategory(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(_(u"Nueva categoría de antecedentes"), max_length=255)
     election = models.ForeignKey('Election')
+
+    def __unicode__(self):
+        return u'%s (%s)' % (self.name, self.election)
 
 
 class Background(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('BackgroundCategory')
+    def __unicode__(self):
+        return u'%s: %s (%s)' % (self.category, self.name, self.category.election)
+
+class BackgroundCandidate(models.Model):
+    candidate = models.ForeignKey('Candidate')
+    background = models.ForeignKey('Background')
+    value = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.candidate, self.value)
+
 
 
 class Link(models.Model):
     name = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
     candidate = models.ForeignKey('Candidate')
+
+    @property
+    def css_class(self):
+        if facebook_regexp.match(self.url):
+            return "facebook"
+        elif twitter_regexp.match(self.url):
+            return "twitter"
 
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
@@ -152,6 +259,7 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('election', 'slug')
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return u"%s" % self.name

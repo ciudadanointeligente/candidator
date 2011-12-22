@@ -2,15 +2,108 @@
 {% load i18n %}
 
 {% block extra_head %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
 {% endblock extra_head %}
 
 {% block extra_js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js">
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
+
+    <script type="text/javascript">
+    function get_checked_radio_button_value(){
+        var radio_buttons = document.getElementsByName("category")
+        for(i=0;i<radio_buttons.length;i++){
+           if(radio_buttons[i].checked) return radio_buttons[i].value
+        }
+    }
+
+    function get_base_url(){
+    var actual_direction  = location.href
+    var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
+    var position_pattern  = actual_direction.indexOf(reference_pattern)
+    var pre_direction     = actual_direction.substring(0,position_pattern)
+        var final_direction   = pre_direction + reference_pattern
+        return final_direction
+    }
+
+    function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
+
+        $("#"+div_id).empty();
+        var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
+         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json) {
+                var data = json["personal_data"]
+                for (var key in data) {
+                    $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
+                    var candidate_photo = document.getElementById(photo_id)
+                    candidate_photo.src = json["photo_route"]
+                }
+            }, 'json');
+    }
+
+    function get_comparation_data_in_select(current_select) {
+
+        var first_select  = document.getElementById("firstCandidate")
+        var second_select = document.getElementById("secondCandidate")
+        var radio_buttons = document.getElementsByName("category")
+        var error_div     = document.getElementById("sameCandidates")
+        error_div.style.display = "none"
+
+        if(current_select.name == "firstCandidate") {
+            if(second_select.value == "0"){
+                async_call_for_candidate_data(first_select.value,"first_candidate_div","first_candidate_photo")
+            }
+            else if (second_select.value == first_select.value) {
+               error_div.style.display = "inline"
+            }
+            else{
+                var final_direction = get_base_url() +"/";
+                if (first_select.value < second_select.value)
+                    final_direction += first_select.value + "_vs_" + second_select.value;
+                else
+                    final_direction += second_select.value + "_vs_" + first_select.value;
+                final_direction +=  "_in_" + get_checked_radio_button_value();
+                window.location = final_direction;
+            }
+        }
+        else{
+            if(first_select.value == "0") {
+                async_call_for_candidate_data(second_select.value,"second_candidate_div","second_candidate_photo");
+            }
+            else if(second_select.value == first_select.value){
+               error_div.style.display = "inline";
+            }
+            else{
+                var final_direction = get_base_url() +"/";
+                if (first_select.value < second_select.value)
+                    final_direction += first_select.value + "_vs_" + second_select.value;
+                else
+                    final_direction += second_select.value + "_vs_" + first_select.value;
+                final_direction +=  "_in_" + get_checked_radio_button_value();
+                window.location = final_direction;
+            }
+        }
+    }
+
+    function get_comparation_data_in_radio_button(current_radio_button){
+        var first_select  = document.getElementById("firstCandidate");
+        var second_select = document.getElementById("secondCandidate");
+        if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
+            var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + current_radio_button.value
+            window.location     = final_direction
+        }
+    }
+    </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -21,56 +114,131 @@
 
     <div class="wrapper">
         <article class="wrapW">
-            <ul id="errors"></ul>
+
+            <div id="sameCandidates" style="display:none"><ul id="errors"><li id="errors">Los 2 candidatos son iguales</li></ul></div>
             <div class="leftContent">
+
                 <header class="comparisonBox">
+
                     <div class="candidatesLists">
+
                         <div class="firstCandidate">
-                            <select name="firstCandidate">
-                                <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this)">
+                                <option name="options1" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
-                                <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                                <option name="options1" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                 {% endfor %}
                             </select>
+
                         <div class="basicProfileContainer">
-                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+
+                {% if first_candidate %}
+                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
+                {% else %}
+                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                {% endif %}
+
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+                <div id="first_candidate_div" class="first_candidate_div">
+
+                            {% if first_candidate %}
+
+                                {% for key, value in first_candidate.get_personal_data.items %}
+
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                </div>
                             </ul>
                         </div>
                     </div>
+
                     <div class="secondCandidate">
-                        <select name="secondCandidate">
-                            <option value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+
+                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this)">
+
+                            <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
-                            <option data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}"  >{{ candidate.name }}</option>
+                            <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                             {% endfor %}
+
                         </select>
+
                         <div class="basicProfileContainer">
-                            <img class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+
+                {% if second_candidate %}
+                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
+                {% else %}
+                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                {% endif %}
+
                             <ul class="candidateBasicProfileInfo">
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Nacimiento:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
-                                <li>
-                                    <span class="candidateBasicComparisonQuestion">Profesión:</span>
-                                    <span class="candidateBasicComparisonAnswer"></span>
-                                </li>
+                <div id="second_candidate_div" class="second_candidate_div">
+
+
+                            {% if second_candidate %}
+
+                                {% for key, value in second_candidate.get_personal_data.items %}
+
+
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                    </li>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                </div>
                             </ul>
+
                         </div>
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
             <section id ="result" class="comparisonResult" >
-                <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+
+                {% if first_candidate and second_candidate %}
+
+                <h3>{{ selected_category.name }}</h3>
+
+                {% for answer in answers %}
+
+                   <div class="questionInComparison">{{ answer.0 }}</div>
+
+                   <div class="answerSpace">
+
+                        <ul class="firstCandidatesAnswer">
+                            <li class=" answerInComparison answered">
+                                {% if answer.1 == "no answer" %}
+                                   No hay respuesta</li>
+                                {% else %}
+                                   {{ answer.1 }}</li>
+                                {% endif %}
+                        </ul>
+
+                        <ul class="secondCandidatesAnswer">
+                            <li class=" answerInComparison answered"> {% if answer.2 == "no answer" %}
+                                   No hay respuesta</li>
+                                {% else %}
+                                   {{ answer.2 }}</li>
+                                {% endif %}
+                        </ul>
+
+                    </div>
+
+                {% endfor %}
+
+                {% else %}
+                    <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+                {% endif %}
             </section>
         </div>
         <aside class="categories">
@@ -78,12 +246,24 @@
             <ul class="categoriesList">
                 {% for category in election.category_set.all %}
                 <li>
-                    <input type="radio" name="category" id="category-{{ category.slug }}" {% if forloop.first %}checked="checked" {% endif %}value="14"  />
+                    <input type="radio" name="category"
+            {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %}
+                    {% else %}
+                        {% if forloop.first %}checked="checked"{% endif %}
+                    {% endif %}
+                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
                 </li>
                 {% endfor %}
             </ul>
         </aside>
    </article>
+   <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
+            data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
+                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
+                                                           class="fb_ltr"
+                                                           src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttps%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890"></iframe></span>
+        </div>
 </div>
 {% endblock content %}

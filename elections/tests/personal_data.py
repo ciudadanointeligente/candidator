@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, PersonalData
-from elections.forms import PersonalDataForm
+from elections.models import Election, PersonalData, Candidate, PersonalDataCandidate
+from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
 
 class PersonalDataModelTest(TestCase):
@@ -87,3 +87,124 @@ class PersonalDataCreateView(TestCase):
 
         self.assertRedirects(response, reverse('personal_data_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+
+
+class PersonalDataCandidateModelTest(TestCase):
+    def test_personal_data_candidate_create(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+        personal_data_candidate, created = PersonalDataCandidate.objects.get_or_create(candidate=self.candidate,
+                                                                                       personal_data=self.personal_data,
+                                                                                       value='new_value')
+
+        self.assertEqual(personal_data_candidate.candidate, self.candidate)
+        self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
+        self.assertEqual(personal_data_candidate.value, 'new_value')
+
+
+class PersonalDataCandidateCreateViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election)
+
+    def test_create_personal_data_candidate_by_user_without_login(self):
+        request = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}))
+        self.assertEquals(request.status_code, 302)
+
+    def test_create_personal_data_candidate_by_user_success(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}))
+
+        self.assertEqual(request.status_code, 200)
+        self.assertTrue('form' in request.context)
+        self.assertTrue(isinstance(request.context['form'], PersonalDataCandidateForm))
+        self.assertTrue('candidate' in request.context)
+        self.assertTrue(isinstance(request.context['candidate'], Candidate))
+        self.assertTrue('personal_data' in request.context)
+        self.assertTrue(isinstance(request.context['personal_data'], PersonalData))
+
+    def test_post_personal_data_candidate_create_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_get_personal_data_candidate_create_with_login_stranger_candidate(self):
+        self.user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
+                                                                    label='foo')
+        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election2)
+
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate2.pk,
+                                            'personal_data_pk': self.personal_data2.pk}))
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_personal_data_candidate_create_with_login_stranger_candidate(self):
+        self.user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
+                                                                    label='foo')
+        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
+                                                            last_name='Candidato',
+                                                            slug='juan-candidato',
+                                                            election=self.election2)
+
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                        kwargs={'candidate_pk': self.candidate2.pk,
+                                                'personal_data_pk': self.personal_data2.pk}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_personal_data_candidate_create_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('personal_data_candidate_create',
+                                    kwargs={'candidate_pk': self.candidate.pk,
+                                            'personal_data_pk': self.personal_data.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
+
+        expected = {self.personal_data.label: params['value']}
+        self.assertEquals(self.candidate.get_personal_data, expected)
