@@ -1,5 +1,6 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
+{% load candidate_tags %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
@@ -20,7 +21,7 @@
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
-                    <img src="{{ candidate.photo.url }}" alt="" width="115" height="144">
+                    <img src="{% candidate_photo candidate %}" alt="" width="115" height="144">
                     <span>{{ candidate.name }}</span>
                 </a>
             </li>
