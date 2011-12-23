@@ -58,7 +58,7 @@ class TestMediaNaranja(TestCase):
         candidate1.associate_answer(self.answer1_2)
         candidate2.associate_answer(self.answer2_1)
         candidate2.associate_answer(self.answer2_2)
-    
+
     def test_reverse_routing_medianaranja1_correctly(self):
         url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
         expected = "/joe/barbaz/medianaranja"
@@ -68,15 +68,15 @@ class TestMediaNaranja(TestCase):
         answers = [self.answer1_1.pk, self.answer1_2.pk]
         importances = [5, 3]
         importances_by_category = [5, 3]
-        factor_question1 = (answers[0] == self.answer1_1.pk) * importances[0]      
+        factor_question1 = (answers[0] == self.answer1_1.pk) * importances[0]
         factor_question2 = (answers[1] == self.answer1_2.pk) * importances[1]
         score_category1 = factor_question1 * 100.0 / importances_by_category[0]
         score_category2 = factor_question2 * 100.0 / importances_by_category[1]
         global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
         url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
         response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], 'importance-0': importances[0], 'importance-1': importances[1]})
-        expected_winner = [global_score,[score_category1,score_category1], self.candidate1]
-        self.assertEqual(response.context['winner'],expected_winner)
+        expected_winner = [global_score, [score_category1, score_category1], self.candidate1]
+        self.assertEqual(response.context['winner'], expected_winner)
 
     def test_get_number_of_questions_by_category(self):
         number_by_questions_expected = [1,1]
@@ -102,7 +102,7 @@ class TestMediaNaranja(TestCase):
         sum_importances_by_category2 = self.candidate2.get_sum_importances_by_category(answers, importances)
         self.assertEqual(sum_importances_by_category_expected, sum_importances_by_category)
         self.assertEqual(sum_importances_by_category_expected2, sum_importances_by_category2)
-        
+
     def test_get_score(self):
         answers = [[self.answer1_1], [self.answer1_2]]
         no_answers = [[], []]

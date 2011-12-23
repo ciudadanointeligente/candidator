@@ -151,14 +151,13 @@ class Candidate(models.Model):
         }
 
     def get_questions_by_category(self, category):
-        questions = category.get_questions()
-        return questions
+        return category.question_set.all()
 
     def get_answer_by_question(self, question):
         candidate_answers = self.answers
         for answer in candidate_answers.all():
             if answer.question == question:
-                return answer.caption
+                return answer
         return "no answer"
 
     def get_all_answers_by_category(self, category):
@@ -166,7 +165,7 @@ class Candidate(models.Model):
         all_questions = self.get_questions_by_category(category)
         for question in all_questions:
             candidate_answer = self.get_answer_by_question(question)
-            all_answers.append((question,candidate_answer))
+            all_answers.append((question, candidate_answer))
         return all_answers
 
     def get_answers_two_candidates(self, candidate, category):
@@ -254,8 +253,9 @@ class Category(models.Model):
     election = models.ForeignKey('Election')
     slug = models.CharField(max_length=255)
 
-    def get_questions(self):
-        return Question.objects.filter(category=self)
+    # Not necessary, exist question_set.all()
+    # def get_questions(self):
+    #     return Question.objects.filter(category=self)
 
     class Meta:
         unique_together = ('election', 'slug')

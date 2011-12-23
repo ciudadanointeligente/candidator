@@ -76,7 +76,7 @@ class CandidateCreateView(CreateView):
         context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         return context
 
-    
+
     # def get_context_data(self, **kwargs):
     #     context = super(CandidateCreateView, self).get_context_data(**kwargs)
     #     context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
@@ -93,7 +93,7 @@ class CandidateCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        election = Election.objects.get(owner = self.request.user, slug=self.kwargs['election_slug'])
+        election = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         self.object.election = election
         try:
             self.object.full_clean()
@@ -103,7 +103,7 @@ class CandidateCreateView(CreateView):
             form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
             return super(CandidateCreateView, self).form_invalid(form)
         return super(CandidateCreateView, self).form_valid(form)
-         
+
 
     # def form_valid(self, form):
     #     context = self.get_context_data()
