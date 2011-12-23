@@ -171,6 +171,89 @@ class CandidateModelTest(TestCase):
         expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2':'BarFoo3'}}
         self.assertEqual(candidate.get_background, expected)
 
+    def test_get_questions_by_category(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=self.election,
+                                                            slug='foo-cat')
+        question, created = Question.objects.get_or_create(question='FooQuestion',
+                                                            category=category)
+        real_questions = candidate.get_questions_by_category(category)
+        expected_questions = [question]
+        self.assertEqual(real_questions, expected_questions)
+    
+    def test_get_answer_by_question(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=self.election,
+                                                            slug='foo-cat')
+        question, created = Question.objects.get_or_create(question='FooQuestion',
+                                                            category=category)
+        another_question, created = Question.objects.get_or_create(question='BarQuestion',
+                                                            category=category)
+        answer, created = Answer.objects.get_or_create(question=question,
+                                                        caption='BarAnswer1Question')
+        candidate.associate_answer(answer)
+        real_answer_1 = candidate.get_answer_by_question(question)
+        real_answer_2 = candidate.get_answer_by_question(question)
+        expected_answer_1 = 'BarAnswer1Question'
+        expected_answer_2 = "no answer"
+        self.assertEqual(real_answer_1, expected_answer_1)
+        self.assertEqual(real_answer_2, expected_answer_2)
+    
+    def test_get_all_answers_by_category(self):
+        candidate = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=self.election,
+                                                            slug='foo-cat')
+        question1, created = Question.objects.get_or_create(question='FooQuestion1',
+                                                            category=category)
+        question2, created = Question.objects.get_or_create(question='FooQuestion2',
+                                                            category=category)
+        answer1, created = Answer.objects.get_or_create(question=question1,
+                                                        caption='BarAnswerQuestion1')
+        answer2, created = Answer.objects.get_or_create(question=question2,
+                                                        caption='BarAnswerQuestion2')
+        candidate.associate_answer(answer1)
+        candidate.associate_answer(answer2)
+        real_result = ((question1, answer1), (question2, answer2))
+        expected_result = candidate.get_all_answers_by_category(category)
+        self.assertEqual(real_result, expected_result)
+    
+    def test_get_answers_two_candidates(self):
+        candidate1 = Candidate.objects.create(first_name='Juan',
+                                            last_name='Candidato',
+                                            slug='juan-candidato',
+                                            election=self.election)
+        candidate2 = Candidate.objects.create(first_name='Mario',
+                                            last_name='Candidato',
+                                            slug='mario-candidato',
+                                            election=self.election)
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=self.election,
+                                                            slug='foo-cat')
+        question, created = Question.objects.get_or_create(question='FooQuestion',
+                                                            category=category)
+        answer1, created = Answer.objects.get_or_create(question=question,
+                                                        caption='BarAnswer1Question')
+        answer2, created = Answer.objects.get_or_create(question=question,
+                                                        caption='BarAnswer2Question')
+        candidate1.associate_answer(answer1)
+        candidate2.associate_answer(answer2)
+        real_result = ((question1, answer1, answer2))
+        expected_result = candidate1.get_answers_two_candidates(candidate2, category)
+        self.assertEqual(real_result, expected_result)
+              
+
 class CandidateDetailViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='foobar')

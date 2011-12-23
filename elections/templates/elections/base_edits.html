@@ -25,12 +25,12 @@
         <nav id="mainNavigation">
         	<div class="wrapBasic">
                 <ul>
-                	<li> <a href="/index">INDEX</a> </li> 
+                	<li> <a href="/index">PÁGINA PRINCIPAL</a> </li> 
 		    		<li> <a href="#">QUIÉNES SOMOS</a></li>
                     {% if user.is_authenticated %}
-                    	<li> <a href="{% url auth_logout %}">LOGOUT</a> </li>
+                    	<li> <a href="{% url auth_logout %}">SALIR</a> </li>
                     {% else %}
-                    	<li> <a href="{% url auth_login %}">LOGIN</a> </li>
+                    	<li> <a href="{% url auth_login %}">CONECTARSE</a> </li>
                     {% endif %}
                 </ul>
             </div>
