@@ -12,7 +12,7 @@
         }
         js = d.createElement(s);
         js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 {% endblock extra_js %}
@@ -37,7 +37,7 @@
                 </li>
                 <li class="homeLi homeListComparar">
                     <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
-                        <h2>Compará <br> candidatos </h2>
+                        <h2>Compara <br> candidatos </h2>
                     </a>
                 </li>
             </ul>
