@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset, CandidatePersonalInformationFormset
 
 # Import models
-from elections.models import Election, Candidate
+from elections.models import Election, Candidate, PersonalData
 
 
 # Candidate views
@@ -76,6 +76,7 @@ class CandidateCreateView(CreateView):
         context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
         return context
 
+    
     # def get_context_data(self, **kwargs):
     #     context = super(CandidateCreateView, self).get_context_data(**kwargs)
     #     context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
@@ -102,7 +103,7 @@ class CandidateCreateView(CreateView):
             form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
             return super(CandidateCreateView, self).form_invalid(form)
         return super(CandidateCreateView, self).form_valid(form)
-
+         
 
     # def form_valid(self, form):
     #     context = self.get_context_data()
@@ -144,3 +145,31 @@ def candidate_data_update(request, election_slug, slug):
             'elections/candidate_data_update.html',
             {'candidate': candidate, 'election': election},
             context_instance=RequestContext(request))
+
+
+def async_delete_candidate(request, election_slug, candidate_pk, election_pk):
+    if request.POST:
+        candidate = Candidate.objects.get(pk = candidate_pk, election = election_pk)
+        candidate.delete()
+        json_dictionary = {"result":"OK"}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    else:
+        raise Http404
+
+def async_delete_personal_data(request, election_slug, personal_data_pk, election_pk):
+    if request.POST:
+        personal_data = PersonalData.objects.get(pk = personal_data_pk, election = election_pk)
+        personal_data.delete()
+        json_dictionary = {"result":"OK"}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    else:
+        raise Http404
+
+def async_delete_category(request, election_slug, category_pk, election_pk):
+    if request.POST:
+        category = Category.objects.get(pk = category_pk, election = election_pk)
+        category.delete()
+        json_dictionary = {"result":"OK"}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    else:
+        raise Http404

@@ -187,7 +187,7 @@ class CandidateDetailViewTest(TestCase):
 
     def test_detail_existing_candidate_view(self):
         response = self.client.get(reverse('candidate_detail',
-                                           kwargs={
+                                            kwargs={
                                                'username': self.user.username,
                                                'election_slug': self.election.slug,
                                                'slug': self.candidate.slug}))

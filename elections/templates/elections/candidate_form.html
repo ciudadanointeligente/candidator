@@ -1,6 +1,5 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
-
 {% block content %}
 
 <div class="fondo_formulario">
@@ -15,11 +14,12 @@
     <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
     <ul id="lista_candidatos">
         {% for candidate in election.candidate_set.all %}
-        <li>
+        <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
             <span class="tit_fondoverde">
-                {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %}
+                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
+                <!-- {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %} -->
             </span>
-            &nbsp;{{ candidate.name }}
+            <!-- &nbsp;{{ candidate.name }} -->
         </li>
         {% endfor %}
     </ul>
@@ -28,18 +28,20 @@
     <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.non_field_errors }}
         {{ form.as_p }}
-        <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
-           <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
-        </a>
+        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
+        {% if election.candidate_set.count %}
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url personal_data_create election_slug=election.slug %}">
+                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+        {% endif %}
+        <div id="link_add">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+                <img src="{{ STATIC_URL }}img/zoom-icon.png"/>
+            </a>
+        </div>
     </form>
-
-    {% if election.candidate_set.count %}
-    <div id="link_next">
-        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans "Siguiente (Datos Personales)" %}</a>
-    </div>
-    {% endif %}
-
-
 {% endblock %}
 
 {% block extra_js %}
@@ -72,5 +74,31 @@
                 extraClasses:['row1', 'row2', 'row3']
             })
         });
+    </script>
+    <script type="text/javascript">
+
+        function get_base_url(){
+            var actual_direction  = location.href
+            var reference_pattern = "/candidate/create"
+            var position_pattern  = actual_direction.indexOf(reference_pattern)
+            var pre_direction     = actual_direction.substring(0,position_pattern)
+            var final_direction   = pre_direction + "/candidate/async_delete/"
+            return final_direction
+        }
+        function candidate_delete(candidate_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este candidato?");
+            if(answer){
+                var dir = get_base_url() + candidate_pk +"/"+{{ election.pk }};
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
+                    function(json){
+                        $("#candidate_"+candidate_pk).remove();
+                        if($("[id ^= candidate_]").size() == 0)
+                            $("#link_next").remove();
+                    })
+            }
+            else {
+                return false;
+            }
+        }
     </script>
 {% endblock %}

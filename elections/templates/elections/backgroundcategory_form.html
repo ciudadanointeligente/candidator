@@ -13,15 +13,14 @@
     </div>
     <div class="numero_on cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
-
+<!-- se debe cambiar de lados la flecha y el add -->
     <h2>Antecedentes</h2>
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
             <span class="tit_fondoverde">
-                {% blocktrans with num=forloop.counter %}Categoría de Antecedentes #{{ num }}{% endblocktrans %}
+                {{ background_category.name }}<a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
             </span>
-            &nbsp;{{ background_category.name }}
             <br/>
             <a href="{% url background_create background_category_pk=background_category.pk %}">(+)</a>
             <ul>
@@ -36,13 +35,13 @@
     <form name='backgroundcategory' method="POST">{% csrf_token %}
         {{form.as_p}}
         <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
-            <img src="{{ STATIC_URL }}img/bt_siguiente.png" />
+            <img src="{{ STATIC_URL }}img/zoom-icon.png"/>
         </a>
     </form>
 
     {% if election.backgroundcategory_set.count %}
     <div id="link_next">
-        <a href="{% url category_create election_slug=election.slug %}">{% trans "Siguiente (Agregar Cuestionario)" %}</a>
+        <a href="{% url category_create election_slug=election.slug %}"><img src="{{ STATIC_URL }}img/bt_siguiente.png" /></a>
     </div>
     {% endif %}
 </div>

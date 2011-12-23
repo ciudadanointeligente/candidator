@@ -15,33 +15,61 @@
     <h2>Datos Personales:</h2>
     <ul id="lista_datos">
         {% for personal_data in election.personaldata_set.all %}
-        <li>
+        <li id="personal_data_{{personal_data.pk}}">
             <span class="tit_fondoverde">
-                {% blocktrans with num=forloop.counter %}Dato Personal #{{ num }}{% endblocktrans %}
+               {{ personal_data.label }} <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
             </span>
-            &nbsp;{{ personal_data.label }}
         </li>
         {% endfor %}
     </ul>
     <br/>
-
-    <form name='personaldata' method="POST">{% csrf_token %}
-        {{form.as_p}}
-        <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
-            <img src="{{ STATIC_URL }}img/bt_siguiente.png" />
-        </a>
+    <form name="personaldata" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
+        {% if election.personaldata_set.count %}
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url background_category_create election_slug=election.slug %}">
+                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+        {% endif %}
+        <div id="link_add">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
+                <img src="{{ STATIC_URL }}img/zoom-icon.png"/>
+            </a>
+        </div>
     </form>
-
-    {% if election.personaldata_set.count %}
-    <div id="link_next">
-        <a href="{% url background_category_create election_slug=election.slug %}">{% trans "Siguiente (Agregar Antecedentes)" %}</a>
-    </div>
-    {% endif %}
-
 </div>
 
 {% endblock %}
 
 {% block extra_js %}
+    <script type="text/javascript">
+
+        function get_base_url(){
+            var actual_direction  = location.href
+            var reference_pattern = "/personal_data/create"
+            var position_pattern  = actual_direction.indexOf(reference_pattern)
+            var pre_direction     = actual_direction.substring(0,position_pattern)
+            var final_direction   = pre_direction + "/personal_data/async_delete/"
+            return final_direction
+        }
+        function personal_data_delete(personal_data_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este dato porsonal?");
+            if(answer){
+                var dir = get_base_url() + personal_data_pk +"/"+{{ election.pk }};
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
+                    function(json){
+                        $("#personal_data_"+personal_data_pk).remove();
+                        if($("[id ^= personal_data_]").size() == 0)
+                            $("#link_next").remove();
+                    })
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
 {{ form.media }}
 {% endblock %}
