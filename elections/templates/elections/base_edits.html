@@ -11,10 +11,10 @@
 </head>
 <body>
 <div>
-	
+
 </div>
 
-	<div class="header_color">
+    <div class="header_color">
         <header class="wrapBasic" id="mainHeader">
             <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
             <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
@@ -23,14 +23,16 @@
             <h1 style="display: none;">Vota inteligente</h1>
         </header>
         <nav id="mainNavigation">
-        	<div class="wrapBasic">
+            <div class="wrapBasic">
                 <ul>
-                	<li> <a href="/index">PÁGINA PRINCIPAL</a> </li> 
-		    		<li> <a href="#">QUIÉNES SOMOS</a></li>
+                    <li> <a href="/index">PÁGINA PRINCIPAL</a> </li>
+                    <li> <a href="#">QUIÉNES SOMOS</a></li>
+                    <li> <a href="{% url election_list %}">ELECCIONES</a> </li>
+                    <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li>
                     {% if user.is_authenticated %}
-                    	<li> <a href="{% url auth_logout %}">SALIR</a> </li>
+                        <li> <a href="{% url auth_logout %}">SALIR</a> </li>
                     {% else %}
-                    	<li> <a href="{% url auth_login %}">CONECTARSE</a> </li>
+                        <li> <a href="{% url auth_login %}">CONECTARSE</a> </li>
                     {% endif %}
                 </ul>
             </div>
@@ -46,8 +48,8 @@
 {% endblock extra_js %}
 </body>
 
-	<div id="footer">
-	</div>
+    <div id="footer">
+    </div>
 
 </html>
 <html>

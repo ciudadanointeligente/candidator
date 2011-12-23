@@ -9,6 +9,7 @@
 <h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
 <br>
 <a href="{% url medianaranja1 username=election.owner.username election_slug=election.slug %}">Media Naranja</a>
+
 <br>
 <h2>Candidatos</h2>(<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
 <ul>
@@ -17,11 +18,12 @@
     <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
     <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
     <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug %}">(llenar plantilla)</a>
+    <a href="{% url associate_answer_candidate election_slug=election.slug candidate_slug=candidate.slug %}">(Responder Cuestionario)</a>
     </li>
 {% endfor %}
 </ul>
-
-<h2>Antecedentes</h2>(<a href="{% url background_category_create election_slug=election.slug %}">Agregar Antecedentes</a>)
+<br>
+<h2>Antecedentes</h2>(<a href="{% url background_category_create election_slug=election.slug %}">Editar Antecedentes</a>)
 
 <ul>
 {% for background_category in election.backgroundcategory_set.all %}
@@ -38,7 +40,8 @@
 
 
 <br>
-Categorias (<a href="{% url category_create election_slug=election.slug %}">Agregar Categoria</a>):
+<h2>Cuestionario</h2>
+(<a href="{% url category_create election_slug=election.slug %}">Editar Cuestionario</a>):
 <ul>
 {% for category in election.category_set.all %}
     <li>
