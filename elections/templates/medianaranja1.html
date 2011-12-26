@@ -4,36 +4,74 @@
 {{ block.super }} Election
 {% endblock title %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
+{% endblock extra_head %}
+
 {% block content %}
-<h1>{{election}}</h1>
+
+<div class="papel">
+<div class="contenedor1">
+
+    <h1>{{election}}</h1>
+    
+    <div class="ico_tit"><img src="/static/img/ico_medianaranja.png" width="76" height="73" /></div>
+    <h3>TU MEDIA NARANJA POLÍTICA</h3>
+    
+    <div class="txt_intro">La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos a las presidencia. Esto NO es un juego. Los datos los hemos recopilado de diferentes fuentes periodísticas y por ello los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos que aspiran a ocupar la presidencia de nuestro país.<br /><br />
+    Las preguntas seleccionadas para incluir en esta aplicación fueron escogidas en función de que fueron aquellas sobre las que tuvimos mayor densidad de información por parte de cada uno de los candidatos.</div>
+    
+
+</div><!--contenedor1-->
 
 
-<form action="" method="POST">{% csrf_token %}
-
-{% for cat,data in stt %}
-    <h1>{{cat.name}}</h1>
-    {% for num,preg,ans_list in data %}
-    <h4>{{preg.question}}</h4>
-    	{% for ans in ans_list %}
-    	<input type="radio" name="question-{{num}}" value="{{ans.id}}" />{{ans.caption}}<br />
-    	{% endfor %}
-    	<!-- value = -1 is meant for default answers -->
-        <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
-        Ninguna de las anteriores representa mi posición<br />
-		<h4>Importancia</h4>
-	    <input type="radio" name="importance-{{num}}" value="1" /> 1<br />
-    <input type="radio" name="importance-{{num}}" value="2" /> 2<br />
-    <input type="radio" name="importance-{{num}}" value="3" checked="checked" /> 3<br />
-    <input type="radio" name="importance-{{num}}" value="4" /> 4<br />
-    <input type="radio" name="importance-{{num}}" value="5" /> 5<br />
+    <form action="" method="POST">{% csrf_token %}
+    <div class="contenedor1">
+    
+    <div class="contenedor_globo">
+    <div class="globo_left">Responde la encuesta y encuentra tu 1/2 naranja política</div>
+    <div class="globo_right">Asignale la importancia que tu quieras a cada pregunta</div>
+    </div>
+    
+    {% for cat,data in stt %}
+    <div class="categoria">
+        <h2>{{cat.name}}</h2>
+        {% for num,preg,ans_list in data %}
+     
+     
+     <div class="col_left">
+        <h4>{{preg.question}}</h4>
+            {% for ans in ans_list %}
+            <input type="radio" name="question-{{num}}" value="{{ans.id}}" />{{ans.caption}}<br />
+            {% endfor %}
+            <!-- value = -1 is meant for default answers -->
+            <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
+            Ninguna de las anteriores representa mi posición<br />
+     </div>
+     
+     <div class="col_right">
+            <h4>Importancia</h4>
+            <input type="radio" name="importance-{{num}}" value="1" /> 1<br />
+        <input type="radio" name="importance-{{num}}" value="2" /> 2<br />
+        <input type="radio" name="importance-{{num}}" value="3" checked="checked" /> 3<br />
+        <input type="radio" name="importance-{{num}}" value="4" /> 4<br />
+        <input type="radio" name="importance-{{num}}" value="5" /> 5<br />
+        
+    </div>
+    <br style='clear: both;'/>
+        {% endfor %}
+        </div><!--categoria-->
     {% endfor %}
-    <hr/>
-{% endfor %}
+    
+    
+    
+    <input type="submit" value="Encontrar mi Media Naranja" />
+    </div><!--contenedor1-->
+    
+    </form>
 
-<input type="submit" value="Encontrar mi Media Naranja" />
 
-
-</form>
+</div><!--papel-->
 
 
 
