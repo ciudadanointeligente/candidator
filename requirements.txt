@@ -16,5 +16,6 @@ ipython==0.11
 oauth2==1.5.170
 pep8==0.6.1
 python-openid==2.2.5
+sorl-thumbnail==11.09.1
 wsgiref==0.1.2
 pil==1.1.7

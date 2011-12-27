@@ -1,5 +1,6 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
@@ -126,14 +127,22 @@
                             <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this)">
                                 <option name="options1" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
-                                <option name="options1" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    {% thumbnail candidate.photo "32x40" crop="center" as im %}
+                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    {% empty %}
+                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    {% endthumbnail %}
                                 {% endfor %}
                             </select>
 
                         <div class="basicProfileContainer">
 
                 {% if first_candidate %}
-                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}"/>
+                    {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
+                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
+                    {% empty %}
+                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                    {% endthumbnail %}
                 {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}
@@ -165,7 +174,11 @@
 
                             <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
-                            <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                {% thumbnail candidate.photo "32x40" crop="center" as im %}
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                {% empty %}
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                {% endthumbnail %}
                             {% endfor %}
 
                         </select>
@@ -173,7 +186,11 @@
                         <div class="basicProfileContainer">
 
                 {% if second_candidate %}
-                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}"/>
+                    {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
+                    {% empty %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                    {% endthumbnail %}
                 {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}

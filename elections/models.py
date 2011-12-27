@@ -256,14 +256,28 @@ class Link(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
-    slug = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.slug = slug = slugify(self.name)
+            counter = 1
+            while True:
+                try:
+                    Category.objects.get(slug=self.slug, election=self.election)
+                    self.slug = slug + str(counter)
+                    counter += 1
+                except self.DoesNotExist:
+                    break
+
+        super(Category, self).save(*args, **kwargs)
 
     # Not necessary, exist question_set.all()
     # def get_questions(self):
     #     return Question.objects.filter(category=self)
 
     class Meta:
-        unique_together = ('election', 'slug')
+        unique_together = (('election', 'slug'), ('name', 'election'))
         verbose_name_plural = 'Categories'
 
     def __unicode__(self):

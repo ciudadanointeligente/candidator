@@ -1,6 +1,7 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
 {% load candidate_tags %}
+{% load thumbnail %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
@@ -21,7 +22,13 @@
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
-                    <img src="{% candidate_photo candidate %}" alt="" width="115" height="144">
+                    <div style="width: 115px; height: 144px; background-color: white;">
+                    {% thumbnail candidate.photo "115x144" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
+                    {% empty %}
+                        <img src="" alt="" width="115" height="144">
+                    {% endthumbnail %}
+                    </div>
                     <span>{{ candidate.name }}</span>
                 </a>
             </li>
