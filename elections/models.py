@@ -23,7 +23,7 @@ class Election(models.Model):
     logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"))
+    date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"), blank=True)
 
     class Meta:
         unique_together = ('owner', 'slug')
