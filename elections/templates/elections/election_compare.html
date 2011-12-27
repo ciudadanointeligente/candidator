@@ -43,10 +43,10 @@
          $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json) {
                 var data = json["personal_data"]
+                var candidate_photo = document.getElementById(photo_id)
+                candidate_photo.src = json["photo_route"]
                 for (var key in data) {
                     $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
-                    var candidate_photo = document.getElementById(photo_id)
-                    candidate_photo.src = json["photo_route"]
                 }
             }, 'json');
     }
@@ -69,10 +69,10 @@
             else{
                 var final_direction = get_base_url() +"/";
                 if (first_select.value < second_select.value)
-                    final_direction += first_select.value + "_vs_" + second_select.value;
+                    final_direction += first_select.value + "/" + second_select.value;
                 else
-                    final_direction += second_select.value + "_vs_" + first_select.value;
-                final_direction +=  "_in_" + get_checked_radio_button_value();
+                    final_direction += second_select.value + "/" + first_select.value;
+                final_direction +=  "/" + get_checked_radio_button_value();
                 window.location = final_direction;
             }
         }
@@ -86,10 +86,10 @@
             else{
                 var final_direction = get_base_url() +"/";
                 if (first_select.value < second_select.value)
-                    final_direction += first_select.value + "_vs_" + second_select.value;
+                    final_direction += first_select.value + "/" + second_select.value;
                 else
-                    final_direction += second_select.value + "_vs_" + first_select.value;
-                final_direction +=  "_in_" + get_checked_radio_button_value();
+                    final_direction += second_select.value + "/" + first_select.value;
+                final_direction +=  "/" + get_checked_radio_button_value();
                 window.location = final_direction;
             }
         }
@@ -99,7 +99,7 @@
         var first_select  = document.getElementById("firstCandidate");
         var second_select = document.getElementById("secondCandidate");
         if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
-            var final_direction = get_base_url() +"/"+first_select.value + "_vs_" + second_select.value + "_in_" + current_radio_button.value
+            var final_direction = get_base_url() +"/"+first_select.value + "/" + second_select.value + "/" + current_radio_button.value
             window.location     = final_direction
         }
     }

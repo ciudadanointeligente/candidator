@@ -61,7 +61,7 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/?$', 'candidator.elections.views.election_compare_view', name='election_compare'),
 
     # Election compare view with both candidates (and considering one category)
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)_vs_(?P<second_candidate_slug>[-\w]+)_in_(?P<category_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
 
     # Election compare view with 1 candidate
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
