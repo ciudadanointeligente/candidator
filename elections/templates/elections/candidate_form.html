@@ -16,7 +16,7 @@
         {% for candidate in election.candidate_set.all %}
         <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
             <span class="tit_fondoverde">
-                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
+                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
                 <!-- {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %} -->
             </span>
             <!-- &nbsp;{{ candidate.name }} -->
@@ -38,7 +38,7 @@
         {% endif %}
         <div id="link_add">
             <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
-                <img src="{{ STATIC_URL }}img/zoom-icon.png"/>
+                <img src="{{ STATIC_URL }}/img/bt_agregar(azul).png"/>
             </a>
         </div>
     </form>

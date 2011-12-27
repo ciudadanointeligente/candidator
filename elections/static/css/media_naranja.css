@@ -233,24 +233,24 @@ table{
 
 
 .contenedor1{
-	width:900px;
+	width: 850px;
 	border: 1px solid #D7D7D7;
-	position:relative;
-    left: 50%;
-    margin-left: -450px;
-    overflow:hidden;
-	margin-top:25px;
+	position: relative;
+	left: 50%;
+	margin-left: -426px;
+	overflow: hidden;
+	margin-top: 25px;
 }
 
 .col_left{
-	width:430px;
+	width:405px;
 	float:left;
 	margin-left:13px;
 	line-height:25px;
 }
 
 .col_right{
-	width:430px;
+	width:405px;
 	float:right;
 	margin-right:13px;
 	line-height:25px; 
@@ -266,14 +266,14 @@ table{
 }
 
 .papel{
-	background: white;
-	box-shadow: 0px 1px 8px 1px #666666;
-	width: 950px;
-	position: relative;
-	left: 50%;
-	margin-left: -475px;
-	overflow: hidden;
-	margin-top: 25px;
+	background: none repeat scroll 0 0 white;
+    box-shadow: 0 1px 8px 1px #666666;
+    left: 50%;
+    margin-left: -450px;
+    margin-top: 25px;
+    overflow: hidden;
+    position: relative;
+    width: 900px;
 }
 
 .contenedor_globo{

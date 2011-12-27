@@ -6,6 +6,8 @@
 
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
+
 {% endblock extra_head %}
 
 {% block content %}
@@ -51,11 +53,11 @@
      
      <div class="col_right">
             <h4>Importancia</h4>
-            <input type="radio" name="importance-{{num}}" value="1" /> 1<br />
-        <input type="radio" name="importance-{{num}}" value="2" /> 2<br />
-        <input type="radio" name="importance-{{num}}" value="3" checked="checked" /> 3<br />
-        <input type="radio" name="importance-{{num}}" value="4" /> 4<br />
-        <input type="radio" name="importance-{{num}}" value="5" /> 5<br />
+            <input type="radio" name="importance-{{num}}" value="1" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="2" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="3" checked="checked" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="4" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="5" class="star"/>
         
     </div>
     <br style='clear: both;'/>
@@ -72,6 +74,7 @@
 
 
 </div><!--papel-->
+
 
 
 
@@ -161,3 +164,12 @@
 </p>
 </form>-->
 {% endblock content %}
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/jquery.MetaData.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.rating.js"></script>
+
+
+{% endblock extra_js %}
+
+
