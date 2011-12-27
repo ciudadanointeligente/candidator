@@ -13,6 +13,8 @@
     <div class="numero_off cinco">5.</div>
 
     <h2>Datos Personales:</h2>
+    <div class="informacion"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></div>
+    
     <ul id="lista_datos">
         {% for personal_data in election.personaldata_set.all %}
         <li id="personal_data_{{personal_data.pk}}">
