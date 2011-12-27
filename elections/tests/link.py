@@ -18,9 +18,7 @@ class LinkModelTest(TestCase):
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                                  last_name='Candidato',
-                                                                  slug='juan-candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                                   election=self.election)
 
     def test_create_link(self):
