@@ -33,7 +33,7 @@
                         <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
                              width="160" height="200"/>
                     {% empty %}
-                        <img src="" alt="{{ candidate.name }}"
+                        <img src={{ candidate.photo.url }}"" alt="{{ candidate.name }}"
                              width="160" height="200"/>
                     {% endthumbnail %}
                 </div>
