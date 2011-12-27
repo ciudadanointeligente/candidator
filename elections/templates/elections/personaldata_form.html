@@ -62,9 +62,9 @@
     }
 
     function personal_data_delete(personal_data_pk){
-        var answer = confirm("¿Estas seguro que quieres eliminar este dato porsonal?");
+        var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
         if(answer){
-            var dir = get_base_url() + personal_data_pk +"/"+{{ election.pk }};
+            var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
             $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
                 function(json){
                     $("#personal_data_"+personal_data_pk).remove();

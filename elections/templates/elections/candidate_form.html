@@ -86,10 +86,10 @@
             return final_direction
         }
         function candidate_delete(candidate_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este candidato?");
+            var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
             if(answer){
-                var dir = get_base_url() + candidate_pk +"/"+{{ election.pk }};
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
+                var dir = "/"+candidate_pk +"/candidate/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
                     function(json){
                         $("#candidate_"+candidate_pk).remove();
                         if($("[id ^= candidate_]").size() == 0)
