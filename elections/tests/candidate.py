@@ -293,8 +293,8 @@ class CandidateCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'first', 'last_name': 'last',
-                  'slug': candidate.slug, 'photo': f,
+        params = {'name': candidate.name,
+                  'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
@@ -302,13 +302,12 @@ class CandidateCreateViewTest(TestCase):
                   'link-INITIAL_FORMS': u'0',
                   'link-MAX_NUM_FORMS': u'',
                   }
-        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params,
+            follow=True)
         f.close()
-
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug','Ya tienes un candidato con ese slug.' )
 
-        # falta revisar que no funcione el formulario
+        # falta revisar que no tenga errores
 
     def test_post_candidate_create_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
@@ -360,8 +359,8 @@ class CandidateCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'Juan Candidato', 'last_name': 'Candidato',
-                  'slug': 'juan-candidato', 'photo': f,
+        params = {'name': 'Juan Candidato',
+                  'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
@@ -370,6 +369,7 @@ class CandidateCreateViewTest(TestCase):
                   'link-MAX_NUM_FORMS': u'',}
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
+
 
         self.assertEquals(response.status_code, 200)
         qs = Candidate.objects.filter(election= self.election, slug='juan-candidato')

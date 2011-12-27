@@ -98,7 +98,7 @@ class CandidateCreateView(CreateView):
         try:
             self.object.full_clean()
             self.object.save()
-        except ValidationError:
+        except ValidationError as e:
             from django.forms.util import ErrorList
             form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
             return super(CandidateCreateView, self).form_invalid(form)

@@ -35,7 +35,7 @@ class Election(models.Model):
 
 class Candidate(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nombre:")
-    slug = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to = 'photos/', blank = True)
 
     election = models.ForeignKey('Election')
@@ -49,11 +49,20 @@ class Candidate(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
-            self.slug = slugify(self.name)
+            self.slug = slug = slugify(self.name)
+            counter = 1
+            while True:
+                try:
+                    Candidate.objects.get(slug=self.slug, election=self.election)
+                    self.slug = slug + str(counter)
+                    counter += 1
+                except self.DoesNotExist:
+                    break
+
         super(Candidate, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = ('slug', 'election')
+        unique_together = (('slug', 'election'), ('name', 'election'))
 
     def associate_answer(self, answer):
         old_answers = self.answers.filter(question=answer.question).all()
