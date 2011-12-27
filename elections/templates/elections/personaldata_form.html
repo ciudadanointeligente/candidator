@@ -13,8 +13,11 @@
     <div class="numero_off cinco">5.</div>
 
     <h2>Datos Personales:</h2>
-    <div class="informacion"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></div>
-    
+    <a class="informacion" href="#"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></a>
+
+    <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_cuestionario.jpg" /></div>
+
+
     <ul id="lista_datos">
         {% for personal_data in election.personaldata_set.all %}
         <li id="personal_data_{{personal_data.pk}}">
@@ -47,31 +50,50 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        function get_base_url(){
-            var actual_direction  = location.href
-            var reference_pattern = "/personal_data/create"
-            var position_pattern  = actual_direction.indexOf(reference_pattern)
-            var pre_direction     = actual_direction.substring(0,position_pattern)
-            var final_direction   = pre_direction + "/personal_data/async_delete/"
-            return final_direction
+    function get_base_url(){
+        var actual_direction  = location.href
+        var reference_pattern = "/personal_data/create"
+        var position_pattern  = actual_direction.indexOf(reference_pattern)
+        var pre_direction     = actual_direction.substring(0,position_pattern)
+        var final_direction   = pre_direction + "/personal_data/async_delete/"
+        return final_direction
+    }
+
+    function personal_data_delete(personal_data_pk){
+        var answer = confirm("¿Estas seguro que quieres eliminar este dato porsonal?");
+        if(answer){
+            var dir = get_base_url() + personal_data_pk +"/"+{{ election.pk }};
+            $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                function(json){
+                    $("#personal_data_"+personal_data_pk).remove();
+                    if($("[id ^= personal_data_]").size() == 0)
+                        $("#link_next").remove();
+                })
         }
-        function personal_data_delete(personal_data_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este dato porsonal?");
-            if(answer){
-                var dir = get_base_url() + personal_data_pk +"/"+{{ election.pk }};
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
-                    function(json){
-                        $("#personal_data_"+personal_data_pk).remove();
-                        if($("[id ^= personal_data_]").size() == 0)
-                            $("#link_next").remove();
-                    })
-            }
-            else {
-                return false;
-            }
+        else {
+            return false;
         }
-    </script>
+    }
+
+$(document).ready(function() {
+    $('.example_window').dialog({
+        title: "{% trans 'Ejemplo' %}",
+        width: 425,
+        height: 410,
+        modal: true,
+        autoOpen: false
+    });
+
+    $('.informacion').click(function() {
+        $('.example_window').dialog('open');
+        return false;
+    });
+
+});
+
+
+</script>
 {{ form.media }}
 {% endblock %}
