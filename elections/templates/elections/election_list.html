@@ -6,7 +6,4 @@
   <li><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{ election }}</a></li>
 {% endfor %}
 </ul>
-{% if user.is_authenticated %}
-<a href="{% url election_create %}">Crear Eleccion</a>
-{% endif %}
 {% endblock content %}
