@@ -6,7 +6,7 @@ from elections.models import Candidate, PersonalInformation, Link
 class CandidateForm(forms.ModelForm):
     class Meta:
         model = Candidate
-        exclude = ('election', 'answers', 'personal_data', 'background', 'photo')
+        exclude = ('election', 'answers', 'personal_data', 'background', 'photo', 'slug')
     class Media:
         js = ('js/jquery.slug.js', 'js/jquery.formset.js', )
         css = {
