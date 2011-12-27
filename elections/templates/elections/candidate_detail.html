@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load election_tags %}
 {% load candidate_tags %}
+{% load thumbnail %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
@@ -28,7 +29,13 @@
 
             <div>
                 <div class="profileImg">
-                    <img src="{% candidate_photo candidate%}" alt="{{ candidate.name }}">
+                    {% thumbnail candidate.photo "160x200" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
+                             width="160" height="200"/>
+                    {% empty %}
+                        <img src="" alt="{{ candidate.name }}"
+                             width="160" height="200"/>
+                    {% endthumbnail %}
                 </div>
 
                 <section class="personalInfo">

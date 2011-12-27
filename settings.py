@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'debug_toolbar',
     'django_coverage',
+    'sorl.thumbnail',
     'profiles',
     'smart_profile',
     'elections',
