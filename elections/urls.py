@@ -93,7 +93,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
 
     # Delete personalData view in wizzard
-    url(r'^(?P<election_slug>[-\w]+)/personal_data/async_delete/(?P<personal_data_pk>[-\w]+)/(?P<election_pk>[-\w]+)$', 'candidator.elections.views.async_delete_personal_data', name='async_delete_personal_data'),
+    url(r'^(?P<personal_data_pk>[-\d]+)/personal_data/async_delete/?$', 'candidator.elections.views.async_delete_personal_data', name='async_delete_personal_data'),
 
     # Create PersonalDataCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<personal_data_pk>[0-9]+)/personal_data_associate' , personal_data_candidate_create, name='personal_data_candidate_create'),

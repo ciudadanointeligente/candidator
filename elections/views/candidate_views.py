@@ -156,14 +156,7 @@ def async_delete_candidate(request, candidate_pk):
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
 
-def async_delete_personal_data(request, election_slug, personal_data_pk, election_pk):
-    if request.POST:
-        personal_data = PersonalData.objects.get(pk = personal_data_pk, election = election_pk)
-        personal_data.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
+
 
 def async_delete_category(request, election_slug, category_pk, election_pk):
     if request.POST:
