@@ -19,15 +19,16 @@
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
             <span class="tit_fondoverde">
-                {{ background_category.name }}<a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
+                {{ background_category.name }}<a href="javascript:void(0);" onclick=""><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
             </span>
-            <br/>
-            <a href="{% url background_create background_category_pk=background_category.pk %}">(+)</a>
-            <ul>
+
+            <ul id="id_background_list_{{ background_category.pk }}">
             {% for background in background_category.background_set.all %}
                 <li>{{ background.name }}</li>
             {% endfor %}
             </ul>
+            <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="Agregar Antecedente"/>
+            <a class="save-background_link" href="">(+)</a>
         </li>
         {% endfor %}
     </ul>
@@ -50,4 +51,37 @@
 
 {% block extra_js %}
 {{ form.media }}
+<script type="text/javascript">
+    var default_text = "Agregar Antecedente"
+
+    $(".save-background_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = value_text.attr('pk');
+
+        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+            $("ul#id_background_list_"+background_category_pk+" li").last().append('<li>'+data.value+'</li>')
+            value_text.val(default_text)
+        },
+        'json');
+        return false;
+    });
+
+    $(".add_background_input").focus(function(e){
+        if ($(this).val() == default_text){
+            $(this).val("")
+        }
+    });
+
+    $(".add_background_input").blur(function(e){
+        if ($(this).val() == ""){
+            $(this).val(default_text)
+        }
+    });
+</script>
 {% endblock %}
