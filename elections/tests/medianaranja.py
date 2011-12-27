@@ -14,14 +14,8 @@ class TestMediaNaranja(TestCase):
         election, created = Election.objects.get_or_create(name='election',
                                                             owner=user,
                                                             slug='barbaz')
-        candidate1, created = Candidate.objects.get_or_create(first_name='Bar',
-                                                            last_name='Baz',
-                                                            election=election,
-                                                            slug='barbaz')
-        candidate2, created = Candidate.objects.get_or_create(first_name='Foo',
-                                                            last_name='Foo',
-                                                            election=election,
-                                                            slug='foofoo')
+        candidate1 = Candidate.objects.create(name='BarBaz', election=election)
+        candidate2 = Candidate.objects.create(name='FooFoo', election=election)
         category1, created = Category.objects.get_or_create(name='FooCat',
                                                             election=election,
                                                             slug='foo-cat')

@@ -40,12 +40,12 @@ class CandidateModelTest(TestCase):
         candidate2 = Candidate.objects.get(slug='juan-candidato', election=self.election)
         self.assertEqual(candidate2.name, 'nuevo_nombre')
 
-    def test_create_two_candidate_with_same_election_with_same_slug(self):
+    def test_create_two_candidate_with_same_election_with_same_name(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
 
         self.assertRaises(IntegrityError, Candidate.objects.create,
-                          name='Juanito Candidatito', election=self.election)
+                          name='Juan Candidato', election=self.election)
 
     def test_create_two_candidate_with_same_slug_in_different_election(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
@@ -57,16 +57,6 @@ class CandidateModelTest(TestCase):
                                             election=election2)
         self.assertEqual(candidate.slug, candidate2.slug)
 
-    def test_name_property(self):
-        candidate = Candidate()
-        candidate.name = 'Juanito'
-        candidate.last_name = 'Perez'
-
-        expected_name = 'Juanito Perez'
-
-        self.assertEqual(candidate.name, expected_name)
-
-    @property
     def test_get_personal_data(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
@@ -420,8 +410,6 @@ class CandidateUpdateViewTest(TestCase):
         self.assertTrue(isinstance(request.context['form'], CandidateUpdateForm))
         self.assertTrue('name' in request.context['form'].initial)
         self.assertEquals(request.context['form'].initial['name'], 'Juan Candidato')
-        self.assertTrue('last_name' in request.context['form'].initial)
-        self.assertEquals(request.context['form'].initial['last_name'], 'Candidato')
 
     def test_post_candidate_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
