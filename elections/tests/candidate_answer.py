@@ -16,10 +16,8 @@ class CandidateAnswerTest(TestCase):
         election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=user,
                                                             slug='barbaz')
-        candidate, created = Candidate.objects.get_or_create(first_name='Bar',
-                                                            last_name='Baz',
-                                                            election=election,
-                                                            slug='barbaz')
+        candidate, created = Candidate.objects.get_or_create(name='Bar Baz',
+                                                            election=election)
         category, created = Category.objects.get_or_create(name='FooCat',
                                                             election=election)
         question, created = Question.objects.get_or_create(question='Foo',
@@ -72,8 +70,7 @@ class AssociateCandidatesAnswersTest(TestCase):
         self.election2, created = Election.objects.get_or_create(name='BarBaz2',
                                                             owner=self.user,
                                                             slug='barbaz2')
-        self.candidate, created = Candidate.objects.get_or_create(
-                                                            name='Bar Baz',
+        self.candidate = Candidate.objects.create(name='Bar Baz',
                                                             election=self.election)
         self.candidate2, created = Candidate.objects.get_or_create(
                                                             name='Bar Baz',

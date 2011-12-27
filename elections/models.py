@@ -48,8 +48,9 @@ class Candidate(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.first_name + " " + self.last_name)
-        super(test, self).save(*args, **kwargs)
+        if self.pk is None:
+            self.slug = slugify(self.name)
+        super(Candidate, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ('slug', 'election')
@@ -145,13 +146,6 @@ class Candidate(models.Model):
         for pd in self.personal_data.all():
             pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
         return pd_dict
-
-    @property
-    def name(self):
-        return u"%(first_name)s %(last_name)s" % {
-            'first_name': self.first_name,
-            'last_name': self.last_name
-        }
 
     def get_questions_by_category(self, category):
         return category.question_set.all()

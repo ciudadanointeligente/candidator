@@ -386,7 +386,6 @@ class CandidateCreateViewTest(TestCase):
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
         self.assertEquals(candidate.name, params['name'])
-        self.assertEquals(candidate.last_name, params['last_name'])
         # The CandidateForm doesnt contain the photo field
         # self.assertEquals(f.read(), candidate.photo.file.read())
         f.close()
@@ -488,7 +487,6 @@ class CandidateUpdateViewTest(TestCase):
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
         self.assertEquals(candidate.name, params['name'])
-        self.assertEquals(candidate.last_name, params['last_name'])
         self.assertEquals(f.read(), candidate.photo.file.read())
         f.close()
         os.unlink(candidate.photo.path)

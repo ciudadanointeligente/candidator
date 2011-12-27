@@ -105,9 +105,7 @@ class BackgroundCandidateModelTest(TestCase):
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
         background_candidate, created = BackgroundCandidate.objects.get_or_create(candidate=self.candidate,
@@ -130,8 +128,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             slug='juan-candidato',
                                                             election=self.election)
 
@@ -146,8 +143,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.background2, created = Background.objects.get_or_create(category=self.background_category2,
                                                                 name='foo')
 
-        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
+        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             slug='juan-candidato',
                                                             election=self.election2)
 

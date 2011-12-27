@@ -139,7 +139,7 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_one_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
+        candidate = Candidate.objects.create(name='bar baz', election=election)
         response = self.client.get(reverse('election_compare_one_candidate',
                                            kwargs={
                                                'username': user.username,
