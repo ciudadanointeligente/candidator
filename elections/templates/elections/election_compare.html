@@ -141,7 +141,7 @@
                     {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
                         <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
-                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="100" height="129"/>
                     {% endthumbnail %}
                 {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
@@ -189,7 +189,7 @@
                     {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
                         <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
-                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
                     {% endthumbnail %}
                 {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
