@@ -203,3 +203,64 @@ class CategoryUpdateViewTest(TestCase):
 
         self.assertRedirects(response, reverse('election_detail',
                                                kwargs={'username':self.user.username, 'slug': self.election.slug}))
+
+
+class AsyncDeleteCategoryTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion')
+
+        self.category = Category.objects.create(name="Bar1", slug="bar", election=self.election)
+
+
+    def test_post_with_login(self):
+        self.client.login(username='joe', password='doe')
+
+        request = self.client.post(reverse('async_delete_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 200)
+
+    def test_post_without_login(self):
+        request = self.client.post(reverse('async_delete_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 302)
+
+
+    def test_get_405(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('async_delete_category',
+                                kwargs={'category_pk': self.category.pk}))
+
+        self.assertEquals(request.status_code, 405)
+
+    def test_post_with_stranger_candidate(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user2,
+                                                           slug='barbaz2',
+                                                           description='esta es una descripcion')
+
+        category2 = Category.objects.create(name="Bar1", slug="bar2", election=election2)
+
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('async_delete_category',
+                                kwargs={'category_pk': category2.pk}))
+
+        self.assertEquals(request.status_code, 404)
+
+    def test_post_success(self):
+        self.client.login(username='joe', password='doe')
+        temp_pk = self.category.pk
+        request = self.client.post(reverse('async_delete_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+
+        self.assertEquals(request.status_code, 200)
+        self.assertEquals(request.content, '{"result": "OK"}')
+
+        self.assertRaises(Category.DoesNotExist, Category.objects.get, pk=temp_pk)

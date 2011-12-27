@@ -107,6 +107,8 @@ urlpatterns = patterns('',
     # Create Background Ajax
     url(r'^(?P<background_category_pk>[0-9]+)/background/ajax_create/?$', background_ajax_create, name='background_ajax_create'),
 
+    # Delete category view in wizzard
+    url(r'^(?P<category_pk>[-\d]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
 
     # Create BackgroundCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<background_pk>[0-9]+)/background_associate' , background_candidate_create, name='background_candidate_create'),

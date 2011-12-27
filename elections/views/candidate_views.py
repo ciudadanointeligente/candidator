@@ -154,15 +154,3 @@ def async_delete_candidate(request, candidate_pk):
     candidate.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-
-
-
-
-def async_delete_category(request, election_slug, category_pk, election_pk):
-    if request.POST:
-        category = Category.objects.get(pk = category_pk, election = election_pk)
-        category.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
