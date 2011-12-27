@@ -19,15 +19,17 @@
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
             <span class="tit_fondoverde">
-                {{ background_category.name }}<a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
+                {{ background_category.name }}<a href="javascript:void(0);" onclick=""><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
             </span>
-            <br/>
-            <a href="{% url background_create background_category_pk=background_category.pk %}">(+)</a>
+
             <ul>
             {% for background in background_category.background_set.all %}
                 <li>{{ background.name }}</li>
             {% endfor %}
             </ul>
+            <br>
+            Agregar Antecedente <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" name="b-{{ background_category.pk}}" maxlength="30" value=""/>
+            <a class="save-background_link" href="">(+)</a>
         </li>
         {% endfor %}
     </ul>
@@ -50,4 +52,22 @@
 
 {% block extra_js %}
 {{ form.media }}
+<script type="text/javascript">
+    $(".save-background_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = value_text.attr('pk');
+
+        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+            window.location.reload();
+        },
+        'json');
+        return false;
+    });
+</script>
 {% endblock %}
