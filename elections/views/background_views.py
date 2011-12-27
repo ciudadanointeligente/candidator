@@ -60,3 +60,17 @@ def background_candidate_create(request, candidate_pk, background_pk):
             'elections/background_associate.html',
             {'candidate': candidate, 'background': background, 'form':form},
             context_instance=RequestContext(request))
+
+
+@login_required
+@require_http_methods(['POST'])
+def background_ajax_create(request, background_category_pk):
+    background_category = get_object_or_404(BackgroundCategory, pk=background_category_pk, election__owner=request.user)
+
+    value = request.POST.get('value', None)
+    background = Background(name=value, category=background_category)
+    background.save()
+    return HttpResponse(json.dumps({"value": value}),
+                        content_type='application/json')
+
+

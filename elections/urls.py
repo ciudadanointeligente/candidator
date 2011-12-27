@@ -10,7 +10,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
-                  candidate_data_update, async_delete_candidate
+                  candidate_data_update, async_delete_candidate, background_ajax_create
 
 
 urlpatterns = patterns('',
@@ -100,6 +100,10 @@ urlpatterns = patterns('',
 
     # Create Background
     url(r'^(?P<background_category_pk>[0-9]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
+
+    # Create Background Ajax
+    url(r'^(?P<background_category_pk>[0-9]+)/background/ajax_create/?$', background_ajax_create, name='background_ajax_create'),
+
 
     # Create BackgroundCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<background_pk>[0-9]+)/background_associate' , background_candidate_create, name='background_candidate_create'),
