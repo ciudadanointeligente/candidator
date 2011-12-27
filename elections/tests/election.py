@@ -128,7 +128,7 @@ class ElectionCompareViewTest(TestCase):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election, photo=File(f))
+        candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
         response = self.client.get(reverse('election_compare_one_candidate',
                                            kwargs={
                                                'username': user.username,
@@ -151,8 +151,8 @@ class ElectionCompareViewTest(TestCase):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election, photo=File(f))
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election, photo=File(f))
+        first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
+        second_candidate = Candidate.objects.create(name='tar taz', election=election, photo=File(f))
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
         response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
@@ -166,8 +166,8 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_two_candidates_category_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+        second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
         response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
@@ -181,8 +181,8 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_two_candidates_first_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+        second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
         response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
@@ -196,8 +196,8 @@ class ElectionCompareViewTest(TestCase):
     def test_compare_two_candidates_second_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        first_candidate = Candidate.objects.create(first_name='bar', last_name='baz', slug='bar-baz', election=election)
-        second_candidate = Candidate.objects.create(first_name='tar', last_name='taz', slug='tar-taz', election=election)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+        second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
         response = self.client.get(reverse('election_compare_two_candidates',
                                            kwargs={
