@@ -243,14 +243,14 @@ table{
 }
 
 .col_left{
-    width:430px;
+    width:405px;
     float:left;
     margin-left:13px;
     line-height:25px;
 }
 
 .col_right{
-    width:430px;
+    width:405px;
     float:right;
     margin-right:13px;
     line-height:25px;
@@ -277,7 +277,7 @@ table{
 }
 
 .contenedor_globo{
-    padding: 13px 133px 16px 13px;
+    padding: 13px 108px 16px 13px;
 }
 
 .globo_left{
