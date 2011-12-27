@@ -233,7 +233,6 @@ table{
 
 
 .contenedor1{
-<<<<<<< HEAD
 	width: 850px;
 	border: 1px solid #D7D7D7;
 	position: relative;
@@ -241,29 +240,6 @@ table{
 	margin-left: -426px;
 	overflow: hidden;
 	margin-top: 25px;
-}
-
-.col_left{
-	width:405px;
-	float:left;
-	margin-left:13px;
-	line-height:25px;
-}
-
-.col_right{
-	width:405px;
-	float:right;
-	margin-right:13px;
-	line-height:25px; 
-=======
-    width:900px;
-    border: 1px solid #D7D7D7;
-    position:relative;
-    left: 50%;
-    margin-left: -450px;
-    overflow:hidden;
-    margin-top:25px;
-    margin-bottom: 20px;
 }
 
 .col_left{
@@ -278,7 +254,6 @@ table{
     float:right;
     margin-right:13px;
     line-height:25px;
->>>>>>> 3a5d94589dd1628f7baba123dadb3a5879bba4dd
 }
 
 .ico_tit{
@@ -291,7 +266,6 @@ table{
 }
 
 .papel{
-<<<<<<< HEAD
 	background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #666666;
     left: 50%;
@@ -300,17 +274,6 @@ table{
     overflow: hidden;
     position: relative;
     width: 900px;
-=======
-    background: white;
-    box-shadow: 0px 1px 8px 1px #666666;
-    width: 950px;
-    position: relative;
-    left: 50%;
-    margin-left: -475px;
-    overflow: hidden;
-    margin-top: 25px;
-    margin-bottom: 20px;
->>>>>>> 3a5d94589dd1628f7baba123dadb3a5879bba4dd
 }
 
 .contenedor_globo{
