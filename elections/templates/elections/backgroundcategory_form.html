@@ -14,7 +14,11 @@
     <div class="numero_on cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
 <!-- se debe cambiar de lados la flecha y el add -->
-    <h2>Antecedentes</h2>
+    <h2>Antecedentes:</h2>
+    <a class="informacion" href="#"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></a>
+
+    <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_antecedentes.jpg" /></div>
+
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
@@ -52,7 +56,8 @@
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
-    var default_text = "Agregar Antecedente"
+$(document).ready(function() {
+    var default_text = "Agregar Antecedente";
 
     $(".save-background_link").click(function(e){
         var value_text = $(this).prev("input");
@@ -88,5 +93,21 @@
             $(this).val(default_text)
         }
     });
+
+    $('.example_window').dialog({
+        title: "{% trans 'Ejemplo' %}",
+        width: 425,
+        height: 410,
+        modal: true,
+        autoOpen: false
+    });
+
+    $('.informacion').click(function() {
+        $('.example_window').dialog('open');
+        return false;
+    });
+
+});
+
 </script>
 {% endblock %}

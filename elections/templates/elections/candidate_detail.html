@@ -33,7 +33,7 @@
                         <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
                              width="160" height="200"/>
                     {% empty %}
-                        <img src="" alt="{{ candidate.name }}"
+                        <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}"
                              width="160" height="200"/>
                     {% endthumbnail %}
                 </div>
@@ -47,7 +47,7 @@
                 <aside class="profileAside">
                     <div class="sideButton compare">
                         <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}">
-                            {% trans "Compará" %}
+                            {% trans "Compara" %}
                         </a>
                     </div>
                     <div class="sideButton medianaranja">
@@ -61,7 +61,7 @@
                         <!-- AddThis Button BEGIN -->
                         <a class="addthis_button"
                            href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2">
-                            {% trans "Compartí" %}
+                            {% trans "Comparte" %}
                         </a>
 
                         <!-- AddThis Button END -->

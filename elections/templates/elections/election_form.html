@@ -23,33 +23,33 @@
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}
             <p class="fieldWrapper">
-                {{ form.name.errors }}
                 <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>
                 {{ form.name }}
+                {{ form.name.errors }}
             </p>
 
             <p class="fieldWrapper">
-                {{ form.date.errors }}
                 <label for="id_date" class="tit_fondoverde">{{ form.date.label }}</label>
                 {{ form.date }}
+                {{ form.date.errors }}
             </p>
 
             <p class="fieldWrapper">
-                {{ form.slug.errors }}
                 <label for="id_slug" class="instrucciones">{{ form.slug.label }}</label>
                 {{ form.slug }}
+                {{ form.slug.errors }}
             </p>
 
             <p class="fieldWrapper">
-                {{ form.name.errors }}
                 <label for="id_description" class="tit_fondoverde">{{ form.description.label }}</label>
                 {{ form.description }}
+                {{ form.description.errors }}
             </p>
 
             <p class="fieldWrapper">
-                {{ form.logo.errors }}
                 <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>
                 {{ form.logo }}
+                {{ form.logo.errors }}
             </p>
 
             <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
