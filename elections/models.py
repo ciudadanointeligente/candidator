@@ -9,6 +9,7 @@ from django_extensions.db.fields import AutoSlugField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
+from django.template.defaultfilters import slugify
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
 twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
@@ -33,8 +34,7 @@ class Election(models.Model):
 
 
 class Candidate(models.Model):
-    first_name = models.CharField(max_length=255, verbose_name="Nombre:")
-    last_name = models.CharField(max_length=255, verbose_name="Apellido:")
+    name = models.CharField(max_length=255, verbose_name="Nombre:")
     slug = models.CharField(max_length=255)
     photo = models.ImageField(upload_to = 'photos/', blank = True)
 
@@ -46,6 +46,10 @@ class Candidate(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.first_name + " " + self.last_name)
+        super(test, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ('slug', 'election')
@@ -107,7 +111,6 @@ class Candidate(models.Model):
         for i in range(len(sum_by_category)):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
-
 
     def add_background(self, background, value):
         bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
@@ -176,7 +179,6 @@ class Candidate(models.Model):
             second_candidate_answer = candidate.get_answer_by_question(question)
             all_answers.append((question,first_candidate_answer,second_candidate_answer))
         return all_answers
-
 
     def __unicode__(self):
         return self.name
