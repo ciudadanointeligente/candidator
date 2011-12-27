@@ -18,10 +18,7 @@ class PersonalInformationModelTest(TestCase):
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                                  last_name='Candidato',
-                                                                  slug='juan-candidato',
-                                                                  election=self.election)
+        self.candidate = Candidate.objects.create(name='Juan Candidato', election=self.election)
 
     def test_create_personal_information(self):
         personal_information, created = PersonalInformation.objects.get_or_create(

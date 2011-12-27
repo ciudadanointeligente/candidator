@@ -9,6 +9,7 @@ from django_extensions.db.fields import AutoSlugField
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
+from django.template.defaultfilters import slugify
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
 twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
@@ -33,9 +34,8 @@ class Election(models.Model):
 
 
 class Candidate(models.Model):
-    first_name = models.CharField(max_length=255, verbose_name="Nombre:")
-    last_name = models.CharField(max_length=255, verbose_name="Apellido:")
-    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name="Nombre:")
+    slug = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to = 'photos/', blank = True)
 
     election = models.ForeignKey('Election')
@@ -47,8 +47,22 @@ class Candidate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.slug = slug = slugify(self.name)
+            counter = 1
+            while True:
+                try:
+                    Candidate.objects.get(slug=self.slug, election=self.election)
+                    self.slug = slug + str(counter)
+                    counter += 1
+                except self.DoesNotExist:
+                    break
+
+        super(Candidate, self).save(*args, **kwargs)
+
     class Meta:
-        unique_together = ('slug', 'election')
+        unique_together = (('slug', 'election'), ('name', 'election'))
 
     def associate_answer(self, answer):
         old_answers = self.answers.filter(question=answer.question).all()
@@ -108,7 +122,6 @@ class Candidate(models.Model):
             scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
-
     def add_background(self, background, value):
         bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
         if len(bcs) > 0:
@@ -143,13 +156,6 @@ class Candidate(models.Model):
             pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
         return pd_dict
 
-    @property
-    def name(self):
-        return u"%(first_name)s %(last_name)s" % {
-            'first_name': self.first_name,
-            'last_name': self.last_name
-        }
-
     def get_questions_by_category(self, category):
         return category.question_set.all()
 
@@ -176,7 +182,6 @@ class Candidate(models.Model):
             second_candidate_answer = candidate.get_answer_by_question(question)
             all_answers.append((question,first_candidate_answer,second_candidate_answer))
         return all_answers
-
 
     def __unicode__(self):
         return self.name

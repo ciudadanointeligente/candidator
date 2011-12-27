@@ -22,69 +22,43 @@ class CandidateModelTest(TestCase):
                                                            description='esta es una descripcion')
 
     def test_create_candidate(self):
-        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
         self.assertTrue(created)
-        self.assertEqual(candidate.first_name, 'Juan')
-        self.assertEqual(candidate.last_name, 'Candidato')
+        self.assertEqual(candidate.name, 'Juan Candidato')
         self.assertEqual(candidate.slug, 'juan-candidato')
         self.assertEqual(candidate.election, self.election)
 
     def test_update_candidate(self):
-        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
-        candidate.first_name = 'nuevo_nombre'
+        candidate.name = 'nuevo_nombre'
         candidate.save()
 
         candidate2 = Candidate.objects.get(slug='juan-candidato', election=self.election)
-        self.assertEqual(candidate2.first_name, 'nuevo_nombre')
+        self.assertEqual(candidate2.name, 'nuevo_nombre')
 
-
-    def test_create_two_candidate_with_same_election_with_same_slug(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
-                                                            election=self.election)
+    def test_create_two_candidate_with_same_election_with_same_name(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
 
         self.assertRaises(IntegrityError, Candidate.objects.create,
-                          first_name='Juanito', last_name='Candidatito', slug='juan-candidato', election=self.election)
-
+                          name='Juan Candidato', election=self.election)
 
     def test_create_two_candidate_with_same_slug_in_different_election(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         election2, created = Election.objects.get_or_create(name='BarBaz2',
-                                                   owner=self.user,
-                                                   slug='barbaz2',
-                                                   description='esta es una descripcion')
-        candidate2 = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+                                                           owner=self.user,
+                                                           description='esta es una descripcion')
+        candidate2 = Candidate.objects.create(name='Juan Candidato',
                                             election=election2)
         self.assertEqual(candidate.slug, candidate2.slug)
 
-    def test_name_property(self):
-        candidate = Candidate()
-        candidate.first_name = 'Juanito'
-        candidate.last_name = 'Perez'
-
-        expected_name = 'Juanito Perez'
-
-        self.assertEqual(candidate.name, expected_name)
-
-    @property
     def test_get_personal_data(self):
-        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
         personal_data, created = PersonalData.objects.get_or_create(election=self.election,
@@ -97,9 +71,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(personal_data_set, {'foo': 'new_value'})
 
     def test_get_background(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
                                                                     name='FooBar')
@@ -128,9 +100,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.get_background, expected_dict)
 
     def test_add_personal_data(self):
-        candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
         personal_data, created = PersonalData.objects.get_or_create(election=self.election,
@@ -149,9 +119,7 @@ class CandidateModelTest(TestCase):
 
 
     def test_add_background(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
                                                                     name='FooBar')
@@ -174,9 +142,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.get_background, expected)
 
     def test_get_questions_by_category(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         category, created = Category.objects.get_or_create(name='FooCat',
                                                             election=self.election,
@@ -189,9 +155,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(real_questions[0].category, expected_questions[0].category)
 
     def test_get_answer_by_question(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         category, created = Category.objects.get_or_create(name='FooCat',
                                                             election=self.election,
@@ -211,9 +175,7 @@ class CandidateModelTest(TestCase):
         self.assertEqual(real_answer_2, expected_answer_2)
 
     def test_get_all_answers_by_category(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         category, created = Category.objects.get_or_create(name='FooCat',
                                                             election=self.election,
@@ -234,13 +196,9 @@ class CandidateModelTest(TestCase):
         self.assertEqual(real_result, expected_result)
 
     def test_get_answers_two_candidates(self):
-        candidate1 = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate1 = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
-        candidate2 = Candidate.objects.create(first_name='Mario',
-                                            last_name='Candidato',
-                                            slug='mario-candidato',
+        candidate2 = Candidate.objects.create(name='Mario Candidato',
                                             election=self.election)
         category, created = Category.objects.get_or_create(name='FooCat',
                                                             election=self.election,
@@ -266,11 +224,9 @@ class CandidateDetailViewTest(TestCase):
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
-        self.candidate = Candidate.objects.create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
-                                                            election=self.election,
-                                                            photo='photos/dummy.jpg')
+        self.candidate = Candidate.objects.create(name='Juan Candidato',
+                                                    election=self.election,
+                                                    photo='photos/dummy.jpg')
 
     def test_detail_existing_candidate_view(self):
         response = self.client.get(reverse('candidate_detail',
@@ -332,15 +288,13 @@ class CandidateCreateViewTest(TestCase):
         self.assertTrue(isinstance(request.context['election'], Election))
 
     def test_post_candidate_create_with_same_slug(self):
-        candidate = Candidate.objects.create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'first_name': 'first', 'last_name': 'last',
-                  'slug': candidate.slug, 'photo': f,
+        params = {'name': candidate.name,
+                  'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
@@ -348,17 +302,16 @@ class CandidateCreateViewTest(TestCase):
                   'link-INITIAL_FORMS': u'0',
                   'link-MAX_NUM_FORMS': u'',
                   }
-        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params)
+        response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params,
+            follow=True)
         f.close()
-
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug','Ya tienes un candidato con ese slug.' )
 
-        # falta revisar que no funcione el formulario
+        # falta revisar que no tenga errores
 
     def test_post_candidate_create_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+        params = {'name': 'Juan Candidato', 'last_name': 'Candidato',
                   'slug': 'juan-candidato', 'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
@@ -387,7 +340,7 @@ class CandidateCreateViewTest(TestCase):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         self.client.login(username='joe', password='doe')
 
-        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+        params = {'name': 'Juan Candidato', 'last_name': 'Candidato',
                   'slug': 'juan-candidato', 'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
@@ -406,8 +359,8 @@ class CandidateCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'first_name': 'Juan', 'last_name': 'Candidato',
-                  'slug': 'juan-candidato', 'photo': f,
+        params = {'name': 'Juan Candidato',
+                  'photo': f,
                   'form-TOTAL_FORMS': u'0',
                   'form-INITIAL_FORMS': u'0',
                   'form-MAX_NUM_FORMS': u'',
@@ -417,12 +370,12 @@ class CandidateCreateViewTest(TestCase):
         response = self.client.post(reverse('candidate_create', kwargs={'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
 
+
         self.assertEquals(response.status_code, 200)
         qs = Candidate.objects.filter(election= self.election, slug='juan-candidato')
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
-        self.assertEquals(candidate.first_name, params['first_name'])
-        self.assertEquals(candidate.last_name, params['last_name'])
+        self.assertEquals(candidate.name, params['name'])
         # The CandidateForm doesnt contain the photo field
         # self.assertEquals(f.read(), candidate.photo.file.read())
         f.close()
@@ -440,9 +393,7 @@ class CandidateUpdateViewTest(TestCase):
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                             election=self.election)
 
 
@@ -457,14 +408,12 @@ class CandidateUpdateViewTest(TestCase):
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CandidateUpdateForm))
-        self.assertTrue('first_name' in request.context['form'].initial)
-        self.assertEquals(request.context['form'].initial['first_name'], 'Juan')
-        self.assertTrue('last_name' in request.context['form'].initial)
-        self.assertEquals(request.context['form'].initial['last_name'], 'Candidato')
+        self.assertTrue('name' in request.context['form'].initial)
+        self.assertEquals(request.context['form'].initial['name'], 'Juan Candidato')
 
     def test_post_candidate_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+        params = {'name': 'Juan Candidato', 'last_name': 'Candidato',
                   'photo': f,}
         response = self.client.post(reverse('candidate_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}), params)
         f.close()
@@ -480,9 +429,7 @@ class CandidateUpdateViewTest(TestCase):
                                                            slug='barbaz3',
                                                            description='esta es una descripcion')
 
-        candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato2',
+        candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                             election=election2)
 
         self.client.login(username='joe', password='doe')
@@ -500,12 +447,10 @@ class CandidateUpdateViewTest(TestCase):
                                                            slug='barbaz2',
                                                            description='esta es una descripcion')
 
-        candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato2',
+        candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                             election=election2)
 
-        params = {'first_name': 'Juan', 'last_name': 'Candidato',
+        params = {'name': 'Juan Candidato', 'last_name': 'Candidato',
                   'photo': f,}
 
         self.client.login(username='joe', password='doe')
@@ -520,7 +465,7 @@ class CandidateUpdateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'first_name': 'Juanito', 'last_name': 'Candidato',
+        params = {'name': 'Juanito', 'last_name': 'Candidato',
                   'photo': f,}
         response = self.client.post(reverse('candidate_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}), params, follow=True)
         f.seek(0)
@@ -529,8 +474,7 @@ class CandidateUpdateViewTest(TestCase):
         qs = Candidate.objects.filter(election= self.election, slug='juan-candidato')
         self.assertEquals(qs.count(), 1)
         candidate = qs.get()
-        self.assertEquals(candidate.first_name, params['first_name'])
-        self.assertEquals(candidate.last_name, params['last_name'])
+        self.assertEquals(candidate.name, params['name'])
         self.assertEquals(f.read(), candidate.photo.file.read())
         f.close()
         os.unlink(candidate.photo.path)
@@ -559,9 +503,7 @@ class CandidateDataUpdateTest(TestCase):
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                             election=self.election,
                                             photo='photos/dummy.jpg')
 
@@ -587,9 +529,7 @@ class CandidateDataUpdateTest(TestCase):
                                                            slug='barbaz2',
                                                            description='esta es una descripcion')
 
-        candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                            last_name='Candidato',
-                                            slug='juan-candidato2',
+        candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                             election=election2,
                                             photo='photos/dummy.jpg')
 
