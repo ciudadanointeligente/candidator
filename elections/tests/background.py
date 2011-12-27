@@ -105,9 +105,7 @@ class BackgroundCandidateModelTest(TestCase):
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             election=self.election)
 
         background_candidate, created = BackgroundCandidate.objects.get_or_create(candidate=self.candidate,
@@ -130,8 +128,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
 
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             slug='juan-candidato',
                                                             election=self.election)
 
@@ -146,8 +143,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.background2, created = Background.objects.get_or_create(category=self.background_category2,
                                                                 name='foo')
 
-        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
+        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
                                                             slug='juan-candidato',
                                                             election=self.election2)
 
@@ -212,3 +208,81 @@ class BackgroundCandidateCreateView(TestCase):
 
         expected = { self.background_category.name : { self.background.name: 'Bar'}}
         self.assertEquals(self.candidate.get_background, expected)
+
+
+class BackgroundAjaxCreateView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+
+        self.background, created = Background.objects.get_or_create(category=self.background_category,
+                                                                name='foo')
+
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+                                                            election=self.election)
+
+        self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election2,
+                                                                    name='FooBar')
+
+        self.background2, created = Background.objects.get_or_create(category=self.background_category2,
+                                                                name='foo')
+
+        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
+                                                            election=self.election2)
+
+
+    def test_get_background_ajax_create_with_login(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('background_ajax_create',
+                                    kwargs={'background_category_pk': self.background_category.pk}))
+        self.assertEqual(response.status_code, 405)
+
+    def test_get_background_ajax_create_without_login(self):
+        response = self.client.get(reverse('background_ajax_create',
+                                    kwargs={'background_category_pk': self.background_category.pk}))
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_post_background_ajax_create_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('background_ajax_create',
+                                    kwargs={'background_category_pk': self.background_category.pk}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_background_ajax_create_with_login_stranger_background_category(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('background_ajax_create',
+                                    kwargs={'background_category_pk': self.background_category2.pk}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_background_ajax_create_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('background_ajax_create',
+                                    kwargs={'background_category_pk': self.background_category.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
+
+
+        backgrounds = self.background_category.background_set.all()
+        background_names = [ background.name for background in backgrounds]
+
+        self.assertTrue(params['value'] in background_names)

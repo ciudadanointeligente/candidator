@@ -24,7 +24,7 @@ class ElectionUpdateForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        exclude = ('election')
+        exclude = ('election', 'slug')
     class Media:
         js = ('js/jquery.slug.js', )
         css = { 'all': ('css/wizard-forms.css',) }

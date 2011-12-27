@@ -17,25 +17,19 @@ class CategoryModelTest(TestCase):
                                                             slug='barbaz')
 
     def test_create_category(self):
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                            slug='foocat',
-                                                            election=self.election)
+        category = Category.objects.create(name='FooCat', election=self.election)
 
         self.assertEqual(category.name, 'FooCat')
         self.assertEqual(category.slug, 'foocat')
         self.assertEqual(category.election, self.election)
 
-    def test_create_category_with_same_slug(self):
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                            slug='foocat',
-                                                            election=self.election)
+    def test_create_category_with_same_name(self):
+        category = Category.objects.get_or_create(name='FooCat', election=self.election)
         self.assertRaises(IntegrityError, Category.objects.create,
-                          name='FooBar', slug='foocat', election=self.election)
+                          name='FooCat', election=self.election)
 
     def test_update_category(self):
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                            slug='foocat',
-                                                            election=self.election)
+        category = Category.objects.create(name='FooCat', election=self.election)
         new_category_name = 'FooBar'
         category.name = new_category_name
         category.save()
@@ -68,20 +62,19 @@ class CategoryCreateViewTest(TestCase):
         self.assertTrue(isinstance(request.context['election'], Election))
 
     def test_post_category_create_with_same_slug(self):
-        category = Category.objects.create(name="Bar1", slug="bar", election=self.election)
+        category = Category.objects.create(name="Bar1", election=self.election)
 
         self.client.login(username='joe', password='doe')
-        params = {'name': 'Bar', 'slug': 'bar'}
+        params = {'name': 'Bar'}
         response = self.client.post(reverse('category_create',
                                         kwargs={'election_slug': self.election.slug}),
-                                    params)
+                                    params, follow=True)
 
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug','Ya tienes una categoria con ese slug.' )
 
 
     def test_post_category_create_without_login(self):
-        params = {'name': 'BarBaz', 'slug': 'barbaz'}
+        params = {'name': 'BarBaz'}
         response = self.client.post(reverse('category_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params)
@@ -97,7 +90,7 @@ class CategoryCreateViewTest(TestCase):
     def test_post_category_create_with_login_stranger_election(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'name': 'Bar', 'slug': 'bar'}
+        params = {'name': 'Bar'}
         response = self.client.post(reverse('category_create',
                                         kwargs={'election_slug': 'strager_election_slug'}),
                                     params)
@@ -106,7 +99,7 @@ class CategoryCreateViewTest(TestCase):
     def test_post_category_create_logged(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'name': 'BarBaz', 'slug': 'barbaz'}
+        params = {'name': 'BarBaz'}
         response = self.client.post(reverse('category_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params,

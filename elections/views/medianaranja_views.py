@@ -43,7 +43,7 @@ def post_medianaranja1(request, username, election_slug):
 
     number_of_questions = 0
     for c in categories:
-        number_of_questions += len(c.get_questions())
+        number_of_questions += len(c.question_set.all())
 
     importances = []
     answers = []
@@ -67,7 +67,7 @@ def get_medianaranja1(request, username, election_slug):
     counter = 0
     for x in e[0].category_set.all():
         empty_questions = []
-        list_questions = x.get_questions()
+        list_questions = x.question_set.all()
         for i in range(len(list_questions)):
             y = list_questions[i]
             empty_questions.append((counter,y,y.answer_set.all()))

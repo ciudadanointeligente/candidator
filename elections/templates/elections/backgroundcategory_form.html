@@ -13,22 +13,22 @@
     </div>
     <div class="numero_on cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
-
+<!-- se debe cambiar de lados la flecha y el add -->
     <h2>Antecedentes</h2>
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
             <span class="tit_fondoverde">
-                {% blocktrans with num=forloop.counter %}Categoría de Antecedentes #{{ num }}{% endblocktrans %}
+                {{ background_category.name }}<a href="javascript:void(0);" onclick=""><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
             </span>
-            &nbsp;{{ background_category.name }}
-            <br/>
-            <a href="{% url background_create background_category_pk=background_category.pk %}">(+)</a>
-            <ul>
+
+            <ul id="id_background_list_{{ background_category.pk }}">
             {% for background in background_category.background_set.all %}
                 <li>{{ background.name }}</li>
             {% endfor %}
             </ul>
+            <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="Agregar Antecedente"/>
+            <a class="save-background_link" href=""><img  style="position:absolute; margin-left:2px; margin-top:-5px" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></a>
         </li>
         {% endfor %}
     </ul>
@@ -36,13 +36,13 @@
     <form name='backgroundcategory' method="POST">{% csrf_token %}
         {{form.as_p}}
         <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
-            <img src="{{ STATIC_URL }}img/bt_siguiente.png" />
+            <img  style="position:absolute; margin-left:0px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
         </a>
     </form>
 
     {% if election.backgroundcategory_set.count %}
     <div id="link_next">
-        <a href="{% url category_create election_slug=election.slug %}">{% trans "Siguiente (Agregar Cuestionario)" %}</a>
+        <a href="{% url category_create election_slug=election.slug %}"><img src="{{ STATIC_URL }}img/bt_siguiente.png" /></a>
     </div>
     {% endif %}
 </div>
@@ -51,4 +51,42 @@
 
 {% block extra_js %}
 {{ form.media }}
+<script type="text/javascript">
+    var default_text = "Agregar Antecedente"
+
+    $(".save-background_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = value_text.attr('pk');
+
+        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+            var lista = $("ul#id_background_list_"+background_category_pk)
+            if(lista.children().size() > 0){
+                lista.children().last().append('<li>'+data.value+'</li>')
+            }else{
+                lista.html('<li>'+data.value+'</li>')
+            }
+            value_text.val(default_text)
+        },
+        'json');
+        return false;
+    });
+
+    $(".add_background_input").focus(function(e){
+        if ($(this).val() == default_text){
+            $(this).val("")
+        }
+    });
+
+    $(".add_background_input").blur(function(e){
+        if ($(this).val() == ""){
+            $(this).val(default_text)
+        }
+    });
+</script>
 {% endblock %}

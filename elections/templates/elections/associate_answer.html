@@ -15,6 +15,7 @@
 {% endblock extra_head %}
 
 {% block content %}
+<h1><a href="{% url election_detail_admin username=candidate.election.owner slug=candidate.election.slug %}">{{ candidate.election.name }}</a></h1>
 <h1>{{ candidate.name }}</h1>
 {% for category in categories.all %}
     <h2>{{ category.name }}</h2>

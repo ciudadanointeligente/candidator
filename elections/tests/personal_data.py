@@ -98,9 +98,7 @@ class PersonalDataCandidateModelTest(TestCase):
                                                             slug='barbaz')
         self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
                                                                     label='foo')
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
+        self.candidate = Candidate.objects.create(name='Juan Candidato',
                                                             election=self.election)
 
         personal_data_candidate, created = PersonalDataCandidate.objects.get_or_create(candidate=self.candidate,
@@ -120,10 +118,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
                                                             slug='barbaz')
         self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
                                                                     label='foo')
-        self.candidate, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
-                                                            election=self.election)
+        self.candidate = Candidate.objects.create(name='Juan Candidato', election=self.election)
 
     def test_create_personal_data_candidate_by_user_without_login(self):
         request = self.client.get(reverse('personal_data_candidate_create',
@@ -161,10 +156,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
                                                             slug='barbaz')
         self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
                                                                     label='foo')
-        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
-                                                            election=self.election2)
+        self.candidate2 = Candidate.objects.create(name='Juan Candidato', election=self.election2)
 
         self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('personal_data_candidate_create',
@@ -179,10 +171,7 @@ class PersonalDataCandidateCreateViewTest(TestCase):
                                                             slug='barbaz')
         self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
                                                                     label='foo')
-        self.candidate2, created = Candidate.objects.get_or_create(first_name='Juan',
-                                                            last_name='Candidato',
-                                                            slug='juan-candidato',
-                                                            election=self.election2)
+        self.candidate2 = Candidate.objects.create(name='Juan Candidato', election=self.election2)
 
         self.client.login(username='joe', password='doe')
 
