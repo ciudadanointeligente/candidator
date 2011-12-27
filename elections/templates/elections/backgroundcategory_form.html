@@ -28,7 +28,7 @@
             {% endfor %}
             </ul>
             <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="Agregar Antecedente"/>
-            <a class="save-background_link" href="">(+)</a>
+            <a class="save-background_link" href=""><img  style="position:absolute; margin-left:2px; margin-top:-5px" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></a>
         </li>
         {% endfor %}
     </ul>
@@ -36,7 +36,7 @@
     <form name='backgroundcategory' method="POST">{% csrf_token %}
         {{form.as_p}}
         <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
-            <img src="{{ STATIC_URL }}img/zoom-icon.png"/>
+            <img  style="position:absolute; margin-left:0px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
         </a>
     </form>
 
@@ -65,7 +65,12 @@
             'value': value
         },
         function(data) {
-            $("ul#id_background_list_"+background_category_pk+" li").last().append('<li>'+data.value+'</li>')
+            var lista = $("ul#id_background_list_"+background_category_pk)
+            if(lista.children().size() > 0){
+                lista.children().last().append('<li>'+data.value+'</li>')
+            }else{
+                lista.html('<li>'+data.value+'</li>')
+            }
             value_text.val(default_text)
         },
         'json');
