@@ -345,6 +345,11 @@ class ElectionUrlsTest(TestCase):
         result = reverse('election_create')
         self.assertEquals(result, expected)
 
+    def test_pre_create_url(self):
+        expected = '/election/pre_create'
+        result = reverse('election_pre_create')
+        self.assertEquals(result, expected)
+
     def test_detail_url(self):
         expected = '/juanito/eleccion-la-florida/'
         result = reverse('election_detail', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})

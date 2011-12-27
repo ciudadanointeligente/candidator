@@ -45,6 +45,9 @@ urlpatterns = patterns('',
     # Create election view
     url(r'^election/create/?$', ElectionCreateView.as_view(), name='election_create'),
 
+    # Pre-Create election view
+    url(r'^election/pre_create/?$', login_required(TemplateView.as_view(template_name="elections/election_pre_create.html")), name='election_pre_create'),
+
     # Election update view
     url(r'^election/(?P<slug>[-\w]+)/update/?$', ElectionUpdateView.as_view(), name='election_update'),
 
