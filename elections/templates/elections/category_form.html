@@ -60,7 +60,7 @@
 <script type="text/javascript">
     $(function(){
         if($("#lista_categorias li").size() > 0){
-            $("#link_next").append('<a href="{% url election_detail slug=election.slug username=election.owner %}">{% trans 'Finalizar' %}</a>');
+            $("#link_next").append('<a href="{% url election_detail_admin slug=election.slug username=election.owner %}">{% trans 'Finalizar' %}</a>');
         }
     })
     $("#id_name").slug({

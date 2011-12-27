@@ -35,3 +35,14 @@ def value_for_candidate_and_background(candidate, background):
     except BackgroundCandidate.DoesNotExist:
         pass
     return ''
+
+@register.simple_tag
+def candidate_photo(candidate):
+    '''
+    return the url for candidate photo or empty string
+    '''
+    try:
+        return candidate.photo.url
+    except ValueError, e:
+        pass
+    return ''

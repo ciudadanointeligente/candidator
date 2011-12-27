@@ -142,6 +142,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'debug_toolbar',
+    'django_coverage',
+    'sorl.thumbnail',
     'profiles',
     'smart_profile',
     'elections',
