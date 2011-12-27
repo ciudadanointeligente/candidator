@@ -84,7 +84,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
 
     # Delete candidate view in wizzard
-    url(r'^(?P<election_slug>[-\w]+)/candidate/async_delete/(?P<candidate_pk>[-\w]+)/(?P<election_pk>[-\w]+)$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
+    url(r'^(?P<candidate_pk>[-\d]+)/candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
 
     # Candidate data Update (PersonalData and Background)
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', candidate_data_update, name='candidate_data_update'),

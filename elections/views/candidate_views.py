@@ -147,14 +147,14 @@ def candidate_data_update(request, election_slug, slug):
             context_instance=RequestContext(request))
 
 
-def async_delete_candidate(request, election_slug, candidate_pk, election_pk):
-    if request.POST:
-        candidate = Candidate.objects.get(pk = candidate_pk, election = election_pk)
-        candidate.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
+@login_required
+@require_http_methods(['POST'])
+def async_delete_candidate(request, candidate_pk):
+    candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
+    candidate.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
 
 def async_delete_personal_data(request, election_slug, personal_data_pk, election_pk):
     if request.POST:
