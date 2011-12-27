@@ -175,9 +175,9 @@
                             <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
                                 {% thumbnail candidate.photo "32x40" crop="center" as im %}
-                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                 {% empty %}
-                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                 {% endthumbnail %}
                             {% endfor %}
 
