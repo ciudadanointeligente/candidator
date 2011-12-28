@@ -37,9 +37,16 @@ class CategoryUpdateForm(forms.ModelForm):
 
 
 class QuestionForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        election = kwargs.pop('election')
+        super(QuestionForm, self).__init__(*args,**kwargs)
+        self.fields['category'].queryset = Category.objects.filter(election = election)
+    new_category = forms.CharField(required=False)
+    category = forms.ChoiceField(required=False)
     class Meta:
         model = Question
-        exclude = ('category')
+    class Media:
+        css = { 'all': ('css/wizard-forms.css',) }
 
 
 class AnswerForm(forms.ModelForm):

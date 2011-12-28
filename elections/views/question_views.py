@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import QuestionForm
 
 # Import models
-from elections.models import Category, Question
+from elections.models import Category, Question, Election
 
 
 # Question Views
@@ -27,18 +27,31 @@ class QuestionCreateView(CreateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, slug=kwargs['election_slug'], owner=request.user)
         return super(QuestionCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(QuestionCreateView, self).get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
+        context['election'] = self.election
         return context
 
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(QuestionCreateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['election'] = self.election
+        return kwargs
+
     def get_success_url(self):
-        return reverse('category_create', kwargs={'election_slug': self.object.category.election.slug})
+        return reverse('question_create', kwargs={'election_slug': self.object.category.election.slug})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        category = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
-        self.object.category = category
-        return super(QuestionCreateView, self).form_valid(form)
+        election = get_object_or_404(Election, election=self.kwargs['election_slug'], owner=self.request.user)
+        self.object.election = election
+        print "asd"
+        if len(form.cleaned_data['new_category']):
+            category, created = Category.objects.get_or_create(name = form.cleaned_data['new_category'], election = election)
+            print created
+            self.object.category = category
+        
+        self.object.save()
+        return redirect(self.get_success_url())
