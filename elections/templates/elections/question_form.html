@@ -39,7 +39,9 @@
         <p class="fieldWrapper">
             <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
             {{ form.category }}
+            <span {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
             {{ form.new_category }}
+            </span>
             {{ form.category.errors }}
         </p>
         {% if election.category_set.count %}
@@ -50,7 +52,7 @@
         </div>
         {% endif %}
         <div id="link_add">
-            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
                 <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
             </a>
         </div>
@@ -62,5 +64,17 @@
 {% endblock %}
 
 {% block extra_js %}
+<script type="text/javascript">
+    $(document).ready( function() {
+        $('#id_category').change( function () {
+            if($("#id_category option:selected").attr('value') == ""){
+                $('#id_new_category').parent().show();
+            }
+            else{
+                $('#id_new_category').parent().hide();
+            }
+        })
+    })
+</script>
 {{ form.media }}
 {% endblock %}
