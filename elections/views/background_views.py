@@ -70,7 +70,7 @@ def background_ajax_create(request, background_category_pk):
     value = request.POST.get('value', None)
     background = Background(name=value, category=background_category)
     background.save()
-    return HttpResponse(json.dumps({"value": value}),
+    return HttpResponse(json.dumps({"pk": background.pk, "name": background.name}),
                         content_type='application/json')
 
 

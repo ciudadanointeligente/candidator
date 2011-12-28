@@ -23,12 +23,14 @@
         {% for background_category in election.backgroundcategory_set.all %}
         <li>
             <span class="tit_fondoverde">
-                {{ background_category.name }}<a href="javascript:void(0);" onclick=""><img style="position:absolute; margin-top:-4px;" src="{{ STATIC_URL }}img/error.png"/></a>
+                {{ background_category.name }}
             </span>
 
             <ul id="id_background_list_{{ background_category.pk }}">
             {% for background in background_category.background_set.all %}
-                <li>{{ background.name }}</li>
+                <li id="background_{{background.pk}}">
+                    {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                </li>
             {% endfor %}
             </ul>
             <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="Agregar Antecedente"/>
@@ -56,6 +58,23 @@
 {% block extra_js %}
 {{ form.media }}
 <script type="text/javascript">
+
+function background_delete(background_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
+    if(answer){
+        var dir = "/"+background_pk +"/background/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#background_"+personal_data_pk).remove();
+                if($("[id ^= background_]").size() == 0)
+                    $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
 $(document).ready(function() {
     var default_text = "Agregar Antecedente";
 
@@ -70,11 +89,16 @@ $(document).ready(function() {
             'value': value
         },
         function(data) {
+
+            var content = '<li id="background_'+data.pk+'">
+                                '+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                            </li>'
+
             var lista = $("ul#id_background_list_"+background_category_pk)
             if(lista.children().size() > 0){
-                lista.children().last().append('<li>'+data.value+'</li>')
+                lista.children().last().append(content)
             }else{
-                lista.html('<li>'+data.value+'</li>')
+                lista.html(content)
             }
             value_text.val(default_text)
         },
@@ -108,6 +132,8 @@ $(document).ready(function() {
     });
 
 });
+
+
 
 </script>
 {% endblock %}

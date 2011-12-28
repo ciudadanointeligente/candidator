@@ -279,13 +279,13 @@ class BackgroundAjaxCreateView(TestCase):
                                     follow=True)
 
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
-
 
         backgrounds = self.background_category.background_set.all()
         background_names = [ background.name for background in backgrounds]
 
         self.assertTrue(params['value'] in background_names)
+        background = self.background_category.background_set.get(name=params['value'])
+        self.assertEquals(response.content, '{"pk": %d, "name": "%s"}' % (background.pk, params['value']))
 
 
 class AsyncDeleteBackgroundTest(TestCase):
