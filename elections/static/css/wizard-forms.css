@@ -310,3 +310,7 @@ div.instrucciones{
     left: 330px;
     top: 20px;
 }
+
+.example_window{
+	display:none;
+}

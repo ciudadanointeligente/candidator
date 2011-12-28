@@ -18,7 +18,7 @@ twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
 # Create your models here.
 class Election(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("NOMBRE:"))
-    slug = models.CharField(max_length=255, verbose_name=_("IDENTIFICADOR:"))
+    slug = models.CharField(max_length=255, verbose_name=_("Con este link podras acceder a la eleccion:"))
     owner = models.ForeignKey('auth.User')
     description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
     logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
