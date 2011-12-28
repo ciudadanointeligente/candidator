@@ -175,6 +175,7 @@ background: -o-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1
 background: -ms-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* IE10+ */
 background: linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9980b6e2', endColorstr='#9980b6e2',GradientType=1 ); /* IE6-9 */
+background-color:white;
 }
 
 
