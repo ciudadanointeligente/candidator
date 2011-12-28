@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.util import ErrorList
 from django.forms import formsets
 from django.forms.formsets import formset_factory
 from elections.models import Category, Election, PersonalData,\
@@ -38,7 +39,7 @@ class CategoryUpdateForm(forms.ModelForm):
 
 
 class QuestionForm(forms.ModelForm):
-    new_category = forms.CharField(required=False, widget=forms.TextInput(attrs={'style': 'display: none;',}))
+    new_category = forms.CharField(required=False)
 
     def __init__(self,*args,**kwargs):
         self.election = kwargs.pop('election')
@@ -56,13 +57,14 @@ class QuestionForm(forms.ModelForm):
         self.fields['category'].required = False
 
     def clean(self):
-        print self.cleaned_data['question']
+        #print self.cleaned_data['question']
         if self.cleaned_data['category'] is None:
             if len(self.cleaned_data['new_category'].strip()):
                 self.cleaned_data['category'], created = Category.objects.get_or_create(name=self.cleaned_data['new_category'], election=self.election)
             else:
                 msg = 'Este campo es obligatorio.'
-                self._errors['new_category'] = ErrorList([msg])
+                self._errors['category'] = ErrorList([msg])
+                del self.cleaned_data['category']
         else:
             print self.cleaned_data['category']
         return self.cleaned_data
