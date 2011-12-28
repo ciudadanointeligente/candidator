@@ -11,7 +11,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
                   candidate_data_update, async_delete_candidate, background_ajax_create, \
-                  async_delete_background
+                  async_delete_background, PrePersonalDataView
 
 
 urlpatterns = patterns('',
@@ -91,7 +91,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', candidate_data_update, name='candidate_data_update'),
 
     # Pre-Create PersonalData
-    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(TemplateView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
+    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
 
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
