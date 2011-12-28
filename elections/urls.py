@@ -10,7 +10,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
-                  candidate_data_update, async_delete_candidate, background_ajax_create
+                  candidate_data_update, async_delete_candidate, background_ajax_create, \
+                  async_delete_background, PrePersonalDataView
 
 
 urlpatterns = patterns('',
@@ -89,6 +90,9 @@ urlpatterns = patterns('',
     # Candidate data Update (PersonalData and Background)
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', candidate_data_update, name='candidate_data_update'),
 
+    # Pre-Create PersonalData
+    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
+
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
 
@@ -106,6 +110,9 @@ urlpatterns = patterns('',
 
     # Create Background Ajax
     url(r'^(?P<background_category_pk>[0-9]+)/background/ajax_create/?$', background_ajax_create, name='background_ajax_create'),
+
+    # Delete background view in wizzard
+    url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
 
     # Delete category view in wizzard
     url(r'^(?P<category_pk>[-\d]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),

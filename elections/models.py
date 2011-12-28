@@ -187,15 +187,6 @@ class Candidate(models.Model):
         return self.name
 
 
-class PersonalInformation(models.Model):
-    label = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-    candidate = models.ForeignKey('Candidate')
-
-    def __unicode__(self):
-        return u"%s: %s" % (self.candidate, self.label)
-
-
 class PersonalData(models.Model):
     label = models.CharField(_('Nuevo dato personal'),max_length=255)
     election = models.ForeignKey('Election')

@@ -1,0 +1,27 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="fondo_formulario">
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">3.</div>
+    <div class="numero_off cuatro">4.</div>
+    <div class="numero_off cinco">5.</div>
+
+    <h2>Datos Personales:</h2>
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url personal_data_create election_slug=election.slug %}">
+                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+</div>
+
+{% endblock %}
+
+{% block extra_head %}
+    <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
+{% endblock extra_head %}

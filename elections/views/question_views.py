@@ -43,15 +43,14 @@ class QuestionCreateView(CreateView):
     def get_success_url(self):
         return reverse('question_create', kwargs={'election_slug': self.object.category.election.slug})
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        election = get_object_or_404(Election, election=self.kwargs['election_slug'], owner=self.request.user)
-        self.object.election = election
-        print "asd"
-        if len(form.cleaned_data['new_category']):
-            category, created = Category.objects.get_or_create(name = form.cleaned_data['new_category'], election = election)
-            print created
-            self.object.category = category
-        
-        self.object.save()
-        return redirect(self.get_success_url())
+    # def form_invalid(self, form):
+    #     print "zxcv"
+
+    # def form_valid(self, form):
+    #     print "asd"
+    #     return super(QuestionCreateView, self).form_valid(form)
+    #     self.object = form.save(commit=False)
+    #     election = get_object_or_404(Election, election=self.kwargs['election_slug'], owner=self.request.user)
+    #     self.object.election = election
+    #     self.object.save()
+    #     return redirect(self.get_success_url())

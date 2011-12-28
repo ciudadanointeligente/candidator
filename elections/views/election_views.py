@@ -11,7 +11,7 @@ from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView, TemplateView
 
 # Import forms
 from elections.forms import ElectionForm, ElectionUpdateForm
@@ -104,3 +104,15 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
         return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
     else:
         raise Http404
+
+class PrePersonalDataView(TemplateView):
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, slug=kwargs['election_slug'], owner=request.user)
+        return super(PrePersonalDataView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(PrePersonalDataView, self).get_context_data(**kwargs)
+        context['election'] = self.election
+        return context
