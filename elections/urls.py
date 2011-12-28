@@ -37,7 +37,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/category/(?P<slug>[-\w]+)/update/?$', CategoryUpdateView.as_view(), name='category_update'),
 
     # Create Question view
-    url(r'^(?P<category_pk>[0-9]+)/question/create/?$', QuestionCreateView.as_view(), name='question_create'),
+    url(r'^(?P<election_slug>[-\w]+)/question/create/?$', QuestionCreateView.as_view(), name='question_create'),
 
     # Create Answer view
     url(r'^(?P<question_pk>[0-9]+)/answer/create/?$', AnswerCreateView.as_view(), name='answer_create'),
