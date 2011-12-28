@@ -6,37 +6,58 @@
 
 
 <div class="fondo_formulario">
-	<div class="numero_off uno">1.</div>
-	    <div class="numero_off dos">
-	        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
-	    </div>
-	    <div class="numero_off tres">
-	        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
-	    </div>
-	    <div class="numero_off cuatro">
-	        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
-	    </div>
-	    <div class="numero_on cinco">5.</div>
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+    </div>
+    <div class="numero_off cuatro">
+        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+    </div>
+    <div class="numero_on cinco">5.</div>
 
-<h2>Cuestionario</h2>
-{% for category in election.category_set.all %}
-	- {{ category.name }}
-	<ul>
-		{% for question in category.question_set.all %}
-	    	<li>{{ question.question }}</li>
-		{% endfor %}
-	</ul>
-{% endfor %}
+    <h2>Cuestionario</h2>
+    {% for category in election.category_set.all %}
+        - {{ category.name }}
+        <ul>
+            {% for question in category.question_set.all %}
+                <li>{{ question.question }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 
-<h3>Agregar pregunta</h3><br>
-<form method="POST">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <input type="submit" value="{% trans "Guardar" %}" />
-</form>
+    <h3>Agregar pregunta</h3><br>
+    <form id="newquestion" method="POST">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <p class="fieldWrapper">
+            <label for="id_question" class="tit_fondoverde">{{ form.question.label }}</label>
+            {{ form.question }}
+            {{ form.question.errors }}
+        </p>
+        <p class="fieldWrapper">
+            <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
+            {{ form.category }}
+            {{ form.new_category }}
+            {{ form.category.errors }}
+        </p>
+        {% if election.category_set.count %}
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url my_election_list %}">
+                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+        {% endif %}
+        <div id="link_add">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            </a>
+        </div>
 
+    </form>
 
+</div>
 
 {% endblock %}
 
