@@ -14,7 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset, CandidatePersonalInformationFormset
+from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset
 
 # Import models
 from elections.models import Election, Candidate, PersonalData
