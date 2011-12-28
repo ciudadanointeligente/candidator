@@ -79,6 +79,7 @@ h5 {
     letter-spacing:1px;
     padding: 13px 8px 13px;
 	margin: 100px 25px 13px;
+	text-decoration: none;
 }
 
 h6 { color: #8A8A8A;
@@ -271,6 +272,7 @@ div.instrucciones{
     margin-left: -200px;
     overflow:hidden;
 	margin-top:25px;
+	min-height: 213px;
 }
 
 .numero_on{
