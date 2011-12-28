@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #A1B2B8; line-height:19px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -68,7 +68,19 @@ h2 { color: #80B6E2;
 }
 h3 { font-size: 16px; }
 h4 { font-size: 13px; }
-h5 { font-size: 12px; }
+
+h5 { 
+	font-family:'AllerBold';
+    color:#ffffff;
+    font-size:34px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding: 13px 8px 13px;
+	margin: 100px 25px 13px;
+}
+
 h6 { color: #8A8A8A;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 11px;
@@ -244,6 +256,8 @@ p input#id_name{
 
 div.instrucciones{
     margin-left:25px;
+	margin-right: 25px;
+	line-height: 16px;
 }
 
 /*======= WIZARD ========*/
@@ -256,12 +270,7 @@ div.instrucciones{
     left: 50%;
     margin-left: -200px;
     overflow:hidden;
-}
-
-.fondo_wizard{
-    background-color:#a1b2b8;
-    padding-bottom:25px;
-    padding-top:25px;
+	margin-top:25px;
 }
 
 .numero_on{
