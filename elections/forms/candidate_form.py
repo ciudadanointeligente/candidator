@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formsets
 from django.forms.formsets import formset_factory
-from elections.models import Candidate, PersonalInformation, Link
+from elections.models import Candidate, Link
 
 class CandidateForm(forms.ModelForm):
     class Meta:
@@ -20,17 +20,6 @@ class CandidateUpdateForm(forms.ModelForm):
         exclude = ('slug', 'election', 'answers', 'personal_data', 'background')
     class Media:
         js = ('js/jquery.formset.js', )
-
-
-class CandidatePersonalInformationForm(forms.ModelForm):
-    class Meta:
-        model = PersonalInformation
-        exclude = ('candidate', )
-        css = {
-            'all': ('css/wizard-forms.css',)
-            }
-
-CandidatePersonalInformationFormset = formsets.formset_factory(CandidatePersonalInformationForm, extra=1)
 
 
 class CandidateLinkForm(forms.ModelForm):

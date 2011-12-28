@@ -74,3 +74,10 @@ def background_ajax_create(request, background_category_pk):
                         content_type='application/json')
 
 
+@login_required
+@require_http_methods(['POST'])
+def async_delete_background(request, background_pk):
+    background = get_object_or_404(Background, pk=background_pk, category__election__owner=request.user)
+    background.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
