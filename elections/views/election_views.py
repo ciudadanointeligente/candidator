@@ -92,7 +92,11 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     first_candidate_answers = first_candidate.get_all_answers_by_category(selected_category)
     second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
     answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
-    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers }, context_instance = RequestContext(request))
+    facebook_link = 'http'
+    if request.is_secure(): facebook_link += 's' 
+    facebook_link += '://' + request.META['HTTP_HOST'] + '/' + username + '/' + slug + '/compare/'
+    facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
 
 def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     if request.POST:

@@ -31,7 +31,9 @@
         </ul>
     {% endfor %}
 
-    <h3>Agregar pregunta</h3><br>
+    <hr />
+
+    <div class="instrucciones">Agrega tus preguntas y asígnales una categoría...</div><br>
     <form id="newquestion" method="POST">{% csrf_token %}
         {{ form.non_field_errors }}
         <p class="fieldWrapper">
@@ -50,7 +52,7 @@
         {% if election.category_set.count %}
         <div id="link_next">
             <a class="bt_siguiente" href="{% url my_election_list %}">
-                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+                <img src="{{ STATIC_URL }}img/bt_publicar.png"/>
             </a>
         </div>
         {% endif %}
@@ -81,3 +83,5 @@
 </script>
 {{ form.media }}
 {% endblock %}
+
+</div>
