@@ -276,8 +276,8 @@ class Category(models.Model):
 
 
 class Question(models.Model):
-    question = models.CharField(max_length=255)
-    category = models.ForeignKey('Category')
+    question = models.CharField(max_length=255, verbose_name=_("PREGUNTA:"))
+    category = models.ForeignKey('Category', verbose_name=_("CATEGORIA:"))
 
     # def get_answers(self):
     #     return Answer.objects.filter(question=self)

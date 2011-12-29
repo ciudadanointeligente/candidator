@@ -19,16 +19,21 @@
     <div class="numero_on cinco">5.</div>
 
     <h2>Cuestionario</h2>
+    
+<div class="forms_content">
+    
     {% for category in election.category_set.all %}
-        - {{ category.name }}
+        <h3> {{ category.name }} </h3>
         <ul>
             {% for question in category.question_set.all %}
                 <li>{{ question.question }}</li>
             {% endfor %}
         </ul>
     {% endfor %}
+    
+    <hr />
 
-    <h3>Agregar pregunta</h3><br>
+    <div class="instrucciones">Agrega tus preguntas y asígnales una categoría...</div><br>
     <form id="newquestion" method="POST">{% csrf_token %}
         {{ form.non_field_errors }}
         <p class="fieldWrapper">
@@ -47,7 +52,7 @@
         {% if election.category_set.count %}
         <div id="link_next">
             <a class="bt_siguiente" href="{% url my_election_list %}">
-                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+                <img src="{{ STATIC_URL }}img/bt_publicar.png"/>
             </a>
         </div>
         {% endif %}
@@ -78,3 +83,5 @@
 </script>
 {{ form.media }}
 {% endblock %}
+
+</div>

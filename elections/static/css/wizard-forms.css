@@ -50,7 +50,7 @@ td, th { padding: 1px; }
 h1, h2, h3, h4, h5, h6 {
     font-family: 'AllerBold';
     font-weight: normal;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.5px;
     margin-bottom: 5px;
     line-height: 100%;
 }
@@ -63,7 +63,12 @@ h2 { color: #80B6E2;
     text-transform: uppercase;
     margin-top: 60px;
 }
-h3 { font-size: 16px; }
+h3 { 
+	font-size: 12px; 
+	text-transform: uppercase;
+	padding-top:10px;
+}
+
 h4 { font-size: 13px; }
 
 h5 { 
@@ -92,7 +97,7 @@ h6 { color: #8A8A8A;
 hr {
     margin: 15px 0px 15px 0px;
     display: block;
-    background: #c8c8c8;
+    background: #e8e8e8;
     height: 1px;
     border: none;
 }
@@ -212,12 +217,12 @@ blockquote {
 .bt_siguiente{
     float:right;
     margin-bottom:15px;
+	margin-left:13px;
 }
 
 .bt_agregar{
     float:right;
     margin-bottom:15px;
-	margin-right:13px;
 }
 
 .errorlist{
@@ -237,7 +242,7 @@ p input{
     border: 1px solid #DCDCDC;
     height: 17px;
     width: 350px;
-    margin-top:-3px;
+    margin-top:3px;
 }
 
 p textarea{
