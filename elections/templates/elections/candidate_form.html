@@ -11,6 +11,9 @@
     <div class="numero_off cinco">5.</div>
 
     <h2>{% trans 'Candidatos' %}</h2>
+    
+<div class="forms_content">
+
     <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
     <ul id="lista_candidatos">
         {% for candidate in election.candidate_set.all %}
@@ -37,8 +40,8 @@
         </div>
         {% endif %}
         <div id="link_add">
-            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
-                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
             </a>
         </div>
     </form>
@@ -102,3 +105,5 @@
         }
     </script>
 {% endblock %}
+
+</div>

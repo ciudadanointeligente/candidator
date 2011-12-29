@@ -37,17 +37,14 @@ html {
 
 
 /* paragraph */
-p { margin: 10px 25px 5px;}
+p { margin: 10px 0px 5px;}
 
 /* lists */
-ul{margin: 0; padding: 0; list-style: none;}
+ul{margin: 0; padding: 0; list-style:none}
 
 /* tables */
 td, th { padding: 1px; }
 
-/* links */
-a:link, a:visited { text-decoration: none; }
-a:hover { text-decoration: underline; }
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
@@ -79,6 +76,7 @@ h5 {
     letter-spacing:1px;
     padding: 13px 8px 13px;
 	margin: 100px 25px 13px;
+	text-decoration: none;
 }
 
 h6 { color: #8A8A8A;
@@ -198,10 +196,6 @@ blockquote {
     border: 1px none #94A9AF;
 }
 
-span.tit_fondoverde{
-    margin-left:25px;
-}
-
 
 .tit_fondoceleste{
     font-size:12px;
@@ -216,9 +210,14 @@ span.tit_fondoverde{
 }
 
 .bt_siguiente{
-    width:50px;
     float:right;
     margin-bottom:15px;
+}
+
+.bt_agregar{
+    float:right;
+    margin-bottom:15px;
+	margin-right:13px;
 }
 
 .errorlist{
@@ -226,7 +225,6 @@ span.tit_fondoverde{
     font-size:12px;
     color:#333;
     margin-bottom: -10px;
-    margin-left: 25px;
     margin-top: 10px;
 }
 
@@ -254,8 +252,11 @@ p input#id_name{
     margin-top:3px;
 }
 
+p input#id_date{
+    margin-top:3px;
+}
+
 div.instrucciones{
-    margin-left:25px;
 	margin-right: 25px;
 	line-height: 16px;
 }
@@ -271,6 +272,7 @@ div.instrucciones{
     margin-left: -200px;
     overflow:hidden;
 	margin-top:25px;
+	min-height: 213px;
 }
 
 .numero_on{
@@ -322,4 +324,18 @@ div.instrucciones{
 
 .example_window{
     display:none;
+}
+
+.forms_content{
+	width:352px;
+	overflow:hidden;
+	padding-left: 25px;
+}
+
+.add_background_input{
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    margin-top:3px;
+	color: #999;
 }

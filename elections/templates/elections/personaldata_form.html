@@ -13,7 +13,8 @@
     <div class="numero_off cinco">5.</div>
 
     <h2>Datos Personales:</h2>
-    <a class="informacion" href="#"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></a>
+ 
+ <div class="forms_content">
 
     <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_datos.jpg" /></div>
 
@@ -35,15 +36,17 @@
         {% if election.personaldata_set.count %}
         <div id="link_next">
             <a class="bt_siguiente" href="{% url background_category_create election_slug=election.slug %}">
-                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+                <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
         {% endif %}
+        
         <div id="link_add">
-            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
-                <img  style="position:absolute; margin-left:15px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
+                <img  style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
             </a>
         </div>
+        <a class="informacion" href="#"><img style="position: relative; margin-top: 13px; margin-bottom: 20px;" src="{{ STATIC_URL }}img/information.png"/></a>
     </form>
 </div>
 
@@ -97,3 +100,5 @@ $(document).ready(function() {
 </script>
 {{ form.media }}
 {% endblock %}
+
+</div>
