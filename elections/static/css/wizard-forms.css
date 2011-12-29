@@ -40,7 +40,7 @@ html {
 p { margin: 10px 0px 5px;}
 
 /* lists */
-ul{margin: 0; padding: 0; list-style: none;}
+ul{margin: 0; padding: 0; list-style:none}
 
 /* tables */
 td, th { padding: 1px; }
@@ -330,4 +330,12 @@ div.instrucciones{
 	width:352px;
 	overflow:hidden;
 	padding-left: 25px;
+}
+
+.add_background_input{
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    margin-top:3px;
+	color: #999;
 }

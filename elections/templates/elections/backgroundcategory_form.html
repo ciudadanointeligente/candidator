@@ -31,9 +31,12 @@
                     {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
                 </li>
             {% endfor %}
+           
             </ul>
-            <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="Agregar Antecedente"/>
-            <a class="save-background_link" href=""><img  style="position:absolute; margin-left:2px; margin-top:-5px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a>
+        </li>          
+
+            <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="agregar antecedente"/>
+            <a class="save-background_link" href=""><img  style="position:absolute; margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a>
         </li>
         {% endfor %}
     </ul>
