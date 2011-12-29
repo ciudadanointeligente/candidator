@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import QuestionForm
 
 # Import models
-from elections.models import Category, Question, Election
+from elections.models import Category, Question, Election, Answer
 
 
 # Question Views
@@ -42,6 +42,17 @@ class QuestionCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('question_create', kwargs={'election_slug': self.object.category.election.slug})
+
+# @login_required
+# @require_http_methods(['POST'])
+# def answer_ajax_create(request, question_pk):
+#     question = get_object_or_404(Question, pk=question_pk)
+
+#     value = request.POST.get('value', None)
+#     answer = Answer(caption=value, question=question)
+#     answer.save()
+#     return HttpResponse(json.dumps({"pk": answer.pk, "caption": answer.caption}),
+#                         content_type='application/json')
 
     # def form_invalid(self, form):
     #     print "zxcv"

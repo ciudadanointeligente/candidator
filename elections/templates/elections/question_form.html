@@ -19,18 +19,18 @@
     <div class="numero_on cinco">5.</div>
 
     <h2>Cuestionario</h2>
-    
-<div class="forms_content">
-    
+    <div class="forms_content">
     {% for category in election.category_set.all %}
-        <h3> {{ category.name }} </h3>
+            <span class="tit_fondoverde">
+                {{ category.name }}
+            </span>
         <ul>
             {% for question in category.question_set.all %}
                 <li>{{ question.question }}</li>
             {% endfor %}
         </ul>
     {% endfor %}
-    
+
     <hr />
 
     <div class="instrucciones">Agrega tus preguntas y asígnales una categoría...</div><br>
@@ -63,7 +63,7 @@
         </div>
 
     </form>
-
+</div>
 </div>
 
 {% endblock %}

@@ -126,4 +126,7 @@ urlpatterns = patterns('',
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)$', CandidateDetailView.as_view(), name='candidate_detail'),
 
+    # Create Answer Ajax
+    # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
+
 )
