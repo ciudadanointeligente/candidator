@@ -19,8 +19,11 @@
     <div class="numero_on cinco">5.</div>
 
     <h2>Cuestionario</h2>
+    <div class="forms_content">
     {% for category in election.category_set.all %}
-        - {{ category.name }}
+            <span class="tit_fondoverde">
+                {{ category.name }}
+            </span>
         <ul>
             {% for question in category.question_set.all %}
                 <li>{{ question.question }}</li>
@@ -58,7 +61,7 @@
         </div>
 
     </form>
-
+</div>
 </div>
 
 {% endblock %}
