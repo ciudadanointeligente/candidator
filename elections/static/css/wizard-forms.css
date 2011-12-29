@@ -37,7 +37,7 @@ html {
 
 
 /* paragraph */
-p { margin: 10px 25px 5px;}
+p { margin: 10px 0px 5px;}
 
 /* lists */
 ul{margin: 0; padding: 0; list-style: none;}
@@ -196,10 +196,6 @@ blockquote {
     border: 1px none #94A9AF;
 }
 
-span.tit_fondoverde{
-    margin-left:25px;
-}
-
 
 .tit_fondoceleste{
     font-size:12px;
@@ -214,9 +210,14 @@ span.tit_fondoverde{
 }
 
 .bt_siguiente{
-    width:50px;
     float:right;
     margin-bottom:15px;
+}
+
+.bt_agregar{
+    float:right;
+    margin-bottom:15px;
+	margin-right:13px;
 }
 
 .errorlist{
@@ -224,7 +225,6 @@ span.tit_fondoverde{
     font-size:12px;
     color:#333;
     margin-bottom: -10px;
-    margin-left: 25px;
     margin-top: 10px;
 }
 
@@ -257,7 +257,6 @@ p input#id_date{
 }
 
 div.instrucciones{
-    margin-left:25px;
 	margin-right: 25px;
 	line-height: 16px;
 }
@@ -325,4 +324,10 @@ div.instrucciones{
 
 .example_window{
     display:none;
+}
+
+.forms_content{
+	width:352px;
+	overflow:hidden;
+	padding-left: 25px;
 }

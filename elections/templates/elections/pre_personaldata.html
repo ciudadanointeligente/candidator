@@ -12,11 +12,14 @@
     <div class="numero_off cinco">5.</div>
 
     <h2>Preguntas:</h2>
-    <div class="instrucciones">A continuación deberás crear las preguntas. Éstas deberán ser contestadas por todos los candidatos y se clasificadan en tres secciones...</di>
+
+<div class="forms_content">
+
+    <div class="instrucciones">A continuación deberás crear las preguntas. Éstas deberán ser contestadas por todos los candidatos y se clasifican en tres secciones...</di>
     <img style="margin-top:13px; margin-bottom:13px;" src="{{ STATIC_URL }}/img/img_preguntas.jpg"/>  
         <div id="link_next">
             <a class="bt_siguiente" href="{% url personal_data_create election_slug=election.slug %}">
-                <img style="position: relative; margin-left: 25px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+                <img style="position: relative; margin-right: -25px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
 </div>
@@ -26,3 +29,5 @@
 {% block extra_head %}
     <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
 {% endblock extra_head %}
+
+</div>
