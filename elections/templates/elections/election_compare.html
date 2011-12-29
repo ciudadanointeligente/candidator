@@ -8,16 +8,15 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
-    <script>(function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+
+
     <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
 
     <script type="text/javascript">
@@ -29,7 +28,7 @@
     }
 
     function get_base_url(){
-        var actual_direction  = location.href
+        var actual_direction  = "{{ request.build_absolute_uri }}"
         var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
         var position_pattern  = actual_direction.indexOf(reference_pattern)
         var pre_direction     = actual_direction.substring(0,position_pattern)
@@ -69,10 +68,7 @@
             }
             else{
                 var final_direction = get_base_url() +"/";
-                if (first_select.value < second_select.value)
-                    final_direction += first_select.value + "/" + second_select.value;
-                else
-                    final_direction += second_select.value + "/" + first_select.value;
+                final_direction += first_select.value + "/" + second_select.value;
                 final_direction +=  "/" + get_checked_radio_button_value();
                 window.location = final_direction;
             }
@@ -86,10 +82,7 @@
             }
             else{
                 var final_direction = get_base_url() +"/";
-                if (first_select.value < second_select.value)
-                    final_direction += first_select.value + "/" + second_select.value;
-                else
-                    final_direction += second_select.value + "/" + first_select.value;
+                final_direction += first_select.value + "/" + second_select.value;
                 final_direction +=  "/" + get_checked_radio_button_value();
                 window.location = final_direction;
             }
@@ -104,6 +97,13 @@
             window.location     = final_direction
         }
     }
+
+    function get_facebook_comment_direction(){
+        var facebook_comment_direction = get_base_url() + '/' + "{{facebook_link}}"
+        alert(facebook_comment_direction)
+        return facebook_comment_direction
+    }
+
     </script>
 {% endblock extra_js %}
 
@@ -114,6 +114,7 @@
 {% block content %}
 
     <div class="wrapper">
+
         <article class="wrapW">
 
             <div id="sameCandidates" style="display:none"><ul id="errors"><li id="errors">Los 2 candidatos son iguales</li></ul></div>
@@ -276,11 +277,16 @@
             </ul>
         </aside>
    </article>
-   <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
-            data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
-                                                           style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
-                                                           class="fb_ltr"
-                                                           src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttp%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890"></iframe></span>
-        </div>
+
+   <div id="fb-root">
+   <br>
+   {% if facebook_link %}
+   <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="890"></div>
+   {% else %}
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="890"></div>
+   {% endif %}
+   <br>
+   </div>
+
 </div>
 {% endblock content %}
