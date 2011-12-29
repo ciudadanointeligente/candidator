@@ -11,7 +11,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
                   candidate_data_update, async_delete_candidate, background_ajax_create, \
-                  async_delete_background, PrePersonalDataView
+                  async_delete_background, async_delete_background_category, PrePersonalDataView
 
 
 urlpatterns = patterns('',
@@ -105,6 +105,9 @@ urlpatterns = patterns('',
     # Create BackgroundCategory
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
 
+     # Delete BackgroundCategory view in wizzard
+    url(r'^(?P<category_pk>[-\d]+)/background_category/async_delete/?$', 'candidator.elections.views.async_delete_background_category' , name='async_delete_backgroun_category'),
+
     # Create Background
     url(r'^(?P<background_category_pk>[0-9]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
 
@@ -115,7 +118,7 @@ urlpatterns = patterns('',
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
 
     # Delete category view in wizzard
-    url(r'^(?P<category_pk>[-\d]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
+    url(r'^(?P<category_pk>[0-9]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_background_category' , name='async_delete_background_category'),
 
     # Create BackgroundCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<background_pk>[0-9]+)/background_associate' , background_candidate_create, name='background_candidate_create'),
