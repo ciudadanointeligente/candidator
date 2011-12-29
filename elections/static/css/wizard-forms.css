@@ -45,9 +45,6 @@ ul{margin: 0; padding: 0; list-style: none;}
 /* tables */
 td, th { padding: 1px; }
 
-/* links */
-a:link, a:visited { text-decoration: none; }
-a:hover { text-decoration: underline; }
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
@@ -252,6 +249,10 @@ p textarea{
 }
 
 p input#id_name{
+    margin-top:3px;
+}
+
+p input#id_date{
     margin-top:3px;
 }
 

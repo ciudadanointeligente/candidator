@@ -15,9 +15,7 @@
     <div class="numero_off cinco">5.</div>
 <!-- se debe cambiar de lados la flecha y el add -->
     <h2>Antecedentes:</h2>
-    <a class="informacion" href="#"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></a>
-
-    <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_antecedentes.jpg" /></div>
+    
 
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
@@ -42,14 +40,17 @@
     <form name='backgroundcategory' method="POST">{% csrf_token %}
         {{form.as_p}}
         <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
-            <img  style="position:absolute; margin-left:0px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            <img  style="position:absolute; margin-left:0px;" src="{{ STATIC_URL }}/img/bt_siguiente.png"/>
         </a>
+        <div id="link_next">
+        <a href="{% url question_create election_slug=election.slug %}"><img style= "position: relative; margin-left: 300px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png" /></a>
+    </div>
+        <a class="informacion" href="#"><img style="position: relative; margin-left: 25px;" src="{{ STATIC_URL }}img/information.png"/></a>
+        <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_antecedentes.jpg"/></div>
     </form>
 
     {% if election.backgroundcategory_set.count %}
-    <div id="link_next">
-        <a href="{% url question_create election_slug=election.slug %}"><img src="{{ STATIC_URL }}img/bt_siguiente.png" /></a>
-    </div>
+    
     {% endif %}
 </div>
 
