@@ -80,18 +80,6 @@ a:visited{
     color:#0141ad; /*azul de logo*/
 }
 
-h1{
-    font-family:'AllerBold';
-    color:#ffffff;
-    font-size:14px;
-    background-color:#80b6e2;
-    border:1px solid #72acd9;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    padding: 4px 4px 2px;
-    margin:13px;
-}
-
 h2{
     font-family:'AllerBold';
     color:#ffffff;
@@ -231,17 +219,6 @@ table{
     display: block;
 }
 
-
-.contenedor1{
-	width: 850px;
-	border: 1px solid #D7D7D7;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 25px;
-}
-
 .col_left{
     width:405px;
     float:left;
@@ -263,17 +240,6 @@ table{
 
 .txt_intro{
     margin: 20px 13px;
-}
-
-.papel{
-	background: none repeat scroll 0 0 white;
-    box-shadow: 0 1px 8px 1px #666666;
-    left: 50%;
-    margin-left: -450px;
-    margin-top: 25px;
-    overflow: hidden;
-    position: relative;
-    width: 900px;
 }
 
 .contenedor_globo{
