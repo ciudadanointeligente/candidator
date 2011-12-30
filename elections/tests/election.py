@@ -1,3 +1,4 @@
+# encoding=UTF-8
 from django.core.files.base import File
 import os
 from django.conf import settings
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, Candidate, Category
+from elections.models import Election, Candidate, Category, PersonalData
 from elections.forms import ElectionForm, ElectionUpdateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -46,6 +47,17 @@ class ElectionModelTest(TestCase):
         election.save()
         election2 = Election.objects.get(slug='barbaz', owner=user)
         self.assertEquals(election.name, election2.name)
+    
+    def test_create_default_data(self):
+        user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
+        datas = PersonalData.objects.filter(election=election)
+        self.assertEqual(datas.count(), 4)
+        self.assertEqual(datas.filter(label=u'Edad').count(), 1)
+        self.assertEqual(datas.filter(label=u'Estado civil').count(), 1)
+        self.assertEqual(datas.filter(label=u'Profesión').count(), 1)
+        self.assertEqual(datas.filter(label=u'Género').count(), 1)
+        
 
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
