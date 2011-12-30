@@ -16,8 +16,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
 
 urlpatterns = patterns('',
 
-    # Root
-    url(r'^elections/?$', ListView.as_view(model=Election), name='election_list'),
+    # Root: login_required (por ahora pues no se ha definido un index)
+    url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
     # My Elections
     url(r'^my_elections/?$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
