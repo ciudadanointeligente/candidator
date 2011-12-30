@@ -87,7 +87,7 @@
                 window.location = final_direction;
             }
         }
-    }
+    } 
 
     function get_comparation_data_in_radio_button(current_radio_button){
         var first_select  = document.getElementById("firstCandidate");
@@ -102,6 +102,16 @@
         var facebook_comment_direction = get_base_url() + '/' + "{{facebook_link}}"
         alert(facebook_comment_direction)
         return facebook_comment_direction
+    }
+
+    function hide_selected_candidate(position){
+        if(position == 'first')
+            other = 'second';
+        else
+            other = 'first';
+        candidato = jQuery('.'+position+'Candidate option:selected').val();
+        jQuery('.'+other+'Candidate li').css('display','');
+        jQuery('.'+other+'Candidate #'+candidato).css('display','none');
     }
 
     </script>
@@ -125,7 +135,7 @@
                     <div class="candidatesLists">
 
                         <div class="firstCandidate">
-                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this)">
+                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this);hide_selected_candidate('first');">
                                 <option name="options1" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                                 {% for candidate in election.candidate_set.all %}
                                     {% thumbnail candidate.photo "32x40" crop="center" as im %}
@@ -171,7 +181,7 @@
 
                     <div class="secondCandidate">
 
-                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this)">
+                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this);hide_selected_candidate('second');">
 
                             <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
                             {% for candidate in election.candidate_set.all %}
