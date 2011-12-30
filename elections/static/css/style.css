@@ -80,7 +80,18 @@ h2{
     margin:13px;
 }
 
-h3 { font-size: 16px; }
+h3{
+    font-family: 'AllerBold';
+    color: white;
+    font-size: 14px;
+    background-color: #A1B2B8;
+    border: 1px solid #94A9AF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 13px 2px;
+    margin: 13px 13px 13px 70px;
+}
+
 h4 { font-size: 13px; }
 
 h5 { 

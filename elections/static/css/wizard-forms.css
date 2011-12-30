@@ -301,3 +301,49 @@ div.instrucciones{
 	margin: 90px 25px 13px 25px;
 	padding: 13px 0px 13px 6px;
 }
+
+/*LOGIN*/
+
+.logo{
+	margin-top:25px;
+	margin-bottom: 25px;
+}
+
+.usuario h3{
+	margin-left:0px;
+	padding: 2px 4px 2px 4px;
+	font-size: 12px;
+	width: 134px;
+	margin-bottom: -7px;
+}
+
+.usuario{
+	margin-top: -34px;
+	margin-left: 20px;
+}
+
+.clave h3{
+	margin-left:0px;
+	padding: 2px 4px 2px 4px;
+	font-size: 12px;
+	width: 84px;
+	margin-bottom: -7px;
+}
+
+.clave{
+	margin-left: 20px;
+}
+
+.img_login{
+	margin: 10px 13px 10px 0px;
+}
+
+.txt_login{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-style: italic;
+	font-size: 12px;
+	width: 134px;
+	line-height: 14px;
+	margin-top: -51px;
+	margin-left: 51px;
+}
