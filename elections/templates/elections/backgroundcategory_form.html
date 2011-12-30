@@ -20,9 +20,9 @@
 
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
-        <li>
+        <li id="background_category_{{background_category.pk}}">
             <span class="tit_fondoverde">
-                {{ background_category.name }}
+                {{ background_category.name }}<a href="javascript:void(0);" onclick="background_category_delete({{background_category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
 
             <ul id="id_background_list_{{ background_category.pk }}">
@@ -31,10 +31,10 @@
                     {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
                 </li>
             {% endfor %}
-           
-            </ul>
-        </li>          
 
+            </ul>
+        </li>
+        <li id="add_antecedente_{{ background_category.pk}}">
             <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" value="agregar antecedente"/>
             <a class="save-background_link" href=""><img  style="position:absolute; margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a>
         </li>
@@ -55,7 +55,7 @@
     </form>
 
     {% if election.backgroundcategory_set.count %}
-    
+
     {% endif %}
 </div>
 
@@ -65,13 +65,30 @@
 {{ form.media }}
 <script type="text/javascript">
 
+function background_category_delete(category_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoria?");
+    if(answer){
+        var dir = "/"+category_pk +"/category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#background_category_"+category_pk).remove();
+                $("#add_antecedente_"+category_pk).remove();
+                if($("[id ^= background_category_]").size() == 0)
+                    $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
 function background_delete(background_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
     if(answer){
         var dir = "/"+background_pk +"/background/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json){
-                $("#background_"+personal_data_pk).remove();
+                $("#background_"+background_pk).remove();
                 if($("[id ^= background_]").size() == 0)
                     $("#link_next").remove();
             })

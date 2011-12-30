@@ -65,7 +65,6 @@ def personal_data_candidate_create(request, candidate_pk, personal_data_pk):
 @login_required
 @require_http_methods(['POST'])
 def async_delete_personal_data(request, personal_data_pk):
-
     personal_data = get_object_or_404(PersonalData, pk = personal_data_pk, election__owner=request.user)
     personal_data.delete()
     json_dictionary = {"result":"OK"}
