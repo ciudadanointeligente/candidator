@@ -298,8 +298,16 @@ class Answer(models.Model):
 
 
 @receiver(post_save, sender=Election)
-def create_default_peronaldata(sender, instance, created, **kwargs):
+def create_default_personaldata(sender, instance, created, **kwargs):
     if created:
         for label in settings.DEFAULT_PERSONAL_DATA:
             PersonalData.objects.create(label=label, election=instance)
+
+@receiver(post_save, sender=Election)
+def create_default_backgrounds(sender, instance, created, **kwargs):
+    if created:
+        for name in settings.DEFAULT_BACKGROUND_CATEGORIES:
+            category = BackgroundCategory.objects.create(name=name, election=instance)
+            for background in settings.DEFAULT_BACKGROUND_CATEGORIES[name]:
+                Background.objects.create(name=background, category=category)
 
