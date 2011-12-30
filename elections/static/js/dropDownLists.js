@@ -49,7 +49,7 @@ $(document).ready(function(){
 
             return false;
         });
-
+        li.attr("id", option.val());
         dropDown.append(li);
     });
 

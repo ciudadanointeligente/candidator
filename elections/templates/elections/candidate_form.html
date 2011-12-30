@@ -10,8 +10,8 @@
     <div class="numero_off cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
 
-    <h5>{% trans 'Candidatos' %}</h5>
-    
+<h5>{% trans 'Candidatos' %}</h5>
+
 <div class="forms_content">
 
     <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
@@ -34,7 +34,7 @@
         <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
         {% if election.candidate_set.count %}
         <div id="link_next">
-            <a class="bt_siguiente" href="{% url pre_personaldata election_slug=election.slug %}">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">
                 <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
@@ -85,9 +85,10 @@
             var reference_pattern = "/candidate/create"
             var position_pattern  = actual_direction.indexOf(reference_pattern)
             var pre_direction     = actual_direction.substring(0,position_pattern)
-            var final_direction   = pre_direction + "/candidate/async_delete/"
-            return final_direction
+            //var final_direction   = pre_direction + "/candidate/async_delete/"
+            return pre_direction
         }
+
         function candidate_delete(candidate_pk){
             var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
             if(answer){
@@ -101,6 +102,20 @@
             }
             else {
                 return false;
+            }
+        }
+
+        function save_candidate(election_slug){
+            var candidate = document.getElementById("id_name").value
+            if(document.getElementById("id_name").value == ""){
+                window.location = get_base_url()+"/pre_personaldata"
+            }
+            else{
+                var dir = "/"+election_slug+"/candidate/save_candidate/"
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'candidate': candidate, 'election': '{{ election }}'},
+                function(json){
+                    window.location = get_base_url()+"/pre_personaldata"
+             })
             }
         }
     </script>
