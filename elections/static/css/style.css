@@ -55,7 +55,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'AllerBold';
     font-weight: normal;
     letter-spacing: 0.2px;
-    margin-bottom: 5px;
     line-height: 100%;
 }
 
@@ -72,13 +71,11 @@ h1{
 }
 
 h2{
-    font-family:'AllerBold';
     color:#ffffff;
     font-size:14px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
-    letter-spacing:1px;
     padding: 4px 4px 2px;
     margin:13px;
 }
@@ -87,21 +84,17 @@ h3 { font-size: 16px; }
 h4 { font-size: 13px; }
 
 h5 { 
-	text-transform: uppercase;
-	font-size: 28px;
-	line-height: 26px;
-	text-align:center;
-	color:#a1b2b8;
-	margin-top: 70%;
+    color:#80b6e2;
+    font-size:34px;
+    text-transform:uppercase;
+	margin: 50px 25px 13px;
+	text-decoration: none;
 }
 
-h6 { color: #8A8A8A;
-    font-family: Arial,Helvetica,sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 0.9px;
-    line-height: 20px;
-    margin-bottom: 20px;
+h6 { 
+	font-size: 12px; 
+	text-transform: uppercase;
+	padding-top:10px;
 }
 
 /* horizontal rule */
