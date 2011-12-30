@@ -154,3 +154,13 @@ def async_delete_candidate(request, candidate_pk):
     candidate.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+@login_required
+#@require_http_methods(['POST'])
+def save_candidate(request, election_slug):
+    cand = request.POST.get('candidate', False)
+    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+    c = Candidate.objects.create(name = cand, election = election)
+    c.save()
+    json_dictionary = {"result": "OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')

@@ -114,6 +114,12 @@
         jQuery('.'+other+'Candidate #'+candidato).css('display','none');
     }
 
+    $(document).ready(function() {
+        hide_selected_candidate('first');
+        hide_selected_candidate('second');
+    });
+
+   
     </script>
 {% endblock extra_js %}
 
@@ -237,33 +243,32 @@
 
                 <h3>{{ selected_category.name }}</h3>
 
-                {% for answer in answers %}
+                    {% for answer in answers %}
 
-                   <div class="questionInComparison">{{ answer.0 }}</div>
+                       <div class="questionInComparison">{{ answer.0 }}</div>
 
-                   <div class="answerSpace">
+                       <div class="answerSpace">
 
-                        <ul class="firstCandidatesAnswer">
-                            <li class=" answerInComparison answered">
-                                {% if answer.1 == "no answer" %}
-                                   No hay respuesta</li>
-                                {% else %}
-                                   {{ answer.1 }}</li>
-                                {% endif %}
-                        </ul>
+                            <ul class="firstCandidatesAnswer">
+                                <li class=" answerInComparison answered">
+                                    {% if answer.1 == "no answer" %}
+                                       No hay respuesta</li>
+                                    {% else %}
+                                       {{ answer.1 }}</li>
+                                    {% endif %}
+                            </ul>
 
-                        <ul class="secondCandidatesAnswer">
-                            <li class=" answerInComparison answered"> {% if answer.2 == "no answer" %}
-                                   No hay respuesta</li>
-                                {% else %}
-                                   {{ answer.2 }}</li>
-                                {% endif %}
-                        </ul>
+                            <ul class="secondCandidatesAnswer">
+                                <li class=" answerInComparison answered"> {% if answer.2 == "no answer" %}
+                                       No hay respuesta</li>
+                                    {% else %}
+                                       {{ answer.2 }}</li>
+                                    {% endif %}
+                            </ul>
 
-                    </div>
-
-                {% endfor %}
-
+                        </div>
+                    {% endfor %}
+                
                 {% else %}
                     <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
                 {% endif %}
