@@ -16,7 +16,6 @@
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
-
     <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
 
     <script type="text/javascript">
@@ -147,7 +146,13 @@
                                     {% thumbnail candidate.photo "32x40" crop="center" as im %}
                                     <option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                     {% empty %}
-                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+
+                                        {% if candidate.photo %}
+                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{candidate.photo.url}}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                        {% else %}
+<option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{ STATIC_URL }}img/default-user.gif" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                        {% endif %}
+
                                     {% endthumbnail %}
                                 {% endfor %}
                             </select>
@@ -158,7 +163,13 @@
                     {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
                         <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
-                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="100" height="129"/>
+
+                        {% if first_candidate.photo %}
+                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="100" height="129"/>
+                        {% else %}
+                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129" />
+                        {% endif %}
+
                     {% endthumbnail %}
                 {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
@@ -194,7 +205,13 @@
                                 {% thumbnail candidate.photo "32x40" crop="center" as im %}
                                     <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
                                 {% empty %}
-                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="http://votainteligente.com.ar/img/candidate/imagepath/alfonsin0.jpg" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+
+					{% if candidate.photo %}
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{candidate.photo.url}}" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+					{% else %}
+<option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ STATIC_URL }}img/default-user.gif" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+					{% endif %}
+
                                 {% endthumbnail %}
                             {% endfor %}
 
@@ -206,7 +223,13 @@
                     {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
                         <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
-                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
+
+			{% if second_candidate.photo %}
+                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
+			{% else %}
+                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
+			{% endif %}
+
                     {% endthumbnail %}
                 {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>

@@ -33,8 +33,11 @@
                         <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
                              width="160" height="200"/>
                     {% empty %}
-                        <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}"
-                             width="160" height="200"/>
+                        {% if candidate.photo %}
+                        <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}" width="160" height="200"/>
+                        {% else %}
+                        <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ candidate.name }}" width="160" height="200"/>
+                        {% endif %}
                     {% endthumbnail %}
                 </div>
 
