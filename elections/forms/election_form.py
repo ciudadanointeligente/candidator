@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django import forms
+from django.forms.util import ErrorList
 from django.forms import formsets
 from django.forms.formsets import formset_factory
 from elections.models import Category, Election, PersonalData,\
@@ -37,9 +39,41 @@ class CategoryUpdateForm(forms.ModelForm):
 
 
 class QuestionForm(forms.ModelForm):
+    new_category = forms.CharField(required=False)
+
+    def __init__(self,*args,**kwargs):
+        self.election = kwargs.pop('election')
+        super(QuestionForm, self).__init__(*args,**kwargs)
+        # Se puede cambiar el queryset del modelo:
+        self.fields['category'].queryset = Category.objects.filter(election = self.election)
+
+        choices = [(choice[0], choice[1]) for choice in self.fields['category'].choices]
+        empty_choice = choices.pop(0)
+        choices.append((empty_choice[0], u'-- Nueva categoría --'))
+        self.fields['category'].choices = choices
+        self.fields['category'].initial = 0
+
+        # Se puede sobreescribir el required del modelo:
+        self.fields['category'].required = False
+
+    def clean(self):
+        #print self.cleaned_data['question']
+        if self.cleaned_data['category'] is None:
+            if len(self.cleaned_data['new_category'].strip()):
+                self.cleaned_data['category'], created = Category.objects.get_or_create(name=self.cleaned_data['new_category'], election=self.election)
+            else:
+                msg = 'Este campo es obligatorio.'
+                self._errors['category'] = ErrorList([msg])
+                del self.cleaned_data['category']
+        else:
+            print self.cleaned_data['category']
+        return self.cleaned_data
+
+
     class Meta:
         model = Question
-        exclude = ('category')
+    class Media:
+        css = { 'all': ('css/wizard-forms.css',) }
 
 
 class AnswerForm(forms.ModelForm):

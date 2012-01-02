@@ -20,26 +20,20 @@
     <h2>
         Cuestionario
     </h2>
-<ul id="lista_categorias">
-{% for category in election.category_set.all %}
-    <li>{{ category.name }} <a href="{% url question_create category_pk=category.pk %}">{% trans '(Agregar Pregunta)' %}</a>
-    <ul>
-        {% for question in category.question_set.all %}
-            <li>{{ question.question }}
-                <a href="{% url answer_create question_pk=question.pk %}">
-                    {% trans '(Agregar Respuesta)' %}
-                </a>
-            <ul>
-            {% for answer in question.answer_set.all %}
-                <li>{{ answer.caption }}</li>
-            {% endfor %}
-            </ul>
-            </li>
-        {% endfor %}
-    </ul>
-    </li>
+
+<ul id="lista_preguntas">
+{% for question in election.question_set.all %}
+    <li>{{ question.question }} </li>
 {% endfor %}
 </ul>
+
+
+<select id="lista_categorias">
+    {% for category in election.category_set.all %}
+        <option value="{{ category.pk }}">{{ category.name }} </option>
+    {% endfor %}
+    <option value="other">Agregar nueva categoría</option>
+</select>
 
 
 <h2>{% trans 'Agregar categoria' %}</h2>

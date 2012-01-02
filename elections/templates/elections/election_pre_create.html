@@ -15,16 +15,23 @@
 
         <div class="numero_off cinco">5.</div>
 
-        <h2>{% trans 'Elección' %}</h2>
+		<div class="inicio_wizard">
+        <a href="{% url election_create %}"><h5>crea tu elección<img style="margin-top: 7px; position: absolute; margin-left: 5px;" src="{{ STATIC_URL }}img/flecha_inicio.png" /></h5>
+       	</a>
+        </div>
 
-        <div class="instrucciones">{% trans 'Para empezar, completa los siguientes datos...' %}</div>
-        <br/>
-        <a href="{% url election_create %}">Inicio</a>
+<div class="forms_content">
 
-    </div>
+      <div class="instrucciones">{% trans 'en estos simples pasos; no te preocupes si te equivocas al finalizar podrás reeditar toda la información...' %}</div>
+        <br/><br/><br/><br/>
+        
+
+</div>
 
 {% endblock %}
 
 {% block extra_head %}
     <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
 {% endblock extra_head %}
+
+</div>

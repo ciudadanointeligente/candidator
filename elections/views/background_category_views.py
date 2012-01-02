@@ -43,4 +43,12 @@ class BackgroundCategoryCreateView(CreateView):
         self.object.election = election
         return super(BackgroundCategoryCreateView, self).form_valid(form)
 
+@login_required
+#@require_http_methods(['POST'])
+def async_delete_background_category(request, category_pk):
+    category = get_object_or_404(BackgroundCategory, pk = category_pk, election__owner=request.user)
+    category.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
 

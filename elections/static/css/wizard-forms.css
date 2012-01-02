@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #A1B2B8; line-height:19px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -10,11 +10,6 @@ body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px
  */
 
 
-
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
-    margin: 0;
-    padding: 0;
-}
 label{font-weight: normal;}
 
 pre .cake-debug{ display: block; position:absolute; }
@@ -37,52 +32,20 @@ html {
 
 
 /* paragraph */
-p { margin: 10px 25px 5px;}
+p { margin: 10px 0px 5px;}
 
 /* lists */
-ul{margin: 0; padding: 0; list-style: none;}
+ul{margin: 0; padding: 0; list-style:none}
 
 /* tables */
 td, th { padding: 1px; }
 
-/* links */
-a:link, a:visited { text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* headings */
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'AllerBold';
-    font-weight: normal;
-    letter-spacing: 0.2px;
-    margin-bottom: 5px;
-    line-height: 100%;
-}
-
-h1 { font-size: 20px; }
-h2 { color: #80B6E2;
-    font-size: 34px;
-    padding-bottom: 8px;
-    padding-left: 25px;
-    text-transform: uppercase;
-    margin-top: 60px;
-}
-h3 { font-size: 16px; }
-h4 { font-size: 13px; }
-h5 { font-size: 12px; }
-h6 { color: #8A8A8A;
-    font-family: Arial,Helvetica,sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 0.9px;
-    line-height: 20px;
-    margin-bottom: 20px;
-}
 
 /* horizontal rule */
 hr {
     margin: 15px 0px 15px 0px;
     display: block;
-    background: #c8c8c8;
+    background: #e8e8e8;
     height: 1px;
     border: none;
 }
@@ -186,10 +149,6 @@ blockquote {
     border: 1px none #94A9AF;
 }
 
-span.tit_fondoverde{
-    margin-left:25px;
-}
-
 
 .tit_fondoceleste{
     font-size:12px;
@@ -204,7 +163,12 @@ span.tit_fondoverde{
 }
 
 .bt_siguiente{
-    width:50px;
+    float:right;
+    margin-bottom:15px;
+	margin-left:13px;
+}
+
+.bt_agregar{
     float:right;
     margin-bottom:15px;
 }
@@ -214,7 +178,6 @@ span.tit_fondoverde{
     font-size:12px;
     color:#333;
     margin-bottom: -10px;
-    margin-left: 25px;
     margin-top: 10px;
 }
 
@@ -227,7 +190,7 @@ p input{
     border: 1px solid #DCDCDC;
     height: 17px;
     width: 350px;
-    margin-top:-3px;
+    margin-top:3px;
 }
 
 p textarea{
@@ -242,8 +205,13 @@ p input#id_name{
     margin-top:3px;
 }
 
+p input#id_date{
+    margin-top:3px;
+}
+
 div.instrucciones{
-    margin-left:25px;
+	margin-right: 25px;
+	line-height: 16px;
 }
 
 /*======= WIZARD ========*/
@@ -256,12 +224,8 @@ div.instrucciones{
     left: 50%;
     margin-left: -200px;
     overflow:hidden;
-}
-
-.fondo_wizard{
-    background-color:#a1b2b8;
-    padding-bottom:25px;
-    padding-top:25px;
+	margin-top:25px;
+	min-height: 213px;
 }
 
 .numero_on{
@@ -290,23 +254,96 @@ div.instrucciones{
 .dos{
     position: absolute;
     top: 20px;
-    left: 90px;
+    left: 105px;
 }
 
 .tres{
     position: absolute;
     top: 20px;
-    left: 170px;
+    left: 185px;
 }
 
 .cuatro{
     position: absolute;
     top: 20px;
-    left: 250px;
+    left: 265px;
 }
 
 .cinco{
     position: absolute;
-    left: 330px;
+    left: 345px;
     top: 20px;
+}
+
+.example_window{
+    display:none;
+}
+
+.forms_content{
+	width:352px;
+	overflow:hidden;
+	padding-left: 25px;
+}
+
+.add_background_input{
+	background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    margin-top:3px;
+	color: #999;
+}
+
+.inicio_wizard h5{
+	background-color:#80b6e2;
+	border: 1px solid #72acd9;
+	color:#ffffff;
+	letter-spacing:1px;
+	margin: 90px 25px 13px 25px;
+	padding: 13px 0px 13px 6px;
+}
+
+/*LOGIN*/
+
+.logo{
+	margin-top:25px;
+	margin-bottom: 25px;
+}
+
+.usuario h3{
+	margin-left:0px;
+	padding: 2px 4px 2px 4px;
+	font-size: 12px;
+	width: 134px;
+	margin-bottom: -7px;
+}
+
+.usuario{
+	margin-top: -34px;
+	margin-left: 20px;
+}
+
+.clave h3{
+	margin-left:0px;
+	padding: 2px 4px 2px 4px;
+	font-size: 12px;
+	width: 84px;
+	margin-bottom: -7px;
+}
+
+.clave{
+	margin-left: 20px;
+}
+
+.img_login{
+	margin: 10px 13px 10px 0px;
+}
+
+.txt_login{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-style: italic;
+	font-size: 12px;
+	width: 134px;
+	line-height: 14px;
+	margin-top: -51px;
+	margin-left: 51px;
 }

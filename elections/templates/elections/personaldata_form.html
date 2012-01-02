@@ -12,9 +12,13 @@
     <div class="numero_off cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
 
-    <h2>Datos Personales:</h2>
-    <div class="informacion"><img style="position: relative; margin-left: 27px; margin-top: -12px;" src="{{ STATIC_URL }}img/information.png"/></div>
-    
+    <h5>Datos Personales:</h5>
+ 
+ <div class="forms_content">
+
+    <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_datos.jpg" /></div>
+
+
     <ul id="lista_datos">
         {% for personal_data in election.personaldata_set.all %}
         <li id="personal_data_{{personal_data.pk}}">
@@ -32,46 +36,69 @@
         {% if election.personaldata_set.count %}
         <div id="link_next">
             <a class="bt_siguiente" href="{% url background_category_create election_slug=election.slug %}">
-                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+                <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
         {% endif %}
+        
         <div id="link_add">
-            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
-                <img  style="position:absolute; margin-left:15px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
+                <img  style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
             </a>
         </div>
+        <a class="informacion" href="#"><img style="position: relative; margin-top: 13px; margin-bottom: 20px;" src="{{ STATIC_URL }}img/information.png"/></a>
     </form>
 </div>
 
 {% endblock %}
 
 {% block extra_js %}
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        function get_base_url(){
-            var actual_direction  = location.href
-            var reference_pattern = "/personal_data/create"
-            var position_pattern  = actual_direction.indexOf(reference_pattern)
-            var pre_direction     = actual_direction.substring(0,position_pattern)
-            var final_direction   = pre_direction + "/personal_data/async_delete/"
-            return final_direction
+    function get_base_url(){
+        var actual_direction  = location.href
+        var reference_pattern = "/personal_data/create"
+        var position_pattern  = actual_direction.indexOf(reference_pattern)
+        var pre_direction     = actual_direction.substring(0,position_pattern)
+        var final_direction   = pre_direction + "/personal_data/async_delete/"
+        return final_direction
+    }
+
+    function personal_data_delete(personal_data_pk){
+        var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
+        if(answer){
+            var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
+            $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                function(json){
+                    $("#personal_data_"+personal_data_pk).remove();
+                    if($("[id ^= personal_data_]").size() == 0)
+                        $("#link_next").remove();
+                })
         }
-        function personal_data_delete(personal_data_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este dato porsonal?");
-            if(answer){
-                var dir = get_base_url() + personal_data_pk +"/"+{{ election.pk }};
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
-                    function(json){
-                        $("#personal_data_"+personal_data_pk).remove();
-                        if($("[id ^= personal_data_]").size() == 0)
-                            $("#link_next").remove();
-                    })
-            }
-            else {
-                return false;
-            }
+        else {
+            return false;
         }
-    </script>
+    }
+
+$(document).ready(function() {
+    $('.example_window').dialog({
+        title: "{% trans 'Ejemplo' %}",
+        width: 425,
+        height: 410,
+        modal: true,
+        autoOpen: false
+    });
+
+    $('.informacion').click(function() {
+        $('.example_window').dialog('open');
+        return false;
+    });
+
+});
+
+
+</script>
 {{ form.media }}
 {% endblock %}
+
+</div>

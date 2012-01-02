@@ -10,6 +10,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
+from django.db.models.signals import  post_save
+from django.dispatch.dispatcher import receiver
+
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
 twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
@@ -187,15 +190,6 @@ class Candidate(models.Model):
         return self.name
 
 
-class PersonalInformation(models.Model):
-    label = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-    candidate = models.ForeignKey('Candidate')
-
-    def __unicode__(self):
-        return u"%s: %s" % (self.candidate, self.label)
-
-
 class PersonalData(models.Model):
     label = models.CharField(_('Nuevo dato personal'),max_length=255)
     election = models.ForeignKey('Election')
@@ -285,8 +279,8 @@ class Category(models.Model):
 
 
 class Question(models.Model):
-    question = models.CharField(max_length=255)
-    category = models.ForeignKey('Category')
+    question = models.CharField(max_length=255, verbose_name=_("PREGUNTA:"))
+    category = models.ForeignKey('Category', verbose_name=_("CATEGORIA:"))
 
     # def get_answers(self):
     #     return Answer.objects.filter(question=self)
@@ -302,4 +296,18 @@ class Answer(models.Model):
     def __unicode__(self):
         return u"%s" % self.caption
 
+
+@receiver(post_save, sender=Election)
+def create_default_personaldata(sender, instance, created, **kwargs):
+    if created:
+        for label in settings.DEFAULT_PERSONAL_DATA:
+            PersonalData.objects.create(label=label, election=instance)
+
+@receiver(post_save, sender=Election)
+def create_default_backgrounds(sender, instance, created, **kwargs):
+    if created:
+        for name in settings.DEFAULT_BACKGROUND_CATEGORIES:
+            category = BackgroundCategory.objects.create(name=name, election=instance)
+            for background in settings.DEFAULT_BACKGROUND_CATEGORIES[name]:
+                Background.objects.create(name=background, category=category)
 

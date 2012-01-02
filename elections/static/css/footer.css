@@ -9,13 +9,15 @@
 	background-color:#74a7d9;
     display: block;
     overflow: hidden;
-    padding: 20px;
-	height:31px;
+	height:13px;
+	bottom: 0;
+	position:fixed;
+	width: 100%;
 }
 
 #footer .wrapFoot{ 
 	background-color: #fff;
-   background-color: #FFFFFF;
+   	background-color: #FFFFFF;
     margin: 20px auto;
     padding: 20px;
     position: relative;

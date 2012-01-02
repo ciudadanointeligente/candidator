@@ -279,10 +279,76 @@ class BackgroundAjaxCreateView(TestCase):
                                     follow=True)
 
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
-
 
         backgrounds = self.background_category.background_set.all()
         background_names = [ background.name for background in backgrounds]
 
         self.assertTrue(params['value'] in background_names)
+        background = self.background_category.background_set.get(name=params['value'])
+        self.assertEquals(response.content, '{"pk": %d, "name": "%s"}' % (background.pk, params['value']))
+
+
+class AsyncDeleteBackgroundTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+
+        self.background, created = Background.objects.get_or_create(category=self.background_category,
+                                                                name='foo')
+
+
+    def test_post_with_login(self):
+        self.client.login(username='joe', password='doe')
+
+        request = self.client.post(reverse('async_delete_background',
+                                kwargs={'background_pk': self.background.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 200)
+
+    def test_post_without_login(self):
+        request = self.client.post(reverse('async_delete_background',
+                                kwargs={'background_pk': self.background.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 302)
+
+
+    def test_get_405(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('async_delete_background',
+                                kwargs={'background_pk': self.background.pk}))
+
+        self.assertEquals(request.status_code, 405)
+
+    def test_post_with_stranger_background(self):
+        user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user2,
+                                                            slug='barbaz')
+        background_category2, created = BackgroundCategory.objects.get_or_create(election=election2,
+                                                                    name='FooBar')
+
+        background2, created = Background.objects.get_or_create(category=background_category2,
+                                                                name='foo')
+
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('async_delete_background',
+                                kwargs={'background_pk': background2.pk}))
+
+        self.assertEquals(request.status_code, 404)
+
+    def test_post_success(self):
+        self.client.login(username='joe', password='doe')
+        temp_pk = self.background.pk
+        request = self.client.post(reverse('async_delete_background',
+                                kwargs={'background_pk': self.background.pk}),
+                                        {})
+
+        self.assertEquals(request.status_code, 200)
+        self.assertEquals(request.content, '{"result": "OK"}')
+
+        self.assertRaises(Background.DoesNotExist, Background.objects.get, pk=temp_pk)
