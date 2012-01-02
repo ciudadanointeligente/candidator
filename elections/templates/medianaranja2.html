@@ -17,6 +17,7 @@
 
 <div class="papel">
 	<div class="contenedor1">
+    	<div class="contenedor2">
 	    <h1>{{election}}</h1>
 		<div class="ico_tit">
 			<img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" />
@@ -26,12 +27,12 @@
     		Tu media naranja política es...
     	</div>
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
-            <header style="width:580px;top:0px;">
-                <h1>{{winner.2}}</h1>
+            <header style="width:674px;px;top:0px;">
+                <h2>{{winner.2}}</h2>
                 	<table style="margin-left:10px;padding:0;">
 		                <tr>
-		                	<td style="width:280px;" valign="top">  	
-		                  		<table style="width:280px;border-right:1px dotted #99AAB1;">
+		                	<td style="width:260px;  border-right:1px dashed #d7d7d7;" valign="top">  	
+		                  		<table>
 			                  		<tr>
 			                  			<td colspan="2">
 						            		<div class="globo_left">
@@ -45,50 +46,55 @@
 												<p>{{category}}</p>
 											{% endfor %}
 										</td>
-										<td>
+						
+                                        <td class="porcentaje">
 											{% for category_score in winner.1 %}
-												<p>{{category_score}}</p>
+												<p>{{category_score}}<span class="percent"><span style="width:{{category_score}}%"></span></span></p>
 											{% endfor %}
 										</td>
+                                
 									</tr>
 								</table>
 							</td>
+                            
+                            
+                            
 							<td  style="width:280px;" valign="top">
-								<table style="width:280px;">
-									<tr>
+								<table style="width:280px; padding-left:5px;">
+									
 										<td colspan="2">
 											<div class="globo_left">
 												¿estás de acuerdo con tu resultado?
 											</div>
 										</td>
-									</tr>
-									<tr>
-										<td>
-											&nbsp;
+									
+									
+										<td>&nbsp;
+											
 										</td>
-										<td>
-											&nbsp;
+										<td>&nbsp;
+											
 										</td>
-									</tr>
+									
 									<tr>
 										<td>
 											<input type="checkbox" value="si">Si
 										</td>
-										<td>
-											&nbsp;
+										<td>&nbsp;
+											
 										</td>
 									</tr>
 									<tr>
 										<td>
 											<input type="checkbox" value="no">No
 										</td>
-										<td>
-											&nbsp;
+										<td>&nbsp;
+											
 										</td>
 									</tr>
 									<tr>
-										<td>
-											&nbsp;
+										<td>&nbsp;
+											
 										</td>
 										<td>
 											<input type="button" value="comparte">
@@ -102,74 +108,65 @@
             </header>
             <div class="profileImg">
                 
-                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="/media/cache/38/d1/38d1c7ba30f31132aa4a56e886b6dc18.jpg">
+                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="{{ STATIC_URL }}/img/default-user.gif">
                 
             </div>
-            <aside class="profileAside">
-                <div class="sideButton compare">
-                    <a href="/javier/cei-2012/compare/juanito-perez">
-                        Compara
-                    </a>
-                </div>
-                <div class="sideButton medianaranja">
-                    <a href="/javier/cei-2012/medianaranja">
-                        Media<wbr></wbr>Naranja
-                    </a>
-                </div>
-
-                <!-- AddThis Button BEGIN -->
-                <div class="addthis_toolbox sideButton share">
-                    <!-- AddThis Button BEGIN -->
-                    <a href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2" class="addthis_button">
-                        Comparte
-                    </a>
-
-                    <!-- AddThis Button END -->
-                    <div class="atclear"></div>
-                <div class="atclear"></div></div>
-                <!-- AddThis Button END -->
-            </aside>
-		</div>
+            
+            
+			</div>
+        </div>
     </div>
+    
+    
+    
     <div class="contenedor1">
-    	<table>
-			{% for data_candidate in others %}
-				{% if forloop.counter0|divisibleby:"2" %}
-					<tr>
-				{% endif %}
-				<td>
-					<table style="width:420px;border-right:1px dotted #99AAB1;">
-						<tr>
-							<td valign="top">
-								<div class="profileImg">
-					                <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="/media/cache/38/d1/38d1c7ba30f31132aa4a56e886b6dc18.jpg">
-					            </div>
-							</td>
-							<td valign="top" style="width:270px;">
-								{{data_candidate.2}}
-								<table>
-									<tr>
-										<td style="width:200px;">
-											{% for category in categories %}
-												<p>{{category}}</p>
-											{% endfor %} 
-										</td>
-										<td>
-											{% for category_score in data_candidate.1 %}
-												<p>{{category_score}}</p>
-											{% endfor %}
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</td>
-				{% if forloop.counter|divisibleby:"2" %}
-					</tr>
-				{% endif %}
-			{% endfor%}
-		</table>
+    	<div class="contenedor2">
+            <td colspan="2">
+                                                <div class="globo_left">
+                                                    compatibilidad con otros candidatos
+                                                </div>
+                                            </td>
+            <table>
+                {% for data_candidate in others %}
+                    {% if forloop.counter0|divisibleby:"2" %}
+                        
+                    {% endif %}
+                    
+                    <td>
+                        <table style="width:418px;border-right:1px dashed #d7d7d7;">
+                            <tr>
+                                <td valign="top">
+                                
+                                    <div class="profileImg_small">
+                                        <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="{{ STATIC_URL }}/img/default-user.gif">
+                                    </div>
+                                </td>
+                                <td valign="top" style="width:418px;">
+                                    <h6 style=" color:#72acd9;">{{data_candidate.2}}</h6>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                {% for category in categories %}
+                                                    <p>{{category}}</p>
+                                                {% endfor %} 
+                                            </td>
+                                            <td class="porcentaje">
+                                                {% for category_score in data_candidate.1 %}
+                                                <p>{{category_score}}<span class="percent"><span style="width:{{category_score}}%"></span></span></p>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% if forloop.counter|divisibleby:"2" %}
+                        
+                    {% endif %}
+                {% endfor%}
+            </table>
+    	</div>
     </div>
 
 </div>
