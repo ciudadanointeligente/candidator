@@ -10,7 +10,10 @@
     <div class="numero_off cuatro">4.</div>
     <div class="numero_off cinco">5.</div>
 
-    <h2>{% trans 'Candidatos' %}</h2>
+<h5>{% trans 'Candidatos' %}</h5>
+
+<div class="forms_content">
+
     <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
     <ul id="lista_candidatos">
         {% for candidate in election.candidate_set.all %}
@@ -31,14 +34,14 @@
         <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
         {% if election.candidate_set.count %}
         <div id="link_next">
-            <a class="bt_siguiente" href="{% url personal_data_create election_slug=election.slug %}">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">
                 <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
         {% endif %}
         <div id="link_add">
-            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
-                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
             </a>
         </div>
     </form>
@@ -82,14 +85,15 @@
             var reference_pattern = "/candidate/create"
             var position_pattern  = actual_direction.indexOf(reference_pattern)
             var pre_direction     = actual_direction.substring(0,position_pattern)
-            var final_direction   = pre_direction + "/candidate/async_delete/"
-            return final_direction
+            //var final_direction   = pre_direction + "/candidate/async_delete/"
+            return pre_direction
         }
+
         function candidate_delete(candidate_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este candidato?");
+            var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
             if(answer){
-                var dir = get_base_url() + candidate_pk +"/"+{{ election.pk }};
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, 
+                var dir = "/"+candidate_pk +"/candidate/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
                     function(json){
                         $("#candidate_"+candidate_pk).remove();
                         if($("[id ^= candidate_]").size() == 0)
@@ -100,5 +104,21 @@
                 return false;
             }
         }
+
+        function save_candidate(election_slug){
+            var candidate = document.getElementById("id_name").value
+            if(document.getElementById("id_name").value == ""){
+                window.location = get_base_url()+"/pre_personaldata"
+            }
+            else{
+                var dir = "/"+election_slug+"/candidate/save_candidate/"
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'candidate': candidate, 'election': '{{ election }}'},
+                function(json){
+                    window.location = get_base_url()+"/pre_personaldata"
+             })
+            }
+        }
     </script>
 {% endblock %}
+
+</div>

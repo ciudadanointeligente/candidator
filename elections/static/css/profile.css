@@ -24,23 +24,14 @@ h3 {
 .candidatesBasicInformation {
     position: relative;
     line-height: 21px;
-     margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .candidatesBasicInformation header{
-    left: 180px;
+    left: 163px;
     position: absolute;
     top: 10px;
     width: 622px;
-}
-
-header h2{
-    background: none repeat scroll 0 0 #A2B2BD;
-    border: 1px solid #99AAB1;
-    color: white;
-    display: block;
-    font-size: 17px;
-    padding: 4px 9px;
 }
 
 .profileImg{
@@ -49,6 +40,14 @@ header h2{
     overflow: hidden;
     width: 160px;
 }
+
+.profileImg_small{
+    float: left;
+    height: 140px;
+    overflow: hidden;
+    width: 118px;
+}
+
 .personalInfo {
     float: left;
     font-size: 13px;
@@ -94,13 +93,13 @@ span.profile-description{
 /*==== aside buttons ====*/
 
 .profileAside{
-    border-left: 1px dotted #99AAB1;
+    border-left: 1px dashed #D7D7D7;
     display: block;
     float: right;
     height: 200px;
     padding: 0 0 0 10px;
     position: relative;
-    width: 60px;
+    width: 63px;
 }
 
 .sideButton{
@@ -139,18 +138,14 @@ span.profile-description{
     bottom: 7px;
 }
 
-.compare{background: url("../img/bt_compare.gif") no-repeat scroll 0 -0 transparent;}
-.medianaranja{background: url("../img/bt_orange.gif") no-repeat scroll -3px -3px transparent;}
+.compare{background: url("../img/bt_compare.gif") no-repeat scroll 0 0 transparent;}
+.medianaranja{background: url("../img/bt_orange.gif") no-repeat scroll -4px -1px transparent;}
 .share{background:url("../img/bt_share.gif") no-repeat scroll -4px -1px transparent;}
 
-.compare:active{background-position: 0 -63
-/**/px;}
-.medianaranja:active{background-position: -3px -66px;}
-.share:active{background-position: -4px -69px;}
+.compare:hover{background-position: 0 -63px;}
+.medianaranja:hover{background-position: -4px -65px;}
+.share:hover{background-position: -4px -65px;}
 
-
-
-.sideButton:hover{ border-bottom: 2px solid #CED4DA; border-right: 1px solid #D7DADD; border-left: 1px solid #D7DADD; border-top:1px solid #D7DADD; margin-bottom: 6px;} /*99AAB1*/
 
 
 

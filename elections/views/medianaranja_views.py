@@ -53,7 +53,7 @@ def post_medianaranja1(request, username, election_slug):
         answers.append(Answer.objects.filter(id=ans_id))
         importances.append(int(request.POST['importance-'+str(i)]))
 
-    return medianaranja2(request, answers, importances, candidates, categories)
+    return medianaranja2(request, answers, importances, candidates, categories, election)
 
 def get_medianaranja1(request, username, election_slug):
     u = User.objects.filter(username=username)
@@ -84,7 +84,7 @@ def medianaranja1(request, username, election_slug):
     else:
         return get_medianaranja1(request, username, election_slug)
 
-def medianaranja2(request, my_answers, importances, candidates, categories):
+def medianaranja2(request, my_answers, importances, candidates, categories, election):
 
     scores_and_candidates = []
 
@@ -98,4 +98,4 @@ def medianaranja2(request, my_answers, importances, candidates, categories):
 
     winner = scores_and_candidates[0]
     other_candidates = scores_and_candidates[1:]
-    return render_to_response('medianaranja2.html', {'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))
+    return render_to_response('medianaranja2.html', {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))

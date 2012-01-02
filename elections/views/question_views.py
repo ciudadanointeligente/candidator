@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import QuestionForm
 
 # Import models
-from elections.models import Category, Question
+from elections.models import Category, Question, Election, Answer
 
 
 # Question Views
@@ -27,18 +27,41 @@ class QuestionCreateView(CreateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, slug=kwargs['election_slug'], owner=request.user)
         return super(QuestionCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(QuestionCreateView, self).get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
+        context['election'] = self.election
         return context
 
-    def get_success_url(self):
-        return reverse('category_create', kwargs={'election_slug': self.object.category.election.slug})
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(QuestionCreateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['election'] = self.election
+        return kwargs
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        category = get_object_or_404(Category, pk=self.kwargs['category_pk'], election__owner=self.request.user)
-        self.object.category = category
-        return super(QuestionCreateView, self).form_valid(form)
+    def get_success_url(self):
+        return reverse('question_create', kwargs={'election_slug': self.object.category.election.slug})
+
+# @login_required
+# @require_http_methods(['POST'])
+# def answer_ajax_create(request, question_pk):
+#     question = get_object_or_404(Question, pk=question_pk)
+
+#     value = request.POST.get('value', None)
+#     answer = Answer(caption=value, question=question)
+#     answer.save()
+#     return HttpResponse(json.dumps({"pk": answer.pk, "caption": answer.caption}),
+#                         content_type='application/json')
+
+    # def form_invalid(self, form):
+    #     print "zxcv"
+
+    # def form_valid(self, form):
+    #     print "asd"
+    #     return super(QuestionCreateView, self).form_valid(form)
+    #     self.object = form.save(commit=False)
+    #     election = get_object_or_404(Election, election=self.kwargs['election_slug'], owner=self.request.user)
+    #     self.object.election = election
+    #     self.object.save()
+    #     return redirect(self.get_success_url())

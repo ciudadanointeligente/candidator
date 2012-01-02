@@ -197,3 +197,64 @@ class PersonalDataCandidateCreateViewTest(TestCase):
 
         expected = {self.personal_data.label: params['value']}
         self.assertEquals(self.candidate.get_personal_data, expected)
+
+
+class AsyncDeletePersonalDataTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+
+    def test_post_with_login(self):
+        self.client.login(username='joe', password='doe')
+
+        request = self.client.post(reverse('async_delete_personal_data',
+                                kwargs={'personal_data_pk': self.personal_data.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 200)
+
+    def test_post_without_login(self):
+        request = self.client.post(reverse('async_delete_personal_data',
+                                kwargs={'personal_data_pk': self.personal_data.pk}),
+                                        {})
+        self.assertEquals(request.status_code, 302)
+
+
+    def test_get_405(self):
+        self.client.login(username='joe', password='doe')
+        request = self.client.get(reverse('async_delete_personal_data',
+                                kwargs={'personal_data_pk': self.personal_data.pk}))
+
+        self.assertEquals(request.status_code, 405)
+
+    def test_post_with_stranger_candidate(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user2,
+                                                           slug='barbaz2',
+                                                           description='esta es una descripcion')
+
+        personal_data2, created = PersonalData.objects.get_or_create(election=election2,
+                                                                        label='foo')
+
+        self.client.login(username='joe', password='doe')
+        request = self.client.post(reverse('async_delete_personal_data',
+                                kwargs={'personal_data_pk': personal_data2.pk}))
+
+        self.assertEquals(request.status_code, 404)
+
+    def test_post_success(self):
+        self.client.login(username='joe', password='doe')
+        temp_pk = self.personal_data.pk
+        request = self.client.post(reverse('async_delete_personal_data',
+                                kwargs={'personal_data_pk': self.personal_data.pk}),
+                                        {})
+
+        self.assertEquals(request.status_code, 200)
+        self.assertEquals(request.content, '{"result": "OK"}')
+
+        self.assertRaises(PersonalData.DoesNotExist, PersonalData.objects.get, pk=temp_pk)

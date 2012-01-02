@@ -9,6 +9,5 @@ from category import *
 from election import *
 from link import *
 from medianaranja import *
-from personal_information import *
 from personal_data import *
 from question import *

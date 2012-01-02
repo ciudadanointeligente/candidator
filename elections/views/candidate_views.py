@@ -14,7 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset, CandidatePersonalInformationFormset
+from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset
 
 # Import models
 from elections.models import Election, Candidate, PersonalData
@@ -147,29 +147,20 @@ def candidate_data_update(request, election_slug, slug):
             context_instance=RequestContext(request))
 
 
-def async_delete_candidate(request, election_slug, candidate_pk, election_pk):
-    if request.POST:
-        candidate = Candidate.objects.get(pk = candidate_pk, election = election_pk)
-        candidate.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
+@login_required
+@require_http_methods(['POST'])
+def async_delete_candidate(request, candidate_pk):
+    candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
+    candidate.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
-def async_delete_personal_data(request, election_slug, personal_data_pk, election_pk):
-    if request.POST:
-        personal_data = PersonalData.objects.get(pk = personal_data_pk, election = election_pk)
-        personal_data.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
-
-def async_delete_category(request, election_slug, category_pk, election_pk):
-    if request.POST:
-        category = Category.objects.get(pk = category_pk, election = election_pk)
-        category.delete()
-        json_dictionary = {"result":"OK"}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
+@login_required
+#@require_http_methods(['POST'])
+def save_candidate(request, election_slug):
+    cand = request.POST.get('candidate', False)
+    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+    c = Candidate.objects.create(name = cand, election = election)
+    c.save()
+    json_dictionary = {"result": "OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')

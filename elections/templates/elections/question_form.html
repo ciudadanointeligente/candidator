@@ -3,19 +3,85 @@
 
 
 {% block content %}
-<h2>Preguntas en categoria {{ category.name }}</h2>
-{% for question in category.question_set.all %}
-    <li>{{ question.question }}</li>
-{% endfor %}
 
 
-<h2>Agregar pregunta</h2>
-<form method="POST">{% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <input type="submit" value="{% trans "Guardar" %}" />
-</form>
-<a href="{% url category_create election_slug=category.election.slug %}">volver</a>
+<div class="fondo_formulario">
+    <div class="numero_off uno">1.</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+    </div>
+    <div class="numero_off cuatro">
+        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+    </div>
+    <div class="numero_on cinco">5.</div>
+
+    <h5>Cuestionario</h5>
+    <div class="forms_content">
+    {% for category in election.category_set.all %}
+            <span class="tit_fondoverde">
+                {{ category.name }}
+            </span>
+        <ul>
+            {% for question in category.question_set.all %}
+                <li>{{ question.question }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+    <hr />
+
+    <div class="instrucciones">Agrega tus preguntas y asígnales una categoría...</div><br>
+    <form id="newquestion" method="POST">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <p class="fieldWrapper">
+            <label for="id_question" class="tit_fondoverde">{{ form.question.label }}</label>
+            {{ form.question }}
+            {{ form.question.errors }}
+        </p>
+        <p class="fieldWrapper">
+            <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
+            {{ form.category }}
+            <span {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
+            {{ form.new_category }}
+            </span>
+            {{ form.category.errors }}
+        </p>
+        {% if election.category_set.count %}
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url my_election_list %}">
+                <img src="{{ STATIC_URL }}img/bt_publicar.png"/>
+            </a>
+        </div>
+        {% endif %}
+        <div id="link_add">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
+                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+            </a>
+        </div>
+
+    </form>
+</div>
+</div>
 
 {% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    $(document).ready( function() {
+        $('#id_category').change( function () {
+            if($("#id_category option:selected").attr('value') == ""){
+                $('#id_new_category').parent().show();
+            }
+            else{
+                $('#id_new_category').parent().hide();
+            }
+        })
+    })
+</script>
+{{ form.media }}
+{% endblock %}
+
+</div>

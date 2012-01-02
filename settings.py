@@ -1,3 +1,4 @@
+# encoding=UTF-8
 # Django settings for candidator project.
 import os
 
@@ -205,3 +206,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 SERIALIZATION_MODULES = {'json-pretty': 'serializers.json_pretty'}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DEFAULT_PERSONAL_DATA = ['Edad', 'Estado civil', u'Profesión', u'Género']
+DEFAULT_BACKGROUND_CATEGORIES = {u'Educación': [u'Educación primaria', u'Educación secundaria', u'Educación superior'],
+                                 u'Antecedentes laborales': ['Último trabajo']}   
