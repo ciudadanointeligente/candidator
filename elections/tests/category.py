@@ -65,12 +65,13 @@ class CategoryCreateViewTest(TestCase):
         category = Category.objects.create(name="Bar1", election=self.election)
 
         self.client.login(username='joe', password='doe')
-        params = {'name': 'Bar'}
+        params = {'name': 'Bar1'}
         response = self.client.post(reverse('category_create',
                                         kwargs={'election_slug': self.election.slug}),
                                     params, follow=True)
 
         self.assertEquals(response.status_code, 200)
+        self.assertFormError(response, 'form', 'slug', 'Ya tienes una categoria con ese slug.')
 
 
     def test_post_category_create_without_login(self):

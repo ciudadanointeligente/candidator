@@ -14,7 +14,7 @@
 
 <div class="papel">
 <div class="contenedor1">
-	<div class="contenedor2">
+    <div class="contenedor2">
 
     <h1>{{election}}</h1>
 
@@ -24,7 +24,7 @@
     <div class="txt_intro">La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los datos los hemos recopilado de diferentes fuentes periodísticas y, por ello, los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.<br /><br />
     Las preguntas seleccionadas para incluir en esta aplicación fueron escogidas en función de aquellas sobre las que tuvimos mayor densidad de información por parte de cada uno de los candidatos.</div>
 
-	</div>
+    </div>
 </div><!--contenedor1-->
 
 
@@ -75,102 +75,9 @@
 
 
 </div><!--papel-->
-
-
-
-
-<!--
-<br><hr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% for category in categories.all %}
-    <h2>{{ category.name }}</h2>
-    {% for question in category.question_set.all %}
-    <ul>
-        <li style='float: left; display: block;'>
-            <h4>{{ question.question }}</h4>
-            <ul class='answers'>
-            {% for answer in question.answer_set.all %}
-                <li>
-                    <label>
-                        <input type="radio" name="question[{{ question.pk }}]" value="{{ answer.pk }}"/>
-                        {{ answer.caption }}
-                    </label>
-                </li>
-                {% empty %}
-                <li>
-                    <strong>No hay respuestas asociadas</strong>
-                </li>
-            {% endfor %}
-                <li>
-                    <label>
-                        <input type="radio" name="question[{{ question.pk }}]" value="-1" checked="checked" />
-                        Ninguna de las anteriores representa mi posición
-                    </label>
-                </li>
-            </ul>
-        </li>
-        <li style='float: left; display: block;'>
-            <h4>Importancia</h4>
-            <ul style='list-style: none;'>
-                <li style='float: left;'>
-                    <label>
-                        <input type="radio" name="importance[{{ question.pk }}]" value="1" /> 1
-                    </label>
-                </li>
-                <li style='float: left;'>
-                    <label>
-                        <input type="radio" name="importance[{{ question.pk }}]" value="2" /> 2
-                    </label>
-                </li>
-                <li style='float: left;'>
-                    <label>
-                        <input type="radio" name="importance[{{ question.pk }}]" value="3" checked="checked" /> 3
-                    </label>
-                </li>
-                <li style='float: left;'>
-                    <label>
-                        <input type="radio" name="importance[{{ question.pk }}]" value="4" /> 4
-                    </label>
-                </li>
-                <li style='float: left;'>
-                    <label>
-                        <input type="radio" name="importance[{{ question.pk }}]" value="5" /> 5
-                    </label>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <br style='clear: both;'/>
-    {% endfor %}
-{% empty %}
-    <h2>No hay categorías</h2>
-{% endfor %}
-<p>
-    <input type="submit" value="Encontrar mi Media Naranja" />
-</p>
-</form>-->
 {% endblock content %}
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/jquery.MetaData.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.rating.js"></script>
-
-
 {% endblock extra_js %}
-
-

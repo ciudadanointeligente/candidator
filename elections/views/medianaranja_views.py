@@ -33,7 +33,7 @@ def associate_answer_to_candidate(request, candidate_slug, election_slug):
 
 def post_medianaranja1(request, username, election_slug):
     user_list = User.objects.filter(username=username)
-    if len(user_list) == 0:
+    if user_list.count() == 0:
         raise Http404
 
     election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
@@ -56,16 +56,11 @@ def post_medianaranja1(request, username, election_slug):
     return medianaranja2(request, answers, importances, candidates, categories, election)
 
 def get_medianaranja1(request, username, election_slug):
-    u = User.objects.filter(username=username)
-    if len(u) == 0:
-        raise Http404
-    e = Election.objects.filter(owner=u[0],slug=election_slug)
-    if len(e) == 0:
-        raise Http404
+    election = get_object_or_404(Election, owner__username=username, slug=election_slug)
 
     send_to_template = []
     counter = 0
-    for x in e[0].category_set.all():
+    for x in election.category_set.all():
         empty_questions = []
         list_questions = x.question_set.all()
         for i in range(len(list_questions)):
@@ -74,7 +69,7 @@ def get_medianaranja1(request, username, election_slug):
             counter += 1
         send_to_template.append((x,empty_questions))
 
-    return render_to_response('medianaranja1.html', {'stt':send_to_template,'election': e[0], 'categories': e[0].category_set}, context_instance = RequestContext(request))
+    return render_to_response('medianaranja1.html', {'stt':send_to_template, 'election': election}, context_instance = RequestContext(request))
 
 def medianaranja1(request, username, election_slug):
 

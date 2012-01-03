@@ -68,11 +68,9 @@ class CategoryUpdateView(UpdateView):
         return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
 
     def get_queryset(self):
-        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'],
-                                             election__owner=self.request.user)
-        return super(ElectionDetailView, self).get_queryset()
+        return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                         slug=self.kwargs['slug'],
+                                         election__owner=self.request.user)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

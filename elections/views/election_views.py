@@ -94,16 +94,16 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
     return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
 
-def election_compare_asynchronous_call(request, username, slug, candidate_slug):
-    if request.POST:
-        election = get_object_or_404(Election, slug=slug, owner__username=username)
-        candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
-        personal_data = candidate.get_personal_data
-        photo_route = str(candidate.photo.url)
-        json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
-        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-    else:
-        raise Http404
+# def election_compare_asynchronous_call(request, username, slug, candidate_slug):
+#     if request.POST:
+#         election = get_object_or_404(Election, slug=slug, owner__username=username)
+#         candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
+#         personal_data = candidate.get_personal_data
+#         photo_route = str(candidate.photo.url)
+#         json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
+#         return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+#     else:
+#         raise Http404
 
 class PrePersonalDataView(TemplateView):
 

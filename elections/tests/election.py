@@ -417,3 +417,16 @@ class ElectionUrlsTest(TestCase):
         expected = '/juanito/eleccion-la-florida/admin'
         result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
+
+class PrePersonalDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
+
+    def test_context(self):
+        self.client.login(username='joe', password='doe')
+
+        response = self.client.get(reverse('pre_personaldata', kwargs={'election_slug': self.election.slug}))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEquals(response.context['election'], self.election)
