@@ -133,6 +133,9 @@ urlpatterns = patterns('',
     # Create BackgroundCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<background_pk>[0-9]+)/background_associate' , background_candidate_create, name='background_candidate_create'),
 
+    # Delete question view in wizzard
+    url(r'^(?P<question_pk>[0-9]+)/question/async_delete/?$', 'candidator.elections.views.async_delete_question' , name='async_delete_question'),
+
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
 

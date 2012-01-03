@@ -29,9 +29,9 @@ h3 {
 
 .candidatesBasicInformation header{
     left: 163px;
-    position: absolute;
-    top: 10px;
-    width: 622px;
+	position: relative;
+	width: 564px;
+	left: 173px;
 }
 
 .profileImg{
@@ -39,6 +39,7 @@ h3 {
     height: 200px;
     overflow: hidden;
     width: 160px;
+	margin-top: -18px;
 }
 
 .profileImg_small{
@@ -46,14 +47,18 @@ h3 {
     height: 140px;
     overflow: hidden;
     width: 118px;
+	margin-left: -4px;
+	margin-right: 8px;
 }
 
 .personalInfo {
     float: left;
-    font-size: 13px;
-    margin-left: 18px;
-    width: 330px;
-    margin-top: 35px;
+	font-size: 12px;
+	margin-left: 13px;
+	width: 330px;
+	margin-top: 8px;
+	color: #666;
+	line-height: 21px;
 }
 
 span.profile-description{
@@ -100,6 +105,7 @@ span.profile-description{
     padding: 0 0 0 10px;
     position: relative;
     width: 63px;
+	margin-top: -19px;
 }
 
 .sideButton{
@@ -165,7 +171,7 @@ span.profile-description{
 
 .trayectoria{
     margin-right: 20px;
-    width: 277px;
+    width: 270px;
 }
 .trayectoria, .posiciones{
     float: left;
@@ -175,7 +181,7 @@ span.profile-description{
     background: none repeat scroll 0 0 #A2B2BD;
     color: white;
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     margin: -10px -10px 22px;
     padding: 6px 9px;
     border: 1px solid #99AAB1;
@@ -191,7 +197,7 @@ span.profile-description{
 
 .posiciones{
     margin-left: 10px;
-    width: 563px;
+    width: 524px;
 }
 
 .brdotted{}
@@ -200,9 +206,19 @@ span.profile-description{
 
 /*==== Accordions ====*/
 .trayectoria  .accordion h3{
-    background-color: #B0D0ED;
-    color: #fff;
+    color:#ffffff;
+    background-color:#afceea;
+    border:1px solid #a7c7e6;
 }
+
+.posiciones .accordion h3 {
+	color:#757a7e;
+    background-color:#e8e8e8;
+    border:1px solid #d7d7d7;
+    background: url("../img/arrow_sprite2.png") no-repeat scroll right 3px #EDEFF0;
+}
+	
+	
 .answer{}
 
 
