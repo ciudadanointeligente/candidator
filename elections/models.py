@@ -14,8 +14,8 @@ from django.db.models.signals import  post_save
 from django.dispatch.dispatcher import receiver
 
 
-facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
-twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
+facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)(/.*|/?)")
+twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)(/.*|/?)")
 
 
 # Create your models here.

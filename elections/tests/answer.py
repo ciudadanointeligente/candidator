@@ -113,7 +113,7 @@ class CreateAnswerWithCategoryAjax(TestCase):
         response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 403)
 
-    def test_post_not_owned(self):
+    def test_post_to_not_owned_election(self):
         self.client.login(username=self.user2.username, password='joe')
         params = {'caption': 'Foo bar'}
         response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -126,7 +126,7 @@ class CreateAnswerWithCategoryAjax(TestCase):
         response = self.client.post(url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 404)
 
-    def test_post_owner(self):
+    def test_post_as_election_owner(self):
         self.client.login(username=self.user.username, password='joe')
         params = {'caption': 'Foo bar'}
         response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -137,6 +137,19 @@ class CreateAnswerWithCategoryAjax(TestCase):
         self.assertEqual(answer.caption, params['caption'])
         self.assertEqual(simplejson.loads(response.content),
                 {'pk': answer.pk, 'caption': answer.caption, 'question': self.question.pk})
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_post_invalid_answer(self):
+        self.client.login(username=self.user.username, password='joe')
+        params = {}
+
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+        answer = Answer.objects.filter(question=self.question)
+        self.assertEqual(answer.count(), 0)
+
+        self.assertTrue('error' in simplejson.loads(response.content))
         self.assertEqual(response['Content-Type'], 'application/json')
 
     def test_get_no_ajax(self):

@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.utils import simplejson as json, simplejson
 
 from elections.models import Candidate, Election, BackgroundCategory, Background,\
                                 BackgroundCandidate, PersonalData, PersonalDataCandidate,\
@@ -609,3 +610,66 @@ class AsyncDeleteCandidateTest(TestCase):
         self.assertEquals(request.content, '{"result": "OK"}')
 
         self.assertRaises(Candidate.DoesNotExist, Candidate.objects.get, pk=temp_pk)
+
+
+class CandidateCreateAjaxView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='joe', email='joe@doe.cl')
+        self.user2 = User.objects.create_user(username='doe', password='joe', email='dow@doe.cl')
+        self.election = Election.objects.create(name='BarBaz', owner=self.user, slug='barbaz')
+        self.url = reverse('async_create_candidate', kwargs={'election_slug': self.election.slug, })
+        self.params = {'name': 'Juan Candidato'}
+
+    def test_post_without_login(self):
+        response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+
+    def test_post_to_not_owned_election(self):
+        self.client.login(username=self.user2.username, password='joe')
+        response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_as_election_owner(self):
+        self.client.login(username=self.user.username, password='joe')
+        response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        self.assertEqual(response.status_code, 200)
+        candidate = Candidate.objects.filter(election=self.election)
+
+        self.assertEqual(candidate.count(), 1)
+        candidate = candidate.get()
+        self.assertEqual(candidate.name, self.params['name'])
+        self.assertEqual(response.content, '{"result": "OK"}')
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_post_as_election_owner_with_same_name(self):
+        self.client.login(username=self.user.username, password='joe')
+        candidate, created = Candidate.objects.get_or_create(election=self.election, name=self.params['name'])
+
+        response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+        candidate = Candidate.objects.filter(election=self.election)
+        self.assertEqual(candidate.count(), 1)
+
+        self.assertTrue('error' in simplejson.loads(response.content))
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_post_invalid_answer(self):
+        self.client.login(username=self.user.username, password='joe')
+        params = {}
+
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+        candidate = Candidate.objects.filter(election=self.election)
+        self.assertEqual(candidate.count(), 0)
+
+        self.assertTrue('error' in simplejson.loads(response.content))
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+
+    def test_get_no_ajax(self):
+        self.client.login(username=self.user.username, password='joe')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 400)

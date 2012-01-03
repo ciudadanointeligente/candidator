@@ -121,3 +121,15 @@ class QuestionCreateViewTest(TestCase):
 
         self.assertRedirects(response, reverse('question_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+    def test_post_question_create_logged_into_nothing(self):
+        self.client.login(username='joe', password='doe')
+        category, created = Category.objects.get_or_create(name='FooCat', election=self.election)
+
+        params = {'question': 'BarBaz'}
+        response = self.client.post(reverse('question_create',
+                                    kwargs={'election_slug': self.election.slug}),
+                                    params)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertFormError(response, 'form', 'category', 'Este campo es obligatorio.')
