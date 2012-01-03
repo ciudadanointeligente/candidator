@@ -66,7 +66,7 @@
 <script type="text/javascript">
 
 function background_category_delete(category_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta categoria?");
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
     if(answer){
         var dir = "/"+category_pk +"/background_category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
