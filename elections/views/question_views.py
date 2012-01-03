@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
@@ -43,25 +43,11 @@ class QuestionCreateView(CreateView):
     def get_success_url(self):
         return reverse('question_create', kwargs={'election_slug': self.object.category.election.slug})
 
-# @login_required
-# @require_http_methods(['POST'])
-# def answer_ajax_create(request, question_pk):
-#     question = get_object_or_404(Question, pk=question_pk)
 
-#     value = request.POST.get('value', None)
-#     answer = Answer(caption=value, question=question)
-#     answer.save()
-#     return HttpResponse(json.dumps({"pk": answer.pk, "caption": answer.caption}),
-#                         content_type='application/json')
-
-    # def form_invalid(self, form):
-    #     print "zxcv"
-
-    # def form_valid(self, form):
-    #     print "asd"
-    #     return super(QuestionCreateView, self).form_valid(form)
-    #     self.object = form.save(commit=False)
-    #     election = get_object_or_404(Election, election=self.kwargs['election_slug'], owner=self.request.user)
-    #     self.object.election = election
-    #     self.object.save()
-    #     return redirect(self.get_success_url())
+@login_required
+@require_POST
+def async_delete_question(request, question_pk):
+    question = get_object_or_404(Question, pk = question_pk, category__election__owner = request.user)
+    question.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')

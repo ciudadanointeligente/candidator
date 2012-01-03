@@ -47,7 +47,7 @@ class ElectionModelTest(TestCase):
         election.save()
         election2 = Election.objects.get(slug='barbaz', owner=user)
         self.assertEquals(election.name, election2.name)
-    
+
     def test_create_default_data(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
@@ -57,7 +57,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(datas.filter(label=u'Estado civil').count(), 1)
         self.assertEqual(datas.filter(label=u'Profesión').count(), 1)
         self.assertEqual(datas.filter(label=u'Género').count(), 1)
-    
+
     def test_create_default_background_categories(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
@@ -72,6 +72,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(backgrounds.filter(name=u'Educación secundaria').count(), 1)
         self.assertEqual(backgrounds.filter(name=u'Educación superior').count(), 1)
         category = categories.get(name=u'Antecedentes laborales')
+        backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
 
 
@@ -107,22 +108,6 @@ class ElectionDetailViewTest(TestCase):
                                                'username': user.username,
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 404)
-
-
-class MyElectionListViewTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-
-    def test_list_elections_from_a_user_without_login(self):
-        response = self.client.get(reverse('my_election_list'))
-        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + reverse('my_election_list'))
-
-    def test_list_elections_logged(self):
-        self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('my_election_list'))
-        self.assertEquals(response.status_code, 200)
-        self.assertTrue('user' in response.context)
-        self.assertEqual(response.context['user'], self.user)
 
 
 class ElectionCompareViewTest(TestCase):
@@ -193,6 +178,23 @@ class ElectionCompareViewTest(TestCase):
                                                'second_candidate_slug': second_candidate.slug,
                                                'category_slug': category}))
         self.assertEquals(response.status_code, 200)
+
+    def test_compare_one_candidate_two_times(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
+        second_candidate = first_candidate
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug,
+                                               'first_candidate_slug': first_candidate.slug,
+                                               'second_candidate_slug': second_candidate.slug,
+                                               'category_slug': category}))
+        self.assertEquals(response.status_code, 404)
+
 
     def test_compare_two_candidates_category_mismatch_view(self):
         user = User.objects.create(username='foobar')
@@ -415,3 +417,16 @@ class ElectionUrlsTest(TestCase):
         expected = '/juanito/eleccion-la-florida/admin'
         result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
+
+class PrePersonalDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
+
+    def test_context(self):
+        self.client.login(username='joe', password='doe')
+
+        response = self.client.get(reverse('pre_personaldata', kwargs={'election_slug': self.election.slug}))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEquals(response.context['election'], self.election)

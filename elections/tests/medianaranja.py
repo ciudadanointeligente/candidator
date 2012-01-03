@@ -72,6 +72,19 @@ class TestMediaNaranja(TestCase):
         expected_winner = [global_score, [score_category1, score_category1], self.candidate1]
         self.assertEqual(response.context['winner'], expected_winner)
 
+    def test_get_medianaranja(self):
+        url = reverse("medianaranja1",kwargs={'username': self.user, 'election_slug':self.election.slug})
+        response = self.client.get(url, {})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('stt' in response.context)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(self.election, response.context['election'])
+
+    def test_post_to_nonexisting_user(self):
+        url = reverse("medianaranja1",kwargs={'username': 'anonymoususer', 'election_slug':'barbaz'})
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 404)
+
     def test_get_number_of_questions_by_category(self):
         number_by_questions_expected = [1,1]
         number_by_questions = self.candidate1.get_number_of_questions_by_category()
