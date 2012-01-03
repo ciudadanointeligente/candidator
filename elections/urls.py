@@ -30,6 +30,11 @@ urlpatterns = patterns('',
     # Create Answer Ajax
     url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
 
+    # Estaba al final, cual queda?
+    # Create Answer Ajax
+    # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
+
+
     # Create Category View
     url(r'^(?P<election_slug>[-\w]+)/category/create/?$', CategoryCreateView.as_view(), name='category_create'),
 
@@ -131,7 +136,5 @@ urlpatterns = patterns('',
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)$', CandidateDetailView.as_view(), name='candidate_detail'),
 
-    # Create Answer Ajax
-    # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
 
 )

@@ -21,14 +21,16 @@
     <h5>Cuestionario</h5>
     <div class="forms_content">
     {% for category in election.category_set.all %}
+        <div id="category_{{category.pk}}">
             <span class="tit_fondoverde">
-                {{ category.name }}
+                {{ category.name }}<a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
-        <ul>
-            {% for question in category.question_set.all %}
-                <li>{{ question.question }}</li>
-            {% endfor %}
-        </ul>
+                <ul>
+                    {% for question in category.question_set.all %}
+                        <li>{{ question.question }}</li>
+                    {% endfor %}
+                </ul>
+        </div>
     {% endfor %}
 
     <hr />
@@ -78,8 +80,31 @@
             else{
                 $('#id_new_category').parent().hide();
             }
-        })
+        });
     })
+
+function category_delete(category_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    if(answer){
+        var dir = "/"+category_pk +"/category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#category_"+category_pk).remove();
+                $("#id_category option[value=\""+category_pk+"\"]").remove()
+
+                if($("#id_category option:selected").attr('value') == ""){
+                    $('#id_new_category').parent().show();
+                }
+
+                if($("[id ^= category_]").size() == 0)
+                    $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
 </script>
 {{ form.media }}
 {% endblock %}
