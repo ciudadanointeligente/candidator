@@ -43,13 +43,6 @@ class ElectionDetailView(DetailView):
     def get_queryset(self):
         return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
-# My Election views
-class MyElectionListView(ListView):
-    model = Election
-
-    def get_queryset(self):
-        return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
-
 
 class ElectionCreateView(CreateView):
     model = Election
@@ -96,7 +89,7 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
     facebook_link = 'http'
     site = Site.objects.get_current()
-    if request.is_secure(): facebook_link += 's' 
+    if request.is_secure(): facebook_link += 's'
     facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
     facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
     return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers, 'facebook_link': facebook_link }, context_instance = RequestContext(request))

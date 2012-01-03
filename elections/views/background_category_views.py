@@ -10,6 +10,7 @@ from django.template import RequestContext
 from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
@@ -44,7 +45,7 @@ class BackgroundCategoryCreateView(CreateView):
         return super(BackgroundCategoryCreateView, self).form_valid(form)
 
 @login_required
-#@require_http_methods(['POST'])
+@require_POST
 def async_delete_background_category(request, category_pk):
     category = get_object_or_404(BackgroundCategory, pk = category_pk, election__owner=request.user)
     category.delete()

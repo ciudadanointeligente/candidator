@@ -23,6 +23,65 @@ class BackgroundCategoryModelTest(TestCase):
         self.assertEqual(background_category.election, self.election)
 
 
+class AsyncDeleteBackgroundCategoryTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=self.user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion')
+
+        self.category = BackgroundCategory.objects.create(name="Bar1", election=self.election)
+
+    def test_post_with_login(self):
+        self.client.login(username='joe', password='doe')
+
+        response = self.client.post(reverse('async_delete_background_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+        self.assertEquals(response.status_code, 200)
+
+    def test_post_without_login(self):
+        response = self.client.post(reverse('async_delete_background_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+        self.assertEquals(response.status_code, 302)
+
+
+    def test_get_405(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('async_delete_background_category',
+                                kwargs={'category_pk': self.category.pk}))
+        self.assertEquals(response.status_code, 405)
+
+    def test_post_with_stranger_election(self):
+        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+        election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user2,
+                                                           slug='barbaz2',
+                                                           description='esta es una descripcion')
+
+        category2 = BackgroundCategory.objects.create(name="Bar1", election=election2)
+
+        self.client.login(username='joe', password='doe')
+        response = self.client.post(reverse('async_delete_background_category',
+                                kwargs={'category_pk': category2.pk}))
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_success(self):
+        self.client.login(username='joe', password='doe')
+        temp_pk = self.category.pk
+        request = self.client.post(reverse('async_delete_background_category',
+                                kwargs={'category_pk': self.category.pk}),
+                                        {})
+
+        self.assertEquals(request.status_code, 200)
+        self.assertEquals(request.content, '{"result": "OK"}')
+
+        self.assertRaises(BackgroundCategory.DoesNotExist, BackgroundCategory.objects.get, pk=temp_pk)
+
+
 class BackgroundCategoryCreateView(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')

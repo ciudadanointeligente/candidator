@@ -19,6 +19,7 @@ from elections.forms import AnswerForm
 # Import models
 from elections.models import Answer, Question
 
+
 class AnswerCreateAjaxView(CreateView):
     model = Answer
     form_class = AnswerForm
@@ -43,6 +44,8 @@ class AnswerCreateAjaxView(CreateView):
         return HttpResponse(content=simplejson.dumps(
             {'error': form.errors}),
             content_type='application/json')
+
+
 # Answer View
 class AnswerCreateView(CreateView):
     model = Answer

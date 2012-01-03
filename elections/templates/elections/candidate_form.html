@@ -111,8 +111,9 @@
                 window.location = get_base_url()+"/pre_personaldata"
             }
             else{
+                /* @FIX */
                 var dir = "/"+election_slug+"/candidate/save_candidate/"
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'candidate': candidate, 'election': '{{ election }}'},
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
                 function(json){
                     window.location = get_base_url()+"/pre_personaldata"
              })

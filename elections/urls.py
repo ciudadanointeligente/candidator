@@ -7,9 +7,9 @@ from models import Election
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
-                  CategoryUpdateView, PersonalDataCreateView,\
+                  CandidateCreateAjaxView, CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
-                  AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
+                  AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
                   candidate_data_update, async_delete_candidate, background_ajax_create, \
                   async_delete_background, async_delete_background_category, PrePersonalDataView
 
@@ -26,6 +26,13 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
             associate_answer_to_candidate,
             name='associate_answer_candidate'),
+
+    # Create Answer Ajax
+    url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
+
+    # Estaba al final, cual queda?
+    # Create Answer Ajax
+    # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
 
 
     # Create Category View
@@ -82,7 +89,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
 
     # Create candidate using next button
-    url(r'^(?P<election_slug>[-\w]+)/candidate/save_candidate/?$', 'candidator.elections.views.save_candidate', name='save_candidate'),
+    url(r'^(?P<election_slug>[-\w]+)/candidate/save_candidate/?$', CandidateCreateAjaxView.as_view(), name='async_create_candidate'),
 
     # Delete candidate view in wizzard
     url(r'^(?P<candidate_pk>[-\d]+)/candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
@@ -129,12 +136,5 @@ urlpatterns = patterns('',
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)$', CandidateDetailView.as_view(), name='candidate_detail'),
 
-    # Create Answer Ajax
-    # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
-
-    # Create Answer Ajax
-    url(r'answer_create/(?P<question_pk>\d+).json',
-            AnswerCreateAjaxView.as_view(),
-            name='answer_create_ajax'),
 
 )
