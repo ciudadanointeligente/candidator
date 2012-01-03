@@ -39,6 +39,7 @@ def value_for_candidate_and_background(candidate, background):
 @register.simple_tag
 def candidate_photo(candidate):
     '''
+    @deprecated
     return the url for candidate photo or empty string
     '''
     try:
@@ -46,3 +47,4 @@ def candidate_photo(candidate):
     except ValueError, e:
         pass
     return ''
+
