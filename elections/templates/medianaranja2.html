@@ -108,8 +108,8 @@
             </header>
             <div class="profileImg">
                 
-                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="{{ STATIC_URL }}/img/default-user.gif">
-                
+                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}{{winner.2.photo}}">
+                    
             </div>
             
             
@@ -122,14 +122,14 @@
     <div class="contenedor1">
     	<div class="contenedor2">
             <td colspan="2">
-                                                <div class="globo_left">
-                                                    compatibilidad con otros candidatos
-                                                </div>
-                                            </td>
+                <div class="globo_left">
+                    compatibilidad con otros candidatos
+                </div>
+            </td>
             <table>
                 {% for data_candidate in others %}
                     {% if forloop.counter0|divisibleby:"2" %}
-                        
+                       <tr> 
                     {% endif %}
                     
                     <td>
@@ -138,11 +138,11 @@
                                 <td valign="top">
                                 
                                     <div class="profileImg_small">
-                                        <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="Juanito Perez" src="{{ STATIC_URL }}/img/default-user.gif">
+                                        <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{ STATIC_URL }}{{data_candidate.2.photo}}">
                                     </div>
                                 </td>
                                 <td valign="top" style="width:418px;">
-                                    <h6 style=" color:#72acd9;">{{data_candidate.2}}</h6>
+                                    <h6 style=" color:#72acd9;">{{data_candidate.2.name}}</h6>
                                     <table>
                                         <tr>
                                             <td>
@@ -162,7 +162,7 @@
                         </table>
                     </td>
                     {% if forloop.counter|divisibleby:"2" %}
-                        
+                        </tr>
                     {% endif %}
                 {% endfor%}
             </table>
