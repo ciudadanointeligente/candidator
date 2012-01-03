@@ -35,65 +35,57 @@ class QuestionCreateViewTest(TestCase):
 
     def test_create_question_by_user_without_login(self):
         request = self.client.get(reverse('question_create',
-                                    kwargs={'category_pk': self.category.pk}))
+                                    kwargs={'election_slug': self.election.slug}))
         self.assertEquals(request.status_code, 302)
 
     def test_create_question_by_user_success(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('question_create',
-                                    kwargs={'category_pk': self.category.pk}))
+                                    kwargs={'election_slug': self.election.slug}))
 
         self.assertEqual(request.status_code, 200)
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], QuestionForm))
-        self.assertTrue('category' in request.context)
-        self.assertTrue(isinstance(request.context['category'], Category))
+        self.assertTrue('election' in request.context)
+        self.assertTrue(isinstance(request.context['election'], Election))
 
     def test_post_question_create_without_login(self):
-        params = {'question': 'BarBaz'}
+        params = {'question': 'BarBaz', 'new_category': 'NewCategory', 'category': None}
         response = self.client.post(reverse('question_create',
-                                        kwargs={'category_pk': self.category.pk}),
-                                    params)
+                                    kwargs={'election_slug': self.election.slug}), params)
 
         self.assertEquals(response.status_code, 302)
 
-    def test_get_question_create_with_login_stranger_category(self):
+    def test_get_question_create_with_login_stranger_election(self):
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2 = Election.objects.create(name='BarBaz',
                                             owner=user2,
-                                            slug='barbaz')
-        category2, created = Category.objects.get_or_create(name='FooCat',
-                                                            slug='foocat',
-                                                            election=election2)
+                                            slug='barbaz2')
 
         self.client.login(username='joe', password='doe')
         response = self.client.get(reverse('question_create',
-                                    kwargs={'category_pk': category2.pk}))
+                                    kwargs={'election_slug': election2.slug}))
         self.assertEquals(response.status_code, 404)
 
-    def test_post_question_create_with_login_stranger_category(self):
+    def test_post_question_create_with_login_stranger_election(self):
         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
         election2 = Election.objects.create(name='BarBaz',
                                             owner=user2,
-                                            slug='barbaz')
-        category2, created = Category.objects.get_or_create(name='FooCat',
-                                                            slug='foocat',
-                                                            election=election2)
+                                            slug='barbaz2')
 
         self.client.login(username='joe', password='doe')
 
-        params = {'question': 'Bar'}
+        params = {'question': 'BarBaz', 'new_category': 'NewCategory', 'category': None}
         response = self.client.post(reverse('question_create',
-                                        kwargs={'category_pk': category2.pk}),
-                                    params)
+                                    kwargs={'election_slug': election2.slug}), params)
         self.assertEquals(response.status_code, 404)
 
-    def test_post_question_create_logged(self):
+    def test_post_question_create_logged_into_new_category(self):
         self.client.login(username='joe', password='doe')
 
-        params = {'question': 'Bar'}
+        params = {'question': 'BarBaz', 'new_category': 'NewCategory'}
         response = self.client.post(reverse('question_create',
-                                        kwargs={'category_pk': self.category.pk}),
+                                        kwargs={'election_slug': self.election.slug}),
                                     params,
                                     follow=True)
 
@@ -102,7 +94,30 @@ class QuestionCreateViewTest(TestCase):
         self.assertEquals(qs.count(), 1)
         question = qs.get()
         self.assertEquals(question.question, params['question'])
-        self.assertEquals(question.category, self.category)
 
-        self.assertRedirects(response, reverse('category_create',
+        category = Category.objects.get(name=params['new_category']);
+        self.assertEquals(question.category, category)
+
+        self.assertRedirects(response, reverse('question_create',
+                                               kwargs={'election_slug': self.election.slug}))
+
+    def test_post_question_create_logged_into_existing_category(self):
+        self.client.login(username='joe', password='doe')
+        category, created = Category.objects.get_or_create(name='FooCat', election=self.election)
+
+        params = {'question': 'BarBaz', 'new_category': '', 'category': category.pk}
+        response = self.client.post(reverse('question_create',
+                                    kwargs={'election_slug': self.election.slug}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        qs = Question.objects.filter(question=params['question'])
+        self.assertEquals(qs.count(), 1)
+        question = qs.get()
+        self.assertEquals(question.question, params['question'])
+
+        self.assertEquals(question.category.pk, params['category'])
+
+        self.assertRedirects(response, reverse('question_create',
                                                kwargs={'election_slug': self.election.slug}))

@@ -57,16 +57,13 @@ class QuestionForm(forms.ModelForm):
         self.fields['category'].required = False
 
     def clean(self):
-        #print self.cleaned_data['question']
-        if self.cleaned_data['category'] is None:
+        if 'category' in self.cleaned_data and self.cleaned_data['category'] is None:
             if len(self.cleaned_data['new_category'].strip()):
                 self.cleaned_data['category'], created = Category.objects.get_or_create(name=self.cleaned_data['new_category'], election=self.election)
             else:
                 msg = 'Este campo es obligatorio.'
                 self._errors['category'] = ErrorList([msg])
                 del self.cleaned_data['category']
-        else:
-            print self.cleaned_data['category']
         return self.cleaned_data
 
 
