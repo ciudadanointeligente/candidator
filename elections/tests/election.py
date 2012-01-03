@@ -72,6 +72,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(backgrounds.filter(name=u'Educación secundaria').count(), 1)
         self.assertEqual(backgrounds.filter(name=u'Educación superior').count(), 1)
         category = categories.get(name=u'Antecedentes laborales')
+        backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
 
 

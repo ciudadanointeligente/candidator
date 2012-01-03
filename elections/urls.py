@@ -11,7 +11,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
                   candidate_data_update, async_delete_candidate, background_ajax_create, \
-                  async_delete_background, async_delete_background_category, PrePersonalDataView
+                  async_delete_background, async_delete_background_category, PrePersonalDataView, async_delete_category
 
 
 urlpatterns = patterns('',
@@ -134,5 +134,7 @@ urlpatterns = patterns('',
 
     # Create Answer Ajax
     # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
+    
+    url(r'^categories/(?P<category_pk>\d+)/delete/async/', async_delete_category, name='async_delete_category'),
 
 )

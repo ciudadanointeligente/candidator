@@ -235,7 +235,6 @@ class AsyncDeleteCategoryTest(TestCase):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('async_delete_category',
                                 kwargs={'category_pk': self.category.pk}))
-
         self.assertEquals(request.status_code, 405)
 
     def test_post_with_stranger_candidate(self):
