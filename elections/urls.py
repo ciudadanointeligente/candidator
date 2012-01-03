@@ -9,7 +9,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
                   CandidateCreateAjaxView, CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
-                  AnswerCreateView, personal_data_candidate_create, background_candidate_create, MyElectionListView,\
+                  AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
                   candidate_data_update, async_delete_candidate, background_ajax_create, \
                   async_delete_background, async_delete_background_category, PrePersonalDataView
 
