@@ -266,10 +266,6 @@ class Category(models.Model):
 
         super(Category, self).save(*args, **kwargs)
 
-    # Not necessary, exist question_set.all()
-    # def get_questions(self):
-    #     return Question.objects.filter(category=self)
-
     class Meta:
         unique_together = (('election', 'slug'), ('name', 'election'))
         verbose_name_plural = 'Categories'
@@ -281,9 +277,6 @@ class Category(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=255, verbose_name=_("PREGUNTA:"))
     category = models.ForeignKey('Category', verbose_name=_("CATEGORIA:"))
-
-    # def get_answers(self):
-    #     return Answer.objects.filter(question=self)
 
     def __unicode__(self):
         return u"%s" % self.question
