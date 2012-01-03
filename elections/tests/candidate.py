@@ -12,6 +12,34 @@ from elections.forms import CandidateUpdateForm, CandidateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
+PASSWORD = 'password'
+
+
+class CandidateTagsTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(name='Joe', password=PASSWORD, email='joe@doe.cl')
+        self.election = Election.objects.create(name='Foo', owner=self.user, slug='foo')
+        self.candidate = Candidate.objects.create(name='John Candidate', election=self.election)
+        self.personal_data = PersonalData.objects.create(election=self.election, label='foo')
+        self.personal_data_candidate = PersonalDataCandidate.objects.create(personal_data=self.personal_data, 
+                                                                            candidate=self.candidate, 
+                                                                            value='bar')
+        self.background_category = BackgroundCategory.objects.create(name='foo', election=self.election)
+        self.background = Background.objects.create(name='foo', category=self.background_category)
+        self.background_candidate = BackgroundCandidate.objects.create(value='var', background=self.background, candidate=self.candidate)
+
+    def test_value_for_candidate_and_personal_data(self):
+        self.candidate.associate_answer(self.answer)
+        template = Template('{% load election_tags %}{% value_for_candidate_and_personal_data candidate personal_data %}')
+        context = Context({"candidate": self.candidate, "personal_data": self.personal_data})
+        self.assertEqual(template.render(context), self.personal_data_candidate.value)
+
+    def test_value_for_candidate_and_background(self):
+        self.candidate.associate_answer(self.answer)
+        template = Template('{% load election_tags %}{% value_for_candidate_and_background candidate background %}')
+        context = Context({"candidate": self.candidate, "background": self.background})
+        self.assertEqual(template.render(context), self.background_candidate.value)
+
 
 class CandidateModelTest(TestCase):
     def setUp(self):
