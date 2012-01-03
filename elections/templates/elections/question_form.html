@@ -25,9 +25,10 @@
             <span class="tit_fondoverde">
                 {{ category.name }}<a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
-                <ul>
+                <ul id="categories_{{category.pk}}_questions">
                     {% for question in category.question_set.all %}
-                        <li>{{ question.question }}</li>
+                        <li id="li_id_question_{{ question.pk }}">{{ question.question }}<a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                        </li>
                     {% endfor %}
                 </ul>
         </div>
@@ -98,6 +99,23 @@ function category_delete(category_pk){
 
                 if($("[id ^= category_]").size() == 0)
                     $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function question_delete(question_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    if(answer){
+        var dir = "/"+question_pk +"/question/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#li_id_question_"+question_pk).remove();
+
+                // if($("[id ^= category_]").size() == 0)
+                //     $("#link_next").remove();
             })
     }
     else {
