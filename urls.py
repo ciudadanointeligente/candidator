@@ -22,8 +22,6 @@ urlpatterns = patterns('',
 
     url(r'^', include('elections.urls')),
 
-    url(r'^$', redirect_to, {'url': '/elections'}),
-
     # url(r'^index/?$', direct_to_template, {'template': 'index.html'}), # DESCOMENTAR CUANDO SE DEFINA UN INDEX
 
 )

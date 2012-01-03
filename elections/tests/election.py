@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background
-from elections.forms import ElectionForm, ElectionUpdateForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -430,3 +430,49 @@ class PrePersonalDataViewTest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEquals(response.context['election'], self.election)
+
+
+PASSWORD = 'password'
+
+
+class ElectionUpdateDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='Joe', password=PASSWORD, email='joe@doe.cl')
+        self.election = Election.objects.create(name='Foo', owner=self.user, slug='foo')
+        self.url = reverse('election_update_data', kwargs={'slug': self.election.slug})
+
+    def test_get_not_logged(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+        
+    def test_get_not_owned_election(self):
+        stranger_user = User.objects.create_user(username='John', password=PASSWORD, email='john@doe.cl')
+        self.client.login(username=stranger_user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_non_existing_election(self):
+        url = reverse('election_update_data', kwargs={'slug': 'random_slug'})
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_owned_election(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+        self.assertTemplateUsed(response, 'elections/election_update_data.html')
+
+        self.assertTrue('personaldata_form' in response.context)
+        self.assertIsInstance(response.context['personaldata_form'], PersonalDataForm)
+
+        self.assertTrue('backgroundcategory_form' in response.context)
+        self.assertIsInstance(response.context['backgroundcategory_form'], BackgroundCategoryForm)
+        
+        self.assertTrue('background_form' in response.context)
+        self.assertIsInstance(response.context['background_form'], BackgroundForm)
+
+        self.assertTrue('question_form' in response.context)
+        self.assertIsInstance(response.context['question_form'], QuestionForm)
