@@ -170,8 +170,10 @@ span.profile-description{
 .trayectoriaYPosiciones .wrapW{}
 
 .trayectoria{
-    margin-right: 20px;
-    width: 270px;
+    margin-right: 5px;
+	width: 270px;
+	border-right: 1px dashed #D7D7D7;
+	padding-right: 15px;
 }
 .trayectoria, .posiciones{
     float: left;
@@ -197,7 +199,7 @@ span.profile-description{
 
 .posiciones{
     margin-left: 10px;
-    width: 524px;
+    width: 523px;
 }
 
 .brdotted{}
