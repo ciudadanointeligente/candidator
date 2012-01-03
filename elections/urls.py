@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
+from views.election_views import ElectionUpdateDataView
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
     url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
     # My Elections
-    url(r'^my_elections/?$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
+    url(r'^$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
@@ -61,6 +62,8 @@ urlpatterns = patterns('',
 
     # Election detail view admin
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/admin$', ElectionDetailView.as_view(template_name='elections/election_detail_admin.html'), name='election_detail_admin'),
+
+    url(r'^election/(?P<slug>[-\w]+)/update_data/', ElectionUpdateDataView.as_view(), name='election_update_data'),
 
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),

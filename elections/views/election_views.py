@@ -16,7 +16,7 @@ from django.contrib.sites.models import Site
 
 
 # Import forms
-from elections.forms import ElectionForm, ElectionUpdateForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
 
 # Import models
 from elections.models import Election, Candidate, Category
@@ -116,3 +116,24 @@ class PrePersonalDataView(TemplateView):
         context = super(PrePersonalDataView, self).get_context_data(**kwargs)
         context['election'] = self.election
         return context
+
+
+class ElectionUpdateDataView(DetailView):
+    model = Election
+    def get_template_names(self):
+        return ['elections/election_update_data.html']
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionUpdateDataView, self).dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ElectionUpdateDataView, self).get_context_data(**kwargs)
+        context['personaldata_form'] = PersonalDataForm()
+        context['backgroundcategory_form'] = BackgroundCategoryForm()
+        context['background_form'] = BackgroundForm()
+        context['question_form'] = QuestionForm(election=self.object)
+        return context
+
+    def get_queryset(self):
+        return super(ElectionUpdateDataView, self).get_queryset().filter(owner=self.request.user)
