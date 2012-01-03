@@ -41,9 +41,6 @@ p { margin: 10px 0px 15px 0px; }
 /* lists */
 ul{margin: 0; padding: 0; list-style: none;}
 
-/* tables */
-td, th { padding: 1px; }
-
 /* links */
 a:link, a:visited { text-decoration: none; }
 a:hover{
@@ -61,33 +58,33 @@ h1, h2, h3, h4, h5, h6 {
 h1{
     font-family:'AllerBold';
     color:#ffffff;
-    font-size:14px;
+    font-size:13px;
     background-color:#80b6e2;
     border:1px solid #72acd9;
     text-transform:uppercase;
     letter-spacing:1px;
-    padding: 4px 4px 2px;
+    padding: 2px 4px 2px;
 }
 
 h2{
     color:#ffffff;
-    font-size:14px;
+    font-size:13px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
-    padding: 4px 4px 2px;
+    padding: 2px 4px 2px;
     margin: 0px 13px;
 }
 
 h3{
     font-family: 'AllerBold';
     color: white;
-    font-size: 14px;
+    font-size: 13px;
     background-color: #A1B2B8;
     border: 1px solid #94A9AF;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 4px 13px 2px;
+    padding: 2px 4px 2px;
 }
 
 h4 { font-size: 13px; }
@@ -101,7 +98,7 @@ h5 {
 }
 
 h6 { 
-	font-size: 14px; 
+	font-size: 13px; 
 	text-transform: uppercase;
 	padding-top:10px;
 }
@@ -185,13 +182,6 @@ blockquote {
 .wrapBasic{
     margin: auto;
     width: 930px;
-}
-
-.wrapW{
-    background-color: #FFFFFF;
-    border: 1px solid #BCBEC0;
-    float: none;
-    overflow: hidden;
 }
 
 /*HEADER*/
@@ -307,12 +297,12 @@ background-color:white;
 
 /*==== Accordions ====*/
 .accordion h3{
-    background: url("../img/arrow_sprite.png") no-repeat scroll right 6px #EDEFF0;
+    background: url("../img/arrow_sprite.png") no-repeat scroll right 3px #EDEFF0;
     color: #747A7E;
     cursor: pointer;
     display: block;
     font-size: 13px;
-    padding: 5px 30px 5px 5px;
+    padding: 2px 30px 2px 4px;
     text-transform: uppercase;
 }
 
@@ -357,6 +347,17 @@ background-color:white;
 	overflow: hidden;
 	margin-top: 13px;
 	padding-left:13px;
+	margin-bottom: 13px;
+}
+
+.contenedor3{
+	width: 850px;
+	position: relative;
+	left: 50%;
+	margin-left: -426px;
+	overflow: hidden;
+	margin-top: 25px;
+	margin-bottom: -12px;
 }
 
 
@@ -458,8 +459,8 @@ ul.homeNav ul.sidebarMenu{
 .nombre_eleccion{
 	width:633px;
 	position:relative;
-	margin-left: 203px;
-	margin-bottom: -8px;
+	margin-left: 216px;
+	margin-bottom: 5px;
 }
 
 .fecha_eleccion {

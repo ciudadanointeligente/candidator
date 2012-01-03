@@ -21,9 +21,9 @@
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li id="background_category_{{background_category.pk}}">
-            <span class="tit_fondoverde">
+            <h6>
                 {{ background_category.name }}<a href="javascript:void(0);" onclick="background_category_delete({{background_category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
-            </span>
+            </h6>
 
             <ul id="id_background_list_{{ background_category.pk }}">
             {% for background in background_category.background_set.all %}

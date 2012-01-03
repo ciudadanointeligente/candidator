@@ -89,6 +89,7 @@ h2{
 
 h3{
 	margin-left: 55px;
+	padding-left:13px;
 }
 
 h4{
@@ -295,4 +296,25 @@ table{
 	display:block;
 	float:left;
 	height:10px;
+}
+
+.profileImg {
+	float: left;
+	height: 200px;
+	overflow: hidden;
+	width: 160px;
+	margin: -135px 5px 13px;
+}
+
+.candidatesBasicInformation header {
+left: 163px;
+position: relative;
+width: 586px;
+left: 173px;
+}
+
+.candidatesBasicInformation {
+position: relative;
+line-height: 21px;
+margin-bottom: 20px;
 }
