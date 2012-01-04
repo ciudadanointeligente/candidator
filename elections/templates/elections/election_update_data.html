@@ -41,7 +41,7 @@
                 {% endfor %}
                 <li id="add_background_{{ background_category.pk}}">
                     {{ background_form.name }}
-                    <a class="save_background_link" href="#">
+                    <a class="save_background_link" href="#" pk="{{ background_category.pk}}" >
                         <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
                     </a>
                 </li>
@@ -216,31 +216,27 @@ $(document).ready(function() {
 
     };
 
-    // $(".save-background_link").click(function(e){
-    //     var value_text = $(this).prev("input");
-    //     var value = value_text.val();
-    //     var background_category_pk = value_text.attr('pk');
+    $(".save_background_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = $(this).attr('pk');
 
-    //     $.post('/'+ background_category_pk +'/background/ajax_create/',
-    //     {
-    //         'csrfmiddlewaretoken': '{{ csrf_token }}',
-    //         'value': value
-    //     },
-    //     function(data) {
+        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
 
-    //         var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
 
-    //         var lista = $("ul#id_background_list_"+background_category_pk)
-    //         if(lista.children().size() > 0){
-    //             lista.children().last().append(content)
-    //         }else{
-    //             lista.html(content)
-    //         }
-    //         value_text.val(default_text)
-    //     },
-    //     'json');
-    //     return false;
-    // });
+            var lista = $("ul#id_background_list_"+background_category_pk)
+                lista.children().last().before(content)
+            value_text.val(default_texts[0][1])
+        },
+        'json');
+        return false;
+    });
 
 
 });
