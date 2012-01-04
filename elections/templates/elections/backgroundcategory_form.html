@@ -109,7 +109,7 @@ $(document).ready(function() {
         var value = value_text.val();
         var background_category_pk = value_text.attr('pk');
 
-        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        $.post('/'+ background_category_pk +'/background/async_create/',
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
             'value': value

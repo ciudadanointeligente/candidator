@@ -50,7 +50,7 @@
         {% endfor %}
         <li id="add_backgroundcategory">
             {{ backgroundcategory_form.name }}
-            <a class="save_background_category_link" href="#">
+            <a class="save_background_category_link" href="#" pk="{{election.pk}}">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
         </li>
@@ -193,11 +193,11 @@ function question_delete(question_pk){
 
 $(document).ready(function() {
 
-    var default_texts = [["li[id^=add_background_] input#id_name", "agregar antecedente"],
-                         ["#add_personal_data input"             , "agregar dato personal"],
-                         ["li[id^=add_question_] input#id_question", "agregar pregunta"],
-                         ["#add_category input"                  , "agregar categoría"],
-                         ["#add_backgroundcategory input",       , "agregar categoría"]];
+    var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
+                         ["#add_personal_data input"                , "agregar dato personal"],
+                         ["li[id^=add_question_] input#id_question" , "agregar pregunta"],
+                         ["#add_category input"                     , "agregar categoría"],
+                         ["li#add_backgroundcategory input"         , "agregar categoría"]];
 
     for (var i = 0; i < default_texts.length; i++) {
         $(default_texts[i][0]).val(default_texts[i][1])
@@ -216,12 +216,14 @@ $(document).ready(function() {
 
     };
 
-    $(".save_background_link").click(function(e){
+    $(".save_background_link").click(save_background);
+
+    function save_background(e){
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var background_category_pk = $(this).attr('pk');
 
-        $.post('/'+ background_category_pk +'/background/ajax_create/',
+        $.post('/'+ background_category_pk +'/background/async_create/',
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
             'value': value
@@ -231,8 +233,34 @@ $(document).ready(function() {
             var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
 
             var lista = $("ul#id_background_list_"+background_category_pk)
-                lista.children().last().before(content)
+            lista.children().last().before(content)
             value_text.val(default_texts[0][1])
+        },
+        'json');
+        return false;
+    }
+
+
+    $(".save_background_category_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var election_pk = $(this).attr('pk');
+
+        $.post('/'+ election_pk +'/background_category/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+
+            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">{{ background_form.name }}<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
+
+            var lista = $("ul#lista_categorias")
+            lista.children().last().before(content)
+            value_text.val(default_texts[4][1])
+            $(".save_background_link[pk=\""+data.pk+"\"]").click(save_background);
+            $("li#add_background_"+data.pk+" input#id_name").val(default_texts[0][1])
         },
         'json');
         return false;
