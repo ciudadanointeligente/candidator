@@ -8,6 +8,14 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -17,6 +25,16 @@
 {% block content %}
 
     <div id="" class="wrapper">
+
+<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
+<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+{% if election.logo %}
+<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
+{% else %}
+<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
+{% endif %}
+<hr/>
+
         <!--        ProfileHome   -->
         <ul class="profileHome">
             {% for candidate in election.candidate_set.all %}
@@ -38,6 +56,12 @@
             </li>
             {% endfor %}{# election.candidate_set.all #}
         </ul>
-    </div>
+</div>
+
+   <div id="fb-root">
+   <center>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="930"></div>
+   </center>
+   </div>
 
 {% endblock content %}

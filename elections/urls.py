@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     # Election detail view admin
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/admin$', ElectionDetailView.as_view(template_name='elections/election_detail_admin.html'), name='election_detail_admin'),
 
-    url(r'^election/(?P<slug>[-\w]+)/update_data/', ElectionUpdateDataView.as_view(), name='election_update_data'),
+    url(r'^election/(?P<slug>[-\w]+)/update_data/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
 
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
