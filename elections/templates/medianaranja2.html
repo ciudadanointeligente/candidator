@@ -7,10 +7,18 @@
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
-
-
-
 {% endblock extra_head %}
+
+{% block extra_js %}
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+{% endblock extra_js %}
 
 {% block content %}
 
@@ -18,17 +26,28 @@
 <div class="papel">
 	<div class="contenedor1">
     	<div class="contenedor2">
-	    <h1>{{election}}</h1>
+
+
+<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
+<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+{% if election.logo %}
+<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
+{% else %}
+<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
+{% endif %}
+<hr/>
+
 		<div class="ico_tit">
 			<img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" />
 		</div>
     	<h3>TU MEDIA NARANJA POLÍTICA</h3>
     	<div class="txt_intro">
-    		Tu media naranja política es...
+    		Tu media naranja política es ...
     	</div>
+	<div>
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:674px;px;top:0px;">
-                <h2>{{winner.2}}</h2>
+                <h2>{{winner.2.name}}</h2>
                 	<table style="margin-left:10px;padding:0;">
 		                <tr>
 		                	<td style="width:290px;  border-right:1px dashed #d7d7d7;" valign="top">  	
@@ -49,7 +68,7 @@
 						
                                         <td class="porcentaje">
 											{% for category_score in winner.1 %}
-												<p>{{category_score}}<span class="percent"><span style="width:{{category_score}}%"></span></span></p>
+												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
 											{% endfor %}
 										</td>
                                 
@@ -57,10 +76,10 @@
 								</table>
 							</td>
                             
-                            
-                            
 							<td  style="width:290px;" valign="top">
+
 								<table style="padding-left:8px;">
+								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
 									
 										<td colspan="2">
 											<div class="globo_left">
@@ -99,17 +118,22 @@
 										<td>
 											<input type="button" value="comparte">
 										</td>
-									</tr>					
+									</tr>
+								-->					
 								</table>
 							</td>
+							
 						</tr>
 				</table>
 					
             </header>
+	    </div>
             <div class="profileImg">
-                
-                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}{{winner.2.photo}}">
-                    
+		{% if winner.2.photo %}
+                <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{winner.2.photo.url}}">
+		{% else %}
+		<img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}/img/default_logoeleccion.jpg">
+		{% endif %}                    
             </div>
             
             
@@ -138,21 +162,27 @@
                                 <td valign="top">
                                 
                                     <div class="profileImg_small">
-                                        <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{ STATIC_URL }}{{data_candidate.2.photo}}">
+
+					{% if data_candidate.2.photo %}
+<img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{data_candidate.2.photo.url}}">
+					{% else %}
+<img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{ STATIC_URL }}/img/default_logoeleccion.jpg">
+					{% endif %}
+
                                     </div>
                                 </td>
                                 <td valign="top" style="width:418px;">
-                                    <h6 style=" color:#72acd9;">{{data_candidate.2.name}}</h6>
+                                    <h6 style=" color:#72acd9;">&nbsp;{{data_candidate.2.name}}</h6>
                                     <table>
                                         <tr>
                                             <td>
                                                 {% for category in categories %}
-                                                    <p>{{category}}</p>
+                                                    <p>&nbsp;{{category}}</p>
                                                 {% endfor %} 
                                             </td>
                                             <td class="porcentaje">
                                                 {% for category_score in data_candidate.1 %}
-                                                <p>{{category_score}}<span class="percent"><span style="width:{{category_score}}%"></span></span></p>
+                                                <p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
                                                 {% endfor %}
                                             </td>
                                         </tr>
@@ -167,10 +197,8 @@
                 {% endfor%}
             </table>
     	</div>
+
     </div>
 
 </div>
-
-
-
-			{% endblock content %}
+{% endblock content %}
