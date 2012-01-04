@@ -106,6 +106,9 @@ urlpatterns = patterns('',
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
 
+    # Create PersonalData Ajax
+    url(r'^(?P<election_pk>[-\w]+)/personal_data/async_create/?$', 'candidator.elections.views.async_create_personal_data', name='async_create_personal_data'),
+
     # Delete personalData view in wizzard
     url(r'^(?P<personal_data_pk>[-\d]+)/personal_data/async_delete/?$', 'candidator.elections.views.async_delete_personal_data', name='async_delete_personal_data'),
 

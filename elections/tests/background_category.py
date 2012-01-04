@@ -186,7 +186,7 @@ class AsyncCreateBackgroundCategoryView(TestCase):
 
         self.assertEquals(response.status_code, 302)
 
-    def test_post_async_create_background_category_with_login_stranger_background_category(self):
+    def test_post_async_create_background_category_with_login_stranger_election(self):
         self.client.login(username='joe', password='doe')
 
         params = {'value': 'Bar'}
