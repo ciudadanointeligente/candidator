@@ -16,13 +16,13 @@
         {% endfor %}
         <li id="add_personal_data">
             {{ personaldata_form.label }}
-            <a class="save-background_link" href="#">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            <a class="save_personal_data_link" href="#">
+                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
         </li>
     </ul>
 
-    <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
+    <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li id="background_category_{{background_category.pk}}">
@@ -41,8 +41,8 @@
                 {% endfor %}
                 <li id="add_background_{{ background_category.pk}}">
                     {{ background_form.name }}
-                    <a class="save-background_link" href="#">
-                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                    <a class="save_background_link" href="#">
+                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
                     </a>
                 </li>
             </ul>
@@ -50,17 +50,17 @@
         {% endfor %}
         <li id="add_backgroundcategory">
             {{ backgroundcategory_form.name }}
-            <a class="save-background_link" href="#">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            <a class="save_background_category_link" href="#">
+                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
         </li>
     </ul>
     <br/>
 
-    <h5>Cuestionario <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
-    <ul id="lista_personaldata">
+    <h5>Cuestionario <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    <ul id="lista_preguntas">
         {% for category in election.category_set.all %}
-        <li id="personal_data_{{ personal_data.pk }}">
+        <li id="category_{{ category.pk }}">
             <h6>
                 {{ category.name }}
                 <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
@@ -78,16 +78,16 @@
                 {% endfor %}
                 <li id="add_question_{{ category.pk }}">
                     {{ question_form.question }}
-                    <a class="save-background_link" href="#">
+                    <a class="save_question_link" href="#">
                         <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
                     </a>
                 </li>
             </ul>
         </li>
         {% endfor %}
-        <li id="add_personal_data">
-            {{ personaldata_form.label }}
-            <a class="save-background_link" href="#">
+        <li id="add_category">
+            {{ category_form.name }}
+            <a class="save_category_link" href="#">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
         </li>
@@ -102,17 +102,28 @@
 {{ form.media }}
 <script type="text/javascript">
 
+function personal_data_delete(personal_data_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
+    if(answer){
+        var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#personal_data_"+personal_data_pk).remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
 function background_category_delete(category_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
     if(answer){
         var dir = "/"+category_pk +"/background_category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json){
-                $("#background_category_"+category_pk).remove();
-                $("#add_antecedente_"+category_pk).remove();
-                if($("[id ^= background_category_]").size() == 0)
-                    $("#link_next").remove();
-            })
+                $("li#background_category_"+category_pk).remove();
+             })
     }
     else {
         return false;
@@ -125,9 +136,54 @@ function background_delete(background_pk){
         var dir = "/"+background_pk +"/background/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json){
-                $("#background_"+background_pk).remove();
-                if($("[id ^= background_]").size() == 0)
-                    $("#link_next").remove();
+                $("li#background_"+background_pk).remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function category_delete(category_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    if(answer){
+        var dir = "/"+category_pk +"/category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#category_"+category_pk).remove();
+
+                // if($("#id_category option:selected").attr('value') == ""){
+                //     $('#id_new_category').parent().show();
+                // }
+
+                // if($("[id ^= category_]").size() == 0)
+                //     $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function question_delete(question_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    if(answer){
+        var dir = "/"+question_pk +"/question/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#question_"+question_pk).remove();
+
+                // var remove_link = false
+                // $("ul.categories_questions").each(function(index){
+                //     if($(this).children().size() == 0){
+                //         remove_link = true
+                //         return false
+                //     }
+                // });
+                // if(remove_link){
+                //     $("#link_next").remove();
+                // }
+
             })
     }
     else {
@@ -136,61 +192,56 @@ function background_delete(background_pk){
 }
 
 $(document).ready(function() {
-    var default_text = "agregar antecedente";
 
-    $(".add_background_input").val(default_text);
+    var default_texts = [["li[id^=add_background_] input#id_name", "agregar antecedente"],
+                         ["#add_personal_data input"             , "agregar dato personal"],
+                         ["li[id^=add_question_] input#id_question", "agregar pregunta"],
+                         ["#add_category input"                  , "agregar categoría"],
+                         ["#add_backgroundcategory input",       , "agregar categoría"]];
 
+    for (var i = 0; i < default_texts.length; i++) {
+        $(default_texts[i][0]).val(default_texts[i][1])
 
-    $(".save-background_link").click(function(e){
-        var value_text = $(this).prev("input");
-        var value = value_text.val();
-        var background_category_pk = value_text.attr('pk');
-
-        $.post('/'+ background_category_pk +'/background/ajax_create/',
-        {
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'value': value
-        },
-        function(data) {
-
-            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
-
-            var lista = $("ul#id_background_list_"+background_category_pk)
-            if(lista.children().size() > 0){
-                lista.children().last().append(content)
-            }else{
-                lista.html(content)
+        $(default_texts[i][0]).focus(function(e){
+            if ($(this).val() == default_texts[i][1]){
+                $(this).val("")
             }
-            value_text.val(default_text)
-        },
-        'json');
-        return false;
-    });
+        });
 
-    $(".add_background_input").focus(function(e){
-        if ($(this).val() == default_text){
-            $(this).val("")
-        }
-    });
+        $(default_texts[i][0]).blur(function(e){
+            if ($(this).val() == ""){
+                $(this).val(default_texts[i][1])
+            }
+        });
 
-    $(".add_background_input").blur(function(e){
-        if ($(this).val() == ""){
-            $(this).val(default_text)
-        }
-    });
+    };
 
-    $('.example_window').dialog({
-        title: "{% trans 'Ejemplo' %}",
-        width: 425,
-        height: 410,
-        modal: true,
-        autoOpen: false
-    });
+    // $(".save-background_link").click(function(e){
+    //     var value_text = $(this).prev("input");
+    //     var value = value_text.val();
+    //     var background_category_pk = value_text.attr('pk');
 
-    $('.informacion').click(function() {
-        $('.example_window').dialog('open');
-        return false;
-    });
+    //     $.post('/'+ background_category_pk +'/background/ajax_create/',
+    //     {
+    //         'csrfmiddlewaretoken': '{{ csrf_token }}',
+    //         'value': value
+    //     },
+    //     function(data) {
+
+    //         var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+    //         var lista = $("ul#id_background_list_"+background_category_pk)
+    //         if(lista.children().size() > 0){
+    //             lista.children().last().append(content)
+    //         }else{
+    //             lista.html(content)
+    //         }
+    //         value_text.val(default_text)
+    //     },
+    //     'json');
+    //     return false;
+    // });
+
 
 });
 

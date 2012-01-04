@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -476,3 +476,6 @@ class ElectionUpdateDataViewTest(TestCase):
 
         self.assertTrue('question_form' in response.context)
         self.assertIsInstance(response.context['question_form'], QuestionForm)
+
+        self.assertTrue('category_form' in response.context)
+        self.assertIsInstance(response.context['category_form'], CategoryForm)

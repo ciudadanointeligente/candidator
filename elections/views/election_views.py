@@ -16,7 +16,7 @@ from django.contrib.sites.models import Site
 
 
 # Import forms
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 # Import models
 from elections.models import Election, Candidate, Category
@@ -133,6 +133,7 @@ class ElectionUpdateDataView(DetailView):
         context['backgroundcategory_form'] = BackgroundCategoryForm()
         context['background_form'] = BackgroundForm()
         context['question_form'] = QuestionForm(election=self.object)
+        context['category_form'] = CategoryForm()
         return context
 
     def get_queryset(self):
