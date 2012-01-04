@@ -115,6 +115,9 @@ urlpatterns = patterns('',
     # Create BackgroundCategory
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
 
+    # Create BackgroundCategory Ajax
+    url(r'^(?P<election_pk>[-\w]+)/background_category/async_create/?$', 'candidator.elections.views.async_create_background_category', name='async_create_background_category'),
+
      # Delete BackgroundCategory view in wizzard
     url(r'^(?P<category_pk>[-\d]+)/background_category/async_delete/?$', 'candidator.elections.views.async_delete_background_category' , name='async_delete_background_category'),
 
@@ -122,7 +125,7 @@ urlpatterns = patterns('',
     url(r'^(?P<background_category_pk>[0-9]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
 
     # Create Background Ajax
-    url(r'^(?P<background_category_pk>[0-9]+)/background/async_create/?$', async_create_background, name='async_create_background'),
+    url(r'^(?P<background_category_pk>[0-9]+)/background/async_create/?$', 'candidator.elections.views.async_create_background', name='async_create_background'),
 
     # Delete background view in wizzard
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),

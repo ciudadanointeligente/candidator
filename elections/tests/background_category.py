@@ -157,10 +157,6 @@ class AsyncCreateBackgroundCategoryView(TestCase):
         self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
                                                                     name='FooBar')
 
-
-        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election)
-
         self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
 
         self.election2, created = Election.objects.get_or_create(name='BarBaz',
@@ -168,9 +164,6 @@ class AsyncCreateBackgroundCategoryView(TestCase):
                                                             slug='barbaz')
         self.background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election2,
                                                                     name='FooBar')
-
-        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election2)
 
 
     def test_get_async_create_background_category_with_login(self):
