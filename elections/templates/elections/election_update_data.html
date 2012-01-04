@@ -16,7 +16,7 @@
         {% endfor %}
         <li id="add_personal_data">
             {{ personaldata_form.label }}
-            <a class="save_personal_data_link" href="#">
+            <a class="save_personal_data_link" href="#" pk="{{election.pk}}">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
         </li>
@@ -215,6 +215,30 @@ $(document).ready(function() {
         });
 
     };
+
+    $(".save_personal_data_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var election_pk = $(this).attr('pk');
+
+        $.post('/'+ election_pk +'/personal_data/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+            var content = '<li id="personal_data_'+data.pk+'">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+            var lista = $("ul#lista_personaldata")
+            lista.children().last().before(content)
+            value_text.val(default_texts[1][1])
+        },
+        'json');
+        return false;
+    });
+
+
 
     $(".save_background_link").click(save_background);
 
