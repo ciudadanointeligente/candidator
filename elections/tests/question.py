@@ -194,3 +194,66 @@ class AsyncDeleteQuestionTest(TestCase):
         self.assertEquals(request.content, '{"result": "OK"}')
 
         self.assertRaises(Question.DoesNotExist, Question.objects.get, pk=temp_pk)
+
+class AsyncCreateQuestionViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+
+        self.category = Category.objects.create(name="Bar1", slug="bar", election=self.election)
+
+        self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.category2 = Category.objects.create(name="Bar2", slug="bar", election=self.election2)
+
+    def test_get_async_create_question_with_login(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('async_create_question',
+                                    kwargs={'category_pk': self.category.pk}))
+        self.assertEqual(response.status_code, 405)
+
+    def test_get_async_create_question_without_login(self):
+        response = self.client.get(reverse('async_create_question',
+                                    kwargs={'category_pk': self.category.pk}))
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_post_async_create_question_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_question',
+                                    kwargs={'category_pk': self.category.pk}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_async_create_question_with_login_stranger_category(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_question',
+                                    kwargs={'category_pk': self.category2.pk}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_async_create_question_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_question',
+                                    kwargs={'category_pk': self.category.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+
+        questions = self.category.question_set.all()
+        question_names = [ question.question for question in questions]
+
+        self.assertTrue(params['value'] in question_names)
+        question = self.category.question_set.get(question=params['value'])
+        self.assertEquals(response.content, '{"pk": %d, "question": "%s"}' % (question.pk, params['value']))

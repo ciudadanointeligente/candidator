@@ -116,7 +116,7 @@ class BackgroundCandidateModelTest(TestCase):
         self.assertEqual(background_candidate.background, self.background)
         self.assertEqual(background_candidate.value, 'new_value')
 
-class BackgroundCandidateCreateView(TestCase):
+class BackgroundCandidateCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -210,7 +210,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.assertEquals(self.candidate.get_background, expected)
 
 
-class AsyncCreateBackgroundView(TestCase):
+class AsyncCreateBackgroundViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',

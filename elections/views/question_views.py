@@ -51,3 +51,16 @@ def async_delete_question(request, question_pk):
     question.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+
+@login_required
+@require_http_methods(['POST'])
+def async_create_question(request, category_pk):
+    pass
+    category = get_object_or_404(Category, pk=category_pk, election__owner=request.user)
+
+    value = request.POST.get('value', None)
+    question = Question(question=value, category=category)
+    question.save()
+    return HttpResponse(json.dumps({"pk": question.pk, "question": question.question}),
+                        content_type='application/json')

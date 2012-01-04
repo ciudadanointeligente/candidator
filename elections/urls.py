@@ -142,6 +142,9 @@ urlpatterns = patterns('',
     # Delete question view in wizzard
     url(r'^(?P<question_pk>[0-9]+)/question/async_delete/?$', 'candidator.elections.views.async_delete_question' , name='async_delete_question'),
 
+    # Create question view in wizzard
+    url(r'^(?P<category_pk>[0-9]+)/question/async_create/?$', 'candidator.elections.views.async_create_question' , name='async_create_question'),
+
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
 

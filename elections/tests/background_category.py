@@ -82,7 +82,7 @@ class AsyncDeleteBackgroundCategoryTest(TestCase):
         self.assertRaises(BackgroundCategory.DoesNotExist, BackgroundCategory.objects.get, pk=temp_pk)
 
 
-class BackgroundCategoryCreateView(TestCase):
+class BackgroundCategoryCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -148,7 +148,7 @@ class BackgroundCategoryCreateView(TestCase):
         self.assertRedirects(response, reverse('background_category_create',
                                                kwargs={'election_slug': self.election.slug}))
 
-class AsyncCreateBackgroundCategoryView(TestCase):
+class AsyncCreateBackgroundCategoryViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
