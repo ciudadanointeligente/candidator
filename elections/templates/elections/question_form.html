@@ -25,7 +25,7 @@
             <span class="tit_fondoverde">
                 {{ category.name }}<a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
-                <ul id="categories_{{category.pk}}_questions">
+                <ul class="categories_questions">
                     {% for question in category.question_set.all %}
                         <li id="li_id_question_{{ question.pk }}">{{ question.question }}<a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
                         </li>
@@ -114,8 +114,17 @@ function question_delete(question_pk){
             function(json){
                 $("#li_id_question_"+question_pk).remove();
 
-                // if($("[id ^= category_]").size() == 0)
-                //     $("#link_next").remove();
+                var remove_link = false
+                $("ul.categories_questions").each(function(index){
+                    if($(this).children().size() == 0){
+                        remove_link = true
+                        return false
+                    }
+                });
+                if(remove_link){
+                    $("#link_next").remove();
+                }
+
             })
     }
     else {
