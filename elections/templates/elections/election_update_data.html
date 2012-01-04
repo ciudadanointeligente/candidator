@@ -78,7 +78,7 @@
                 {% endfor %}
                 <li id="add_question_{{ category.pk }}">
                     {{ question_form.question }}
-                    <a class="save_question_link" href="#">
+                    <a class="save_question_link" href="#" pk="{{category.pk}}">
                         <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
                     </a>
                 </li>
@@ -285,6 +285,27 @@ $(document).ready(function() {
             value_text.val(default_texts[4][1])
             $(".save_background_link[pk=\""+data.pk+"\"]").click(save_background);
             $("li#add_background_"+data.pk+" input#id_name").val(default_texts[0][1])
+        },
+        'json');
+        return false;
+    });
+
+    $(".save_question_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var category_pk = $(this).attr('pk');
+
+        $.post('/'+ category_pk +'/question/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+            var content = '<li id="question_'+data.pk+'">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+            var lista = $("ul#id_question_list_"+category_pk)
+            lista.children().last().before(content)
+            value_text.val(default_texts[2][1])
         },
         'json');
         return false;
