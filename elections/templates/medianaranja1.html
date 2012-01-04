@@ -16,7 +16,15 @@
 <div class="contenedor1">
     <div class="contenedor2">
 
-    <h1>{{election}}</h1>
+<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
+<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+{% if election.logo %}
+<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
+{% else %}
+<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
+{% endif %}
+<hr/>
+
 
     <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" /></div>
     <h3>TU MEDIA NARANJA POLÍTICA</h3>
