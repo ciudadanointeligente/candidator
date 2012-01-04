@@ -122,11 +122,11 @@ class ElectionUpdateDataView(DetailView):
     model = Election
     def get_template_names(self):
         return ['elections/election_update_data.html']
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(ElectionUpdateDataView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super(ElectionUpdateDataView, self).get_context_data(**kwargs)
         context['personaldata_form'] = PersonalDataForm()
