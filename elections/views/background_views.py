@@ -64,7 +64,7 @@ def background_candidate_create(request, candidate_pk, background_pk):
 
 @login_required
 @require_http_methods(['POST'])
-def background_ajax_create(request, background_category_pk):
+def async_create_background(request, background_category_pk):
     background_category = get_object_or_404(BackgroundCategory, pk=background_category_pk, election__owner=request.user)
 
     value = request.POST.get('value', None)
