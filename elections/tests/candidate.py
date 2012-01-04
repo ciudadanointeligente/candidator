@@ -9,7 +9,7 @@ from django.utils import simplejson as json, simplejson
 from elections.models import Candidate, Election, BackgroundCategory, Background,\
                                 BackgroundCandidate, PersonalData, PersonalDataCandidate,\
                                 Category, Question, Answer
-from elections.forms import CandidateUpdateForm, CandidateForm
+from elections.forms import CandidateUpdateForm, CandidateForm, CandidateLinkForm, BackgroundCandidateForm, PersonalDataCandidateForm, AnswerForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -524,55 +524,55 @@ class CandidateUrlsTest(TestCase):
         self.assertEquals(result, expected)
 
 
-class CandidateDataUpdateTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election, created = Election.objects.get_or_create(name='BarBaz',
-                                                           owner=self.user,
-                                                           slug='barbaz',
-                                                           description='esta es una descripcion')
+# class CandidateDataUpdateTest(TestCase):
+#     def setUp(self):
+#         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+#         self.election, created = Election.objects.get_or_create(name='BarBaz',
+#                                                            owner=self.user,
+#                                                            slug='barbaz',
+#                                                            description='esta es una descripcion')
 
-        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                            election=self.election,
-                                            photo='photos/dummy.jpg')
+#         self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+#                                             election=self.election,
+#                                             photo='photos/dummy.jpg')
 
-    def test_get_update_candidate_data_by_user_without_login(self):
-        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+#     def test_get_update_candidate_data_by_user_without_login(self):
+#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
 
-        self.assertEquals(request.status_code, 302)
+#         self.assertEquals(request.status_code, 302)
 
-    def test_get_update_candidate_data_by_user_success(self):
-        self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+#     def test_get_update_candidate_data_by_user_success(self):
+#         self.client.login(username='joe', password='doe')
+#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
 
 
-        self.assertTrue('candidate' in request.context)
-        self.assertEqual(request.context['candidate'], self.candidate)
-        self.assertTrue('election' in request.context)
-        self.assertEqual(request.context['election'], self.election)
+#         self.assertTrue('candidate' in request.context)
+#         self.assertEqual(request.context['candidate'], self.candidate)
+#         self.assertTrue('election' in request.context)
+#         self.assertEqual(request.context['election'], self.election)
 
-    def test_update_candidate_data_strager_candidate(self):
-        user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
-        election2, created = Election.objects.get_or_create(name='BarBaz',
-                                                           owner=user2,
-                                                           slug='barbaz2',
-                                                           description='esta es una descripcion')
+#     def test_update_candidate_data_strager_candidate(self):
+#         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+#         election2, created = Election.objects.get_or_create(name='BarBaz',
+#                                                            owner=user2,
+#                                                            slug='barbaz2',
+#                                                            description='esta es una descripcion')
 
-        candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                            election=election2,
-                                            photo='photos/dummy.jpg')
+#         candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
+#                                             election=election2,
+#                                             photo='photos/dummy.jpg')
 
-        self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('candidate_data_update', kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
-        self.assertEquals(request.status_code, 404)
+#         self.client.login(username='joe', password='doe')
+#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
+#         self.assertEquals(request.status_code, 404)
 
-    def test_post_candidate_data_update_405(self):
-        self.client.login(username='joe', password='doe')
-        request = self.client.post(reverse('candidate_data_update',
-                                    kwargs={'slug': self.candidate.slug,
-                                            'election_slug': self.election.slug}),
-                                    {'var':'foo'})
-        self.assertEquals(request.status_code, 405)
+#     def test_post_candidate_data_update_405(self):
+#         self.client.login(username='joe', password='doe')
+#         request = self.client.post(reverse('candidate_data_update',
+#                                     kwargs={'slug': self.candidate.slug,
+#                                             'election_slug': self.election.slug}),
+#                                     {'var':'foo'})
+#         self.assertEquals(request.status_code, 405)
 
 
 class AsyncDeleteCandidateTest(TestCase):
@@ -701,3 +701,55 @@ class CandidateCreateAjaxView(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 400)
 
+PASSWORD = 'doe'
+class CandidateUpdateDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='asd@asd.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                          owner=self.user,
+                                                          slug='barbaz',
+                                                          description='esta es una descripcion')
+
+        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+                                                                 slug='juan-candidato',
+                                                                 election=self.election)
+        self.url = reverse('candidate_data_update', kwargs={'election_slug': self.election.slug, 'slug': self.candidate.slug})
+
+    def test_get_not_logged(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+
+    def test_get_not_owned_election(self):
+        stranger_user = User.objects.create_user(username='John', password=PASSWORD, email='john@doe.cl')
+        self.client.login(username=stranger_user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_non_existing_candidate(self):
+        url = reverse('candidate_data_update', kwargs={'election_slug': self.election.slug, 'slug': 'non_exist'})
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_owned_candidate(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertTrue('candidate' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+        self.assertEqual(response.context['candidate'], self.candidate)
+
+
+        self.assertTrue('candidate_link_form' in response.context)
+        self.assertIsInstance(response.context['candidate_link_form'], CandidateLinkForm)
+
+        self.assertTrue('background_candidate_form' in response.context)
+        self.assertIsInstance(response.context['background_candidate_form'], BackgroundCandidateForm)
+
+        self.assertTrue('personal_data_candidate_form' in response.context)
+        self.assertIsInstance(response.context['personal_data_candidate_form'], PersonalDataCandidateForm)
+
+        self.assertTrue('answer_form' in response.context)
+        self.assertIsInstance(response.context['answer_form'], AnswerForm)

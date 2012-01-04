@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Link, Candidate, Election
-from elections.forms import CandidateLinkFormset
+#from elections.forms import CandidateLinkFormset
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 

@@ -21,9 +21,18 @@
 {% block content %}
 
 <div class="papel">
-	<div class="contenedor3"><h1>{{ election.name }}</h1></div>
+
     <div class="contenedor1">
         <div class="contenedor2">
+
+<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
+<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+{% if election.logo %}
+<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
+{% else %}
+<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
+{% endif %}
+<hr/>
 
                     <div class="candidatesBasicInformation wrapW">
             			
@@ -49,7 +58,7 @@
                             <section class="personalInfo">
                                 <h3 style="display:none;">{% trans "Información personal" %}</h3>
                                 {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
-                                    <span class="profile-description">{{ personal_data_label }}:</span><span> {{ personal_data_value }}</span>
+                                    <span class="profile-description">{{ personal_data_label }}:</span><span> {{ personal_data_value }}</span><br>
                                 {% endfor %}
                             </section>
                             <aside class="profileAside">
@@ -153,28 +162,23 @@
     <div class="contenedor1">
         <div class="contenedor2">
                     
-                    
-                    <div id="fb-root"></div>
-                    <script>
-                        (function (d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) {
-                                return;
-                            }
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
-                    </script>
+
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+   <div id="fb-root">
+   <center>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="823"></div>
+   </center>
+   </div>
+
             
-                    <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="823">
-                        <span>
-                            <iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
-                                                                       style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 823px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; " class="fb_ltr" src="https://www.facebook.com/plugins/comments.php?channel_url=https%3A%2F%2Fs-static.ak.fbcdn.net%2Fconnect%2Fxd_proxy.php%3Fversion%3D3%23cb%3Df4ad704e4%26origin%3Dhttp%253A%252F%252F{{ request.get_host }}%252Ff224357b74%26relation%3Dparent.parent%26transport%3Dpostmessage&amp;href={{ request.build_absolute_uri|urlencode:"" }}&amp;locale=en_US&amp;numposts=2&amp;sdk=joey&amp;width=890">
-                            </iframe>
-                        </span>
-                    </div>
+
 
     </div>
 </div>

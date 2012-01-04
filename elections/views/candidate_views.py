@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFormset
+from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm
 
 # Import models
 from elections.models import Election, Candidate, PersonalData
@@ -88,16 +88,37 @@ class CandidateCreateView(CreateView):
         return super(CandidateCreateView, self).form_valid(form)
 
 
-@login_required
-@require_http_methods(['GET'])
-def candidate_data_update(request, election_slug, slug):
-    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-    candidate = get_object_or_404(Candidate, slug=slug, election=election)
+class CandidateDataUpdateView(UpdateView):
+    model = Candidate
+    form_class = CandidateForm
 
-    return render_to_response(\
-            'elections/candidate_data_update.html',
-            {'candidate': candidate, 'election': election},
-            context_instance=RequestContext(request))
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                          slug=self.kwargs['slug'],
+                                          election__owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(CandidateDataUpdateView, self).get_context_data(**kwargs)
+        context['election'] = get_object_or_404(Election, slug=self.kwargs['election_slug'], owner=self.request.user)
+        context['candidate_link_form'] = CandidateLinkForm()
+        context['background_candidate_form'] = BackgroundCandidateForm()
+        context['personal_data_candidate_form'] = PersonalDataCandidateForm()
+        context['answer_form'] = AnswerForm()
+        return context
+
+
+#def candidate_data_update(request, election_slug, slug):
+#    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+#    candidate = get_object_or_404(Candidate, slug=slug, election=election)
+
+    #return render_to_response(\
+     #       'elections/candidate_data_update.html',
+      #      {'candidate': candidate, 'election': election},
+       #     context_instance=RequestContext(request))
 
 
 @login_required
