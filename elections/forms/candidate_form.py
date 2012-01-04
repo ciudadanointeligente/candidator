@@ -40,10 +40,4 @@ class PersonalDataCandidateForm(forms.ModelForm):
         exclude = ('candidate', )
 
 
-class AnswerForm(forms.ModelForm):
-    class Meta:
-        model = Answer
-        exclude = ('candidate', )
-
-
 #CandidateLinkFormset = formsets.formset_factory(CandidateLinkForm, extra=1)
