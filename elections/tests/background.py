@@ -222,9 +222,6 @@ class AsyncCreateBackgroundView(TestCase):
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
 
-        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election)
-
         self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
 
         self.election2, created = Election.objects.get_or_create(name='BarBaz',
@@ -235,10 +232,6 @@ class AsyncCreateBackgroundView(TestCase):
 
         self.background2, created = Background.objects.get_or_create(category=self.background_category2,
                                                                 name='foo')
-
-        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election2)
-
 
     def test_get_async_create_background_with_login(self):
         self.client.login(username='joe', password='doe')
