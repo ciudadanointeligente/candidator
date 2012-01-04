@@ -19,9 +19,9 @@
 <h1>Eleccion: {{ election.name }}</h1>
 <h2>Candidato: {{ candidate.name }}</h2>
   <div class="profileImg">
-                
+
                     <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
-                    
+
             </div>
 
 <h3>Datos Personales</h3>
@@ -35,6 +35,24 @@
     </li>
 {% endfor %}
 </ul>
+
+ <table id="id_link_table" border="0" cellpadding="0" cellspacing="5">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in link_formset.forms %}
+            <tr id="{{ form.prefix }}-row">
+                <td>{{ form.name }}</td>
+                <td>{{ form.url }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+{{ link_formset.management_form }}
 
 <h3>Antecedentes</h3>
 <ul>
@@ -83,11 +101,12 @@
 {% endfor %}
 
 
-<a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a>
+{# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
 {% endblock %}
 
 
 {% block extra_js %}
+{{ form.media }}
 <script type="text/javascript">
 $(".save-personal-data").click(function(e){
     var value_text = $(this).prev("input");
