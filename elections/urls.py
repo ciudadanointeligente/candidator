@@ -31,6 +31,9 @@ urlpatterns = patterns('',
     # Create Answer Ajax
     url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
 
+    # Create Link Ajax
+    url(r'^(?P<candidate_pk>\d+)/create_link', 'candidator.elections.views.async_create_link', name='answer_create_ajax'),
+
     # Estaba al final, cual queda?
     # Create Answer Ajax
     # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),

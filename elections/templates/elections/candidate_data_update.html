@@ -36,23 +36,20 @@
 {% endfor %}
 </ul>
 
- <table id="id_link_table" border="0" cellpadding="0" cellspacing="5">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in link_formset.forms %}
-            <tr id="{{ form.prefix }}-row">
-                <td>{{ form.name }}</td>
-                <td>{{ form.url }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-</table>
-{{ link_formset.management_form }}
+<h3>Links</h3>
+<ul class="link-list">
+{% for link in candidate.link_set.all %}
+    <li class="link-list-li">{{ forloop.counter }} - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a></li>
+    {% endfor %}
+    </ul>
+    <br>
+    <ul>
+    <li>
+            {% trans 'Nombre' %}: <input type="text" name="name" id="link_name" />
+            {% trans 'Url' %}: <input type="text" name="url" id="link_url"/>
+            <a class="save-link" href="javascript:void(0);" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+    </li>
+</ul>
 
 <h3>Antecedentes</h3>
 <ul>
@@ -106,8 +103,32 @@
 
 
 {% block extra_js %}
-{{ form.media }}
 <script type="text/javascript">
+function create_link(election_slug, candidate_slug){
+    var link_name = document.getElementById("link_name").value
+    var link_url = document.getElementById("link_url").value
+
+    $.post('/{{ candidate.pk }}/create_link',
+    {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'link_name': link_name,
+        'link_url': link_url,
+        'election_slug': election_slug,
+        'candidate_slug': candidate_slug,
+        'candidate_name': '{{candidate.name}}',
+    },
+    function(data) {
+        var n = $(".link-list-li").size();
+        var name = data['name'];
+        var url = data['url'];
+        $(".link-list").append("<li>"+(n+1)+" - <a href="+url+" target='_blanc'>"+name+"</a></li>");
+        $("#link_name").val("");
+        $("#link_url").val("");
+    },
+    'json');
+    return false;
+}
+
 $(".save-personal-data").click(function(e){
     var value_text = $(this).prev("input");
     var value = value_text.val();

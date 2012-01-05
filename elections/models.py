@@ -246,6 +246,14 @@ class Link(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
 
+    #TODO: test
+    @property
+    def http_prefix(self):
+        if self.url[0:7] == "http://":
+            return self.url
+        else:
+            return "http://"+self.url
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)

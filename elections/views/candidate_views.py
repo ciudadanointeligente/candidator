@@ -18,7 +18,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm
 
 # Import models
-from elections.models import Election, Candidate, PersonalData
+from elections.models import Election, Candidate, PersonalData, Link
 
 
 # Candidate views
@@ -164,6 +164,21 @@ class CandidateCreateAjaxView(CreateView):
     def form_invalid(self, form):
         return HttpResponse(content=simplejson.dumps({'error': form.errors}), content_type='application/json')
 
+@login_required
+#@require_POST
+# TODO: test
+def async_create_link(request, candidate_pk):
+   link_name = request.POST.get('link_name', False)
+   link_url = request.POST.get('link_url', False)
+   election_slug = request.POST.get('election_slug', False)
+   slug = request.POST.get('candidate_slug', False)
+   cand_name = request.POST.get('candidate_name', False)
+   election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+   candidate = get_object_or_404(Candidate, slug=slug, election=election, name=cand_name)
+   link = Link.objects.create(name = link_name, url= link_url, candidate = candidate)
+   link.save()
+   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix}
+   return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
 #@login_required
 #@require_POST
