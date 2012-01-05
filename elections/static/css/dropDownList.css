@@ -13,21 +13,21 @@
 
 .tzSelect .selectBox{
 	background: url("../img/arrow_sprite.png") no-repeat scroll right 10px #B0D0ED;
-    color: #FFFFFF;
-    cursor: pointer;
-    font-family: 'AllerBold';
-    font-size: 14px;
-    height: 100%;
-    line-height: 34px;
-    overflow: hidden;
-    padding: 0 24px;
-    text-align: center;
-    text-transform: uppercase;
+	border:1px solid #a7c7e6;
+	color: white;
+	cursor: pointer;
+	font-family: 'AllerRegular';
+	font-size: 14px;
+	height: 85%;
+	line-height: 30px;
+	overflow: hidden;
+	padding: 0 8px;
+	text-align: left;
 }
 
 .tzSelect .selectBox:hover,
 .tzSelect .selectBox.expanded{
-	color:#4D7799;
+	color: #74A7D9;
 }
 
 .dropDown{

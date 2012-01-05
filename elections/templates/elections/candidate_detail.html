@@ -22,23 +22,16 @@
 
 <div class="papel">
 
+    <div class="contenedor3 tit"><h1>{{ election.name }}</h1></div>
+
     <div class="contenedor1">
         <div class="contenedor2">
-
-<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
-<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
-{% if election.logo %}
-<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
-{% else %}
-<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
-{% endif %}
-<hr/>
 
                     <div class="candidatesBasicInformation wrapW">
             			
                         
                         <header>
-                            <h3>{{ candidate.name }}</h3>
+                            <div class="tit"><h3>{{ candidate.name }}</h3></div>
                         </header>
             
                         <div>

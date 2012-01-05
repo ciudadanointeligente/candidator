@@ -39,7 +39,7 @@ h3 {
     height: 200px;
     overflow: hidden;
     width: 160px;
-	margin-top: -18px;
+	margin-top: -28px;
 }
 
 .profileImg_small{
@@ -105,7 +105,7 @@ span.profile-description{
     padding: 0 0 0 10px;
     position: relative;
     width: 63px;
-	margin-top: -19px;
+	margin-top: -28px;
 }
 
 .sideButton{

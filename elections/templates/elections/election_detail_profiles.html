@@ -28,8 +28,8 @@
 
     <div class="contenedor3 tit"><h1>{{ election.name }}</h1></div>
 
-	<div class="contenedor1">
-    	<div class="contenedor2">
+<div class="contenedor1">
+    <div class="contenedor2">
 
 			    <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_profiles.png" width="97" height="56" /></div>
     <div class="tit"><h3>PERFIL DE CANDIDATOS</h3></div>    
@@ -55,7 +55,14 @@
             </li>
             {% endfor %}{# election.candidate_set.all #}
         </ul>
+
+    </div>
 </div>
+
+
+<div class="contenedor1">
+    <div class="contenedor2">
+
 
    <div id="fb-root">
    <center>
@@ -63,8 +70,10 @@
    </center>
    </div>
 
-            </div>
+
     </div>
-    </div>
+</div>
+
+</div>
 
 {% endblock content %}

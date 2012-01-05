@@ -9,7 +9,7 @@
 }
 
 .leftContent{
-	border-right: 1px dotted;
+	border-right: 1px dashed #D7D7D7;
     float: left;
     margin-right: 10px;
     width: 578px;
@@ -71,7 +71,7 @@
 .categories {
 	float: left;
     margin-right: 7px;
-    width: 265px;
+    width: 228px;
 }
 .categoriesList li{
 	margin-top: 10px;
@@ -83,32 +83,39 @@
 
 .comparisonResult {
     margin-top: 30px;
+	width: 567px;
 }
+
+.comparisonResult h1{
+	text-align:center;
+}
+
 .questionInComparison {
     background: none repeat scroll 0 0 #A2B2BD;
-    border: 1px solid #99AAB1;
-    color: white;
-    margin-bottom: 4px;
-    padding: 3px 6px;
-    width: 557px;
+	border: 1px solid #99AAB1;
+	color: white;
+	margin-bottom: 4px;
+	padding: 1px 4px;
+	width: 557px;
 	clear: both;
+	margin-top: 8px;
 }
 .answerSpace{
 	margin-bottom: 20px;
     overflow: hidden;
-    width: 570px;
+    width: 567px;
 }
 
 .answerSpace ul{
 	clear: none;
-    width: 274px;
+    width: 273px;
 	display: block;
 	float:left;
 }
 
 .answerSpace li {
-    line-height: 15px;
-    padding: 5px 10px;
+    line-height: 8px;
+	padding: 5px 10px;
 }
 
 .answerInComparison {
@@ -117,16 +124,17 @@
 
 
 .answered {
-    font-weight: bold;
-	background-color: #DFEAF7;
+	background-color: #e8e8e8;
+	border:1px solid #d7d7d7;
 }
 
-.notAnswered { display: none;}
+.notAnswered {
+}
 
 
 .firstCandidatesAnswer {
 	padding-right: 10px;
-	border-right: 2px dotted #BDCBD5;
+	border-right: 1px dashed #D7D7D7;
     
 }
 .secondCandidatesAnswer {
@@ -154,5 +162,5 @@ h3 {
 h3.categoriesTitle{
 	background-color: #A2B3BD;
 	width: 100%;
-	line-height: 24px;
+	line-height: 18px;
 }

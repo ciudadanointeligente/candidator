@@ -335,6 +335,7 @@ background-color:white;
     font-size: 13px;
     padding: 2px 30px 2px 4px;
     text-transform: uppercase;
+	margin-bottom: 3px;
 }
 
 .accordionContent{

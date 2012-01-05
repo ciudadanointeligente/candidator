@@ -128,16 +128,13 @@
 
 {% block content %}
 
-    <div class="wrapper">
+<div class="papel">
 
-<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
-<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
-{% if election.logo %}
-<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
-{% else %}
-<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
-{% endif %}
-<hr/>
+    <div class="contenedor3 tit"><h1>{{election.name}}</h1></div>
+
+<div class="contenedor1">
+    <div class="contenedor2">
+
 
         <article class="wrapW">
 
@@ -273,7 +270,7 @@
 
                 {% if first_candidate and second_candidate %}
 
-                <h3>{{ selected_category.name }}</h3>
+                <h1>{{ selected_category.name }}</h1>
 
                     {% for answer in answers %}
 
@@ -324,16 +321,26 @@
             </ul>
         </aside>
    </article>
+   
+		</div>
+	</div>
+
+    <div class="contenedor1">
+        <div class="contenedor2">
 
    <div id="fb-root">
    <br>
    {% if facebook_link %}
-   <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="890"></div>
+   <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="824"></div>
    {% else %}
-   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="890"></div>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="824"></div>
    {% endif %}
    <br>
    </div>
 
+		</div>
+	</div>
+
 </div>
+
 {% endblock content %}

@@ -23,7 +23,7 @@
         {% for personal_data in election.personaldata_set.all %}
         <li id="personal_data_{{personal_data.pk}}">
             <span class="tit_fondoverde">
-               {{ personal_data.label }} <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+               {{ personal_data.label }} <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
         </li>
         {% endfor %}
