@@ -116,7 +116,7 @@ class BackgroundCandidateModelTest(TestCase):
         self.assertEqual(background_candidate.background, self.background)
         self.assertEqual(background_candidate.value, 'new_value')
 
-class BackgroundCandidateCreateView(TestCase):
+class BackgroundCandidateCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -210,7 +210,7 @@ class BackgroundCandidateCreateView(TestCase):
         self.assertEquals(self.candidate.get_background, expected)
 
 
-class BackgroundAjaxCreateView(TestCase):
+class AsyncCreateBackgroundViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -221,9 +221,6 @@ class BackgroundAjaxCreateView(TestCase):
 
         self.background, created = Background.objects.get_or_create(category=self.background_category,
                                                                 name='foo')
-
-        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election)
 
         self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
 
@@ -236,44 +233,40 @@ class BackgroundAjaxCreateView(TestCase):
         self.background2, created = Background.objects.get_or_create(category=self.background_category2,
                                                                 name='foo')
 
-        self.candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election2)
-
-
-    def test_get_background_ajax_create_with_login(self):
+    def test_get_async_create_background_with_login(self):
         self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('background_ajax_create',
+        response = self.client.get(reverse('async_create_background',
                                     kwargs={'background_category_pk': self.background_category.pk}))
         self.assertEqual(response.status_code, 405)
 
-    def test_get_background_ajax_create_without_login(self):
-        response = self.client.get(reverse('background_ajax_create',
+    def test_get_async_create_background_without_login(self):
+        response = self.client.get(reverse('async_create_background',
                                     kwargs={'background_category_pk': self.background_category.pk}))
         self.assertEqual(response.status_code, 302)
 
 
-    def test_post_background_ajax_create_without_login(self):
+    def test_post_async_create_background_without_login(self):
         params = {'value': 'Bar'}
-        response = self.client.post(reverse('background_ajax_create',
+        response = self.client.post(reverse('async_create_background',
                                     kwargs={'background_category_pk': self.background_category.pk}),
                                     params)
 
         self.assertEquals(response.status_code, 302)
 
-    def test_post_background_ajax_create_with_login_stranger_background_category(self):
+    def test_post_async_create_background_with_login_stranger_background_category(self):
         self.client.login(username='joe', password='doe')
 
         params = {'value': 'Bar'}
-        response = self.client.post(reverse('background_ajax_create',
+        response = self.client.post(reverse('async_create_background',
                                     kwargs={'background_category_pk': self.background_category2.pk}),
                                     params)
         self.assertEquals(response.status_code, 404)
 
-    def test_post_background_ajax_create_logged(self):
+    def test_post_async_create_background_logged(self):
         self.client.login(username='joe', password='doe')
 
         params = {'value': 'Bar'}
-        response = self.client.post(reverse('background_ajax_create',
+        response = self.client.post(reverse('async_create_background',
                                     kwargs={'background_category_pk': self.background_category.pk}),
                                     params,
                                     follow=True)

@@ -8,6 +8,14 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -18,13 +26,14 @@
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><h1>{{election}}</h1></div>
+    <div class="contenedor3 tit"><h1>{{ election.name }}</h1></div>
 
 	<div class="contenedor1">
     	<div class="contenedor2">
 
 			    <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_profiles.png" width="97" height="56" /></div>
     <div class="tit"><h3>PERFIL DE CANDIDATOS</h3></div>    
+
         <!--        ProfileHome   -->
         <ul class="profileHome">
             {% for candidate in election.candidate_set.all %}
@@ -46,7 +55,13 @@
             </li>
             {% endfor %}{# election.candidate_set.all #}
         </ul>
-    </div>
+</div>
+
+   <div id="fb-root">
+   <center>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="930"></div>
+   </center>
+   </div>
 
             </div>
     </div>

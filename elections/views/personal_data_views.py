@@ -69,3 +69,15 @@ def async_delete_personal_data(request, personal_data_pk):
     personal_data.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+
+@login_required
+@require_http_methods(['POST'])
+def async_create_personal_data(request, election_pk):
+    election = get_object_or_404(Election, pk=election_pk, owner=request.user)
+
+    value = request.POST.get('value', None)
+    personal_data = PersonalData(label=value, election=election)
+    personal_data.save()
+    return HttpResponse(json.dumps({"pk": personal_data.pk, "label": personal_data.label}),
+                        content_type='application/json')

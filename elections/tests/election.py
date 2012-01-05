@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -247,15 +247,15 @@ class ElectionCreateViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
 
     def test_create_election_by_user_without_login(self):
-        request = self.client.get(reverse('election_create'))
-        self.assertEquals(request.status_code, 302)
+        response = self.client.get(reverse('election_create'))
+        self.assertEquals(response.status_code, 302)
 
     def test_create_election_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('election_create'))
+        response = self.client.get(reverse('election_create'))
 
-        self.assertTrue('form' in request.context)
-        self.assertTrue(isinstance(request.context['form'], ElectionForm))
+        self.assertTrue('form' in response.context)
+        self.assertTrue(isinstance(response.context['form'], ElectionForm))
 
     def test_post_election_create_with_same_slug(self):
         election = Election.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
@@ -307,15 +307,15 @@ class ElectionUpdateViewTest(TestCase):
         self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
 
     def test_update_election_by_user_without_login(self):
-        request = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
-        self.assertEquals(request.status_code, 302)
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        self.assertEquals(response.status_code, 302)
 
     def test_update_election_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
 
-        self.assertTrue('form' in request.context)
-        self.assertTrue(isinstance(request.context['form'], ElectionUpdateForm))
+        self.assertTrue('form' in response.context)
+        self.assertTrue(isinstance(response.context['form'], ElectionUpdateForm))
 
     def test_post_election_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
@@ -444,7 +444,7 @@ class ElectionUpdateDataViewTest(TestCase):
     def test_get_not_logged(self):
         response = self.client.get(self.url)
         self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
-        
+
     def test_get_not_owned_election(self):
         stranger_user = User.objects.create_user(username='John', password=PASSWORD, email='john@doe.cl')
         self.client.login(username=stranger_user.username, password=PASSWORD)
@@ -470,9 +470,12 @@ class ElectionUpdateDataViewTest(TestCase):
 
         self.assertTrue('backgroundcategory_form' in response.context)
         self.assertIsInstance(response.context['backgroundcategory_form'], BackgroundCategoryForm)
-        
+
         self.assertTrue('background_form' in response.context)
         self.assertIsInstance(response.context['background_form'], BackgroundForm)
 
         self.assertTrue('question_form' in response.context)
         self.assertIsInstance(response.context['question_form'], QuestionForm)
+
+        self.assertTrue('category_form' in response.context)
+        self.assertIsInstance(response.context['category_form'], CategoryForm)

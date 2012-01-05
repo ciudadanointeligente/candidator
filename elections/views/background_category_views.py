@@ -53,3 +53,13 @@ def async_delete_background_category(request, category_pk):
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
 
+@login_required
+@require_http_methods(['POST'])
+def async_create_background_category(request, election_pk):
+    election = get_object_or_404(Election, pk=election_pk, owner=request.user)
+
+    value = request.POST.get('value', None)
+    background_category = BackgroundCategory(name=value, election=election)
+    background_category.save()
+    return HttpResponse(json.dumps({"pk": background_category.pk, "name": background_category.name}),
+                        content_type='application/json')

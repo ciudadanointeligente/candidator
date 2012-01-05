@@ -11,7 +11,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateCreateAjaxView, CategoryUpdateView, PersonalDataCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
-                  candidate_data_update, async_delete_candidate, background_ajax_create, \
+                  CandidateDataUpdateView, async_delete_candidate, async_create_background, \
                   async_delete_background, async_delete_background_category, PrePersonalDataView
 
 
@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     # Election detail view admin
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/admin$', ElectionDetailView.as_view(template_name='elections/election_detail_admin.html'), name='election_detail_admin'),
 
-    url(r'^election/(?P<slug>[-\w]+)/update_data/', ElectionUpdateDataView.as_view(), name='election_update_data'),
+    url(r'^election/(?P<slug>[-\w]+)/update_data/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
 
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
@@ -98,7 +98,7 @@ urlpatterns = patterns('',
     url(r'^(?P<candidate_pk>[-\d]+)/candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
 
     # Candidate data Update (PersonalData and Background)
-    url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', candidate_data_update, name='candidate_data_update'),
+    url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='candidate_data_update'),
 
     # Pre-Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
@@ -106,14 +106,20 @@ urlpatterns = patterns('',
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),
 
+    # Create PersonalData Ajax
+    url(r'^(?P<election_pk>[-\w]+)/personal_data/async_create/?$', 'candidator.elections.views.async_create_personal_data', name='async_create_personal_data'),
+
     # Delete personalData view in wizzard
     url(r'^(?P<personal_data_pk>[-\d]+)/personal_data/async_delete/?$', 'candidator.elections.views.async_delete_personal_data', name='async_delete_personal_data'),
 
     # Create PersonalDataCandidate
-    url(r'^(?P<candidate_pk>[0-9]+)/(?P<personal_data_pk>[0-9]+)/personal_data_associate' , personal_data_candidate_create, name='personal_data_candidate_create'),
+    url(r'^(?P<candidate_pk>[0-9]+)/(?P<personal_data_pk>[0-9]+)/personal_data_associate' , 'candidator.elections.views.personal_data_candidate_create', name='personal_data_candidate_create'),
 
     # Create BackgroundCategory
     url(r'^(?P<election_slug>[-\w]+)/background_category/create/?$', BackgroundCategoryCreateView.as_view(), name='background_category_create'),
+
+    # Create BackgroundCategory Ajax
+    url(r'^(?P<election_pk>[-\w]+)/background_category/async_create/?$', 'candidator.elections.views.async_create_background_category', name='async_create_background_category'),
 
      # Delete BackgroundCategory view in wizzard
     url(r'^(?P<category_pk>[-\d]+)/background_category/async_delete/?$', 'candidator.elections.views.async_delete_background_category' , name='async_delete_background_category'),
@@ -122,7 +128,7 @@ urlpatterns = patterns('',
     url(r'^(?P<background_category_pk>[0-9]+)/background/create/?$', BackgroundCreateView.as_view(), name='background_create'),
 
     # Create Background Ajax
-    url(r'^(?P<background_category_pk>[0-9]+)/background/ajax_create/?$', background_ajax_create, name='background_ajax_create'),
+    url(r'^(?P<background_category_pk>[0-9]+)/background/async_create/?$', 'candidator.elections.views.async_create_background', name='async_create_background'),
 
     # Delete background view in wizzard
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
@@ -135,6 +141,9 @@ urlpatterns = patterns('',
 
     # Delete question view in wizzard
     url(r'^(?P<question_pk>[0-9]+)/question/async_delete/?$', 'candidator.elections.views.async_delete_question' , name='async_delete_question'),
+
+    # Create question view in wizzard
+    url(r'^(?P<category_pk>[0-9]+)/question/async_create/?$', 'candidator.elections.views.async_create_question' , name='async_create_question'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),

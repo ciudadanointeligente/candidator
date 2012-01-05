@@ -82,7 +82,7 @@ class AsyncDeleteBackgroundCategoryTest(TestCase):
         self.assertRaises(BackgroundCategory.DoesNotExist, BackgroundCategory.objects.get, pk=temp_pk)
 
 
-class BackgroundCategoryCreateView(TestCase):
+class BackgroundCategoryCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
@@ -147,3 +147,69 @@ class BackgroundCategoryCreateView(TestCase):
 
         self.assertRedirects(response, reverse('background_category_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+class AsyncCreateBackgroundCategoryViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+
+        self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election2,
+                                                                    name='FooBar')
+
+
+    def test_get_async_create_background_category_with_login(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('async_create_background_category',
+                                    kwargs={'election_pk': self.election.pk}))
+        self.assertEqual(response.status_code, 405)
+
+    def test_get_async_create_background_category_without_login(self):
+        response = self.client.get(reverse('async_create_background_category',
+                                    kwargs={'election_pk': self.election.pk}))
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_post_async_create_background_category_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_background_category',
+                                    kwargs={'election_pk': self.election.pk}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_async_create_background_category_with_login_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_background_category',
+                                    kwargs={'election_pk': self.election2.pk}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_async_create_background_category_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_background_category',
+                                    kwargs={'election_pk': self.election.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+
+        background_categories = self.election.backgroundcategory_set.all()
+        background_categories_names = [ background_category.name for background_category in background_categories]
+
+        self.assertTrue(params['value'] in background_categories_names)
+
+        background_category = self.election.backgroundcategory_set.get(name=params['value'])
+        self.assertEquals(response.content, '{"pk": %d, "name": "%s"}' % (background_category.pk, params['value']))
