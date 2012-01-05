@@ -4,13 +4,17 @@
 .profileHome li{
 	background-color: #FFFFFF;
     float: left;
-    margin: 0 14px 15px 0;
+    margin: 0 25px -25px 0;
     min-height: 212px;
     text-align: center;
     width: 115px;
 }
 
-.profileHome li:hover{background-color: #A2B3BD;}
+.profileHome li :hover span{
+	background-color: #a1b2b8;
+	border:1px solid #94a9af;
+}
+	
 .profileHome li:hover a{color: #fff;}
 
 .profileHome li:last-child{
@@ -20,12 +24,11 @@
 	clear: both;
     float: left;
     height: 144px;
-
 }
 
 .profileHome li a {
 	color: #7F8F99;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .profileHome li a span {
@@ -34,5 +37,14 @@
     float: left;
     padding: 5px 7px;
     text-align: center;
-    width: 100px;
+    width: 99px;
+	background-color: #E8E8E8;
+	border: 1px solid #D7D7D7;
+}
+
+.tit h3{
+	margin-left: 87px;
+	padding-left: 15px;
+	margin-bottom: 22px;
+	margin-top: -47px;
 }

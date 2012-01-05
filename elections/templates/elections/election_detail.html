@@ -27,15 +27,13 @@
 	<div class="contenedor1">
     	<div class="contenedor2">
 
-<div class="nombre_eleccion"><h1>{{ election.name }}</h1></div>
+<div class="nombre_eleccion tit"><h1>{{ election.name }}</h1></div>
 <span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
 {% if election.logo %}
-<div class="logo_eleccion"><img src="{{ election.logo.url }}" width="203" height="88" /></div>
+<div class="logo_eleccion"><img src="{{ election.logo.url }}"/></div>
 {% else %}
-<div class="logo_eleccion"><img src="{{ STATIC_URL }}/img/default_logoeleccion.jpg" width="203" height="88" /></div>
-{% endif %}
 
-<hr />
+{% endif %}
 
 
 <nav id="homeNavigation">
@@ -58,15 +56,15 @@
             </ul>
         </nav>
         <br>
-        
- 	</div>
-		</div>
+       
+	</div>
+</div>
     
     	<div class="contenedor1">
     	<div class="contenedor2">
 
    <div id="fb-root">
-   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="825"></div>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="824"></div>
    </div>
 
  

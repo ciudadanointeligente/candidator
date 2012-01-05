@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
 h1{
     font-family:'AllerBold';
     color:#ffffff;
-    font-size:13px;
+    font-size:12px;
     background-color:#80b6e2;
     border:1px solid #72acd9;
     text-transform:uppercase;
@@ -66,9 +66,19 @@ h1{
     padding: 2px 4px 2px;
 }
 
+.tit h1{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:14px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 6px 8px 6px;
+}
+
 h2{
     color:#ffffff;
-    font-size:13px;
+    font-size:12px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
@@ -76,10 +86,20 @@ h2{
     margin: 0px 13px;
 }
 
+.tit h2{
+    color:#ffffff;
+    font-size:14px;
+    background-color:#afceea;
+    border:1px solid #a7c7e6;
+    text-transform:uppercase;
+    padding: 6px 8px 6px;
+    margin: 0px 13px;
+}
+
 h3{
     font-family: 'AllerBold';
     color: white;
-    font-size: 13px;
+    font-size: 12px;
     background-color: #A1B2B8;
     border: 1px solid #94A9AF;
     text-transform: uppercase;
@@ -87,7 +107,18 @@ h3{
     padding: 2px 4px 2px;
 }
 
-h4 { font-size: 13px; }
+.tit h3{
+    font-family: 'AllerBold';
+    color: white;
+    font-size: 14px;
+    background-color: #A1B2B8;
+    border: 1px solid #94A9AF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 8px 6px;
+}
+
+h4 { font-size: 12px; }
 
 h5 { 
     color:#80b6e2;
@@ -98,7 +129,7 @@ h5 {
 }
 
 h6 { 
-	font-size: 13px; 
+	font-size: 12px; 
 	text-transform: uppercase;
 	padding-top:10px;
 }
@@ -363,7 +394,10 @@ background-color:white;
 
 /*======= HOME ========*/
 
-#homeNavigation{}
+#homeNavigation{
+	margin-top: 13px;
+}
+
 ul.homeNav{}
 .homeLi{
      background-color: #DAE2E5;
@@ -452,25 +486,25 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-	position:relative;
+	position: relative;
 	margin-top: -47px;
+	border-right: 1px dashed #DFDFDF;
+	width: 150px;
+	height: 70px;
 }
 
 .nombre_eleccion{
-	width:633px;
-	position:relative;
-	margin-left: 216px;
+	width: 676px;
+	position: relative;
+	margin-left: 176px;
 	margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-	margin-left: 216px;
-	padding: 1px 4px 1px 4px;
-	font-family:'AllerBold';
-    color:#ffffff;
-    font-size:12px;
-    background-color:#afceea;
-    border:1px solid #a7c7e6;
+	margin-left: 176px;
+	font-family: 'AllerBold';
+	color: #72ACD9;
+	font-size: 12px;
     text-transform:uppercase;
     letter-spacing:1px;
 }

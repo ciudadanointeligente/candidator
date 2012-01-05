@@ -13,13 +13,16 @@
 {% block content %}
 
 <div class="papel">
+
+    <div class="contenedor3 tit"><h1>{{election}}</h1></div>
+
 <div class="contenedor1">
     <div class="contenedor2">
 
-    <h1>{{election}}</h1>
+
 
     <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" /></div>
-    <h3>TU MEDIA NARANJA POLÍTICA</h3>
+    <div class="tit"><h3>TU MEDIA NARANJA POLÍTICA</h3></div>
 
     <div class="txt_intro">La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los datos los hemos recopilado de diferentes fuentes periodísticas y, por ello, los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.<br /><br />
     Las preguntas seleccionadas para incluir en esta aplicación fueron escogidas en función de aquellas sobre las que tuvimos mayor densidad de información por parte de cada uno de los candidatos.</div>
@@ -37,7 +40,7 @@
     </div>
 
     {% for cat,data in stt %}
-    <div class="categoria">
+    <div class="categoria tit">
         <h2>{{cat.name}}</h2>
         {% for num,preg,ans_list in data %}
 
