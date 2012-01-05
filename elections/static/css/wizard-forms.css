@@ -163,14 +163,14 @@ blockquote {
 }
 
 .bt_siguiente{
-    float:right;
-    margin-bottom:15px;
-	margin-left:13px;
+    float: right;
+	margin-bottom: 15px;
 }
 
 .bt_agregar{
     float:right;
     margin-bottom:15px;
+	margin-top: -25px;
 }
 
 .errorlist{
@@ -189,7 +189,7 @@ p input{
     background-color: #E8E8E8;
     border: 1px solid #DCDCDC;
     height: 17px;
-    width: 350px;
+    width: 328px;
     margin-top:3px;
 }
 
@@ -203,6 +203,7 @@ p textarea{
 
 p input#id_name{
     margin-top:3px;
+	width: 327px;
 }
 
 p input#id_date{
@@ -291,6 +292,8 @@ div.instrucciones{
     height: 17px;
     margin-top:3px;
 	color: #999;
+	width: 326px;
+	margin-bottom: 25px;
 }
 
 .inicio_wizard h5{
@@ -346,4 +349,24 @@ div.instrucciones{
 	line-height: 14px;
 	margin-top: -51px;
 	margin-left: 51px;
+}
+
+.link_next{
+	margin-left: 353px;
+}
+
+.background_tit{
+	background-color:#a1b2b8;
+	border:1px solid #94a9af;
+	padding: 1px 4px;
+	color: white;
+	line-height: 23px;
+}
+
+.background_item{
+	background-color:#c7d2d4;
+	border:1px solid #b8c5c5;
+	padding: 1px 4px;
+	color: white;
+	line-height: 23px;
 }

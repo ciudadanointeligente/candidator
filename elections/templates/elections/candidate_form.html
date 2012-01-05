@@ -15,6 +15,7 @@
 <div class="forms_content">
 
     <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
+    <br />
     <ul id="lista_candidatos">
         {% for candidate in election.candidate_set.all %}
         <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
@@ -32,18 +33,22 @@
         {{ form.non_field_errors }}
         {{ form.as_p }}
         <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
+      <div id="link_add">
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
+                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            </a>
+        </div>
         {% if election.candidate_set.count %}
-        <div id="link_next">
+      
+      
+        <div class="link_next">
             <a class="bt_siguiente" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">
                 <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </div>
         {% endif %}
-        <div id="link_add">
-            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;">
-                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
-            </a>
-        </div>
+        
+        
     </form>
 {% endblock %}
 

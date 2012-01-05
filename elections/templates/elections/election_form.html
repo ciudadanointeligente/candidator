@@ -31,15 +31,14 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_date" class="tit_fondoverde">{{ form.date.label }}</label>
+                <label for="id_date" class="instrucciones">{{ form.date.label }}</label>
                 {{ form.date }}
                 {{ form.date.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_slug" class="instrucciones">{{ form.slug.label }}</label>
-                {{ form.slug }}
-                {{ form.slug.errors }}
+                <p style="display:none">{{ form.slug }}
+                {{ form.slug.errors }}</p>
             </p>
 
             <p class="fieldWrapper">
