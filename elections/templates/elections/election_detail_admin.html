@@ -1,10 +1,35 @@
 {% extends "elections/base.html" %}
+{% load i18n %}
 
 {% block title %}
 {{ block.super }} Election
 {% endblock title %}
 
 {% block content %}
+
+
+<div id="sidebar">
+<ul>
+<li>{% trans 'Editar elección' %}
+<ul>
+  <li><a href="{% url election_update slug=elecion.slug %}">{% trans 'Información general' %}</a></li>
+  <li><a href="{% url election_data_update slug=elecion.slug %}">{% trans 'Preguntas' %}</a></li>
+</ul>
+</li>
+</ul>
+
+<ul>
+<li>{% trans 'Candidatos' %}
+<ul>
+  {% for candidate in election.candidate_set %}
+  <li><a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">{{ candidate.name }}</a></li>
+  {% endfor %}
+</ul>
+</ul></li>
+</div>
+
+
+
 <img src="{{ MEDIA_URL }}{{ election.logo }}" high = "200" width = "202"><br/>
 <h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
 
