@@ -41,12 +41,19 @@
         var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
          $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
             function(json) {
+
                 var data = json["personal_data"]
                 var candidate_photo = document.getElementById(photo_id)
                 candidate_photo.src = json["photo_route"]
+                var num_data = 0
                 for (var key in data) {
                     $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
+                    num_data += 1
                 }
+		if(num_data == 0){
+			$("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">No hay datos personales disponibles.</span></li>')
+		}
+
             }, 'json');
     }
 
@@ -128,7 +135,13 @@
 
 {% block content %}
 
-    <div class="wrapper">
+<div class="papel">
+
+    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{election.name}}</h1></a></div>
+
+<div class="contenedor1">
+    <div class="contenedor2">
+
 
         <article class="wrapW">
 
@@ -180,6 +193,7 @@
 
                             {% if first_candidate %}
 
+				{% if first_candidate.get_personal_data.items %}
                                 {% for key, value in first_candidate.get_personal_data.items %}
 
                                     <li>
@@ -188,6 +202,9 @@
                                     </li>
 
                                 {% endfor %}
+				{% else %}
+                                    <li><span class="candidateBasicComparisonQuestion">No hay datos personales disponibles.</span></li>
+				{% endif %}
 
                             {% endif %}
 
@@ -241,6 +258,7 @@
 
                             {% if second_candidate %}
 
+				{% if second_candidate.get_personal_data.items %}
                                 {% for key, value in second_candidate.get_personal_data.items %}
 
 
@@ -250,6 +268,9 @@
                                     </li>
 
                                 {% endfor %}
+				{% else %}
+                                    <li><span class="candidateBasicComparisonQuestion">No hay datos personales disponibles.</span></li>
+				{% endif %}
 
                             {% endif %}
 
@@ -264,7 +285,7 @@
 
                 {% if first_candidate and second_candidate %}
 
-                <h3>{{ selected_category.name }}</h3>
+                <h1>{{ selected_category.name }}</h1>
 
                     {% for answer in answers %}
 
@@ -315,16 +336,26 @@
             </ul>
         </aside>
    </article>
+   
+		</div>
+	</div>
+
+    <div class="contenedor1">
+        <div class="contenedor2">
 
    <div id="fb-root">
    <br>
    {% if facebook_link %}
-   <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="890"></div>
+   <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="824"></div>
    {% else %}
-   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="890"></div>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="824"></div>
    {% endif %}
    <br>
    </div>
 
+		</div>
+	</div>
+
 </div>
+
 {% endblock content %}

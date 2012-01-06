@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:19px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -41,9 +41,6 @@ p { margin: 10px 0px 15px 0px; }
 /* lists */
 ul{margin: 0; padding: 0; list-style: none;}
 
-/* tables */
-td, th { padding: 1px; }
-
 /* links */
 a:link, a:visited { text-decoration: none; }
 a:hover{
@@ -61,25 +58,56 @@ h1, h2, h3, h4, h5, h6 {
 h1{
     font-family:'AllerBold';
     color:#ffffff;
-    font-size:14px;
+    font-size:12px;
     background-color:#80b6e2;
     border:1px solid #72acd9;
     text-transform:uppercase;
     letter-spacing:1px;
-    padding: 4px 4px 2px;
+    padding: 2px 4px 2px;
+}
+
+.tit h1{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:14px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 6px 8px 6px;
 }
 
 h2{
+    color:#ffffff;
+    font-size:12px;
+    background-color:#afceea;
+    border:1px solid #a7c7e6;
+    text-transform:uppercase;
+    padding: 2px 4px 2px;
+    margin: 0px 13px;
+}
+
+.tit h2{
     color:#ffffff;
     font-size:14px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
-    padding: 4px 4px 2px;
+    padding: 6px 8px 6px;
     margin: 0px 13px;
 }
 
 h3{
+    font-family: 'AllerBold';
+    color: white;
+    font-size: 12px;
+    background-color: #A1B2B8;
+    border: 1px solid #94A9AF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 4px 2px;
+}
+
+.tit h3{
     font-family: 'AllerBold';
     color: white;
     font-size: 14px;
@@ -87,10 +115,10 @@ h3{
     border: 1px solid #94A9AF;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 4px 13px 2px;
+    padding: 6px 8px 6px;
 }
 
-h4 { font-size: 13px; }
+h4 { font-size: 12px; }
 
 h5 { 
     color:#80b6e2;
@@ -101,7 +129,7 @@ h5 {
 }
 
 h6 { 
-	font-size: 14px; 
+	font-size: 12px; 
 	text-transform: uppercase;
 	padding-top:10px;
 }
@@ -185,13 +213,6 @@ blockquote {
 .wrapBasic{
     margin: auto;
     width: 930px;
-}
-
-.wrapW{
-    background-color: #FFFFFF;
-    border: 1px solid #BCBEC0;
-    float: none;
-    overflow: hidden;
 }
 
 /*HEADER*/
@@ -307,13 +328,14 @@ background-color:white;
 
 /*==== Accordions ====*/
 .accordion h3{
-    background: url("../img/arrow_sprite.png") no-repeat scroll right 6px #EDEFF0;
+    background: url("../img/arrow_sprite.png") no-repeat scroll right 3px #EDEFF0;
     color: #747A7E;
     cursor: pointer;
     display: block;
     font-size: 13px;
-    padding: 5px 30px 5px 5px;
+    padding: 2px 30px 2px 4px;
     text-transform: uppercase;
+	margin-bottom: 3px;
 }
 
 .accordionContent{
@@ -357,12 +379,26 @@ background-color:white;
 	overflow: hidden;
 	margin-top: 13px;
 	padding-left:13px;
+	margin-bottom: 13px;
+}
+
+.contenedor3{
+	width: 850px;
+	position: relative;
+	left: 50%;
+	margin-left: -426px;
+	overflow: hidden;
+	margin-top: 25px;
+	margin-bottom: -12px;
 }
 
 
 /*======= HOME ========*/
 
-#homeNavigation{}
+#homeNavigation{
+	margin-top: 13px;
+}
+
 ul.homeNav{}
 .homeLi{
      background-color: #DAE2E5;
@@ -451,25 +487,90 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-	position:relative;
+	position: relative;
 	margin-top: -47px;
+	border-right: 1px dashed #DFDFDF;
+	width: 150px;
+	height: 70px;
 }
 
 .nombre_eleccion{
-	width:633px;
-	position:relative;
-	margin-left: 203px;
-	margin-bottom: -8px;
+	width: 676px;
+	position: relative;
+	margin-left: 176px;
+	margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-	margin-left: 216px;
-	padding: 1px 4px 1px 4px;
+	margin-left: 176px;
+	font-family: 'AllerBold';
+	color: #72ACD9;
+	font-size: 12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/*---------------------------EDIT---------------------------------*/
+
+.edit_tit h5{
+	font-size:24px;
+	margin-top: 0px;
+	margin: 0px 0px 25px;
+}
+
+.contenedor_edit{
+	width: 800px;
+	position: relative;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+	margin-top: 25px;
+	margin-bottom: -12px;
+}
+
+.blue_edit{
 	font-family:'AllerBold';
     color:#ffffff;
+    font-size:12px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+	letter-spacing:1px;
+	margin-left: 16px;
+}
+
+.blue_edit:before {
+	content:url(../img/asterisco_blue.png);
+	position: absolute;
+	margin-top: 5px;
+}
+
+.lightblue_edit{
+	font-family:'AllerBold';
+	color:#ffffff;
     font-size:12px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
-    letter-spacing:1px;
+    padding: 1px 4px 1px;
+	letter-spacing:1px;
+	margin-left: 16px;
+}
+
+p input {
+	background-color: #E8E8E8;
+	border: 1px solid gainsboro;
+	height: 17px;
+	width: 328px;
+	margin-top: 3px;
+}
+
+p textarea{
+    background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 60px;
+    width: 350px;
+    margin-top: 4px;
+	margin-left: 16px;
 }

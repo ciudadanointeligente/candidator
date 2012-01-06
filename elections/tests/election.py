@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background
-from elections.forms import ElectionForm, ElectionUpdateForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -47,7 +47,7 @@ class ElectionModelTest(TestCase):
         election.save()
         election2 = Election.objects.get(slug='barbaz', owner=user)
         self.assertEquals(election.name, election2.name)
-    
+
     def test_create_default_data(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
@@ -57,7 +57,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(datas.filter(label=u'Estado civil').count(), 1)
         self.assertEqual(datas.filter(label=u'Profesión').count(), 1)
         self.assertEqual(datas.filter(label=u'Género').count(), 1)
-    
+
     def test_create_default_background_categories(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
@@ -72,6 +72,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(backgrounds.filter(name=u'Educación secundaria').count(), 1)
         self.assertEqual(backgrounds.filter(name=u'Educación superior').count(), 1)
         category = categories.get(name=u'Antecedentes laborales')
+        backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
 
 
@@ -107,22 +108,6 @@ class ElectionDetailViewTest(TestCase):
                                                'username': user.username,
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 404)
-
-
-class MyElectionListViewTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-
-    def test_list_elections_from_a_user_without_login(self):
-        response = self.client.get(reverse('my_election_list'))
-        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + reverse('my_election_list'))
-
-    def test_list_elections_logged(self):
-        self.client.login(username='joe', password='doe')
-        response = self.client.get(reverse('my_election_list'))
-        self.assertEquals(response.status_code, 200)
-        self.assertTrue('user' in response.context)
-        self.assertEqual(response.context['user'], self.user)
 
 
 class ElectionCompareViewTest(TestCase):
@@ -194,6 +179,23 @@ class ElectionCompareViewTest(TestCase):
                                                'category_slug': category}))
         self.assertEquals(response.status_code, 200)
 
+    def test_compare_one_candidate_two_times(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
+        second_candidate = first_candidate
+        category = Category.objects.create(name='asdf', election=election, slug='asdf')
+        response = self.client.get(reverse('election_compare_two_candidates',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug,
+                                               'first_candidate_slug': first_candidate.slug,
+                                               'second_candidate_slug': second_candidate.slug,
+                                               'category_slug': category}))
+        self.assertEquals(response.status_code, 404)
+
+
     def test_compare_two_candidates_category_mismatch_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
@@ -245,15 +247,15 @@ class ElectionCreateViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
 
     def test_create_election_by_user_without_login(self):
-        request = self.client.get(reverse('election_create'))
-        self.assertEquals(request.status_code, 302)
+        response = self.client.get(reverse('election_create'))
+        self.assertEquals(response.status_code, 302)
 
     def test_create_election_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('election_create'))
+        response = self.client.get(reverse('election_create'))
 
-        self.assertTrue('form' in request.context)
-        self.assertTrue(isinstance(request.context['form'], ElectionForm))
+        self.assertTrue('form' in response.context)
+        self.assertTrue(isinstance(response.context['form'], ElectionForm))
 
     def test_post_election_create_with_same_slug(self):
         election = Election.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
@@ -265,7 +267,7 @@ class ElectionCreateViewTest(TestCase):
         f.close()
 
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug', 'Ya tienes una eleccion con ese slug.')
+        self.assertFormError(response, 'form', 'name', 'Ya tienes una eleccion con ese nombre.')
 
 
     def test_post_election_create_without_login(self):
@@ -305,15 +307,18 @@ class ElectionUpdateViewTest(TestCase):
         self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
 
     def test_update_election_by_user_without_login(self):
-        request = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
-        self.assertEquals(request.status_code, 302)
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        self.assertEquals(response.status_code, 302)
 
     def test_update_election_by_user_success(self):
         self.client.login(username='joe', password='doe')
-        request = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
 
-        self.assertTrue('form' in request.context)
-        self.assertTrue(isinstance(request.context['form'], ElectionUpdateForm))
+        self.assertTrue('form' in response.context)
+        self.assertTrue(isinstance(response.context['form'], ElectionUpdateForm))
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+        self.assertTemplateUsed(response, 'elections/election_update_form.html')
 
     def test_post_election_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
@@ -415,3 +420,65 @@ class ElectionUrlsTest(TestCase):
         expected = '/juanito/eleccion-la-florida/admin'
         result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
+
+class PrePersonalDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
+
+    def test_context(self):
+        self.client.login(username='joe', password='doe')
+
+        response = self.client.get(reverse('pre_personaldata', kwargs={'election_slug': self.election.slug}))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEquals(response.context['election'], self.election)
+
+
+PASSWORD = 'password'
+
+
+class ElectionUpdateDataViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='Joe', password=PASSWORD, email='joe@doe.cl')
+        self.election = Election.objects.create(name='Foo', owner=self.user, slug='foo')
+        self.url = reverse('election_update_data', kwargs={'slug': self.election.slug})
+
+    def test_get_not_logged(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+
+    def test_get_not_owned_election(self):
+        stranger_user = User.objects.create_user(username='John', password=PASSWORD, email='john@doe.cl')
+        self.client.login(username=stranger_user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_non_existing_election(self):
+        url = reverse('election_update_data', kwargs={'slug': 'random_slug'})
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_owned_election(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+        self.assertTemplateUsed(response, 'elections/election_update_data.html')
+
+        self.assertTrue('personaldata_form' in response.context)
+        self.assertIsInstance(response.context['personaldata_form'], PersonalDataForm)
+
+        self.assertTrue('backgroundcategory_form' in response.context)
+        self.assertIsInstance(response.context['backgroundcategory_form'], BackgroundCategoryForm)
+
+        self.assertTrue('background_form' in response.context)
+        self.assertIsInstance(response.context['background_form'], BackgroundForm)
+
+        self.assertTrue('question_form' in response.context)
+        self.assertIsInstance(response.context['question_form'], QuestionForm)
+
+        self.assertTrue('category_form' in response.context)
+        self.assertIsInstance(response.context['category_form'], CategoryForm)

@@ -15,6 +15,9 @@
     <h5>Datos Personales:</h5>
  
  <div class="forms_content">
+ 
+ 	<div class="instrucciones">Comencemos por la información personal de los candidatos ¿qué deberán especificar?</div>
+    <br />
 
     <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_datos.jpg" /></div>
 
@@ -23,7 +26,7 @@
         {% for personal_data in election.personaldata_set.all %}
         <li id="personal_data_{{personal_data.pk}}">
             <span class="tit_fondoverde">
-               {{ personal_data.label }} <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+               {{ personal_data.label }} <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;"><img style="position:absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
         </li>
         {% endfor %}
@@ -34,19 +37,24 @@
         {{ form.as_p }}
         <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
         {% if election.personaldata_set.count %}
-        <div id="link_next">
-            <a class="bt_siguiente" href="{% url background_category_create election_slug=election.slug %}">
-                <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
-            </a>
-        </div>
-        {% endif %}
+        
+        
         
         <div id="link_add">
             <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['personaldata'].submit();return false;">
-                <img  style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+                <img src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
         </div>
+        
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url background_category_create election_slug=election.slug %}">
+                <img style=" margin-top: 13px; margin-right: -20px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+        
         <a class="informacion" href="#"><img style="position: relative; margin-top: 13px; margin-bottom: 20px;" src="{{ STATIC_URL }}img/information.png"/></a>
+        
+        {% endif %}
     </form>
 </div>
 

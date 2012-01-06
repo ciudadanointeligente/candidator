@@ -14,8 +14,9 @@ from django.db.models.signals import  post_save
 from django.dispatch.dispatcher import receiver
 
 
-facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)/.*")
-twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)/.*")
+facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)(/.*|/?)")
+twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)(/.*|/?)")
+http_regexp = re.compile(r"^(ht|f)tps?://.*")
 
 
 # Create your models here.
@@ -27,7 +28,7 @@ class Election(models.Model):
     logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    date = models.CharField(max_length=255, verbose_name=_(u"FECHA DE LA ELECCIÓN:"), blank=True)
+    date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
 
     class Meta:
         unique_together = ('owner', 'slug')
@@ -246,6 +247,13 @@ class Link(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
 
+    @property
+    def http_prefix(self):
+        if http_regexp.match(self.url):
+            return self.url
+        else:
+            return "http://"+self.url
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -266,10 +274,6 @@ class Category(models.Model):
 
         super(Category, self).save(*args, **kwargs)
 
-    # Not necessary, exist question_set.all()
-    # def get_questions(self):
-    #     return Question.objects.filter(category=self)
-
     class Meta:
         unique_together = (('election', 'slug'), ('name', 'election'))
         verbose_name_plural = 'Categories'
@@ -281,9 +285,6 @@ class Category(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=255, verbose_name=_("PREGUNTA:"))
     category = models.ForeignKey('Category', verbose_name=_("CATEGORIA:"))
-
-    # def get_answers(self):
-    #     return Answer.objects.filter(question=self)
 
     def __unicode__(self):
         return u"%s" % self.question

@@ -8,6 +8,14 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -16,13 +24,22 @@
 
 {% block content %}
 
-    <div id="" class="wrapper">
+<div class="papel">
+
+    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
+
+<div class="contenedor1">
+    <div class="contenedor2">
+
+                <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_profiles.png" width="97" height="56" /></div>
+    <div class="tit"><h3>PERFIL DE CANDIDATOS</h3></div>
+
         <!--        ProfileHome   -->
         <ul class="profileHome">
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
-                    <div style="width: 115px; height: 144px; background-color: white;">
+                    <div style="width: 115px; height: 144px; background-color: white; margin-top: 13px;">
                     {% thumbnail candidate.photo "115x144" crop="center" as im %}
                         <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
                     {% empty %}
@@ -38,6 +55,25 @@
             </li>
             {% endfor %}{# election.candidate_set.all #}
         </ul>
+
     </div>
+</div>
+
+
+<div class="contenedor1">
+    <div class="contenedor2">
+
+
+   <div id="fb-root">
+   <center>
+   <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="823"></div>
+   </center>
+   </div>
+
+
+    </div>
+</div>
+
+</div>
 
 {% endblock content %}

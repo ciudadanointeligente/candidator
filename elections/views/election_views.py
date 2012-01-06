@@ -12,9 +12,11 @@ from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, TemplateView
+from django.contrib.sites.models import Site
+
 
 # Import forms
-from elections.forms import ElectionForm, ElectionUpdateForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 # Import models
 from elections.models import Election, Candidate, Category
@@ -24,6 +26,9 @@ from elections.models import Election, Candidate, Category
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
+    
+    def get_template_names(self):
+        return 'elections/election_update_form.html'
 
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
@@ -40,13 +45,6 @@ class ElectionDetailView(DetailView):
 
     def get_queryset(self):
         return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
-
-# My Election views
-class MyElectionListView(ListView):
-    model = Election
-
-    def get_queryset(self):
-        return super(MyElectionListView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
 
 class ElectionCreateView(CreateView):
@@ -93,8 +91,9 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
     second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
     answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
     facebook_link = 'http'
-    if request.is_secure(): facebook_link += 's' 
-    facebook_link += '://' + request.META['HTTP_HOST'] + '/' + username + '/' + slug + '/compare/'
+    site = Site.objects.get_current()
+    if request.is_secure(): facebook_link += 's'
+    facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
     facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
     return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
 
@@ -109,6 +108,10 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     else:
         raise Http404
 
+def election_about(request, username, slug):
+    election = get_object_or_404(Election, slug=slug, owner__username=username)
+    return render_to_response('elections/election_about.html', {'election': election }, context_instance = RequestContext(request))
+
 class PrePersonalDataView(TemplateView):
 
     @method_decorator(login_required)
@@ -120,3 +123,25 @@ class PrePersonalDataView(TemplateView):
         context = super(PrePersonalDataView, self).get_context_data(**kwargs)
         context['election'] = self.election
         return context
+
+
+class ElectionUpdateDataView(DetailView):
+    model = Election
+    def get_template_names(self):
+        return ['elections/election_update_data.html']
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ElectionUpdateDataView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ElectionUpdateDataView, self).get_context_data(**kwargs)
+        context['personaldata_form'] = PersonalDataForm()
+        context['backgroundcategory_form'] = BackgroundCategoryForm()
+        context['background_form'] = BackgroundForm()
+        context['question_form'] = QuestionForm(election=self.object)
+        context['category_form'] = CategoryForm()
+        return context
+
+    def get_queryset(self):
+        return super(ElectionUpdateDataView, self).get_queryset().filter(owner=self.request.user)
