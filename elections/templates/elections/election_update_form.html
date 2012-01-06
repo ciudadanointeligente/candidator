@@ -1,0 +1,83 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="fondo_formulario">
+
+        <div class="numero_on uno">1.</div>
+
+        <div class="numero_off dos">2.</div>
+
+        <div class="numero_off tres">3.</div>
+
+        <div class="numero_off cuatro">4.</div>
+
+        <div class="numero_off cinco">5.</div>
+
+        <h5>{% trans 'Elección' %}</h5>
+        
+<div class="forms_content">
+
+        <div class="instrucciones">{% trans 'Para empezar, completa los siguientes datos...' %}</div>
+        <br/>
+
+        <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <p class="fieldWrapper">
+                <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </p>
+
+            <p class="fieldWrapper">
+                <label for="id_date" class="instrucciones">{{ form.date.label }}</label>
+                {{ form.date }}
+                {{ form.date.errors }}
+            </p>
+
+            <p class="fieldWrapper">
+                <p style="display:none">{{ form.slug }}
+                {{ form.slug.errors }}</p>
+            </p>
+
+            <p class="fieldWrapper">
+                <label for="id_description" class="tit_fondoverde">{{ form.description.label }}</label>
+                {{ form.description }}
+                {{ form.description.errors }}
+            </p>
+
+            <p class="fieldWrapper">
+                <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>
+                {{ form.logo }}
+                {{ form.logo.errors }}
+            </p>
+
+            <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
+               <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </form>
+
+    </div>
+
+    <div id="example"><img src="{{ STATIC_URL }}img/ej_cuestionario.jpg" /></div>
+
+{% endblock %}
+
+{% block extra_js %}
+    {{ form.media }}
+    <script type="text/javascript">
+        $("#id_name").slug({
+            'target':$('#id_slug')
+        });
+        $('#example').dialog({
+            title: "{% trans 'Ejemplo' %}",
+            width: 440,
+            height: 410,
+            modal: true,
+            autoOpen: false
+        });
+    </script>
+{% endblock %}
+
+</div>
