@@ -16,6 +16,7 @@ from django.dispatch.dispatcher import receiver
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)(/.*|/?)")
 twitter_regexp = re.compile(r"^https?://[^/]*(t\.co|twitter\.com)(/.*|/?)")
+http_regexp = re.compile(r"^(ht|f)tps?://.*")
 
 
 # Create your models here.
@@ -246,10 +247,9 @@ class Link(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
 
-    #TODO: test
     @property
     def http_prefix(self):
-        if self.url[0:7] == "http://":
+        if http_regexp.match(self.url):
             return self.url
         else:
             return "http://"+self.url
