@@ -83,7 +83,7 @@ class CandidateCreateView(CreateView):
             self.object.save()
         except ValidationError as e:
             from django.forms.util import ErrorList
-            form._errors["slug"] = ErrorList([u"Ya tienes un candidato con ese slug."])
+            form._errors["nombre"] = ErrorList([u"Ya tienes un candidato con ese nombre."])
             return super(CandidateCreateView, self).form_invalid(form)
         return super(CandidateCreateView, self).form_valid(form)
 

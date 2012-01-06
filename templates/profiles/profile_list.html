@@ -1,9 +1,10 @@
-<body>
+{% extends "elections/base_edits.html" %}
+{% load i18n %}
 
-<body>
+{% block content %}
 {% for profile in object_list %}
     <li><a href="{{ profile.get_absolute_url }}">{{ profile.user.username }}</a></li>
 {% empty %}
-    <li>No hay usuarios</li>
+    <li>{% trans 'No hay usuarios' %}</li>
 {% endfor %}
-</body>
+{% endblock content %}
