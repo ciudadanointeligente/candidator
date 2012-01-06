@@ -22,22 +22,21 @@
 
 {% block content %}
 
-
 <div class="papel">
 
-    <div class="contenedor3 tit"><h1>{{ election.name }}</h1></div>
+    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
 
 	<div class="contenedor1">
     	<div class="contenedor2">
 
     	<div class="txt_intro">
-    		Tu media naranja política es ...
+    		<p><font size=4>Tu media naranja política es ...</font></p>
     	</div>
 	<div>
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:674px;px;top:0px;">
 
-                <div class="tit"><h2>{{winner.2.name}}</h2></div>
+                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
                 	<table style="margin-left:10px;padding:0;">
 		                <tr>
@@ -163,7 +162,7 @@
                                     </div>
                                 </td>
                                 <td valign="top" style="width:418px;">
-                                    <h6 style=" color:#72acd9;">&nbsp;{{data_candidate.2.name}}</h6>
+                                    <h6 style=" color:#72acd9;">&nbsp;<a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
                                     <table>
                                         <tr>
                                             <td>

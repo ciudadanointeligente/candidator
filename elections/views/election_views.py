@@ -108,6 +108,10 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     else:
         raise Http404
 
+def election_about(request, username, slug):
+    election = get_object_or_404(Election, slug=slug, owner__username=username)
+    return render_to_response('elections/election_about.html', {'election': election }, context_instance = RequestContext(request))
+
 class PrePersonalDataView(TemplateView):
 
     @method_decorator(login_required)
