@@ -121,14 +121,15 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"></a></li>';
 
             var lista = $("ul#id_background_list_"+background_category_pk)
-            if(lista.children().size() > 0){
-                lista.children().last().append(content)
-            }else{
-                lista.html(content)
-            }
+            lista.append(content)
+            //if(lista.children().size() > 0){
+            //    lista.children().last().append(content)
+            //}else{
+            //    lista.html(content)
+            //}
             value_text.val(default_text)
         },
         'json');
