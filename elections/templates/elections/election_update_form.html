@@ -3,35 +3,25 @@
 
 {% block content %}
 
-    <div class="fondo_formulario">
+<div class="papel">
+	<div class="contenedor_edit">
 
-        <div class="numero_on uno">1.</div>
 
-        <div class="numero_off dos">2.</div>
-
-        <div class="numero_off tres">3.</div>
-
-        <div class="numero_off cuatro">4.</div>
-
-        <div class="numero_off cinco">5.</div>
-
-        <h5>{% trans 'Elección' %}</h5>
+        <div class="edit_tit"><h5>INFORMACIÓN GENERAL DE LA ELECCIÓN</h5></div>
         
-<div class="forms_content">
-
-        <div class="instrucciones">{% trans 'Para empezar, completa los siguientes datos...' %}</div>
+	
         <br/>
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}
             <p class="fieldWrapper">
-                <label for="id_name" class="tit_fondoverde">{{ form.name.label }}</label>
+                <label for="id_name" class="blue_edit">{{ form.name.label }}</label>
                 {{ form.name }}
                 {{ form.name.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_date" class="instrucciones">{{ form.date.label }}</label>
+                <label for="id_date" class="lightblue_edit">{{ form.date.label }}</label>
                 {{ form.date }}
                 {{ form.date.errors }}
             </p>
@@ -42,25 +32,29 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_description" class="tit_fondoverde">{{ form.description.label }}</label>
+                <label for="id_description" class="lightblue_edit">{{ form.description.label }}</label><br />
                 {{ form.description }}
                 {{ form.description.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_logo" class="instrucciones">{{ form.logo.label }}</label>
+                <label for="id_logo" class="lightblue_edit">IMAGEN</label><br />
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
+            
+            <p class="fieldWrapper">
+                <label for="id_source" class="blue_edit">¿DE DONDE SACASTE LA INFORMACIÓN?</label>
+            </p>
+            
+            
 
             <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
-               <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+               <img src="file:///ca/Users/ca/Documents/1 Proyectos/C. INTELIGENTE/CANDIDATOR/candidator/elections/templates/elections/{{ STATIC_URL }}img/bt_siguiente.png"/>
             </a>
         </form>
 
-    </div>
 
-    <div id="example"><img src="{{ STATIC_URL }}img/ej_cuestionario.jpg" /></div>
 
 {% endblock %}
 
@@ -80,4 +74,5 @@
     </script>
 {% endblock %}
 
+	</div>
 </div>
