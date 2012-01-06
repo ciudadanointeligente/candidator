@@ -316,6 +316,9 @@ class ElectionUpdateViewTest(TestCase):
 
         self.assertTrue('form' in response.context)
         self.assertTrue(isinstance(response.context['form'], ElectionUpdateForm))
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+        self.assertTemplateUsed(response, 'elections/election_update_form.html')
 
     def test_post_election_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')

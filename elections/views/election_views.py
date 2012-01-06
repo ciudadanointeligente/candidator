@@ -26,6 +26,9 @@ from elections.models import Election, Candidate, Category
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
+    
+    def get_template_names(self):
+        return 'elections/election_update_form.html'
 
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
