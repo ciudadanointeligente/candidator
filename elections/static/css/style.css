@@ -509,3 +509,68 @@ ul.homeNav ul.sidebarMenu{
     text-transform:uppercase;
     letter-spacing:1px;
 }
+
+/*---------------------------EDIT---------------------------------*/
+
+.edit_tit h5{
+	font-size:24px;
+	margin-top: 0px;
+	margin: 0px 0px 25px;
+}
+
+.contenedor_edit{
+	width: 800px;
+	position: relative;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+	margin-top: 25px;
+	margin-bottom: -12px;
+}
+
+.blue_edit{
+	font-family:'AllerBold';
+    color:#ffffff;
+    font-size:12px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+	letter-spacing:1px;
+	margin-left: 16px;
+}
+
+.blue_edit:before {
+	content:url(../img/asterisco_blue.png);
+	position: absolute;
+	margin-top: 5px;
+}
+
+.lightblue_edit{
+	font-family:'AllerBold';
+	color:#ffffff;
+    font-size:12px;
+    background-color:#afceea;
+    border:1px solid #a7c7e6;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+	letter-spacing:1px;
+	margin-left: 16px;
+}
+
+p input {
+	background-color: #E8E8E8;
+	border: 1px solid gainsboro;
+	height: 17px;
+	width: 328px;
+	margin-top: 3px;
+}
+
+p textarea{
+    background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 60px;
+    width: 350px;
+    margin-top: 4px;
+	margin-left: 16px;
+}
