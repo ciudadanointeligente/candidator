@@ -165,7 +165,7 @@ class CandidateCreateAjaxView(CreateView):
         return HttpResponse(content=simplejson.dumps({'error': form.errors}), content_type='application/json')
 
 @login_required
-#@require_POST
+@require_POST
 # TODO: test
 def async_create_link(request, candidate_pk):
    link_name = request.POST.get('link_name', False)
@@ -180,12 +180,12 @@ def async_create_link(request, candidate_pk):
    json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix}
    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
-#@login_required
-#@require_POST
-#def async_create_candidate(request, election_slug):
-#    cand = request.POST.get('candidate', False)
-#    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-#    c = Candidate.objects.create(name = cand, election = election)
-#    c.save()
-#    json_dictionary = {"result": "OK"}
-#    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+@login_required
+@require_POST
+def async_create_candidate(request, election_slug):
+   cand = request.POST.get('candidate', False)
+   election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+   c = Candidate.objects.create(name = cand, election = election)
+   c.save()
+   json_dictionary = {"result": "OK"}
+   return HttpResponse(json.dumps(json_dictionary),content_type='application/json')

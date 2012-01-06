@@ -31,6 +31,20 @@ class LinkModelTest(TestCase):
         self.assertEqual(link.url, 'http://www.google.com')
         self.assertEqual(link.candidate, self.candidate)
 
+    def test_http_prefixes(self):
+        link, created = Link.objects.get_or_create(
+                                                    name = 'Twitter',
+                                                    url = 'www.twitter.com',
+                                                    candidate = self.candidate)
+
+        link2, created = Link.objects.get_or_create(
+                                                    name = 'Twitter',
+                                                    url = 'http://www.twitter.com',
+                                                    candidate = self.candidate)
+        self.assertTrue(created)
+        self.assertEqual(link.http_prefix, 'http://www.twitter.com')
+        self.assertEqual(link2.http_prefix, 'http://www.twitter.com')
+
     def test_css_classess(self):
         link, created = Link.objects.get_or_create(
                                                     name='Facebook',

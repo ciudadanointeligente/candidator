@@ -15,7 +15,20 @@
 {% endblock extra_head%}
 
 {% block content %}
-
+<div class="candidate-edit-menu">
+<h1>Menu</h1>
+<ul>
+<h2>Editar Eleccion</h2>
+<li>Informacion general</li>
+<li>Preguntas</li>
+</ul>
+<ul>
+<h2>Candidatos</h2>
+{% for candidates in election.candidate_set.all %}
+<li>{{candidates.name}}</li>
+{% endfor %}
+</ul>
+</div>
 <h1>Eleccion: {{ election.name }}</h1>
 <h2>Candidato: {{ candidate.name }}</h2>
   <div class="profileImg">
