@@ -267,7 +267,7 @@ class ElectionCreateViewTest(TestCase):
         f.close()
 
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'slug', 'Ya tienes una eleccion con ese slug.')
+        self.assertFormError(response, 'form', 'name', 'Ya tienes una eleccion con ese nombre.')
 
 
     def test_post_election_create_without_login(self):
