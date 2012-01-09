@@ -1,0 +1,322 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="forms_content">
+    <h5>Datos Personales <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
+    <ul id="lista_personaldata">
+        {% for personal_data in election.personaldata_set.all %}
+        <li id="personal_data_{{ personal_data.pk }}">
+            {{ personal_data.label }}
+            <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;">
+                <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+            </a>
+        </li>
+        {% endfor %}
+        <li id="add_personal_data">
+            {{ personaldata_form.label }}
+            <a class="save_personal_data_link" href="#" pk="{{election.pk}}">
+                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+            </a>
+        </li>
+    </ul>
+
+    <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    <ul id="lista_categorias">
+        {% for background_category in election.backgroundcategory_set.all %}
+        <li id="background_category_{{background_category.pk}}">
+            <h6>
+                {{ background_category.name }}
+                <a href="javascript:void(0);" onclick="background_category_delete({{background_category.pk}}); return false;">
+                    <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                </a>
+            </h6>
+
+            <ul id="id_background_list_{{ background_category.pk }}">
+                {% for background in background_category.background_set.all %}
+                <li id="background_{{background.pk}}">
+                    {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                </li>
+                {% endfor %}
+                <li id="add_background_{{ background_category.pk}}">
+                    {{ background_form.name }}
+                    <a class="save_background_link" href="#" pk="{{ background_category.pk}}" >
+                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {% endfor %}
+        <li id="add_backgroundcategory">
+            {{ backgroundcategory_form.name }}
+            <a class="save_background_category_link" href="#" pk="{{election.pk}}">
+                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+            </a>
+        </li>
+    </ul>
+    <br/>
+
+    <h5>Cuestionario <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    <ul id="lista_preguntas">
+        {% for category in election.category_set.all %}
+        <li id="category_{{ category.pk }}">
+            <h6>
+                {{ category.name }}
+                <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
+                    <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                </a>
+            </h6>
+            <ul id="id_question_list_{{ category.pk }}">
+                {% for question in category.question_set.all %}
+                <li id="question_{{question.pk}}">
+                    {{ question.question }}
+                    <a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;">
+                        <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                    </a>
+                </li>
+                {% endfor %}
+                <li id="add_question_{{ category.pk }}">
+                    {{ question_form.question }}
+                    <a class="save_question_link" href="#" pk="{{category.pk}}">
+                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {% endfor %}
+        <li id="add_category">
+            {{ category_form.name }}
+            <a class="save_category_link" href="#">
+                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            </a>
+        </li>
+    </ul>
+
+    {% csrf_token %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+
+function personal_data_delete(personal_data_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
+    if(answer){
+        var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#personal_data_"+personal_data_pk).remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function background_category_delete(category_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    if(answer){
+        var dir = "/"+category_pk +"/background_category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("li#background_category_"+category_pk).remove();
+             })
+    }
+    else {
+        return false;
+    }
+}
+
+function background_delete(background_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
+    if(answer){
+        var dir = "/"+background_pk +"/background/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("li#background_"+background_pk).remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function category_delete(category_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    if(answer){
+        var dir = "/"+category_pk +"/category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#category_"+category_pk).remove();
+
+                // if($("#id_category option:selected").attr('value') == ""){
+                //     $('#id_new_category').parent().show();
+                // }
+
+                // if($("[id ^= category_]").size() == 0)
+                //     $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function question_delete(question_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    if(answer){
+        var dir = "/"+question_pk +"/question/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#question_"+question_pk).remove();
+
+                // var remove_link = false
+                // $("ul.categories_questions").each(function(index){
+                //     if($(this).children().size() == 0){
+                //         remove_link = true
+                //         return false
+                //     }
+                // });
+                // if(remove_link){
+                //     $("#link_next").remove();
+                // }
+
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+$(document).ready(function() {
+
+    var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
+                         ["#add_personal_data input"                , "agregar dato personal"],
+                         ["li[id^=add_question_] input#id_question" , "agregar pregunta"],
+                         ["#add_category input"                     , "agregar categoría"],
+                         ["li#add_backgroundcategory input"         , "agregar categoría"]];
+
+    for (var i = 0; i < default_texts.length; i++) {
+        $(default_texts[i][0]).val(default_texts[i][1])
+
+        $(default_texts[i][0]).focus(function(e){
+            if ($(this).val() == default_texts[i][1]){
+                $(this).val("")
+            }
+        });
+
+        $(default_texts[i][0]).blur(function(e){
+            if ($(this).val() == ""){
+                $(this).val(default_texts[i][1])
+            }
+        });
+
+    };
+
+    $(".save_personal_data_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var election_pk = $(this).attr('pk');
+
+        $.post('/'+ election_pk +'/personal_data/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+            var content = '<li id="personal_data_'+data.pk+'">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+            var lista = $("ul#lista_personaldata")
+            lista.children().last().before(content)
+            value_text.val(default_texts[1][1])
+        },
+        'json');
+        return false;
+    });
+
+
+
+    $(".save_background_link").click(save_background);
+
+    function save_background(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = $(this).attr('pk');
+
+        $.post('/'+ background_category_pk +'/background/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+            var lista = $("ul#id_background_list_"+background_category_pk)
+            lista.children().last().before(content)
+            value_text.val(default_texts[0][1])
+        },
+        'json');
+        return false;
+    }
+
+
+    $(".save_background_category_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var election_pk = $(this).attr('pk');
+
+        $.post('/'+ election_pk +'/background_category/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+
+            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">{{ background_form.name }}<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
+
+            var lista = $("ul#lista_categorias")
+            lista.children().last().before(content)
+            value_text.val(default_texts[4][1])
+            $(".save_background_link[pk=\""+data.pk+"\"]").click(save_background);
+            $("li#add_background_"+data.pk+" input#id_name").val(default_texts[0][1])
+        },
+        'json');
+        return false;
+    });
+
+    $(".save_question_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var category_pk = $(this).attr('pk');
+
+        $.post('/'+ category_pk +'/question/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+            var content = '<li id="question_'+data.pk+'">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+
+            var lista = $("ul#id_question_list_"+category_pk)
+            lista.children().last().before(content)
+            value_text.val(default_texts[2][1])
+        },
+        'json');
+        return false;
+    });
+
+
+});
+
+
+
+</script>
+{% endblock %}
+
+</div>

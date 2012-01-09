@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formsets
 from django.forms.formsets import formset_factory
-from elections.models import Candidate, Link
+from elections.models import Candidate, Link, BackgroundCandidate, PersonalDataCandidate, Answer
 
 class CandidateForm(forms.ModelForm):
     class Meta:
@@ -27,4 +27,17 @@ class CandidateLinkForm(forms.ModelForm):
         model = Link
         exclude = ('candidate', )
 
-CandidateLinkFormset = formsets.formset_factory(CandidateLinkForm, extra=1)
+
+class BackgroundCandidateForm(forms.ModelForm):
+    class Meta:
+        model = BackgroundCandidate
+        exclude = ('candidate', )
+
+
+class PersonalDataCandidateForm(forms.ModelForm):
+    class Meta:
+        model = PersonalDataCandidate
+        exclude = ('candidate', )
+
+
+#CandidateLinkFormset = formsets.formset_factory(CandidateLinkForm, extra=1)

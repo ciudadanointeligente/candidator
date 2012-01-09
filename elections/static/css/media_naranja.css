@@ -1,64 +1,4 @@
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:19px;}
-
-p {
-margin: 0px 0px 0px 0px;
-}
-
-/* @FONT-FACE*/
-
-@font-face {
-    font-family: 'AllerItalic';
-    src: url('../fonts/aller_it-webfont.eot');
-    src: url('../fonts/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/aller_it-webfont.woff') format('woff'),
-         url('../fonts/aller_it-webfont.ttf') format('truetype'),
-         url('../fonts/aller_it-webfont.svg#AllerItalic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'AllerBoldItalic';
-    src: url('../fonts/aller_bdit-webfont.eot');
-    src: url('../fonts/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/aller_bdit-webfont.woff') format('woff'),
-         url('../fonts/aller_bdit-webfont.ttf') format('truetype'),
-         url('../fonts/aller_bdit-webfont.svg#AllernormalItalic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'AllerBold';
-    src: url('../fonts/aller_bd-webfont.eot');
-    src: url('../fonts/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/aller_bd-webfont.woff') format('woff'),
-         url('../fonts/aller_bd-webfont.ttf') format('truetype'),
-         url('../fonts/aller_bd-webfont.svg#Allernormal') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'AllerRegular';
-    src: url('../fonts/aller_rg-webfont.eot');
-    src: url('../fonts/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/aller_rg-webfont.woff') format('woff'),
-         url('../fonts/aller_rg-webfont.ttf') format('truetype'),
-         url('../fonts/aller_rg-webfont.svg#AllerRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-/*====*/
-
-
 form{
     margin:0px;
     padding:0px;
@@ -87,8 +27,11 @@ h2{
 	margin: 13px;
 }
 
-h3{
+.tit h3{
 	margin-left: 55px;
+	padding-left: 13px;
+	margin-bottom: 22px;
+	margin-top: -47px;
 }
 
 h4{
@@ -223,11 +166,10 @@ table{
 }
 
 .ico_tit{
-    margin-bottom: -48px;
 }
 
 .txt_intro{
-    margin: 25px 0px 0px;
+	margin-bottom: 13px;
 }
 
 .contenedor_globo{
@@ -295,4 +237,38 @@ table{
 	display:block;
 	float:left;
 	height:10px;
+}
+
+.profileImg {
+	float: left;
+	height: 200px;
+	overflow: hidden;
+	width: 160px;
+	margin: -131px 0px 0px;
+}
+
+.profileImg_small {
+	margin-left: -4px;
+	margin-right: 5px;
+}
+
+.candidatesBasicInformation header {
+	left: 163px;
+	position: relative;
+	width: 586px;
+	left: 173px;
+}
+
+.candidatesBasicInformation {
+position: relative;
+line-height: 21px;
+margin-bottom: 20px;
+}
+
+.categoria{
+	margin-top: 9px;
+}
+
+p{
+	margin:0px;
 }

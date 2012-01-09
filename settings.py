@@ -209,4 +209,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEFAULT_PERSONAL_DATA = ['Edad', 'Estado civil', u'Profesión', u'Género']
 DEFAULT_BACKGROUND_CATEGORIES = {u'Educación': [u'Educación primaria', u'Educación secundaria', u'Educación superior'],
-                                 u'Antecedentes laborales': ['Último trabajo']}   
+                                 u'Antecedentes laborales': [u'Último trabajo']}   

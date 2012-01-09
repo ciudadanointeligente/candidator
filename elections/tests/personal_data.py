@@ -258,3 +258,70 @@ class AsyncDeletePersonalDataTest(TestCase):
         self.assertEquals(request.content, '{"result": "OK"}')
 
         self.assertRaises(PersonalData.DoesNotExist, PersonalData.objects.get, pk=temp_pk)
+
+
+class AsyncCreatePersonalDataView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+                                                                    label='foo')
+
+        self.user2 = User.objects.create_user(username='johnny', password='doe', email='johnny@doe.cl')
+
+        self.election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user2,
+                                                            slug='barbaz')
+        self.personal_data2, created = PersonalData.objects.get_or_create(election=self.election2,
+                                                                    label='foobar')
+
+
+    def test_get_async_create_personal_data_with_login(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('async_create_personal_data',
+                                    kwargs={'election_pk': self.election.pk}))
+        self.assertEqual(response.status_code, 405)
+
+    def test_get_async_create_personal_data_without_login(self):
+        response = self.client.get(reverse('async_create_personal_data',
+                                    kwargs={'election_pk': self.election.pk}))
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_post_async_create_personal_data_without_login(self):
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_personal_data',
+                                    kwargs={'election_pk': self.election.pk}),
+                                    params)
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_async_create_personal_data_with_login_stranger_election(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_personal_data',
+                                    kwargs={'election_pk': self.election2.pk}),
+                                    params)
+        self.assertEquals(response.status_code, 404)
+
+    def test_post_async_create_personal_data_logged(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': 'Bar'}
+        response = self.client.post(reverse('async_create_personal_data',
+                                    kwargs={'election_pk': self.election.pk}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+
+        personal_datas = self.election.personaldata_set.all()
+        personal_data_labels = [ personal_data.label for personal_data in personal_datas]
+
+        self.assertTrue(params['value'] in personal_data_labels)
+
+        personal_data = self.election.personaldata_set.get(label=params['value'])
+        self.assertEquals(response.content, '{"pk": %d, "label": "%s"}' % (personal_data.pk, params['value']))

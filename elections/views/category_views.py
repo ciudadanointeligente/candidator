@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.template.context import RequestContext
 from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
@@ -68,11 +68,9 @@ class CategoryUpdateView(UpdateView):
         return reverse('election_detail', kwargs={'slug': self.object.election.slug, 'username': self.request.user.username})
 
     def get_queryset(self):
-        if self.kwargs.has_key('election_slug') and self.kwargs.has_key('slug'):
-            return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                             slug=self.kwargs['slug'],
-                                             election__owner=self.request.user)
-        return super(ElectionDetailView, self).get_queryset()
+        return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
+                                         slug=self.kwargs['slug'],
+                                         election__owner=self.request.user)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -82,7 +80,7 @@ class CategoryUpdateView(UpdateView):
 
 
 @login_required
-@require_http_methods(['POST'])
+@require_POST
 def async_delete_category(request, category_pk):
     category = get_object_or_404(Category, pk = category_pk, election__owner = request.user)
     category.delete()
