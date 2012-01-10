@@ -12,8 +12,8 @@
 <ul>
 <li>{% trans 'Editar elección' %}
 <ul>
-  <li><a href="{% url election_update slug=elecion.slug %}">{% trans 'Información general' %}</a></li>
-  <li><a href="{% url election_data_update slug=elecion.slug %}">{% trans 'Preguntas' %}</a></li>
+  <li><a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></li>
+  <li><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></li>
 </ul>
 </li>
 </ul>
@@ -21,7 +21,7 @@
 <ul>
 <li>{% trans 'Candidatos' %}
 <ul>
-  {% for candidate in election.candidate_set %}
+  {% for candidate in election.candidate_set.all %}
   <li><a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">{{ candidate.name }}</a></li>
   {% endfor %}
 </ul>
