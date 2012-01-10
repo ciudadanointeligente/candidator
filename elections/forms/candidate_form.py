@@ -12,7 +12,21 @@ class CandidateForm(forms.ModelForm):
         css = {
             'all': ('css/wizard-forms.css',)
             }
+    
+class CandidatePhotoForm(forms.ModelForm):
+    def __init__(self, candidate, *args, **kwargs):
+        self.candidate = candidate
+        super(CandidatePhotoForm, self).__init__(*args, **kwargs)
 
+    class Meta:
+        model = Candidate
+        fields = ('photo',)
+    
+    def save(self, commit=True):
+        self.candidate.photo = self.cleaned_data['photo']
+        if commit:
+            self.candidate.save()
+        return self.candidate
 
 class CandidateUpdateForm(forms.ModelForm):
     class Meta:

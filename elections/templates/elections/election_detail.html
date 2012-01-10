@@ -1,5 +1,7 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
+{% load thumbnail %}
+
 
 {% block extra_head %}
 {% endblock extra_head %}
@@ -27,12 +29,12 @@
 	<div class="contenedor1">
     	<div class="contenedor2">
 
+{% thumbnail election.logo "824x80" as im %}
+    
+    <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
 
-{% if election.logo %}
-<div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
-{% else %}
+{% endthumbnail %}
 
-{% endif %}
 
 <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
 

@@ -44,13 +44,18 @@
             <label for="id_question" class="tit_fondoverde">{{ form.question.label }}</label>
             {{ form.question }}
             {{ form.question.errors }}
+             <div id="link_add">
+                <a class="bt_siguiente" style="margin-top:-25px;" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
+                    <img src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                </a>
+            </div>
         </p>
         <p class="fieldWrapper">
             <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
             {{ form.category }}
-            <span {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
+            <p {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
             {{ form.new_category }}
-            </span>
+            </p>
             {{ form.category.errors }}
         </p>
         {% if election.category_set.count %}
@@ -60,11 +65,11 @@
             </a>
         </div>
         {% endif %}
-        <div id="link_add">
+        <!--<div id="link_add">
             <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
-                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+                <img src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
-        </div>
+        </div>-->
 
     </form>
 </div>

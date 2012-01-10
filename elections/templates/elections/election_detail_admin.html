@@ -9,11 +9,19 @@
 
 {% include 'elections/election_admin_menu.html'%}
 
-<div>
-    <div class="instrucciones">Gracias!</div>
+<div class="papel_edit">
+	<div class="contenedor_edit">
+
+    <div class="instrucciones">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
+    <p>1. Hacer cambios en la elección en el menú <a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Editar elección"</a></p>
+    <p>2. Completar las planillas de cada candidato en el menú <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Candidatos"</a></p>
+    
+    
     <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
-    Ahora puedes ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a href="{{ election_url }}">ir</a>
+    3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
     {% endblocktrans %}</p>
+   
+   </div> 
 </div>
 {% endblock content %}
 
