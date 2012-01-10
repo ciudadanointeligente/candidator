@@ -16,7 +16,7 @@
         <div class="menuedit"><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
 
         <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
-        <div class="menuedit"><a href="{% url candidate_create election_slug=election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
+        <div class="menuedit"><a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
 
         {% for candidate in election.candidate_set.all %}
         <div class="menuedit">
