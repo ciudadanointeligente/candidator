@@ -5,13 +5,13 @@
 
 {% include 'elections/election_admin_menu.html' %}
 
-<div class="papel">
-	<div class="contenedor_edit">
+<div class="papel_edit">
+    <div class="contenedor_edit">
 
 
         <div class="edit_tit"><h5>INFORMACIÓN GENERAL DE LA ELECCIÓN</h5></div>
-        
-	
+
+
         <br/>
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
@@ -44,17 +44,20 @@
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
-            
+
             <p class="fieldWrapper">
                 <label for="id_source" class="blue_edit">¿DE DONDE SACASTE LA INFORMACIÓN?</label>
             </p>
-            
-            
+
+
 
             <a class="save" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
                </a>
 
         </form>
+
+    </div>
+</div>
 
 
 
@@ -62,19 +65,4 @@
 
 {% block extra_js %}
     {{ form.media }}
-    <script type="text/javascript">
-        $("#id_name").slug({
-            'target':$('#id_slug')
-        });
-        $('#example').dialog({
-            title: "{% trans 'Ejemplo' %}",
-            width: 440,
-            height: 410,
-            modal: true,
-            autoOpen: false
-        });
-    </script>
 {% endblock %}
-
-	</div>
-</div>
