@@ -4,23 +4,7 @@
 
 {% block content %}
 
-    <div class="candidate-edit-menu">
-    
-        <ul>
-        <div class="menuedit_tit">Editar Elección</div>
-        <div class="menuedit">Informacion general</div>
-        <div class="menuedit">Preguntas</div>
-        </ul>
-        <ul>
-        <div class="menuedit_tit">Candidatos</div>
-        <div class="menuedit">Agregar nuevo</div>
-        
-        {% for candidates in election.candidate_set.all %}
-        <div class="menuedit"><li>{{candidates.name}}</li></div>
-        {% endfor %}
-    	</ul>
-        
-    </div>
+{% include 'elections/election_admin_menu.html' %}    
 
 
 

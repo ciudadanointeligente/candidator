@@ -33,6 +33,10 @@
 <span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
 {% endif %}
 
+{% if election.description %}
+<p>{{ election.description }}</span>
+{% endif %}
+
 {% if election.logo %}
 <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
 {% else %}
