@@ -1,34 +1,37 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 {% load candidate_tags %}
+{% load thumbnail %}
 
 {% block content %}
 
-{% include 'elections/election_admin_menu.html' %}    
+{% include 'elections/election_admin_menu.html' %}
 
 
 
 
 <div class="papel_edit">
-	<div class="contenedor_edit">
+    <div class="contenedor_edit">
 
 <div class="candidate_edit1">
 
         <div class="edit_tit"><h5>1. Datos Personales</h5></div>
-        
+
             <div class="profileImg">
-                        
-    
-            {% if candidate.photo %}
-            <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
-             {% else %}
-            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" />
-            {% endif %}
-            
- 			</div>
-           
-           <div class="linksEdit">                
-                
+
+            {% thumbnail candidate.photo "80x100" crop="center" as im %}
+            <img src="{{ im.url }}" alt="{{ candidate.name }}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
+            {% empty %}
+                {% if candidate.photo %}
+                <img width="80" height="100" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
+                {% else %}
+                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" />
+                {% endif %}
+            {% endthumbnail %}
+            </div>
+
+           <div class="linksEdit">
+
                 <span class="grey_edit">Links</span>
                 <ul class="link-list">
                 {% for link in candidate.link_set.all %}
@@ -43,18 +46,18 @@
                             <a class="save-link" href="javascript:void(0);" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
                     </li>
                 </ul>
-                
-			</div> 
+
+            </div>
 
 
-        	<div class="personaldataEdit">
+            <div class="personaldataEdit">
                     <ul>
                         <span class="green_edit">NOMBRE</span><br />
                         <div class="candidate_name">{{ candidate.name }}</div>
-                    
+
                         {% for personal_data in election.personaldata_set.all %}
                         <li>
-                        
+
                             <span class="green2_edit">{{ personal_data.label }}</span>
                             <span><input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
                             <span id="status-pd-{{ personal_data.pk}}"></span>
@@ -62,14 +65,14 @@
                         {% endfor %}
                         <a class="save-personal-data" href="">guardar</a>
                     </ul>
-          </div>      
+          </div>
 
 
 
-    
 
-        
-        
+
+
+
 <div class="backgroundEdit">
         <div class="edit_tit"><h5>2. Antecedentes</h5></div>
         <ul>
@@ -109,7 +112,7 @@
                                 &nbsp;{{ answer.caption }}
                             </label>
                         </li>
-        
+
                     {% endfor %}
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
@@ -125,18 +128,18 @@
         {% empty %}
             <h2>No hay categorías</h2>
         {% endfor %}
-        
-        
+
+
         {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
         {% endblock %}
-        
-        
+
+
         {% block extra_js %}
         <script type="text/javascript">
         function create_link(election_slug, candidate_slug){
             var link_name = document.getElementById("link_name").value
             var link_url = document.getElementById("link_url").value
-        
+
             $.post('/{{ candidate.pk }}/create_link',
             {
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -157,13 +160,13 @@
             'json');
             return false;
         }
-        
+
         $(".save-personal-data").click(function(e){
             $(".personal-data-input").each(function(i){
                 var value_text = $(this);
                 var value = value_text.val();
                 var personal_data_pk = value_text.attr('pk');
-        
+
                 $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
                 {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -174,13 +177,13 @@
             });
             return false;
         });
-        
+
         $(".save-background").click(function(e){
             $(".background-input").each(function(i){
                 var value_text = $(this);
                 var value = value_text.val();
                 var background_pk = value_text.attr('pk');
-        
+
                 $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
                 {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -193,8 +196,8 @@
             });
             return false;
         });
-        
-        
+
+
         $('.answerform').live('submit', function (e) {
                 e.preventDefault()
                 $.post($(this).attr('action'), $(this).serialize(), function (json) {
@@ -204,9 +207,9 @@
                     new_radio.attr('name', 'answer-' + json.question);
                     new_radio.attr('checked', true);
                     var new_answer = $('<li>').append($('<label>').append(new_radio).append('&nbsp; ' + json.caption));
-        
+
                     $('#question-' + json.question + ' > ul > li:last-child').before(new_answer);
-        
+
                     $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
                         {
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -218,7 +221,7 @@
                 });
                 $('input[name=caption]', this).val('');
             });
-        
+
         $(".answer").live('change', function(e){
             console.log("asd");
             var answerId = $(this).attr('id');
@@ -236,13 +239,13 @@
             },
             'json');
         });
-        
+
         </script>
 
-</div>      
-      
-      
-      </div>  
 </div>
-        
+
+
+      </div>
+</div>
+
 {% endblock %}
