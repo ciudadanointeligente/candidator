@@ -5,6 +5,7 @@ from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
 from views.election_views import ElectionUpdateDataView, ElectionRedirectView
+from views.candidate_views import CandidateUpdatePhotoView
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
@@ -96,6 +97,8 @@ urlpatterns = patterns('',
 
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
+    
+    url(r'^election/update/candidate/(?P<pk>\d+)/photo/$', CandidateUpdatePhotoView.as_view(), name='update_candidate_photo'),
 
     # Create candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),

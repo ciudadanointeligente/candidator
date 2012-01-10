@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
 # Import forms
-from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm
+from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm, CandidatePhotoForm
 
 # Import models
 from elections.models import Election, Candidate, PersonalData, Link
@@ -189,3 +189,27 @@ def async_create_candidate(request, election_slug):
    c.save()
    json_dictionary = {"result": "OK"}
    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+
+class CandidateUpdatePhotoView(UpdateView):
+    form_class = CandidatePhotoForm
+    model = Candidate
+
+    def get_template_names(self):
+        return 'elections/candidate_photo_form.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if Candidate.objects.filter(pk=kwargs['pk'], election__owner=request.user).count() <= 0:
+            return HttpResponseForbidden()
+        return super(CandidateUpdatePhotoView, self).dispatch(request, *args, **kwargs)
+    
+    def get_form_kwargs(self):
+        kwargs = super(CandidateUpdatePhotoView, self).get_form_kwargs()
+        kwargs['candidate'] = self.object
+        return kwargs
+    
+    def get_success_url(self):
+        return reverse('candidate_data_update', 
+                       kwargs={'election_slug': self.object.election.slug, 'slug': self.object.slug})
+
