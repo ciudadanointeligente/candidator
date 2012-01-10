@@ -690,19 +690,22 @@ p textarea{
     margin-left: 16px;
 }
 
+.profileImg {
+    float: left;
+}
+
 .personaldataEdit{
-    margin-left: 13%;
-    margin-top: -66px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 2px;
     width: 332px;
 }
 
 .linksEdit{
-    margin-left: 65%;
-    margin-top: -104px;
-}
-
-.backgroundEdit{
-    margin-top: 12%;
+    float: left;
+    width: 220px;
+    margin-left: 20px;
+    margin-top: 0px;
 }
 
 .questionsEdit{
