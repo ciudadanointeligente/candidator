@@ -97,6 +97,9 @@ urlpatterns = patterns('',
     # Create candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
 
+    # Create candidate view not in wizard
+    url(r'^(?P<election_slug>[-\w]+)/candidate/create_alone/?$', CandidateCreateView.as_view(template_name='candidate_form_alone.html'), name='candidate_create_alone'),
+
     # Create candidate using next button
     url(r'^(?P<election_slug>[-\w]+)/candidate/save_candidate/?$', CandidateCreateAjaxView.as_view(), name='async_create_candidate'),
 
