@@ -21,7 +21,7 @@ http_regexp = re.compile(r"^(ht|f)tps?://.*")
 
 # Create your models here.
 class Election(models.Model):
-    name = models.CharField(max_length=255, verbose_name=_("NOMBRE:"))
+    name = models.CharField(max_length=255, verbose_name=_(u"NOMBRE DE LA ELECCIÓN:"))
     slug = models.CharField(max_length=255, verbose_name=_("Con este link podras acceder a la eleccion:"))
     owner = models.ForeignKey('auth.User')
     description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
