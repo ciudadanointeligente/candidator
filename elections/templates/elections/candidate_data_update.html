@@ -137,6 +137,8 @@
     </div>
 </div>
 
+<div id="form-candidate-photo">
+</div>
 {% endblock content %}
 
 
@@ -245,6 +247,7 @@
             },
             'json');
         });
-
+        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+        $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
         </script>
 {% endblock extra_js %}
