@@ -24,18 +24,29 @@
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
 
     <div class="contenedor1">
     <div class="contenedor2">
 
-    <h3>Elección: {{election.name}}</h3>
-    <br>
-    <h3>Fecha de la Elección: {{election.data}}</h3>
-    <br>
+            {% if election.logo %}
+        <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
+        {% else %}
+        
+        {% endif %}
+        
+        <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
+        
+        {% if election.date %}
+        <span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+        {% endif %}
+        
+        {% if election.description %}
+        <p>{{ election.description }}</span>
+        {% endif %}
+
+<br>
     <h3>Creada por: {{election.owner}}</h3>
     <br>
-    <h3>Descripción: {{election.description}}</h3>
 
     </div>
     </div>

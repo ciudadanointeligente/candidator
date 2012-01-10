@@ -53,9 +53,9 @@
         <p class="fieldWrapper">
             <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
             {{ form.category }}
-            <span {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
+            <p {% if election.category_set.count > 0 and form.category.data != '' %}style = "display: none"{% endif %}>
             {{ form.new_category }}
-            </span>
+            </p>
             {{ form.category.errors }}
         </p>
         {% if election.category_set.count %}

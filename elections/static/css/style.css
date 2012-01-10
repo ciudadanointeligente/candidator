@@ -690,6 +690,7 @@ p textarea{
 
 .profileImg {
     float: left;
+    cursor: pointer;
 }
 
 .personaldataEdit{
@@ -760,13 +761,20 @@ p textarea{
     border: 1px solid #72ACD9;
 }
 
+.instrucciones{
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-style:italic;
+    font-size:12px;
+}
+
+
 #link_name, #link_url {
     width: 210px;
 }
 
 .link-list-li a {
     color: #99AAB1;
- font-family: AllerItalic;
+	font-family: AllerItalic;
 }
 
 .fondo_wizard {
