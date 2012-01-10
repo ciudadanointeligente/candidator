@@ -489,9 +489,9 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-	width: 824px;
-	height: 80px;
-	overflow: hidden;
+    width: 824px;
+    height: 80px;
+    overflow: hidden;
     position: relative;
     margin-top: -47px;
 }
@@ -521,7 +521,6 @@ ul.homeNav ul.sidebarMenu{
     float: left;
     padding-top: 25px;
     margin-top: -25px;
-    height:100%;
 }
 
 .menuedit_tit{
@@ -576,6 +575,7 @@ ul.homeNav ul.sidebarMenu{
     overflow: hidden;
     margin-top: 25px;
     margin-bottom: 25px;
+    height: 100%;
 }
 
 .green_edit{
@@ -620,7 +620,7 @@ ul.homeNav ul.sidebarMenu{
     margin-left:16px;
 }
 
-.grey_edit:before {
+.grey_edit.mandatory:before {
     content:url(../img/asterisco_grey.png);
     position: absolute;
     margin-top: 1px;
@@ -714,31 +714,31 @@ p textarea{
 }
 
 .login{
-	background-color: #A1B2B8;
-	padding: 5px;
-	border: 1px solid #94A9AF;
-	border-radius: 15px;
-	text-align: right;
-	float: right;
-	color: white;
-	font-family: allerbold;
-	text-transform:uppercase;
-	letter-spacing:1px;
+    background-color: #A1B2B8;
+    padding: 5px;
+    border: 1px solid #94A9AF;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
+    color: white;
+    font-family: allerbold;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 .login:hover{
-	background-color: #92a7b1;
-	border: 1px solid #7e99a4;
+    background-color: #92a7b1;
+    border: 1px solid #7e99a4;
 }
 
 .save{
-	content:url(../img/ok.png);
-	background-color: #AFCEEA;
-	padding: 5px;
-	border: 1px solid #A7C7E6;
-	border-radius: 15px;
-	text-align: right;
-	float: right;
+    content:url(../img/ok.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
 }
 
 
@@ -763,4 +763,15 @@ p textarea{
     border: 1px solid #72ACD9;
 }
 
+#link_name, #link_url {
+    width: 210px;
+}
 
+.link-list-li a {
+    color: #99AAB1;
+ font-family: AllerItalic;
+}
+
+.fondo_wizard {
+    min-height: 600px;
+}
