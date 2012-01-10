@@ -1,0 +1,126 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+{% block content %}
+
+{% include 'elections/election_admin_menu.html'%}
+
+<div class="fondo_formulario">
+
+<h5>{% trans 'Candidatos' %}</h5>
+
+<div class="forms_content">
+
+    <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
+    <br />
+    <ul id="lista_candidatos">
+        {% for candidate in election.candidate_set.all %}
+        <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
+            <span class="tit_fondoverde">
+                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                <!-- {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %} -->
+            </span>
+            <!-- &nbsp;{{ candidate.name }} -->
+        </li>
+        {% endfor %}
+    </ul>
+    <br/>
+
+    <form id="newcandidate" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
+      <div id="link_add">
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">
+                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            </a>
+        </div>
+        {% if election.candidate_set.count %}
+
+
+        <div class="link_next">
+            <a class="bt_siguiente" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">
+                <img src="{{ STATIC_URL }}img/bt_siguiente.png"/>
+            </a>
+        </div>
+        {% endif %}
+
+
+    </form>
+{% endblock %}
+
+{% block extra_js %}
+    {{ form.media }}
+    <script type="text/javascript">
+
+        $(function () {
+            $('#id_first_name, #id_last_name').keyup(function () {
+                var first_name = $.trim($("#id_first_name").val());
+                var last_name = $.trim($("#id_last_name").val());
+                var value = "";
+                if (first_name != '' || last_name != '') {
+                    if (first_name != '' && last_name != '') {
+                        value = first_name + '-' + last_name
+                    }
+                    else if (first_name == '') {
+                        value = last_name
+                    }
+                    else if (last_name == '') {
+                        value = first_name
+                    }
+                }
+                $('#id_slug').val($.slug(value));
+            });
+
+            $('#id_personal_information_table tbody tr').formset({
+                extraClasses:['row1', 'row2', 'row3']
+            })
+            $('#id_link_table tbody tr').formset({
+                extraClasses:['row1', 'row2', 'row3']
+            })
+        });
+    </script>
+    <script type="text/javascript">
+
+        function get_base_url(){
+            var actual_direction  = location.href
+            var reference_pattern = "/candidate/create"
+            var position_pattern  = actual_direction.indexOf(reference_pattern)
+            var pre_direction     = actual_direction.substring(0,position_pattern)
+            //var final_direction   = pre_direction + "/candidate/async_delete/"
+            return pre_direction
+        }
+
+        function candidate_delete(candidate_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
+            if(answer){
+                var dir = "/"+candidate_pk +"/candidate/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                    function(json){
+                        $("#candidate_"+candidate_pk).remove();
+                        if($("[id ^= candidate_]").size() == 0)
+                            $("#link_next").remove();
+                    })
+            }
+            else {
+                return false;
+            }
+        }
+
+        function save_candidate(election_slug){
+            var candidate = document.getElementById("id_name").value
+            if(document.getElementById("id_name").value == ""){
+                window.location = get_base_url()+"/pre_personaldata"
+            }
+            else{
+                /* @FIX */
+                var dir = "/"+election_slug+"/candidate/save_candidate/"
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
+                function(json){
+                    window.location = get_base_url()+"/pre_personaldata"
+             })
+            }
+        }
+    </script>
+{% endblock %}
+
+</div>
