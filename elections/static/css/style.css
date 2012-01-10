@@ -489,6 +489,7 @@ ul.homeNav ul.sidebarMenu{
 .logo_eleccion{
 	width: 824px;
 	height: 80px;
+	overflow: hidden;
 }
 
 .nombre_eleccion{
@@ -700,6 +701,24 @@ p textarea{
 	margin-top: 2%;
 }
 
+.login{
+	background-color: #A1B2B8;
+	padding: 5px;
+	border: 1px solid #94A9AF;
+	border-radius: 15px;
+	text-align: right;
+	float: right;
+	color: white;
+	font-family: allerbold;
+	text-transform:uppercase;
+	letter-spacing:1px;
+}
+
+.login:hover{
+	background-color: #92a7b1;
+	border: 1px solid #7e99a4;
+}
+
 .save{
 	content:url(../img/ok.png);
 	background-color: #AFCEEA;
@@ -708,7 +727,7 @@ p textarea{
 	border-radius: 15px;
 	text-align: right;
 	float: right;
-	}
+}
 
 .save:hover{
 	background-color: #80B6E2;
