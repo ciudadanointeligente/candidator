@@ -757,4 +757,10 @@ p textarea{
     border: 1px solid #72ACD9;
 }
 
+.instrucciones{
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-style:italic;
+    font-size:12px;
+}
+
 
