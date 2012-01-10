@@ -1,0 +1,18 @@
+{% load i18n %}
+    <div class="candidate-edit-menu">
+    
+        <div class="menuedit_tit">{% trans 'Editar Elección' %}</div>
+        <div class="menuedit"><a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></div>
+        <div class="menuedit"><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
+
+        <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
+        <div class="menuedit"><a href="{% url candidate_create election_slug=election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
+        
+        {% for candidate in election.candidate_set.all %}
+        <div class="menuedit">
+            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug %}">{{candidate.name}}</a>
+        </div>
+        {% endfor %}
+        
+    </div>
+

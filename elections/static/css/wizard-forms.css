@@ -164,13 +164,13 @@ blockquote {
 
 .bt_siguiente{
     float: right;
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .bt_agregar{
     float:right;
     margin-bottom:15px;
-	margin-top: -25px;
+    margin-top: -25px;
 }
 
 .errorlist{
@@ -178,7 +178,7 @@ blockquote {
     font-size:12px;
     color:#333;
     margin-bottom: 10px;
-	margin-top: -6px;
+    margin-top: -6px;
 }
 
 form{
@@ -203,16 +203,20 @@ p textarea{
 
 p input#id_name{
     margin-top:3px;
-	width: 327px;
+    width: 327px;
 }
 
 p input#id_date{
     margin-top:3px;
 }
 
+p input#id_logo{
+    height: 18px;
+}
+
 div.instrucciones{
-	margin-right: 25px;
-	line-height: 16px;
+    margin-right: 25px;
+    line-height: 16px;
 }
 
 /*======= WIZARD ========*/
@@ -225,8 +229,8 @@ div.instrucciones{
     left: 50%;
     margin-left: -200px;
     overflow:hidden;
-	margin-top:25px;
-	min-height: 213px;
+    margin-top:25px;
+    min-height: 213px;
 }
 
 .numero_on{
@@ -281,92 +285,97 @@ div.instrucciones{
 }
 
 .forms_content{
-	width:352px;
-	overflow:hidden;
-	padding-left: 25px;
+    width:352px;
+    overflow:hidden;
+    padding-left: 25px;
 }
 
 .add_background_input{
-	background-color: #E8E8E8;
+    background-color: #E8E8E8;
     border: 1px solid #DCDCDC;
     height: 17px;
     margin-top:3px;
-	color: #999;
-	width: 326px;
-	margin-bottom: 25px;
+    color: #999;
+    width: 326px;
+    margin-bottom: 25px;
 }
 
 .inicio_wizard h5{
-	background-color:#80b6e2;
-	border: 1px solid #72acd9;
-	color:#ffffff;
-	letter-spacing:1px;
-	margin: 90px 25px 13px 25px;
-	padding: 13px 0px 13px 6px;
+    background-color:#80b6e2;
+    border: 1px solid #72acd9;
+    color:#ffffff;
+    letter-spacing:1px;
+    margin: 90px 25px 13px 25px;
+    padding: 13px 0px 13px 6px;
 }
 
 /*LOGIN*/
 
 .logo{
-	margin-top:25px;
-	margin-bottom: 25px;
+    margin-top:25px;
+    margin-bottom: 25px;
 }
 
 .usuario h3{
-	margin-left:0px;
-	padding: 2px 4px 2px 4px;
-	font-size: 12px;
-	width: 134px;
-	margin-bottom: -7px;
+    margin-left:0px;
+    padding: 2px 4px 2px 4px;
+    font-size: 12px;
+    width: 134px;
+    margin-bottom: -7px;
 }
 
 .usuario{
-	margin-top: -34px;
-	margin-left: 20px;
+    margin-top: -34px;
+    margin-left: 20px;
 }
 
 .clave h3{
-	margin-left:0px;
-	padding: 2px 4px 2px 4px;
-	font-size: 12px;
-	width: 84px;
-	margin-bottom: -7px;
+    margin-left:0px;
+    padding: 2px 4px 2px 4px;
+    font-size: 12px;
+    width: 84px;
+    margin-bottom: -7px;
 }
 
 .clave{
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 .img_login{
-	margin: 10px 13px 10px 0px;
+    margin: 10px 13px 10px 0px;
 }
 
 .txt_login{
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-style: italic;
-	font-size: 12px;
-	width: 134px;
-	line-height: 14px;
-	margin-top: -51px;
-	margin-left: 51px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 12px;
+    width: 134px;
+    line-height: 14px;
+    margin-top: -51px;
+    margin-left: 51px;
 }
 
 .link_next{
-	margin-left: 353px;
+    margin-left: 353px;
 }
 
 .background_tit{
-	background-color:#a1b2b8;
-	border:1px solid #94a9af;
-	padding: 1px 4px;
-	color: white;
-	line-height: 23px;
+    background-color:#a1b2b8;
+    border:1px solid #94a9af;
+    padding: 1px 4px;
+    color: white;
+    line-height: 23px;
 }
 
 .background_item{
-	background-color:#c7d2d4;
-	border:1px solid #b8c5c5;
-	padding: 1px 4px;
-	color: white;
-	line-height: 23px;
+    background-color:#c7d2d4;
+    border:1px solid #b8c5c5;
+    padding: 1px 4px;
+    color: white;
+    line-height: 23px;
+}
+
+#newelection #id_description {
+    margin-left: 0px;
+    width: 328px;
 }
