@@ -26,7 +26,7 @@ from elections.models import Election, Candidate, Category
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
-    
+
     def get_template_names(self):
         return 'elections/election_update_form.html'
 
