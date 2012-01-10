@@ -1,30 +1,45 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
+{% block extra_head %}
+    <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
+{%  endblock extra_head %}
+
 {% block content %}
 
 {% include 'elections/election_admin_menu.html' %}
+<div class="papel_edit">
+    <div class="contenedor_edit">
 
-<div class="forms_content">
-    <h5>Datos Personales <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
+    <div class="edit_tit">
+        <h5>Datos Personales <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
+    </div>
     <ul id="lista_personaldata">
         {% for personal_data in election.personaldata_set.all %}
-        <li id="personal_data_{{ personal_data.pk }}">
-            {{ personal_data.label }}
+        <li style='margin-top: 5px;' id="personal_data_{{ personal_data.pk }}">
+            <span class="tit_fondoverde">{{ personal_data.label }}
             <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;">
-                <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                <img style="position:absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
             </a>
+            </span>
         </li>
         {% endfor %}
         <li id="add_personal_data">
-            {{ personaldata_form.label }}
-            <a class="save_personal_data_link" href="#" pk="{{election.pk}}">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+            <p style='float: left;'>
+            <input name="add_personal_data_input" placeholder="agregar dato personal"/>
+            </p>
+
+            <a style='float: left; margin-top: 13px; margin-left: 3px;' class="bt_agregar save_personal_data_link" href="#" pk="{{election.pk}}">
+                <img  style="" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
         </li>
     </ul>
 
-    <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    <br style='clear: both;'/>
+
+    <div class="edit_tit">
+        <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    </div>
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li id="background_category_{{background_category.pk}}">
@@ -95,10 +110,11 @@
         </li>
     </ul>
 
-    {% csrf_token %}
+        {% csrf_token %}
+    </div>
 </div>
 
-{% endblock %}
+{% endblock content %}
 
 {% block extra_js %}
 {{ form.media }}
@@ -196,7 +212,6 @@ function question_delete(question_pk){
 $(document).ready(function() {
 
     var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
-                         ["#add_personal_data input"                , "agregar dato personal"],
                          ["li[id^=add_question_] input#id_question" , "agregar pregunta"],
                          ["#add_category input"                     , "agregar categoría"],
                          ["li#add_backgroundcategory input"         , "agregar categoría"]];
@@ -219,9 +234,10 @@ $(document).ready(function() {
     };
 
     $(".save_personal_data_link").click(function(e){
-        var value_text = $(this).prev("input");
+        var value_text = $(this).prev("p").children("input");
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
+        console.log(value_text);
 
         $.post('/'+ election_pk +'/personal_data/async_create/',
         {
@@ -230,7 +246,7 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li id="personal_data_'+data.pk+'">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+            var content = '<li style="margin-top: 5px;" id="personal_data_'+data.pk+'"><span class="tit_fondoverde">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="position: absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></span></li>';
 
             var lista = $("ul#lista_personaldata")
             lista.children().last().before(content)
@@ -319,6 +335,4 @@ $(document).ready(function() {
 
 
 </script>
-{% endblock %}
-
-</div>
+{% endblock extra_js %}
