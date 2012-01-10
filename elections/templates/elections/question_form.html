@@ -54,7 +54,7 @@
         </p>
         {% if election.category_set.count %}
         <div id="link_next">
-            <a class="bt_siguiente" href="{% url my_election_list %}">
+            <a class="bt_siguiente" href="{% url election_detail_admin username=user.username slug=election.slug %}">
                 <img src="{{ STATIC_URL }}img/bt_publicar.png"/>
             </a>
         </div>
