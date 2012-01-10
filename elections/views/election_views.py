@@ -26,7 +26,7 @@ from elections.models import Election, Candidate, Category
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
-    
+
     def get_template_names(self):
         return 'elections/election_update_form.html'
 
@@ -65,7 +65,7 @@ class ElectionCreateView(CreateView):
             self.object.full_clean()
         except ValidationError:
             from django.forms.util import ErrorList
-            form._errors["slug"] = ErrorList([u"Ya tienes una eleccion con ese slug."])
+            form._errors["name"] = ErrorList([u"Ya tienes una eleccion con ese nombre."])
             return super(ElectionCreateView, self).form_invalid(form)
 
         return super(ElectionCreateView, self).form_valid(form)

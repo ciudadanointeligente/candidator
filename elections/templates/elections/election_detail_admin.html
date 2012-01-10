@@ -9,4 +9,16 @@
 
 {% include 'elections/election_admin_menu.html'%}
 
+<div>
+    <div class="instrucciones">Gracias!</div>
+    <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
+    Ahora puedes ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a href="{{ election_url }}">ir</a>
+    {% endblocktrans %}</p>
+</div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+$('#election-url').keydown(function(event){event.preventDefault();})
+</script>
+{% endblock extra_js %}

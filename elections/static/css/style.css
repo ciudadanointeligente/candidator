@@ -1,6 +1,8 @@
 @charset "UTF-8";
 /* CSS Document */
 
+html, body { height: 100%; }
+
 body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
     width: 100%;}
 
@@ -44,7 +46,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 /* links */
 a:link, a:visited { text-decoration: none; }
 a:hover{
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /* headings */
@@ -120,18 +122,18 @@ h3{
 
 h4 { font-size: 12px; }
 
-h5 { 
+h5 {
     color:#80b6e2;
     font-size:34px;
     text-transform:uppercase;
-	margin: 50px 25px 13px;
-	text-decoration: none;
+    margin: 50px 25px 13px;
+    text-decoration: none;
 }
 
-h6 { 
-	font-size: 12px; 
-	text-transform: uppercase;
-	padding-top:10px;
+h6 {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top:10px;
 }
 
 /* horizontal rule */
@@ -335,7 +337,7 @@ background-color:white;
     font-size: 13px;
     padding: 2px 30px 2px 4px;
     text-transform: uppercase;
-	margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .accordionContent{
@@ -350,7 +352,7 @@ background-color:white;
 /*=====================FONDO=========================*/
 
 .papel{
-	background: none repeat scroll 0 0 white;
+    background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #666666;
     left: 50%;
     margin-left: -450px;
@@ -361,42 +363,42 @@ background-color:white;
 }
 
 .contenedor1{
-	width: 850px;
-	border: 1px solid #D7D7D7;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom:25px;
+    width: 850px;
+    border: 1px solid #D7D7D7;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-bottom:25px;
 }
 
 .contenedor2{
-	width: 824px;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 13px;
-	padding-left:13px;
-	margin-bottom: 13px;
+    width: 824px;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+    margin-top: 13px;
+    padding-left:13px;
+    margin-bottom: 13px;
 }
 
 .contenedor3{
-	width: 850px;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom: -12px;
+    width: 850px;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-bottom: -12px;
 }
 
 
 /*======= HOME ========*/
 
 #homeNavigation{
-	margin-top: 13px;
+    margin-top: 13px;
 }
 
 ul.homeNav{}
@@ -443,7 +445,7 @@ ul.homeNav{}
     position: absolute;
     text-align: center;
     width: 100%;
-	letter-spacing: 2px;
+    letter-spacing: 2px;
 }
 
 .homeLi:last-child{
@@ -456,8 +458,8 @@ ul.homeNav{}
 }
 
 .homeListMedianaranja h5{
-	color:#94a9af;
-	margin-top: 154px;
+    color:#94a9af;
+    margin-top: 154px;
 }
 
 .homeListPerfiles {
@@ -466,9 +468,9 @@ ul.homeNav{}
 
 .homeListPerfiles h5{
     color:#94a9af;
-	margin-top: 154px;
-	margin-left: 7px;
-	text-indent: 14px;
+    margin-top: 154px;
+    margin-left: 7px;
+    text-indent: 14px;
 }
 
 .homeListComparar{
@@ -477,9 +479,9 @@ ul.homeNav{}
 
 .homeListComparar h5{
     color:#94a9af;
-	margin-top: 154px;
-	margin-left: 7px;
-	text-indent: 21px;
+    margin-top: 154px;
+    margin-left: 7px;
+    text-indent: 21px;
 }
 
 ul.homeNav ul.sidebarMenu{
@@ -490,17 +492,22 @@ ul.homeNav ul.sidebarMenu{
 	width: 824px;
 	height: 80px;
 	overflow: hidden;
+    position: relative;
+    margin-top: -47px;
 }
 
 .nombre_eleccion{
-	width: 824px;
-	margin-bottom: 5px;
+    width: 676px;
+    position: relative;
+    margin-left: 176px;
+    margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-	font-family: 'AllerBold';
-	color: #72ACD9;
-	font-size: 12px;
+    margin-left: 176px;
+    font-family: 'AllerBold';
+    color: #72ACD9;
+    font-size: 12px;
     text-transform:uppercase;
     letter-spacing:1px;
 }
@@ -508,169 +515,171 @@ ul.homeNav ul.sidebarMenu{
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-	background:#c7dcf0;
-	width:157px;
-	margin-left: 173px;
-	float: left;
-	padding-top: 25px;
-	margin-top: -25px;
-	height:100%;
+    background:#c7dcf0;
+    width:157px;
+    margin-left: 173px;
+    float: left;
+    padding-top: 25px;
+    margin-top: -25px;
+    height:100%;
 }
 
 .menuedit_tit{
-	font-family:Georgia, "Times New Roman", Times, serif;
-	font-weight:bold;
-	font-style:italic;
-	color:#72acd9;
-	margin-left: 13px;
-	line-height: 19px;
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-weight:bold;
+    font-style:italic;
+    color:#72acd9;
+    margin-left: 13px;
+    line-height: 19px;
 }
 
-.menuedit{
-	color:#ffffff;
-	padding-left: 13px;
-	line-height: 19px;
+.menuedit a{
+    width: 144px;
+    display: block;
+    color:#ffffff;
+    line-height: 19px;
+    padding-left: 13px;
 }
 
-.menuedit:hover{
-	background-color:#bbd4ed;
+.menuedit a:hover{
+    background-color:#bbd4ed;
 }
 
-.menuedit:active{
-	background-color:#afceea;
+.menuedit a:active{
+    background-color:#afceea;
 }
 
 /*---------------------------EDIT---------------------------------*/
 
 .papel_edit {
-	background: none repeat scroll 0 0 white;
-	box-shadow: 0 1px 8px 1px #666666;
-	left: 2%;
-	margin-left: 0px;
-	margin-top: 25px;
-	overflow: hidden;
-	position: relative;
-	width: 720px;
+    background: none repeat scroll 0 0 white;
+    box-shadow: 0 1px 8px 1px #666666;
+    left: 2%;
+    margin-left: 0px;
+    margin-top: 25px;
+    overflow: hidden;
+    position: relative;
+    width: 720px;
 }
 
 .edit_tit h5{
-	font-size:24px;
-	margin-top: 0px;
-	margin: 0px 0px 25px;
+    font-size:24px;
+    margin-top: 0px;
+    margin: 0px 0px 25px;
 }
 
 .contenedor_edit{
-	width: 670px;
-	position: relative;
-	left: 59%;
-	margin-left: -400px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom: 25px;
+    width: 670px;
+    position: relative;
+    left: 59%;
+    margin-left: -400px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .green_edit{
-	font-family:'AllerBold';
+    font-family:'AllerBold';
     color:#ffffff;
     font-size:12px;
     background-color:#a1b2b8;
     border:1px solid #94a9af;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left:16px;
+    letter-spacing:1px;
+    margin-left:16px;
 }
 
 .green_edit:before {
-	content:url(../img/asterisco_verde.png);
-	position: absolute;
-	margin-top: 1px;
+    content:url(../img/asterisco_verde.png);
+    position: absolute;
+    margin-top: 1px;
 }
 
 .green2_edit{
-	font-family:'AllerBold';
+    font-family:'AllerBold';
     color:#ffffff;
     font-size:12px;
     background-color:#a1b2b8;
     border:1px solid #94a9af;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left: 16px;
+    letter-spacing:1px;
+    margin-left: 16px;
 }
 
 .grey_edit{
-	font-family:'AllerBold';
+    font-family:'AllerBold';
     color:#757a7e;
     font-size:12px;
     background-color:#e8e8e8;
     border:1px solid #d7d7d7;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left:16px;
+    letter-spacing:1px;
+    margin-left:16px;
 }
 
 .grey_edit:before {
-	content:url(../img/asterisco_grey.png);
-	position: absolute;
-	margin-top: 1px;
+    content:url(../img/asterisco_grey.png);
+    position: absolute;
+    margin-top: 1px;
 }
 
 .blue_edit{
-	font-family:'AllerBold';
+    font-family:'AllerBold';
     color:#ffffff;
     font-size:12px;
     background-color:#80b6e2;
     border:1px solid #72acd9;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left: 16px;
+    letter-spacing:1px;
+    margin-left: 16px;
 }
 
 .blue_edit:before {
-	content:url(../img/asterisco_blue.png);
-	position: absolute;
-	margin-top: 5px;
+    content:url(../img/asterisco_blue.png);
+    position: absolute;
+    margin-top: 5px;
 }
 
 .lightblue_edit{
-	font-family:'AllerBold';
-	color:#ffffff;
+    font-family:'AllerBold';
+    color:#ffffff;
     font-size:12px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left: 16px;
+    letter-spacing:1px;
+    margin-left: 16px;
 }
 
 .candidate_name{
-	background-color: #E8E8E8;
-	border: 1px solid gainsboro;
-	height: 15px;
-	padding: 1px 4px;
-	margin-top: 3px;
-	margin-left: 16px;
-	margin-bottom: 8px;
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 15px;
+    padding: 1px 4px;
+    margin-top: 3px;
+    margin-left: 16px;
+    margin-bottom: 8px;
 }
 
 p input {
-	background-color: #E8E8E8;
-	border: 1px solid gainsboro;
-	height: 17px;
-	width: 328px;
-	margin-top: 3px;
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 17px;
+    width: 328px;
+    margin-top: 3px;
 }
 
 span input {
-	background-color: #E8E8E8;
-	border: 1px solid gainsboro;
-	height: 17px;
-	width: 313px;
-	margin: 3px 16px 8px;
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 17px;
+    width: 313px;
+    margin: 3px 16px 8px;
 }
 
 p textarea{
@@ -679,26 +688,26 @@ p textarea{
     height: 60px;
     width: 350px;
     margin-top: 4px;
-	margin-left: 16px;
+    margin-left: 16px;
 }
 
 .personaldataEdit{
-	margin-left: 13%;
-	margin-top: -66px;
-	width: 332px;
+    margin-left: 13%;
+    margin-top: -66px;
+    width: 332px;
 }
 
 .linksEdit{
-	margin-left: 65%;
-	margin-top: -104px;
+    margin-left: 65%;
+    margin-top: -104px;
 }
 
 .backgroundEdit{
-	margin-top: 12%;
+    margin-top: 12%;
 }
 
 .questionsEdit{
-	margin-top: 2%;
+    margin-top: 2%;
 }
 
 .login{
@@ -729,25 +738,26 @@ p textarea{
 	float: right;
 }
 
+
 .save:hover{
-	background-color: #80B6E2;
-	border: 1px solid #72ACD9;
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
 }
 
 .save-personal-data{
-	content:url(../img/ok.png);
-	background-color: #AFCEEA;
-	padding: 5px;
-	border: 1px solid #A7C7E6;
-	border-radius: 15px;
-	text-align: right;
-	float: right;
-	margin-right: -250px;
-	}
+    content:url(../img/ok.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
+    margin-right: -250px;
+    }
 
 .save-personal-data:hover{
-	background-color: #80B6E2;
-	border: 1px solid #72ACD9;
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
 }
-	
+
 
