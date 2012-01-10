@@ -492,24 +492,21 @@ ul.homeNav ul.sidebarMenu{
 	width: 824px;
 	height: 80px;
 	overflow: hidden;
-    position: relative;
-    margin-top: -47px;
+	position: relative;
+	margin-bottom: 13px;
 }
 
 .nombre_eleccion{
-    width: 676px;
-    position: relative;
-    margin-left: 176px;
-    margin-bottom: 5px;
+  	position: relative;
+	margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-    margin-left: 176px;
     font-family: 'AllerBold';
-    color: #72ACD9;
-    font-size: 12px;
-    text-transform:uppercase;
-    letter-spacing:1px;
+	color: #72ACD9;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 /*---------------------------MENU EDIT---------------------------------*/
