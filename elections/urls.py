@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
-from views.election_views import ElectionUpdateDataView
+from views.election_views import ElectionUpdateDataView, ElectionRedirectView
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
@@ -20,8 +20,11 @@ urlpatterns = patterns('',
     # Root: login_required (por ahora pues no se ha definido un index)
     url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
+    url(r'^$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
+
+
     # My Elections
-    url(r'^$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
+    url(r'^my_election_list/$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
