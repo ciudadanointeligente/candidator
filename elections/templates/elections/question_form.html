@@ -23,11 +23,12 @@
     {% for category in election.category_set.all %}
         <div id="category_{{category.pk}}">
             <span class="tit_fondoverde">
-                {{ category.name }}<a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                {{ category.name }}<a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;"><img style="position:absolute; margin-top:0px; margin-left:7px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
             </span>
                 <ul class="categories_questions">
                     {% for question in category.question_set.all %}
-                        <li id="li_id_question_{{ question.pk }}">{{ question.question }}<a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                        <li id="li_id_question_{{ question.pk }}">
+                            <span class="background_item">{{ question.question }}<a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;"><img style="position:absolute; margin-top:2px; margin-left:8px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -43,6 +44,11 @@
             <label for="id_question" class="tit_fondoverde">{{ form.question.label }}</label>
             {{ form.question }}
             {{ form.question.errors }}
+             <div id="link_add">
+                <a class="bt_siguiente" style="margin-top:-25px;" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
+                    <img src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                </a>
+            </div>
         </p>
         <p class="fieldWrapper">
             <label for="id_category" class="tit_fondoverde">{{ form.category.label }}</label><br/>
@@ -59,11 +65,11 @@
             </a>
         </div>
         {% endif %}
-        <div id="link_add">
+        <!--<div id="link_add">
             <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newquestion'].submit();return false;">
-                <img src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/>
+                <img src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
-        </div>
+        </div>-->
 
     </form>
 </div>

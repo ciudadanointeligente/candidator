@@ -9,7 +9,7 @@ from django.utils import simplejson as json, simplejson
 from elections.models import Candidate, Election, BackgroundCategory, Background,\
                                 BackgroundCandidate, PersonalData, PersonalDataCandidate,\
                                 Category, Question, Answer
-from elections.forms import CandidateUpdateForm, CandidateForm, CandidateLinkForm, BackgroundCandidateForm, PersonalDataCandidateForm, AnswerForm
+from elections.forms import CandidateUpdateForm, CandidateForm, CandidateLinkForm, BackgroundCandidateForm, PersonalDataCandidateForm, AnswerForm, CandidatePhotoForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -753,3 +753,55 @@ class CandidateUpdateDataViewTest(TestCase):
 
         self.assertTrue('answer_form' in response.context)
         self.assertIsInstance(response.context['answer_form'], AnswerForm)
+
+
+class CandidateUpdatePhotoViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
+        self.candidate = Candidate.objects.create(name='candidate', election=self.election)
+        self.file = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        self.url = reverse('update_candidate_photo', kwargs={'pk': self.candidate.pk})
+
+    def test_get_not_logged(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+
+    def test_post_not_logged(self):
+        response = self.client.post(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+    
+    def test_get_not_owner(self):
+        not_user = User.objects.create_user(username='doe', password=PASSWORD, email='doe@example.net')
+        self.client.login(username=not_user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_not_owner(self):
+        not_user = User.objects.create_user(username='doe', password=PASSWORD, email='doe@example.net')
+        self.client.login(username=not_user.username, password=PASSWORD)
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 403)
+    
+    def test_get_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/candidate_photo_form.html')
+        self.assertTrue('form' in response.context)
+        self.assertIsInstance(response.context['form'], CandidatePhotoForm)
+        self.assertTrue('candidate' in response.context)
+        self.assertEqual(response.context['candidate'], self.candidate)
+    
+    def test_post_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        params = {
+            'photo': self.file
+        }
+        response = self.client.post(self.url, params)
+        self.file.seek(0)
+        self.assertRedirects(response, reverse('candidate_data_update', 
+                                       kwargs={'election_slug': self.election.slug, 'slug': self.candidate.slug}))
+        candidate = Candidate.objects.get(pk=self.candidate.pk)
+        self.assertEqual(candidate.photo.file.read(), self.file.read())
+        os.unlink(candidate.photo.path)
