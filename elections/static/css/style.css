@@ -487,21 +487,16 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-	position: relative;
-	margin-top: -47px;
 	width: 824px;
 	height: 80px;
 }
 
 .nombre_eleccion{
-	width: 676px;
-	position: relative;
-	margin-left: 176px;
+	width: 824px;
 	margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-	margin-left: 176px;
 	font-family: 'AllerBold';
 	color: #72ACD9;
 	font-size: 12px;
