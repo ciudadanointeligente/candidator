@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<form method="post" action="{% url update_candidate_photo pk=candidate.pk %}" enctype="multipart/form-data">
+<fieldset>
+<legend>{% blocktrans %}Foto del candidato {{ candidate.name }} {% endblocktrans %}</legend>
+{{ form }}
+<input type="submit" value="{% trans 'Cambiar foto' %}" />
+</fieldset>
+</form>
