@@ -86,3 +86,14 @@ def async_delete_category(request, category_pk):
     category.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+@login_required
+@require_POST
+def async_create_category(request, election_pk):
+    election = get_object_or_404(Election, pk=election_pk, owner=request.user)
+
+    value = request.POST.get('value', None)
+    category = Category(name=value, election=election)
+    category.save()
+    return HttpResponse(json.dumps({"pk": category.pk, "name": category.name}),
+                        content_type='application/json')

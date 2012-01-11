@@ -97,7 +97,7 @@ urlpatterns = patterns('',
 
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
-    
+
     url(r'^election/update/candidate/(?P<pk>\d+)/photo/$', CandidateUpdatePhotoView.as_view(), name='update_candidate_photo'),
 
     # Create candidate view
@@ -147,6 +147,9 @@ urlpatterns = patterns('',
 
     # Delete background view in wizzard
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
+
+    # Create Category Ajax
+    url(r'^(?P<election_pk>[-\w]+)/category/async_create/?$', 'candidator.elections.views.async_create_category', name='async_create_category'),
 
     # Delete category view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
