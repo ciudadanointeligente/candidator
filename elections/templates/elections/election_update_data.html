@@ -104,7 +104,7 @@
         {% endfor %}
         <li id="add_category">
             {{ category_form.name }}
-            <a class="save_category_link" href="#">
+            <a class="save_category_link" href="#" pk="{{election.pk}}">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
         </li>
@@ -308,7 +308,9 @@ $(document).ready(function() {
         return false;
     });
 
-    $(".save_question_link").click(function(e){
+    $(".save_question_link").click(save_question);
+
+    function save_question(e){
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var category_pk = $(this).attr('pk');
@@ -324,6 +326,30 @@ $(document).ready(function() {
             var lista = $("ul#id_question_list_"+category_pk)
             lista.children().last().before(content)
             value_text.val(default_texts[1][1])
+        },
+        'json');
+        return false;
+    }
+
+    $(".save_category_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var election_pk = $(this).attr('pk');
+
+        $.post('/'+ election_pk +'/category/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+            var content = '<li id="category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_question_list_'+data.pk+'"><li id="add_question_'+data.pk+'">{{ question_form.question }}<a class="save_question_link" href="#" pk="'+data.pk+'"><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a></li></ul></li>';
+
+            var lista = $("ul#lista_preguntas")
+            lista.children().last().before(content)
+            value_text.val(default_texts[2][1])
+            $(".save_question_link[pk=\""+data.pk+"\"]").click(save_question);
+            $("li#add_question_"+data.pk+" input#id_question").val(default_texts[1][1])
         },
         'json');
         return false;
