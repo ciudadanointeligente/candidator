@@ -182,6 +182,15 @@ def async_create_link(request, candidate_pk):
 
 @login_required
 @require_POST
+def async_delete_link(request, link_pk):
+    link = get_object_or_404(Link, pk = link_pk, candidate__election__owner = request.user)
+    link.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+
+@login_required
+@require_POST
 def async_create_candidate(request, election_slug):
    cand = request.POST.get('candidate', False)
    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
@@ -203,13 +212,13 @@ class CandidateUpdatePhotoView(UpdateView):
         if Candidate.objects.filter(pk=kwargs['pk'], election__owner=request.user).count() <= 0:
             return HttpResponseForbidden()
         return super(CandidateUpdatePhotoView, self).dispatch(request, *args, **kwargs)
-    
+
     def get_form_kwargs(self):
         kwargs = super(CandidateUpdatePhotoView, self).get_form_kwargs()
         kwargs['candidate'] = self.object
         return kwargs
-    
+
     def get_success_url(self):
-        return reverse('candidate_data_update', 
+        return reverse('candidate_data_update',
                        kwargs={'election_slug': self.object.election.slug, 'slug': self.object.slug})
 
