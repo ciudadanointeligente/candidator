@@ -4,6 +4,7 @@
         <div class="menuedit_tit">{% trans 'Elecciones' %}</div>
         {% for my_election in user.election_set.all %}
             <div class="menuedit_tit nombre">{{ my_election.name }}</div>
+
             {% if election == my_election %}
             <div class="menuedit_eleccion actual">
             {% else %}

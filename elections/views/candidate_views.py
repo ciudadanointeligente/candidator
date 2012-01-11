@@ -111,16 +111,6 @@ class CandidateDataUpdateView(UpdateView):
         return context
 
 
-#def candidate_data_update(request, election_slug, slug):
-#    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-#    candidate = get_object_or_404(Candidate, slug=slug, election=election)
-
-    #return render_to_response(\
-     #       'elections/candidate_data_update.html',
-      #      {'candidate': candidate, 'election': election},
-       #     context_instance=RequestContext(request))
-
-
 @login_required
 @require_POST
 def async_delete_candidate(request, candidate_pk):
@@ -177,7 +167,7 @@ def async_create_link(request, candidate_pk):
    candidate = get_object_or_404(Candidate, slug=slug, election=election, name=cand_name)
    link = Link.objects.create(name = link_name, url= link_url, candidate = candidate)
    link.save()
-   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix}
+   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix, 'pk':link.pk}
    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
 @login_required

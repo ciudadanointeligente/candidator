@@ -47,8 +47,9 @@
                 <span class="grey_edit mandatory">Links</span>
                 <ul class="link-list">
                     {% for link in candidate.link_set.all %}
-                    <li class="link-list-li">
-                        <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>
+                    <li class="link-list-li" id="id-li-link-{{link.pk}}">
+                        <span class="link-number">{{forloop.counter}}</span> - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>(<a href="javascript:void(0);" onclick="link_delete({{link.pk}}); return false;">X</a>)
+                </a>
                     </li>
                     {% endfor %}
                     </ul>
@@ -144,6 +145,24 @@
 
 {% block extra_js %}
         <script type="text/javascript">
+
+        function link_delete(link_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este link?");
+            if(answer){
+                var dir = "/"+link_pk +"/link/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                    function(json){
+                        $("li#id-li-link-"+link_pk).remove();
+                        $(".link-number").each(function(i){
+                            $(this).html(i+1);
+                        });
+                    })
+            }
+            else {
+                return false;
+            }
+        }
+
         function create_link(election_slug, candidate_slug){
             var link_name = document.getElementById("link_name").value
             var link_url = document.getElementById("link_url").value
@@ -161,7 +180,7 @@
                 var n = $(".link-list-li").size();
                 var name = data['name'];
                 var url = data['url'];
-                $(".link-list").append("<li>"+(n+1)+" - <a href="+url+" target='_blanc'>"+name+"</a></li>");
+                $(".link-list").append("<li class='link-list-li' id='id-li-link-"+data.pk+"'><span class='link-number'>"+(n+1)+"</span> - <a href="+url+" target='_blanc'>"+name+"</a>(<a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'>X</a>)</li>");
                 $("#link_name").val("");
                 $("#link_url").val("");
             },
