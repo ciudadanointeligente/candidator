@@ -30,13 +30,18 @@
     	<div class="contenedor2">
 
 {% thumbnail election.logo "824x80" as im %}
-    
+
     <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
 
 {% endthumbnail %}
 
 
-<div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
+<div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+{% if election.owner.username == request.user.username %}
+    <a href="{% url election_update_data slug=election.slug %}">(Editar)</a>
+    {% endif %}
+    </h1>
+    </div>
 
 {% if election.date %}
 <span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
@@ -68,10 +73,10 @@
             </ul>
         </nav>
         <br>
-       
+
 	</div>
 </div>
-    
+
     	<div class="contenedor1">
     	<div class="contenedor2">
 
@@ -79,7 +84,7 @@
    <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="824"></div>
    </div>
 
- 
+
 <!--            <div class="fb-comments  fb_iframe_widget" data-href="{{ request.build_absolute_uri }}"
             data-num-posts="2" data-width="890"><span><iframe id="f266ae179" name="f1e6473d3c" scrolling="no"
                                                            style="border-width: initial; border-color: initial; overflow-x: hidden; overflow-y: hidden; width: 890px; height: 160px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; "
@@ -89,7 +94,7 @@
 
  	</div>
 		</div>
-	  
+
 </div>
 
 {% endblock content %}
