@@ -1,7 +1,8 @@
-{% load i18n %}
+ {% load i18n %}
     <div class="candidate-edit-menu">
 
         <div class="menuedit_tit">{% trans 'Elecciones' %}</div>
+        <a class="menuedit_tit" href="{% url election_pre_create %}">{%trans 'Crear Eleccion'%}</a>
         {% for my_election in user.election_set.all %}
             <div class="menuedit_tit nombre">{{ my_election.name }}</div>
 
