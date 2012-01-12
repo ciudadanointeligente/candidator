@@ -24,6 +24,7 @@
         for(i=0;i<radio_buttons.length;i++){
            if(radio_buttons[i].checked) return radio_buttons[i].value
         }
+        return ""
     }
 
     function get_base_url(){
@@ -46,6 +47,7 @@
                 var candidate_photo = document.getElementById(photo_id)
                 candidate_photo.src = json["photo_route"]
                 var num_data = 0
+                alert("DATA:\n"+data)
                 for (var key in data) {
                     $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
                     num_data += 1
@@ -281,6 +283,8 @@
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
+
+	    {% if selected_category %}
             <section id ="result" class="comparisonResult" >
 
                 {% if first_candidate and second_candidate %}
@@ -317,10 +321,12 @@
                     <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
                 {% endif %}
             </section>
+            {% endif %}
         </div>
         <aside class="categories">
             <h3 class="categoriesTitle">{% trans "Temas" %}</h3>
             <ul class="categoriesList">
+                {% if election.category_set.all %}
                 {% for category in election.category_set.all %}
                 <li>
                     <input type="radio" name="category"
@@ -333,6 +339,9 @@
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
                 </li>
                 {% endfor %}
+                {% else %}
+                <li><center><label>No hay categorías disponibles.</label></center></li>
+                {% endif %}
             </ul>
         </aside>
    </article>
