@@ -30,7 +30,9 @@
 </div><!--contenedor1-->
 
 
+    {% if stt %}
     <form action="" method="POST">{% csrf_token %}
+
     <div class="contenedor1">
 
     <div class="contenedor_globo">
@@ -68,12 +70,20 @@
         </div><!--categoria-->
     {% endfor %}
 
-
-
     <input type="submit" class='submit' value="Encontrar mi Media Naranja" />
+
     </div><!--contenedor1-->
 
     </form>
+    {% else %}
+
+    <div class="contenedor1">
+	<br>
+	<center><h4>Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación.</h4></center>
+	<br>
+    </div>
+
+    {% endif %}
 
 
 </div><!--papel-->
