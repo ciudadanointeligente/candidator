@@ -80,6 +80,19 @@ def election_compare_view_one_candidate(request, username, slug, first_candidate
     first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
     return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate}, context_instance = RequestContext(request))
 
+def election_compare_view_two_candidates_and_no_category(request, username, slug, first_candidate_slug, second_candidate_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=slug)
+    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+    second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
+    if first_candidate == second_candidate:
+        raise Http404
+    facebook_link = 'http'
+    site = Site.objects.get_current()
+    if request.is_secure(): facebook_link += 's'
+    facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
+    facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)
+    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
+
 def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_candidate_slug, category_slug):
     election = get_object_or_404(Election, owner__username=username, slug=slug)
     first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
@@ -99,8 +112,8 @@ def election_compare_view_two_candidates(request, username, slug, first_candidat
 
 @require_http_methods(['GET', 'POST'])
 def election_compare_asynchronous_call(request, username, slug, candidate_slug):
+    print "holaAAAAAAAAAAAAAAAAAAAAAAAAA"
     if request.POST:
-        print "hola"
         election = get_object_or_404(Election, slug=slug, owner__username=username)
         candidate = get_object_or_404(Candidate, slug=candidate_slug, election=election)
         personal_data = candidate.get_personal_data
