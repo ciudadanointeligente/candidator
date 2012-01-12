@@ -39,7 +39,7 @@
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}
-                    <a class="save-personal-data" href="">guardar</a>
+
                 </ul>
             </div>
 
@@ -49,7 +49,7 @@
                     {% for link in candidate.link_set.all %}
                     <li class="link-list-li" id="id-li-link-{{link.pk}}">
                         <span class="link-number">{{forloop.counter}}</span> - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>(<a href="javascript:void(0);" onclick="link_delete({{link.pk}}); return false;">X</a>)
-                </a>
+                        </a>
                     </li>
                     {% endfor %}
                     </ul>
@@ -67,7 +67,12 @@
                         </span>
                         <br/>
                         <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+                        <br>
+                            <a class="save-personal-data" style="margin-right:0px;" href="">guardar</a>
                     </li>
+
+
+
                 </ul>
 
             </div>
