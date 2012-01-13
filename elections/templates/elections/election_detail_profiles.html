@@ -41,6 +41,8 @@
 
         <!--        ProfileHome   -->
         <ul class="profileHome">
+            {% if election.candidate_set.all %}
+
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
@@ -59,6 +61,12 @@
                 </a>
             </li>
             {% endfor %}{# election.candidate_set.all #}
+
+            {% else %}
+            <br>
+            <center><h4>Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación.</h4></center>
+            <br>
+            {% endif %}
         </ul>
 
     </div>
