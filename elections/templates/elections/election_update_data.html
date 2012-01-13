@@ -57,7 +57,13 @@
                 </li>
                 {% endfor %}
                 <li id="add_background_{{ background_category.pk}}">
-                    {{ background_form.name }}
+                    {% with background_form.name.html_name as html_name %}
+                    <input type="text" 
+                           name="{{ html_name }}" 
+                           class="add_background_name"
+                           id="id_{{ forloop.counter }}_{{ html_name }}" 
+                           placeholder="agregar antecedente" />
+                    {% endwith %}
                     <a class="save_background_link" href="#" pk="{{ background_category.pk}}" >
                         <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
                     </a>
@@ -66,7 +72,9 @@
         </li>
         {% endfor %}
         <li id="add_backgroundcategory">
-            {{ backgroundcategory_form.name }}
+            <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
+                               name="{{ backgroundcategory_form.name.html_name }}"
+                               placeholder="agregar categoría" />
             <a class="save_background_category_link" href="#" pk="{{election.pk}}">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
             </a>
@@ -215,7 +223,7 @@ $(document).ready(function() {
                          ["li[id^=add_question_] input#id_question" , "agregar pregunta"],
                          ["#add_category input"                     , "agregar categoría"],
                          ["li#add_backgroundcategory input"         , "agregar categoría"]];
-
+                         /*
     for (var i = 0; i < default_texts.length; i++) {
         $(default_texts[i][0]).val(default_texts[i][1])
 
@@ -231,13 +239,12 @@ $(document).ready(function() {
             }
         });
 
-    };
+    };*/
 
     $(".save_personal_data_link").click(function(e){
         var value_text = $(this).prev("p").children("input");
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
-        console.log(value_text);
 
         $.post('/'+ election_pk +'/personal_data/async_create/',
         {
@@ -276,7 +283,7 @@ $(document).ready(function() {
 
             var lista = $("ul#id_background_list_"+background_category_pk)
             lista.children().last().before(content)
-            value_text.val(default_texts[0][1])
+            value_text.val('')
         },
         'json');
         return false;
@@ -294,15 +301,22 @@ $(document).ready(function() {
             'value': value
         },
         function(data) {
-
-
-            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">{{ background_form.name }}<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
+            var last_id = -1;
+            $('.add_background_name').each(function(i, el) {
+                var firstIndex = el.id.indexOf('_');
+                var lastIndex = el.id.lastIndexOf('_');
+                var num = parseInt(el.id.substr( firstIndex + 1, lastIndex - firstIndex - 1));
+                last_id = Math.max(num, last_id)
+            });
+            last_id++;
+            var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" />'
+            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">' + background_input  + '<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
 
             var lista = $("ul#lista_categorias")
             lista.children().last().before(content)
-            value_text.val(default_texts[4][1])
+            value_text.val('')
             $(".save_background_link[pk=\""+data.pk+"\"]").click(save_background);
-            $("li#add_background_"+data.pk+" input#id_name").val(default_texts[0][1])
+            //$("li#add_background_"+data.pk+" input#id_name").val('')
         },
         'json');
         return false;
