@@ -88,7 +88,7 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
 
     # Asynchronous call for compare view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/async-call/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
 
     # Election description
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),

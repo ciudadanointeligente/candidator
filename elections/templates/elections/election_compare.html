@@ -39,15 +39,13 @@
     function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
 
         $("#"+div_id).empty();
-        var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
-         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        var dir = get_base_url() + "-async/"+candidate_slug+"/"
+         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}'},
             function(json) {
-
                 var data = json["personal_data"]
                 var candidate_photo = document.getElementById(photo_id)
                 candidate_photo.src = json["photo_route"]
                 var num_data = 0
-                alert("DATA:\n"+data)
                 for (var key in data) {
                     $("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">'+key+': </span><span class="candidateBasicComparisonAnswer">'+data[key]+'</span></li>')
                     num_data += 1
