@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load thumbnail %}
 
-
 {% block extra_head %}
 {% endblock extra_head %}
 
@@ -20,7 +19,7 @@
 {% endblock extra_js %}
 
 {% block title %}
-    {{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
+     {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}

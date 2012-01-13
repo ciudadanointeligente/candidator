@@ -3,6 +3,7 @@
 {% load candidate_tags %}
 {% load thumbnail %}
 
+
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
 {% endblock extra_head %}
@@ -19,8 +20,7 @@
 {% endblock extra_js %}
 
 {% block title %}
-    {{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
-{% endblock title %}
+ {% trans "Perfil de candidatos" %}, {{ election.name }} - {{ block.super }}{% endblock title %}
 
 {% block content %}
 

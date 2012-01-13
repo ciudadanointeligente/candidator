@@ -1,7 +1,8 @@
 {% extends "elections/base.html" %}
+{% load i18n %}
 
 {% block title %}
-{{ block.super }} Election
+{% trans 'Sobre la elección' %}, {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block extra_head %}
