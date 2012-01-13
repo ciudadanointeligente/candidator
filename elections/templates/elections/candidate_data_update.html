@@ -3,6 +3,10 @@
 {% load candidate_tags %}
 {% load thumbnail %}
 
+{% block title %}
+{% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
+{% endblock title %}
+
 {% block content %}
 
 {% include 'elections/election_admin_menu.html' %}

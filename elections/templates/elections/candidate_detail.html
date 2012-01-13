@@ -15,7 +15,7 @@
 {% endblock extra_js %}
 
 {% block title %}
-    {{ block.super }} Election
+   {% trans 'Perfil' %} {{ candidate.name }}, {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}

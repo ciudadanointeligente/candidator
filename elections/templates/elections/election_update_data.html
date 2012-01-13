@@ -1,6 +1,10 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
+{% block title %}
+{% trans 'Plantilla de la elección' %}
+{% endblock title %}
+
 {% block extra_head %}
     <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
 {%  endblock extra_head %}
