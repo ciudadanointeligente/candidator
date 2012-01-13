@@ -120,9 +120,9 @@
 	    </div>
             <div class="profileImg">
 		{% if winner.2.photo %}
-                <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{winner.2.photo.url}}">
+                <img width="140" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{winner.2.photo.url}}">
 		{% else %}
-		<img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}/img/default-user.gif">
+		<img width="140" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}/img/default-user.gif">
 		{% endif %}
             </div>
 
@@ -156,7 +156,7 @@
 					{% if data_candidate.2.photo %}
 <img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{data_candidate.2.photo.url}}">
 					{% else %}
-<img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{ STATIC_URL }}/img/default_logoeleccion.jpg">
+<img width="118" height="140" style="margin: 0px 0px 0px 0px" alt="{{data_candidate.2.slug}}" src="{{ STATIC_URL }}/img/default-user.gif">
 					{% endif %}
 
                                     </div>

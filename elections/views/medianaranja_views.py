@@ -68,8 +68,13 @@ def get_medianaranja1(request, username, election_slug):
             empty_questions.append((counter,y,y.answer_set.all()))
             counter += 1
         send_to_template.append((x,empty_questions))
+        check = False
+        for tupla in send_to_template:
+            if len(tupla[1]) > 0:
+                check = True
+                break
 
-    return render_to_response('medianaranja1.html', {'stt':send_to_template, 'election': election}, context_instance = RequestContext(request))
+    return render_to_response('medianaranja1.html', {'stt':send_to_template, 'check': check, 'election': election}, context_instance = RequestContext(request))
 
 def medianaranja1(request, username, election_slug):
 
