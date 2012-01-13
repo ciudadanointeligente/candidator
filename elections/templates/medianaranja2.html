@@ -40,7 +40,7 @@
 
                 	<table style="margin-left:10px;padding:0;">
 		                <tr>
-		                	<td style="width:290px;  border-right:1px dashed #d7d7d7;" valign="top">  	
+		                	<td style="width:290px;  border-right:1px dashed #d7d7d7;" valign="top">
 		                  		<table>
 			                  		<tr>
 			                  			<td colspan="2">
@@ -55,42 +55,42 @@
 												<div class="subcategory">{{category}}</div>
 											{% endfor %}
 										</td>
-						
+
                                         <td class="porcentaje">
 											{% for category_score in winner.1 %}
 												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
 											{% endfor %}
 										</td>
-                                
+
 									</tr>
 								</table>
 							</td>
-                            
+
 							<td  style="width:290px;" valign="top">
 
 								<table style="padding-left:8px;">
 								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
-									
+
 										<td colspan="2">
 											<div class="globo_left">
 												¿estás de acuerdo con tu resultado?
 											</div>
 										</td>
-									
-									
+
+
 										<td>&nbsp;
-											
+
 										</td>
 										<td>&nbsp;
-											
+
 										</td>
-									
+
 									<tr>
 										<td>
 											<input type="checkbox" value="si">Si
 										</td>
 										<td>&nbsp;
-											
+
 										</td>
 									</tr>
 									<tr>
@@ -98,41 +98,41 @@
 											<input type="checkbox" value="no">No
 										</td>
 										<td>&nbsp;
-											
+
 										</td>
 									</tr>
 									<tr>
 										<td>&nbsp;
-											
+
 										</td>
 										<td>
 											<input type="button" value="comparte">
 										</td>
 									</tr>
-								-->					
+								-->
 								</table>
 							</td>
-							
+
 						</tr>
 				</table>
-					
+
             </header>
 	    </div>
             <div class="profileImg">
 		{% if winner.2.photo %}
                 <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{winner.2.photo.url}}">
 		{% else %}
-		<img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}/img/default_logoeleccion.jpg">
-		{% endif %}                    
+		<img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{winner.2.name}}" src="{{ STATIC_URL }}/img/default-user.gif">
+		{% endif %}
             </div>
-            
-            
+
+
 			</div>
         </div>
     </div>
-    
-    
-    
+
+
+
     <div class="contenedor1">
     	<div class="contenedor2">
             <td colspan="2">
@@ -143,14 +143,14 @@
             <table>
                 {% for data_candidate in others %}
                     {% if forloop.counter0|divisibleby:"2" %}
-                       <tr> 
+                       <tr>
                     {% endif %}
-                    
+
                     <td>
                         <table style="width:418px;border-right:1px dashed #d7d7d7 ;margin-right: 13px; margin-bottom: 6px;">
                             <tr>
                                 <td valign="top">
-                                
+
                                     <div class="profileImg_small">
 
 					{% if data_candidate.2.photo %}
@@ -168,7 +168,7 @@
                                             <td>
                                                 {% for category in categories %}
                                                     <p>&nbsp;{{category}}</p>
-                                                {% endfor %} 
+                                                {% endfor %}
                                             </td>
                                             <td class="porcentaje">
                                                 {% for category_score in data_candidate.1 %}
