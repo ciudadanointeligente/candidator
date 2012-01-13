@@ -102,7 +102,9 @@
                 </li>
                 {% endfor %}
                 <li id="add_question_{{ category.pk }}">
-                    {{ question_form.question }}
+                    {% with question_form.question.html_name as html_name %}
+                    <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
+                    {% endwith %}
                     <a class="save_question_link" href="#" pk="{{category.pk}}">
                         <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
                     </a>
@@ -111,7 +113,9 @@
         </li>
         {% endfor %}
         <li id="add_category">
-            {{ category_form.name }}
+            {% with category_form.name.html_name as html_name %}
+            <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
+            {% endwith %}
             <a class="save_category_link" href="#" pk="{{election.pk}}">
                 <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
@@ -309,7 +313,7 @@ $(document).ready(function() {
                 last_id = Math.max(num, last_id)
             });
             last_id++;
-            var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" />'
+            var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" class="add_background_name" />'
             var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">' + background_input  + '<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
 
             var lista = $("ul#lista_categorias")
@@ -339,7 +343,7 @@ $(document).ready(function() {
 
             var lista = $("ul#id_question_list_"+category_pk)
             lista.children().last().before(content)
-            value_text.val(default_texts[1][1])
+            value_text.val('');
         },
         'json');
         return false;
@@ -356,14 +360,23 @@ $(document).ready(function() {
             'value': value
         },
         function(data) {
+            var last_id = -1;
+            $('.question_input').each(function(i, el) {
+                var firstIndex = el.id.indexOf('_');
+                var lastIndex = el.id.lastIndexOf('_');
+                var num = parseInt(el.id.substr( firstIndex + 1, lastIndex - firstIndex - 1));
+                last_id = Math.max(num, last_id)
+            });
+            last_id++;
+            var question_input = '<input type="text" name="{{ question_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar pregunta" class="question_input"/>';
 
-            var content = '<li id="category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_question_list_'+data.pk+'"><li id="add_question_'+data.pk+'">{{ question_form.question }}<a class="save_question_link" href="#" pk="'+data.pk+'"><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a></li></ul></li>';
+            var content = '<li id="category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_question_list_'+data.pk+'"><li id="add_question_'+data.pk+'">' + question_input + '<a class="save_question_link" href="#" pk="'+data.pk+'"><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a></li></ul></li>';
 
             var lista = $("ul#lista_preguntas")
             lista.children().last().before(content)
-            value_text.val(default_texts[2][1])
+            value_text.val('');
             $(".save_question_link[pk=\""+data.pk+"\"]").click(save_question);
-            $("li#add_question_"+data.pk+" input#id_question").val(default_texts[1][1])
+            //$("li#add_question_"+data.pk+" input#id_question").val(default_texts[1][1])
         },
         'json');
         return false;
