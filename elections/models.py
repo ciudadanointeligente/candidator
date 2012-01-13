@@ -126,7 +126,8 @@ class Candidate(models.Model):
         importances_by_category = self.get_importances_by_category(importances)
         scores_by_category = []
         for i in range(len(sum_by_category)):
-            scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
+            if importances_by_category[i] != 0:
+                scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
         return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
 
     def add_background(self, background, value):
