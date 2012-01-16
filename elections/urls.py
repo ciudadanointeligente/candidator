@@ -81,11 +81,14 @@ urlpatterns = patterns('',
     # Election compare view with both candidates (and considering one category)
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
 
+    # Election compare view with both candidates (and NO category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates_and_no_category', name='election_compare_two_candidates_and_no_category'),
+
     # Election compare view with 1 candidate
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
 
     # Asynchronous call for compare view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/async-call/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
 
     # Election description
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),
@@ -97,7 +100,7 @@ urlpatterns = patterns('',
 
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
-    
+
     url(r'^election/update/candidate/(?P<pk>\d+)/photo/$', CandidateUpdatePhotoView.as_view(), name='update_candidate_photo'),
 
     # Create candidate view
@@ -148,6 +151,9 @@ urlpatterns = patterns('',
     # Delete background view in wizzard
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
 
+    # Create Category Ajax
+    url(r'^(?P<election_pk>[-\w]+)/category/async_create/?$', 'candidator.elections.views.async_create_category', name='async_create_category'),
+
     # Delete category view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
 
@@ -159,6 +165,9 @@ urlpatterns = patterns('',
 
     # Create question view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/question/async_create/?$', 'candidator.elections.views.async_create_question' , name='async_create_question'),
+
+    # Delete link ajax
+    url(r'^(?P<link_pk>[-\d]+)/link/async_delete/?$', 'candidator.elections.views.async_delete_link' , name='async_delete_link'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),

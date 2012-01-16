@@ -3,6 +3,10 @@
 {% load candidate_tags %}
 {% load thumbnail %}
 
+{% block title %}
+{% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
+{% endblock title %}
+
 {% block content %}
 
 {% include 'elections/election_admin_menu.html' %}
@@ -39,7 +43,7 @@
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}
-                    <a class="save-personal-data" href="">guardar</a>
+
                 </ul>
             </div>
 
@@ -47,8 +51,9 @@
                 <span class="grey_edit mandatory">Links</span>
                 <ul class="link-list">
                     {% for link in candidate.link_set.all %}
-                    <li class="link-list-li">
-                        <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>
+                    <li class="link-list-li" id="id-li-link-{{link.pk}}">
+                        <span class="link-number">{{forloop.counter}}</span> - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>(<a href="javascript:void(0);" onclick="link_delete({{link.pk}}); return false;">X</a>)
+                        </a>
                     </li>
                     {% endfor %}
                     </ul>
@@ -66,7 +71,12 @@
                         </span>
                         <br/>
                         <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+                        <br>
+                            <a class="save-personal-data" style="margin-right:0px;" href="">guardar</a>
                     </li>
+
+
+
                 </ul>
 
             </div>
@@ -92,7 +102,7 @@
                     </li>
                 {% endfor %}
                 <li>
-                    <a class="save-background" href="#">Guardar</a>
+                    <a class="save-background" href="#" style="content: url(../../../static/img/ok.png);background-color: #AFCEEA;padding: 5px;border: 1px solid #A7C7E6;border-radius: 15px;">Guardar</a>
                 </li>
                 </ul>
             </div>
@@ -144,6 +154,24 @@
 
 {% block extra_js %}
         <script type="text/javascript">
+
+        function link_delete(link_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este link?");
+            if(answer){
+                var dir = "/"+link_pk +"/link/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                    function(json){
+                        $("li#id-li-link-"+link_pk).remove();
+                        $(".link-number").each(function(i){
+                            $(this).html(i+1);
+                        });
+                    })
+            }
+            else {
+                return false;
+            }
+        }
+
         function create_link(election_slug, candidate_slug){
             var link_name = document.getElementById("link_name").value
             var link_url = document.getElementById("link_url").value
@@ -161,7 +189,7 @@
                 var n = $(".link-list-li").size();
                 var name = data['name'];
                 var url = data['url'];
-                $(".link-list").append("<li>"+(n+1)+" - <a href="+url+" target='_blanc'>"+name+"</a></li>");
+                $(".link-list").append("<li class='link-list-li' id='id-li-link-"+data.pk+"'><span class='link-number'>"+(n+1)+"</span> - <a href="+url+" target='_blanc'>"+name+"</a>(<a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'>X</a>)</li>");
                 $("#link_name").val("");
                 $("#link_url").val("");
             },

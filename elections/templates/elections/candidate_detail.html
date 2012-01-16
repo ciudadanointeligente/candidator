@@ -15,14 +15,19 @@
 {% endblock extra_js %}
 
 {% block title %}
-    {{ block.super }} Election
+   {% trans 'Perfil' %} {{ candidate.name }}, {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
+    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+{% if election.owner.username == request.user.username %}
+    <a href="{% url election_update_data slug=election.slug %}">(Editar)</a>
+    {% endif %}
+    </h1>
+    </div>
 
     <div class="contenedor1">
         <div class="contenedor2">
@@ -31,7 +36,10 @@
 
 
                         <header>
-                            <div class="tit"><h3>{{ candidate.name }}</h3></div>
+                            <div class="tit"><h3>{{ candidate.name }}
+                            {% if election.owner.username == request.user.username %}
+                            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">(Llenar Plantilla)</a>
+                            {% endif %}</h3></div>
                         </header>
 
                         <div>

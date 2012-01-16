@@ -348,7 +348,7 @@ div.instrucciones{
 }
 
 .usuario p{
-	margin:0px;
+    margin:0px;
 }
 
 .clave h3{
@@ -361,7 +361,7 @@ div.instrucciones{
 
 .clave{
     margin-left: 20px;
-	margin-top: 13px;
+    margin-top: 13px;
 }
 
 .img_login{
@@ -388,20 +388,20 @@ div.instrucciones{
     padding: 1px 4px;
     color: white;
     line-height: 14px;
-	width: 319px;
+    width: 319px;
 }
 
 .background_item{
     background-color: #A1B2B8;
-	border: 1px solid #94A9AF;
-	padding: 1px 4px;
-	color: white;
-	line-height: 23px;
-	margin-left: 13px;
+    border: 1px solid #94A9AF;
+    padding: 1px 4px;
+    color: white;
+    line-height: 23px;
+    margin-left: 13px;
 }
 
 .background_list{
-	border:1px dashed #d7d7d7;
+    border:1px dashed #d7d7d7;
 }
 
 #newelection #id_description {

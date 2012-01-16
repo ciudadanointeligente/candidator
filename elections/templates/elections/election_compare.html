@@ -24,6 +24,7 @@
         for(i=0;i<radio_buttons.length;i++){
            if(radio_buttons[i].checked) return radio_buttons[i].value
         }
+        return ""
     }
 
     function get_base_url(){
@@ -38,10 +39,9 @@
     function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
 
         $("#"+div_id).empty();
-        var dir = get_base_url() + "/async-call/"+candidate_slug+"/"
-         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        var dir = get_base_url() + "-async/"+candidate_slug+"/"
+         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}'},
             function(json) {
-
                 var data = json["personal_data"]
                 var candidate_photo = document.getElementById(photo_id)
                 candidate_photo.src = json["photo_route"]
@@ -93,7 +93,7 @@
                 window.location = final_direction;
             }
         }
-    } 
+    }
 
     function get_comparation_data_in_radio_button(current_radio_button){
         var first_select  = document.getElementById("firstCandidate");
@@ -125,12 +125,12 @@
         hide_selected_candidate('second');
     });
 
-   
+
     </script>
 {% endblock extra_js %}
 
 {% block title %}
-{{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
+{% trans "Compara" %}, {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}
@@ -281,6 +281,8 @@
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
+
+	    {% if selected_category %}
             <section id ="result" class="comparisonResult" >
 
                 {% if first_candidate and second_candidate %}
@@ -312,15 +314,17 @@
 
                         </div>
                     {% endfor %}
-                
+
                 {% else %}
                     <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
                 {% endif %}
             </section>
+            {% endif %}
         </div>
         <aside class="categories">
             <h3 class="categoriesTitle">{% trans "Temas" %}</h3>
             <ul class="categoriesList">
+                {% if election.category_set.all %}
                 {% for category in election.category_set.all %}
                 <li>
                     <input type="radio" name="category"
@@ -333,10 +337,13 @@
                     <label for="category-{{ category.slug }}">{{ category.name }}</label>
                 </li>
                 {% endfor %}
+                {% else %}
+                <li><center><label>No hay categorías disponibles.</label></center></li>
+                {% endif %}
             </ul>
         </aside>
    </article>
-   
+
 		</div>
 	</div>
 

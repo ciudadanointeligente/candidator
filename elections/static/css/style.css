@@ -727,6 +727,7 @@ p textarea{
 
 .profileImg {
     float: left;
+    cursor: pointer;
 }
 
 .personaldataEdit{
