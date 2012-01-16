@@ -164,7 +164,17 @@ blockquote {
 
 .bt_siguiente{
     float: right;
-    margin-bottom: 15px;
+    content:url(../img/arrow.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+	margin: 13px 0px 20px 0px;
+}
+
+.bt_siguiente:hover{
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
 }
 
 .bt_agregar{

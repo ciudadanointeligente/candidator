@@ -509,6 +509,21 @@ ul.homeNav ul.sidebarMenu{
     letter-spacing: 1px;
 }
 
+
+/*---------------------------BUTTONS---------------------------------*/
+.bt_publish{
+	font-family: 'AllerBold';
+	color: white;
+	font-size: 10px;
+	margin-left: 10px;
+	margin-top: -18px;
+}
+
+.bt_publish:hover{
+	opacity:0.8;
+}
+
+
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
@@ -525,16 +540,38 @@ ul.homeNav ul.sidebarMenu{
     font-weight:bold;
     font-style:italic;
     color:#72acd9;
-    margin-left: 13px;
+    margin-left: 10px;
     line-height: 19px;
 }
 
+.menuedit_election{
+	font-family:'AllerBold';
+    color:#ffffff;
+    font-size:12px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    letter-spacing:1px;
+	padding: 2px 16px 2px 10px;
+	height: 26px;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.menuedit_election:after{
+	content:url(../img/flecha_blanca.png);
+    position: absolute;
+	margin-left: -17px;
+	margin-top: 6px;
+}
+
+
 .menuedit a{
-    width: 144px;
     display: block;
     color:#ffffff;
     line-height: 19px;
-    padding-left: 13px;
+    padding-left: 10px;
 }
 
 .menuedit a:hover{
