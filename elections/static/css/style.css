@@ -357,7 +357,6 @@ background-color:white;
     left: 50%;
     margin-left: -450px;
     margin-top: 25px;
-    overflow: hidden;
     position: relative;
     width: 900px;
 }
@@ -390,8 +389,8 @@ background-color:white;
     left: 50%;
     margin-left: -426px;
     overflow: hidden;
-    margin-top: 25px;
-    margin-bottom: -12px;
+	margin-bottom: -13px;
+	padding-top: 25px;
 }
 
 
@@ -523,16 +522,23 @@ ul.homeNav ul.sidebarMenu{
 	opacity:0.8;
 }
 
+.newElection{
+	position: absolute;
+	top: 16px;
+	left: 98.8%;
+}
+
 
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-    background:#c7dcf0;
-    width:157px;
-    margin-left: 173px;
-    float: left;
-    padding-top: 25px;
-    margin-top: -25px;
+    background: #C7DCF0;
+	width: 157px;
+	margin-left: 173px;
+	float: left;
+	padding-top: 25px;
+	margin-top: -25px;
+	min-height: 600px;
 }
 
 .menuedit_tit{
@@ -586,13 +592,13 @@ ul.homeNav ul.sidebarMenu{
 
 .papel_edit {
     background: none repeat scroll 0 0 white;
-    box-shadow: 0 1px 8px 1px #666666;
-    left: 2%;
-    margin-left: 0px;
-    margin-top: 25px;
-    overflow: hidden;
-    position: relative;
-    width: 720px;
+	box-shadow: 0 1px 8px 1px #666666;
+	left: 50%;
+	margin-bottom: 20%;
+	position: absolute;
+	width: 720px;
+	margin-left: -273px;
+	min-height: 250px;
 }
 
 .edit_tit h5{

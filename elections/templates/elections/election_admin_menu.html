@@ -1,10 +1,6 @@
  {% load i18n %}
     <div class="candidate-edit-menu">
 
-
-        <div class="menuedit_election"> {{ election.name }}</div>
-        <div class="bt_publish">{% trans 'PUBLICAR' %}</div>
-        <div class="menuedit link_otras_elecciones"><a href="#">{% trans 'Otras Elecciones' %}</a></div>
         <div class="menuedit_accordion">
         {% for my_election in user.election_set.all %}
             <div class="menuedit_tit nombre">{{ my_election.name }}</div>
@@ -25,13 +21,14 @@
                 <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
                 <div class="menuedit"><a href="{% url candidate_create_alone election_slug=my_election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
 
-                {% for candidate in my_election.candidate_set.all %}
-                <div class="menuedit">
-                    <a href="{% url candidate_data_update election_slug=my_election.slug slug=candidate.slug %}">{{candidate.name}}</a>
-                </div>
-                {% endfor %}
+             {% for candidate in my_election.candidate_set.all %}
+             <div class="menuedit">
+                 <a href="{% url candidate_data_update election_slug=my_election.slug slug=candidate.slug %}">{{candidate.name}}</a>
+             </div>
+             {% endfor %}
 
-            </div>
+
+        </div>
 
         {% endfor %}
 
