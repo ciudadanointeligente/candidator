@@ -128,10 +128,12 @@ class Candidate(models.Model):
         for i in range(len(sum_by_category)):
             if importances_by_category[i] != 0:
                 scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
-            if len(importances) > 0:
-                return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
             else:
-                return (0,scores_by_category)
+                scores_by_category.append(0)
+        if len(importances) > 0:
+            return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+        else:
+            return (0,scores_by_category)
 
     def add_background(self, background, value):
         bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
