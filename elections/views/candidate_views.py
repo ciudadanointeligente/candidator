@@ -156,7 +156,6 @@ class CandidateCreateAjaxView(CreateView):
 
 @login_required
 @require_POST
-# TODO: test
 def async_create_link(request, candidate_pk):
    link_name = request.POST.get('link_name', False)
    link_url = request.POST.get('link_url', False)
@@ -177,18 +176,6 @@ def async_delete_link(request, link_pk):
     link.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-
-
-@login_required
-@require_POST
-def async_create_candidate(request, election_slug):
-   cand = request.POST.get('candidate', False)
-   election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-   c = Candidate.objects.create(name = cand, election = election)
-   c.save()
-   json_dictionary = {"result": "OK"}
-   return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
-
 
 class CandidateUpdatePhotoView(UpdateView):
     form_class = CandidatePhotoForm

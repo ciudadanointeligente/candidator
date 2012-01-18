@@ -648,6 +648,14 @@ class CandidateCreateAjaxView(TestCase):
         self.url = reverse('async_create_candidate', kwargs={'election_slug': self.election.slug, })
         self.params = {'name': 'Juan Candidato'}
 
+    def test_create_candidate_asynchronously(self):
+        self.client.login(username=self.user.username, password='joe')
+        response = self.client.post(self.url,self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, '{"result": "OK"}')
+
+
+
     def test_post_without_login(self):
         response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
@@ -753,6 +761,29 @@ class CandidateUpdateDataViewTest(TestCase):
 
         self.assertTrue('answer_form' in response.context)
         self.assertIsInstance(response.context['answer_form'], AnswerForm)
+
+
+    def test_create_a_link_asynchronously(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        link_name = 'mi link'
+        link_url = 'http://milink.com'
+        link_details = {
+            'link_name': link_name,
+            'link_url': link_url,
+            'election_slug': self.election.slug,
+            'candidate_slug': self.candidate.slug,
+            'candidate_name': self.candidate.name,
+        }
+        url = reverse('link_create_ajax', kwargs={
+            'candidate_pk': self.candidate.pk,
+            })
+        request = self.client.post(url, link_details)
+        self.assertEquals(request.status_code, 200)
+        self.assertEqual(self.candidate.link_set.count(), 1)
+        link = self.candidate.link_set.all()[0]
+        self.assertEqual(link.name, link_name)
+        self.assertEqual(link.url, link_url)
+
 
 
 class CandidateUpdatePhotoViewTest(TestCase):

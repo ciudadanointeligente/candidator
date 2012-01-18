@@ -131,7 +131,10 @@ class Candidate(models.Model):
             else:
                 scores_by_category.append(0)
         if len(importances) > 0:
-            return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+            try:
+                return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+            except :
+                return (0,scores_by_category)
         else:
             return (0,scores_by_category)
 
