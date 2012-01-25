@@ -276,7 +276,8 @@ class ElectionCompareViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.content)
         expected_personal_data = {"edad":u"miles de años de edad"}
-        self.assertEqual(response_json['personal_data'],expected_personal_data)
+        self.assertTrue("edad" in response_json["personal_data"])
+        self.assertEqual(expected_personal_data["edad"],response_json['personal_data']["edad"])
 
 
     def test_comparison_with_only_one_candidate_is_being_selected_and_the_candidate_does_not_have_photo(self):

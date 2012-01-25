@@ -168,8 +168,11 @@ class Candidate(models.Model):
     @property
     def get_personal_data(self):
         pd_dict = {}
-        for pd in self.personal_data.all():
-            pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+        for pd in self.election.personaldata_set.all():
+            try:
+                pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+            except :
+                pd_dict[pd.label] = None
         return pd_dict
 
     def get_questions_by_category(self, category):

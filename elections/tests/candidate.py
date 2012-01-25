@@ -97,7 +97,20 @@ class CandidateModelTest(TestCase):
                                                                                        value='new_value')
 
         personal_data_set = candidate.get_personal_data
-        self.assertEqual(personal_data_set, {'foo': 'new_value'})
+        self.assertTrue('foo' in personal_data_set)
+        self.assertEqual('new_value', personal_data_set['foo'])
+
+    def test_get_personal_data_with_no_values(self):
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+            election=self.election)
+
+        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+            label='foo')
+
+        #And I will not create the value for that personal data
+        personal_data_set = candidate.get_personal_data
+        self.assertTrue('foo' in personal_data_set)
+        self.assertTrue(personal_data_set['foo'] is None)
 
     def test_get_background(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
@@ -138,13 +151,20 @@ class CandidateModelTest(TestCase):
                                                                     label='foo2')
 
         candidate.add_personal_data(personal_data, 'new_value')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value'})
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value',candidate.get_personal_data['foo'])
 
         candidate.add_personal_data(personal_data, 'new_value2')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2'})
+
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value2', candidate.get_personal_data['foo'])
 
         candidate.add_personal_data(personal_data2, 'new_value3')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2', 'foo2':'new_value3'})
+
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value2', candidate.get_personal_data['foo'])
+        self.assertTrue('foo2' in candidate.get_personal_data)
+        self.assertEqual('new_value3', candidate.get_personal_data['foo2'])
 
 
     def test_add_background(self):
