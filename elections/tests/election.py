@@ -1,5 +1,6 @@
 # encoding=UTF-8
 from django.core.files.base import File
+import json
 import os
 from django.conf import settings
 from django.test import TestCase
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background
+from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -251,9 +252,93 @@ class ElectionCompareViewTest(TestCase):
                                                 'username': user.username,
                                                 'slug': election.slug,
                                                 'candidate_slug': first_candidate.slug,
-                                            }))
+                                            }), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        #405 means method not allowed
+        self.assertEqual(response.status_code, 405)
 
+
+    def test_comparison_with_only_one_candidate_is_being_selected(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
+        self.personal_data = PersonalData.objects.create(election=election, label='edad')
+        self.personal_data_candidate = PersonalDataCandidate.objects.create(personal_data=self.personal_data,
+            candidate=first_candidate,
+            value=u'miles de años de edad')
+        response = self.client.post(reverse('election_compare_asynchronous_call',
+            kwargs={
+                'username': user.username,
+                'slug': election.slug,
+                'candidate_slug': first_candidate.slug,
+                }))
+
+        self.assertEqual(response.status_code, 200)
+        response_json = json.loads(response.content)
+        expected_personal_data = {"edad":u"miles de años de edad"}
+        self.assertEqual(response_json['personal_data'],expected_personal_data)
+
+
+    def test_comparison_with_only_one_candidate_is_being_selected_and_the_candidate_does_not_have_photo(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+
+
+        response = self.client.post(reverse('election_compare_asynchronous_call',
+            kwargs={
+                'username': user.username,
+                'slug': election.slug,
+                'candidate_slug': first_candidate.slug,
+                }))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_election_about(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+
+
+
+    def test_comparison_of_two_candidates_with_no_category(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+        second_candidate = Candidate.objects.create(name='sec baz', election=election)
+        url = reverse('election_compare_two_candidates_and_no_category',kwargs={
+            'username': user.username,
+            'slug':election.slug,
+            'first_candidate_slug':first_candidate.slug,
+            'second_candidate_slug':second_candidate.slug,
+        })
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_comparison_of_the_same_candidate_with_no_category(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        first_candidate = Candidate.objects.create(name='bar baz', election=election)
+        url = reverse('election_compare_two_candidates_and_no_category',kwargs={
+            'username': user.username,
+            'slug':election.slug,
+            'first_candidate_slug':first_candidate.slug,
+            'second_candidate_slug':first_candidate.slug,
+            })
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
+
+    def test_get_election_about(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user,description="This is a description of the election")
+        url = reverse('election_about',kwargs={
+            'username': user.username,
+            'slug': election.slug
+        })
+        response = self.client.get(url)
+        self.assertContains(response,'election')
+        self.assertEqual(response.context['election'], election)
+
+
 
 
 class ElectionCreateViewTest(TestCase):
