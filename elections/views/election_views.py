@@ -34,6 +34,12 @@ class ElectionUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
 
+    def get_context_data(self, **kwargs):
+        context = super(ElectionUpdateView, self).get_context_data(**kwargs)
+        election = kwargs['form'].instance
+        context['election_url'] = self.request.build_absolute_uri(election.get_absolute_url())
+        return context
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         election = get_object_or_404(Election, slug=kwargs['slug'], owner=request.user)

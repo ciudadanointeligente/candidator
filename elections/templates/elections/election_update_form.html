@@ -18,7 +18,7 @@
 
         <br/>
 
-        <div class="permalink"><span>Permalink:</span><span>{{ form.instance.get_absolute_url }}</span></div>
+        <div class="permalink"><span>Permalink:</span><span>{{ election_url }}</span></div>
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}

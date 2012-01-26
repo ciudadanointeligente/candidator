@@ -362,7 +362,7 @@ class ElectionCreateViewTest(TestCase):
 
         self.client.login(username='joe', password='doe')
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
+        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':u'saqué la info de las paginas'}
         response = self.client.post(reverse('election_create'), params)
         f.close()
 
@@ -382,7 +382,7 @@ class ElectionCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f}
+        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
         response = self.client.post(reverse('election_create'), params, follow=True)
         f.seek(0)
 
@@ -456,7 +456,7 @@ class ElectionUpdateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f}
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':u'me contó un pajarito'}
         response = self.client.post(reverse('election_update', kwargs={'slug': self.election.slug}), params, follow=True)
         f.seek(0)
 
@@ -473,6 +473,17 @@ class ElectionUpdateViewTest(TestCase):
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('election_update',
                                                kwargs={'slug': election.slug}))
+
+
+    def test_it_contains_the_election_full_url(self):
+        username = 'joe'
+        self.client.login(username=username, password='doe')
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+
+        self.assertTrue('election_url' in response.context)
+        url = response.context['election_url']
+        self.assertTrue(url.startswith('http://'))
+        self.assertTrue(url.endswith(reverse('election_detail', kwargs={'username':username, 'slug': self.election.slug})))
 
 
 class ElectionUrlsTest(TestCase):
