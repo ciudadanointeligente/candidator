@@ -25,6 +25,7 @@ class Election(models.Model):
     slug = models.CharField(max_length=255, verbose_name=_("Con este link podras acceder a la eleccion:"))
     owner = models.ForeignKey('auth.User')
     description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
+    information_source = models.TextField(_(u"DE DONDE OBTUVISTE LA INFORMACIÓN:"), max_length=10000, blank = True)
     logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -128,10 +129,15 @@ class Candidate(models.Model):
         for i in range(len(sum_by_category)):
             if importances_by_category[i] != 0:
                 scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
-            if len(importances) > 0:
-                return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
             else:
+                scores_by_category.append(0)
+        if len(importances) > 0:
+            try:
+                return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+            except :
                 return (0,scores_by_category)
+        else:
+            return (0,scores_by_category)
 
     def add_background(self, background, value):
         bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
@@ -163,8 +169,11 @@ class Candidate(models.Model):
     @property
     def get_personal_data(self):
         pd_dict = {}
-        for pd in self.personal_data.all():
-            pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+        for pd in self.election.personaldata_set.all():
+            try:
+                pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+            except :
+                pd_dict[pd.label] = None
         return pd_dict
 
     def get_questions_by_category(self, category):

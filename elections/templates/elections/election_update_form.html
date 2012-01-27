@@ -18,6 +18,8 @@
 
         <br/>
 
+        <div class="permalink"><span>Permalink:</span><span>{{ election_url }}</span></div>
+
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}
             <p class="fieldWrapper">
@@ -50,7 +52,9 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_source" class="blue_edit">¿DE DONDE SACASTE LA INFORMACIÓN?</label>
+                <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
+                {{ form.information_source }}
+                {{ form.information_source.errors }}
             </p>
 
 

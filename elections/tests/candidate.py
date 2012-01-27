@@ -97,7 +97,20 @@ class CandidateModelTest(TestCase):
                                                                                        value='new_value')
 
         personal_data_set = candidate.get_personal_data
-        self.assertEqual(personal_data_set, {'foo': 'new_value'})
+        self.assertTrue('foo' in personal_data_set)
+        self.assertEqual('new_value', personal_data_set['foo'])
+
+    def test_get_personal_data_with_no_values(self):
+        candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+            election=self.election)
+
+        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
+            label='foo')
+
+        #And I will not create the value for that personal data
+        personal_data_set = candidate.get_personal_data
+        self.assertTrue('foo' in personal_data_set)
+        self.assertTrue(personal_data_set['foo'] is None)
 
     def test_get_background(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
@@ -138,13 +151,20 @@ class CandidateModelTest(TestCase):
                                                                     label='foo2')
 
         candidate.add_personal_data(personal_data, 'new_value')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value'})
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value',candidate.get_personal_data['foo'])
 
         candidate.add_personal_data(personal_data, 'new_value2')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2'})
+
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value2', candidate.get_personal_data['foo'])
 
         candidate.add_personal_data(personal_data2, 'new_value3')
-        self.assertEqual(candidate.get_personal_data, {'foo': 'new_value2', 'foo2':'new_value3'})
+
+        self.assertTrue('foo' in candidate.get_personal_data)
+        self.assertEqual('new_value2', candidate.get_personal_data['foo'])
+        self.assertTrue('foo2' in candidate.get_personal_data)
+        self.assertEqual('new_value3', candidate.get_personal_data['foo2'])
 
 
     def test_add_background(self):
@@ -648,6 +668,14 @@ class CandidateCreateAjaxView(TestCase):
         self.url = reverse('async_create_candidate', kwargs={'election_slug': self.election.slug, })
         self.params = {'name': 'Juan Candidato'}
 
+    def test_create_candidate_asynchronously(self):
+        self.client.login(username=self.user.username, password='joe')
+        response = self.client.post(self.url,self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, '{"result": "OK"}')
+
+
+
     def test_post_without_login(self):
         response = self.client.post(self.url, self.params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
@@ -753,6 +781,29 @@ class CandidateUpdateDataViewTest(TestCase):
 
         self.assertTrue('answer_form' in response.context)
         self.assertIsInstance(response.context['answer_form'], AnswerForm)
+
+
+    def test_create_a_link_asynchronously(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        link_name = 'mi link'
+        link_url = 'http://milink.com'
+        link_details = {
+            'link_name': link_name,
+            'link_url': link_url,
+            'election_slug': self.election.slug,
+            'candidate_slug': self.candidate.slug,
+            'candidate_name': self.candidate.name,
+        }
+        url = reverse('link_create_ajax', kwargs={
+            'candidate_pk': self.candidate.pk,
+            })
+        request = self.client.post(url, link_details)
+        self.assertEquals(request.status_code, 200)
+        self.assertEqual(self.candidate.link_set.count(), 1)
+        link = self.candidate.link_set.all()[0]
+        self.assertEqual(link.name, link_name)
+        self.assertEqual(link.url, link_url)
+
 
 
 class CandidateUpdatePhotoViewTest(TestCase):
