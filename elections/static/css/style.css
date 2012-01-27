@@ -518,6 +518,23 @@ ul.homeNav ul.sidebarMenu{
 	margin-top: -18px;
 }
 
+.bt{
+	font-family: 'AllerBold';
+	color: white;
+	font-size: 12px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+}
+
 .bt_publish:hover{
 	opacity:0.8;
 }
