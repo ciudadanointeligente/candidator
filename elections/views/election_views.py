@@ -20,6 +20,7 @@ from django.views.decorators.http import require_POST
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 # Import models
+from elections.forms.candidate_form import CandidateForm
 from elections.models import Election, Candidate, Category
 
 
@@ -38,6 +39,8 @@ class ElectionUpdateView(UpdateView):
         context = super(ElectionUpdateView, self).get_context_data(**kwargs)
         election = kwargs['form'].instance
         context['election_url'] = self.request.build_absolute_uri(election.get_absolute_url())
+        new_candidate_form = CandidateForm()
+        context['new_candidate_form'] = new_candidate_form
         return context
 
     @method_decorator(login_required)

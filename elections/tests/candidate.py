@@ -610,23 +610,20 @@ class AsyncDeleteCandidateTest(TestCase):
 
     def test_post_with_login(self):
         self.client.login(username='joe', password='doe')
-
-        request = self.client.post(reverse('async_delete_candidate',
-                                kwargs={'candidate_pk': self.candidate.pk}),
-                                        {})
+        url = reverse('async_delete_candidate')
+        request = self.client.post(url , {'candidate_pk': self.candidate.pk})
         self.assertEquals(request.status_code, 200)
 
     def test_post_without_login(self):
         request = self.client.post(reverse('async_delete_candidate',
-                                kwargs={'candidate_pk': self.candidate.pk}),
-                                        {})
+                                kwargs={}), {'candidate_pk': self.candidate.pk})
         self.assertEquals(request.status_code, 302)
 
 
     def test_get_405(self):
         self.client.login(username='joe', password='doe')
         request = self.client.get(reverse('async_delete_candidate',
-                                kwargs={'candidate_pk': self.candidate.pk}))
+                                kwargs={}),{'candidate_pk': self.candidate.pk})
 
         self.assertEquals(request.status_code, 405)
 
@@ -642,17 +639,16 @@ class AsyncDeleteCandidateTest(TestCase):
                                             photo='photos/dummy.jpg')
 
         self.client.login(username='joe', password='doe')
-        request = self.client.post(reverse('async_delete_candidate',
-                                kwargs={'candidate_pk': candidate2.pk}))
+        url = reverse('async_delete_candidate')
+        request = self.client.post(url,{'candidate_pk': candidate2.pk})
 
         self.assertEquals(request.status_code, 404)
 
     def test_post_success(self):
         self.client.login(username='joe', password='doe')
         temp_pk = self.candidate.pk
-        request = self.client.post(reverse('async_delete_candidate',
-                                kwargs={'candidate_pk': self.candidate.pk}),
-                                        {})
+        request = self.client.post(reverse('async_delete_candidate'),
+                                        {'candidate_pk': self.candidate.pk})
 
         self.assertEquals(request.status_code, 200)
         self.assertEquals(request.content, '{"result": "OK"}')
@@ -856,3 +852,23 @@ class CandidateUpdatePhotoViewTest(TestCase):
         candidate = Candidate.objects.get(pk=self.candidate.pk)
         self.assertEqual(candidate.photo.file.read(), self.file.read())
         os.unlink(candidate.photo.path)
+
+
+class CandidateListAjaxViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
+        self.candidate_one = Candidate.objects.create(name='candidate one', election=self.election)
+        self.candidate_two = Candidate.objects.create(name='candidate two', election=self.election)
+
+    def test_get_list_for_a_defined_election(self):
+        url_params = {'username':self.user.username,'election_slug':self.election.slug}
+        url = reverse('candidate_list_json',kwargs=url_params)
+        request_params = {}
+        response = self.client.post(url,request_params,HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        candidate_names = json.loads(response.content)
+        self.assertTrue(candidate_names.__len__(),2)
+        self.assertEquals(candidate_names[0],{'name':'candidate one','id':self.candidate_one.pk})
+        self.assertEquals(candidate_names[1],{'name':'candidate two','id':self.candidate_two.pk})
+
+

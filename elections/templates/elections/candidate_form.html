@@ -38,7 +38,7 @@
         {{ form.non_field_errors }}
         {{ form.as_p }}
         <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
-      <div id="link_add">
+        <div id="link_add">
             <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">
                 <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
             </a>
@@ -102,8 +102,11 @@
         function candidate_delete(candidate_pk){
             var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
             if(answer){
-                var dir = "/"+candidate_pk +"/candidate/async_delete/";
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                var dir = "{% url async_delete_candidate %}";
+                $.post(dir, {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'candidate_pk':id
+                        },
                     function(json){
                         $("#candidate_"+candidate_pk).remove();
                         if($("[id ^= candidate_]").size() == 0)

@@ -93,8 +93,11 @@
         function candidate_delete(candidate_pk){
             var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
             if(answer){
-                var dir = "/"+candidate_pk +"/candidate/async_delete/";
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                var dir = "{% url async_delete_candidate %}";
+                $.post(dir, {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'candidate_pk':id
+                        },
                     function(json){
                         $("#candidate_"+candidate_pk).remove();
                         if($("[id ^= candidate_]").size() == 0)

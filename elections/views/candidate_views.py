@@ -12,7 +12,7 @@ from django.utils import simplejson as json, simplejson
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
 # Import forms
 from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm, CandidatePhotoForm
@@ -113,12 +113,22 @@ class CandidateDataUpdateView(UpdateView):
 
 @login_required
 @require_POST
-def async_delete_candidate(request, candidate_pk):
+def async_delete_candidate(request):
+    candidate_pk = request.POST['candidate_pk']
     candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
     candidate.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
+
+@require_POST
+def get_candidate_list_as_json(request,username,election_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=election_slug)
+    candidates = election.candidate_set.all()
+    result = []
+    for candidate in candidates:
+        result.append({'name' : candidate.name,'id' : candidate.id})
+    return HttpResponse(json.dumps(result),content_type='application/json')
 
 class CandidateCreateAjaxView(CreateView):
     model = Candidate
