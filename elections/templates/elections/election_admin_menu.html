@@ -19,13 +19,9 @@
                 <div class="menuedit"><a href="{% url election_update_data slug=my_election.slug %}">{% trans 'Preguntas' %}</a></div>
 
                 <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
+                <!-- Creo que esta funcionalidad de agregar un nuevo candidato debe ir en otro sitio -->
                 <div class="menuedit"><a href="{% url candidate_create_alone election_slug=my_election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
-
-             {% for candidate in my_election.candidate_set.all %}
-             <div class="menuedit">
-                 <a href="{% url candidate_data_update election_slug=my_election.slug slug=candidate.slug %}">{{candidate.name}}</a>
-             </div>
-             {% endfor %}
+                <div class="menuedit"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a></div>
 
 
         </div>

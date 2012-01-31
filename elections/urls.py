@@ -121,6 +121,9 @@ urlpatterns = patterns('',
     # Candidate data Update (PersonalData and Background)
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='candidate_data_update'),
 
+    # Multiple candidate data Update (answering questions for several candidates)
+    url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='multiple_candidate_data_update'),
+
     # Pre-Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
 

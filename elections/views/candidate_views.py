@@ -97,9 +97,16 @@ class CandidateDataUpdateView(UpdateView):
         return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                          slug=self.kwargs['slug'],
-                                          election__owner=self.request.user)
+        try:
+            election = Election.objects.get(slug=self.kwargs['election_slug'],owner=self.request.user)
+        except:
+            return Election.objects.none()
+
+        if 'slug' not in self.kwargs:
+            self.kwargs['slug'] = election.candidate_set.all()[0].slug
+
+        return self.model.objects.filter(election=election,
+                                          slug=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
         context = super(CandidateDataUpdateView, self).get_context_data(**kwargs)

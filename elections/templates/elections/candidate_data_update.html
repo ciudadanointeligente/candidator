@@ -13,8 +13,16 @@
 
 <div class="papel_edit">
     <div class="contenedor_edit">
-
-        <div class="edit_tit"><h5>1. Datos Personales</h5></div>
+        <ul>
+            {% for my_candidate in election.candidate_set.all  %}
+                {% if my_candidate == candidate %}
+                    <li class="current_candidate">{{ my_candidate.name }}</li>
+                {% else %}
+                    <li class="normal_candidate"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
 
             <div class="profileImg">
 

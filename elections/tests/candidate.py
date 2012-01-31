@@ -800,6 +800,37 @@ class CandidateUpdateDataViewTest(TestCase):
         self.assertEqual(link.name, link_name)
         self.assertEqual(link.url, link_url)
 
+class MultipleCandidateDataUpdate(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='asd@asd.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+            owner=self.user,
+            slug='barbaz',
+            description='esta es una descripcion')
+
+        self.first_candidate, created = Candidate.objects.get_or_create(name='Primer Candidato',
+            slug='primer-candidato',
+            election=self.election)
+
+        self.second_candidate, created = Candidate.objects.get_or_create(name='Segundo Candidato',
+            slug='segundo-candidato',
+            election=self.election)
+        self.url = reverse('multiple_candidate_data_update', kwargs={'election_slug': self.election.slug})
+
+
+    def test_get_first_candidate_ordered_by_name(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertEqual(response.status_code, 200)
+
+
+        self.assertTrue('election' in response.context)
+        self.assertTrue('candidate' in response.context)
+
+        self.assertEqual(response.context['election'], self.election)
+        self.assertEqual(response.context['candidate'], self.first_candidate)
+
 
 
 class CandidateUpdatePhotoViewTest(TestCase):
