@@ -328,3 +328,11 @@ def create_default_backgrounds(sender, instance, created, **kwargs):
             for background in settings.DEFAULT_BACKGROUND_CATEGORIES[name]:
                 Background.objects.create(name=background, category=category)
 
+@receiver(post_save, sender=Election)
+def create_default_questions(sender, instance, created, **kwargs):
+    if created:
+        for default_category in settings.DEFAULT_QUESTIONS:
+            category = Category.objects.create(name=default_category['Category'], election=instance)
+            for default_question in default_category['Questions']:
+                Question.objects.create(question=default_question['question'],category=category)
+

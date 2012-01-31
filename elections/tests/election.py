@@ -76,7 +76,16 @@ class ElectionModelTest(TestCase):
         backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
 
-
+    def test_create_default_questions_and_categories(self):
+        user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
+        question_categories = Category.objects.filter(election=election)
+        self.assertEquals(question_categories.count(),1)
+        self.assertEquals(question_categories[0].name,u'Educación')
+        questions = question_categories[0].question_set.all()
+        self.assertEquals(questions.count(),2)
+        self.assertEquals(questions[0].question,u'¿Crees que Chile debe tener una educación gratuita?')
+        self.assertEquals(questions[1].question,u'¿Estas de acuerdo con la desmunicipalización?')
 
 
 
@@ -84,10 +93,12 @@ class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
         user = User.objects.create(username='foobar')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
-        response = self.client.get(reverse('election_detail',
-                                           kwargs={
-                                               'username': user.username,
-                                               'slug': election.slug}))
+        url = reverse('election_detail',
+            kwargs={
+                'username': user.username,
+                'slug': election.slug
+            })
+        response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEquals(response.context['election'], election)
@@ -345,6 +356,8 @@ class ElectionCompareViewTest(TestCase):
 class ElectionCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+
+
 
     def test_create_election_by_user_without_login(self):
         response = self.client.get(reverse('election_create'))

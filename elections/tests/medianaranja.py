@@ -14,6 +14,10 @@ class TestMediaNaranja(TestCase):
         election, created = Election.objects.get_or_create(name='election',
                                                             owner=user,
                                                             slug='barbaz')
+        #deleting default categories
+        for category in election.category_set.all():
+            category.delete()
+        #end of deleting default categories
         candidate1 = Candidate.objects.create(name='BarBaz', election=election)
         candidate2 = Candidate.objects.create(name='FooFoo', election=election)
         category1, created = Category.objects.get_or_create(name='FooCat',
@@ -144,6 +148,10 @@ class TestMediaNaranjaWithNoCategories(TestCase):
         election, created = Election.objects.get_or_create(name='election',
             owner=user,
             slug='barbaz')
+        #deleting default categories
+        for category in election.category_set.all():
+            category.delete()
+        #end of deleting default categories
         self.candidate1 = Candidate.objects.create(name='BarBaz', election=election)
         self.candidate2 = Candidate.objects.create(name='FooFoo', election=election)
 
