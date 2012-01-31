@@ -21,10 +21,11 @@ http_regexp = re.compile(r"^(ht|f)tps?://.*")
 
 # Create your models here.
 class Election(models.Model):
-    name = models.CharField(max_length=255, verbose_name=_("NOMBRE:"))
+    name = models.CharField(max_length=255, verbose_name=_(u"NOMBRE DE LA ELECCIÓN:"))
     slug = models.CharField(max_length=255, verbose_name=_("Con este link podras acceder a la eleccion:"))
     owner = models.ForeignKey('auth.User')
     description = models.TextField(_(u"DESCRIPCIÓN DE LA ELECCIÓN:"), max_length=10000)
+    information_source = models.TextField(_(u"DE DONDE OBTUVISTE LA INFORMACIÓN:"), max_length=10000, blank = True)
     logo = models.ImageField(upload_to = 'logos/', blank = True, verbose_name="por último escoge una imagen que la represente:")
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -36,6 +37,9 @@ class Election(models.Model):
     def __unicode__(self):
         return u"%s" % self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('election_detail', None, {'username': self.owner.username, 'slug': self.slug})
 
 class Candidate(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nombre:")
@@ -123,8 +127,17 @@ class Candidate(models.Model):
         importances_by_category = self.get_importances_by_category(importances)
         scores_by_category = []
         for i in range(len(sum_by_category)):
-            scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
-        return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+            if importances_by_category[i] != 0:
+                scores_by_category.append(sum_by_category[i]*100.0/importances_by_category[i])
+            else:
+                scores_by_category.append(0)
+        if len(importances) > 0:
+            try:
+                return ((sum(sum_by_category)*100.0/sum(importances)),scores_by_category)
+            except :
+                return (0,scores_by_category)
+        else:
+            return (0,scores_by_category)
 
     def add_background(self, background, value):
         bcs = BackgroundCandidate.objects.filter(background=background, candidate=self)
@@ -156,8 +169,11 @@ class Candidate(models.Model):
     @property
     def get_personal_data(self):
         pd_dict = {}
-        for pd in self.personal_data.all():
-            pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+        for pd in self.election.personaldata_set.all():
+            try:
+                pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
+            except :
+                pd_dict[pd.label] = None
         return pd_dict
 
     def get_questions_by_category(self, category):
@@ -311,4 +327,12 @@ def create_default_backgrounds(sender, instance, created, **kwargs):
             category = BackgroundCategory.objects.create(name=name, election=instance)
             for background in settings.DEFAULT_BACKGROUND_CATEGORIES[name]:
                 Background.objects.create(name=background, category=category)
+
+@receiver(post_save, sender=Election)
+def create_default_questions(sender, instance, created, **kwargs):
+    if created:
+        for default_category in settings.DEFAULT_QUESTIONS:
+            category = Category.objects.create(name=default_category['Category'], election=instance)
+            for default_question in default_category['Questions']:
+                Question.objects.create(question=default_question['question'],category=category)
 

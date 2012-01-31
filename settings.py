@@ -209,4 +209,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEFAULT_PERSONAL_DATA = ['Edad', 'Estado civil', u'Profesión', u'Género']
 DEFAULT_BACKGROUND_CATEGORIES = {u'Educación': [u'Educación primaria', u'Educación secundaria', u'Educación superior'],
-                                 u'Antecedentes laborales': [u'Último trabajo']}   
+                                 u'Antecedentes laborales': [u'Último trabajo']}
+
+DEFAULT_QUESTIONS = [{
+    'Category':u'Educación',
+    'Questions':[
+        {
+            'question':u'¿Crees que Chile debe tener una educación gratuita?'
+        },
+        {
+            'question':u'¿Estas de acuerdo con la desmunicipalización?'
+        }
+    ]
+}]

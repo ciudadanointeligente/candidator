@@ -1,16 +1,30 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 
+{% block title %}
+{% trans 'Información general de la elección' %}
+{% endblock title %}
+
+
+{% block extra_head %}
+    <link href="{{ STATIC_URL }}/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
+{%  endblock extra_head %}
+
+
+
 {% block content %}
 
-<div class="papel">
-	<div class="contenedor_edit">
+{% include 'elections/election_admin_menu.html' %}
+
+<div class="papel_edit">
+    <div class="contenedor_edit">
 
 
         <div class="edit_tit"><h5>INFORMACIÓN GENERAL DE LA ELECCIÓN</h5></div>
-        
-	
+
+
         <br/>
+        <div class="permalink"><span>Permalink:</span><span>{{ election_url }}</span></div>
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}
@@ -42,17 +56,51 @@
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
-            
-            <p class="fieldWrapper">
-                <label for="id_source" class="blue_edit">¿DE DONDE SACASTE LA INFORMACIÓN?</label>
-            </p>
-            
-            
 
-            <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
-               <img src="file:///ca/Users/ca/Documents/1 Proyectos/C. INTELIGENTE/CANDIDATOR/candidator/elections/templates/elections/{{ STATIC_URL }}img/bt_siguiente.png"/>
-            </a>
+            <p class="fieldWrapper">
+                <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
+                {{ form.information_source }}
+                {{ form.information_source.errors }}
+            </p>
+
+
+
+            <a class="save" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
+               </a>
+
         </form>
+
+    </div>
+
+
+    <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
+        <ul id="lista_candidatos">
+            {% for candidate in election.candidate_set.all %}
+                <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
+                <span class="tit_fondoverde">
+                    {{ candidate.name }}
+                </span>
+                <a href="javascript:void(0);" onclick="deleteCandidate({{candidate.pk}}); return false;"><img style="margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                </li>
+            {% endfor %}
+        </ul>
+        <br/>
+    <form id="newcandidate" method="POST" action="{% url async_create_candidate election_slug=election.slug %}">{% csrf_token %}
+        {{ new_candidate_form.non_field_errors }}
+        {{ new_candidate_form.as_p }}
+        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
+        <div id="link_add">
+            <a class="bt_agregar" id="add_candidate" href="javascript:void(0);" onclick="$('#newcandidate').submit();">
+                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            </a>
+        </div>
+
+
+    </form>
+
+
+
+</div>
 
 
 
@@ -60,19 +108,54 @@
 
 {% block extra_js %}
     {{ form.media }}
+    <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
     <script type="text/javascript">
-        $("#id_name").slug({
-            'target':$('#id_slug')
+        $(document).ready(function() {
+            $('#newcandidate').ajaxForm(function() {
+                getCandidateList();
+            });
         });
-        $('#example').dialog({
-            title: "{% trans 'Ejemplo' %}",
-            width: 440,
-            height: 410,
-            modal: true,
-            autoOpen: false
-        });
+        function getCandidateList(){
+            $.post(
+                    '{% url candidate_list_json election_slug=election.slug username=election.owner.username %}',
+                    {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    function(data){
+                        drawCandidateList(data);
+                    }
+            )
+        }
+
+        function drawCandidateList(candidateList){
+            $('#lista_candidatos li').remove();
+
+            for(var index in candidateList){
+                var html = '<li style="margin-bottom:4px;" id="candidate_'+candidateList[index].id+'"><span class="tit_fondoverde">';
+                html += candidateList[index].name;
+                html += '<a href="javascript:void(0);" onclick="deleteCandidate('+candidateList[index].id+'); return false;">';
+                html += '<img style="margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>';
+                html += '</a>';
+                html += '</span>';
+                html += '</li>';
+
+                $('#lista_candidatos').append(html);
+            }
+        }
+
+    function deleteCandidate(id){
+        var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
+        if(answer){
+            var dir = "{% url async_delete_candidate %}";
+            $.post(dir, {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'candidate_pk':id
+                    },
+                    getCandidateList)
+        }
+        else {
+            return false;
+        }
+    }
     </script>
 {% endblock %}
-
-	</div>
-</div>

@@ -12,10 +12,10 @@ from django.utils import simplejson as json, simplejson
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
 # Import forms
-from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm
+from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm, CandidatePhotoForm
 
 # Import models
 from elections.models import Election, Candidate, PersonalData, Link
@@ -97,9 +97,16 @@ class CandidateDataUpdateView(UpdateView):
         return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.filter(election__slug=self.kwargs['election_slug'],
-                                          slug=self.kwargs['slug'],
-                                          election__owner=self.request.user)
+        try:
+            election = Election.objects.get(slug=self.kwargs['election_slug'],owner=self.request.user)
+        except:
+            return Election.objects.none()
+
+        if 'slug' not in self.kwargs:
+            self.kwargs['slug'] = election.candidate_set.all()[0].slug
+
+        return self.model.objects.filter(election=election,
+                                          slug=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
         context = super(CandidateDataUpdateView, self).get_context_data(**kwargs)
@@ -111,24 +118,24 @@ class CandidateDataUpdateView(UpdateView):
         return context
 
 
-#def candidate_data_update(request, election_slug, slug):
-#    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-#    candidate = get_object_or_404(Candidate, slug=slug, election=election)
-
-    #return render_to_response(\
-     #       'elections/candidate_data_update.html',
-      #      {'candidate': candidate, 'election': election},
-       #     context_instance=RequestContext(request))
-
-
 @login_required
 @require_POST
-def async_delete_candidate(request, candidate_pk):
+def async_delete_candidate(request):
+    candidate_pk = request.POST['candidate_pk']
     candidate = get_object_or_404(Candidate, pk=candidate_pk, election__owner=request.user)
     candidate.delete()
     json_dictionary = {"result":"OK"}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
+
+@require_POST
+def get_candidate_list_as_json(request,username,election_slug):
+    election = get_object_or_404(Election, owner__username=username, slug=election_slug)
+    candidates = election.candidate_set.all()
+    result = []
+    for candidate in candidates:
+        result.append({'name' : candidate.name,'id' : candidate.id})
+    return HttpResponse(json.dumps(result),content_type='application/json')
 
 class CandidateCreateAjaxView(CreateView):
     model = Candidate
@@ -166,7 +173,6 @@ class CandidateCreateAjaxView(CreateView):
 
 @login_required
 @require_POST
-# TODO: test
 def async_create_link(request, candidate_pk):
    link_name = request.POST.get('link_name', False)
    link_url = request.POST.get('link_url', False)
@@ -177,15 +183,36 @@ def async_create_link(request, candidate_pk):
    candidate = get_object_or_404(Candidate, slug=slug, election=election, name=cand_name)
    link = Link.objects.create(name = link_name, url= link_url, candidate = candidate)
    link.save()
-   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix}
+   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix, 'pk':link.pk}
    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
 @login_required
 @require_POST
-def async_create_candidate(request, election_slug):
-   cand = request.POST.get('candidate', False)
-   election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-   c = Candidate.objects.create(name = cand, election = election)
-   c.save()
-   json_dictionary = {"result": "OK"}
-   return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+def async_delete_link(request, link_pk):
+    link = get_object_or_404(Link, pk = link_pk, candidate__election__owner = request.user)
+    link.delete()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+class CandidateUpdatePhotoView(UpdateView):
+    form_class = CandidatePhotoForm
+    model = Candidate
+
+    def get_template_names(self):
+        return 'elections/candidate_photo_form.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if Candidate.objects.filter(pk=kwargs['pk'], election__owner=request.user).count() <= 0:
+            return HttpResponseForbidden()
+        return super(CandidateUpdatePhotoView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(CandidateUpdatePhotoView, self).get_form_kwargs()
+        kwargs['candidate'] = self.object
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('candidate_data_update',
+                       kwargs={'election_slug': self.object.election.slug, 'slug': self.object.slug})
+

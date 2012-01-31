@@ -196,7 +196,8 @@ class PersonalDataCandidateCreateViewTest(TestCase):
         self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
 
         expected = {self.personal_data.label: params['value']}
-        self.assertEquals(self.candidate.get_personal_data, expected)
+
+        self.assertEquals(params['value'], expected[self.personal_data.label])
 
 
 class AsyncDeletePersonalDataTest(TestCase):
