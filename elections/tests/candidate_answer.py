@@ -125,6 +125,12 @@ class AssociateCandidatesAnswersTest(TestCase):
         self.election2, created = Election.objects.get_or_create(name='BarBaz2',
                                                             owner=self.user,
                                                             slug='barbaz2')
+        #deleting default categories
+        for category in self.election.category_set.all():
+            category.delete()
+        for category in self.election2.category_set.all():
+            category.delete()
+        #end of deleting default categories
         self.candidate = Candidate.objects.create(name='Bar Baz',
                                                             election=self.election)
         self.candidate2, created = Candidate.objects.get_or_create(

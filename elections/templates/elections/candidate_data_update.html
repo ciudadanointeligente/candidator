@@ -1,216 +1,289 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
 {% load candidate_tags %}
-{% block content %}
-<div class="candidate-edit-menu">
-<h1>Menu</h1>
-<ul>
-<h2>Editar Eleccion</h2>
-<li>Informacion general</li>
-<li>Preguntas</li>
-</ul>
-<ul>
-<h2>Candidatos</h2>
-{% for candidates in election.candidate_set.all %}
-<li>{{candidates.name}}</li>
-{% endfor %}
-</ul>
-</div>
-<h1>Eleccion: {{ election.name }}</h1>
-<h2>Candidato: {{ candidate.name }}</h2>
-  <div class="profileImg">
+{% load thumbnail %}
 
-                    <img width="160" height="200" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
+{% block title %}
+{% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
+{% endblock title %}
+
+{% block content %}
+
+{% include 'elections/election_admin_menu.html' %}
+
+<div class="papel_edit">
+    <div class="contenedor_edit">
+        <ul>
+            {% for my_candidate in election.candidate_set.all  %}
+                {% if my_candidate == candidate %}
+                    <li class="current_candidate">{{ my_candidate.name }}</li>
+                {% else %}
+                    <li class="normal_candidate"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
+
+            <div class="profileImg">
+
+            {% thumbnail candidate.photo "80x100" crop="center" as im %}
+            <img src="{{ im.url }}" alt="{{ candidate.name }}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
+            {% empty %}
+                {% if candidate.photo %}
+                <img width="80" height="100" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
+                {% else %}
+                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" />
+                {% endif %}
+            {% endthumbnail %}
+            </div>
+
+            <div class="personaldataEdit">
+                <ul>
+                    <span class="green_edit">NOMBRE</span><br />
+                    <div class="candidate_name">{{ candidate.name }}</div>
+
+                    {% for personal_data in election.personaldata_set.all %}
+                    <li>
+
+                        <span class="green2_edit">{{ personal_data.label }}</span>
+                        <span>
+                        <input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
+                        <span id="status-pd-{{ personal_data.pk}}"></span>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+           <div class="linksEdit">
+                <span class="grey_edit mandatory">Links</span>
+                <ul class="link-list">
+                    {% for link in candidate.link_set.all %}
+                    <li class="link-list-li" id="id-li-link-{{link.pk}}">
+                        <span class="link-number">{{forloop.counter}}</span> - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a>(<a href="javascript:void(0);" onclick="link_delete({{link.pk}}); return false;">X</a>)
+                        </a>
+                    </li>
+                    {% endfor %}
+                    </ul>
+                    <br>
+                    <ul>
+                    <li>
+                        <span class="grey_edit">{% trans 'Nombre' %}</span><br/>
+                        <span>
+                            <input type="text" name="name" id="link_name" />
+                        </span>
+                        <br/>
+                        <span class="grey_edit">{% trans 'Url' %}</span><br/>
+                        <span>
+                            <input type="text" name="url" id="link_url"/>
+                        </span>
+                        <br/>
+                        <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+                        <br>
+                            <a class="save-personal-data" style="margin-right:0px;" href="">guardar</a>
+                    </li>
+
+
+
+                </ul>
 
             </div>
 
-<h3>Datos Personales</h3>
-<ul>
-    {% for personal_data in election.personaldata_set.all %}
-    <li>
-        {{ personal_data.label }} :
-        <input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/>
-        <span id="status-pd-{{ personal_data.pk}}"></span>
-    </li>
-    {% endfor %}
-    <a class="save-personal-data" href="">guardar</a>
-</ul>
+            <br style='clear: both;'/>
+            <div class="backgroundEdit">
+                <div class="edit_tit"><h5>2. Antecedentes</h5></div>
+                <ul>
+                {% for background_category in election.backgroundcategory_set.all %}
+                    <li>
+                    <h2>{{ background_category.name }}</h2>
+                    <ul>
+                    {% for background in background_category.background_set.all %}
+                        <li style='margin-top: 5px; margin-bottom: 0px;'>
+                            <span class="green2_edit">{{ background.name }}</span><br/>
+                            <span>
+                            <input class="background-input" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
+                            </span>
+                            <span id="status-b-{{ background.pk}}"></span>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    </li>
+                {% endfor %}
+                <li>
+                    <a class="save-background" href="#" style="content: url(../../../static/img/ok.png);background-color: #AFCEEA;padding: 5px;border: 1px solid #A7C7E6;border-radius: 15px;">Guardar</a>
+                </li>
+                </ul>
+            </div>
 
-<h3>Links</h3>
-<ul class="link-list">
-{% for link in candidate.link_set.all %}
-    <li class="link-list-li">{{ forloop.counter }} - <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a></li>
-    {% endfor %}
-    </ul>
-    <br>
-    <ul>
-    <li>
-            {% trans 'Nombre' %}: <input type="text" name="name" id="link_name" />
-            {% trans 'Url' %}: <input type="text" name="url" id="link_url"/>
-            <a class="save-link" href="javascript:void(0);" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
-    </li>
-</ul>
 
-<h3>Antecedentes</h3>
-<ul>
-{% for background_category in election.backgroundcategory_set.all %}
-    <li>
-    {{ background_category.name }}
-    <ul>
-    {% for background in background_category.background_set.all %}
-        <li>
-            {{ background.name }} :
-            <input class="background-input" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
-            <span id="status-b-{{ background.pk}}"></span>
-        </li>
-    {% endfor %}
-    </ul>
-    </li>
-{% endfor %}
-<li><a class="save-background" href="">Guardar</a></li>
-</ul>
+<div class="questionsEdit">
 
-<h3>Cuestionario</h3>
-{% for category in election.category_set.all %}
-    <h2>{{ category.name }}</h2>
-    <ul>
-    {% for question in category.question_set.all %}
-        <li id="question-{{ question.pk }}">{{ question.question }}
+        <div class="edit_tit"><h5>3. Cuestionario</h5></div>
+        {% for category in election.category_set.all %}
+            <h2>{{ category.name }}</h2>
             <ul>
-            {% for answer in question.answer_set.all %}
-                <li>
-                    <label>
-                        <input type="radio" class="answer" id="answer-{{ answer.pk }}" name="answer-{{question.pk}}" {% if answer in candidate.answers.all %} checked="checked"{% endif %}/>
-                        &nbsp;{{ answer.caption }}
-                    </label>
-                </li>
+            {% for question in category.question_set.all %}
+                <li id="question-{{ question.pk }}">{{ question.question }}
+                    <ul>
+                    {% for answer in question.answer_set.all %}
+                        <li>
+                            <label>
+                                <input type="radio" class="answer" id="answer-{{ answer.pk }}" name="answer-{{question.pk}}" {% if answer in candidate.answers.all %} checked="checked"{% endif %}/>
+                                &nbsp;{{ answer.caption }}
+                            </label>
+                        </li>
 
+                    {% endfor %}
+                        <li>
+                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
+                                {% csrf_token %}
+                                <input type="text" name="caption" />
+                                <input type="submit" value="{% trans 'crear' %}" />
+                            </form>
+                        </li>
+                    </ul>
+                </li>
             {% endfor %}
-                <li>
-                    <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
-                        {% csrf_token %}
-                        <input type="text" name="caption" />
-                        <input type="submit" value="{% trans 'crear' %}" />
-                    </form>
-                </li>
             </ul>
-        </li>
-    {% endfor %}
-    </ul>
-{% empty %}
-    <h2>No hay categorías</h2>
-{% endfor %}
+        {% empty %}
+            <h2>No hay categorías</h2>
+        {% endfor %}
 
 
-{# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
-{% endblock %}
+        {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
+
+    </div>
+</div>
+
+<div id="form-candidate-photo">
+</div>
+{% endblock content %}
 
 
 {% block extra_js %}
-<script type="text/javascript">
-function create_link(election_slug, candidate_slug){
-    var link_name = document.getElementById("link_name").value
-    var link_url = document.getElementById("link_url").value
+        <script type="text/javascript">
 
-    $.post('/{{ candidate.pk }}/create_link',
-    {
-        'csrfmiddlewaretoken': '{{ csrf_token }}',
-        'link_name': link_name,
-        'link_url': link_url,
-        'election_slug': election_slug,
-        'candidate_slug': candidate_slug,
-        'candidate_name': '{{candidate.name}}',
-    },
-    function(data) {
-        var n = $(".link-list-li").size();
-        var name = data['name'];
-        var url = data['url'];
-        $(".link-list").append("<li>"+(n+1)+" - <a href="+url+" target='_blanc'>"+name+"</a></li>");
-        $("#link_name").val("");
-        $("#link_url").val("");
-    },
-    'json');
-    return false;
-}
+        function link_delete(link_pk){
+            var answer = confirm("¿Estas seguro que quieres eliminar este link?");
+            if(answer){
+                var dir = "/"+link_pk +"/link/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                    function(json){
+                        $("li#id-li-link-"+link_pk).remove();
+                        $(".link-number").each(function(i){
+                            $(this).html(i+1);
+                        });
+                    })
+            }
+            else {
+                return false;
+            }
+        }
 
-$(".save-personal-data").click(function(e){
-    $(".personal-data-input").each(function(i){
-        var value_text = $(this);
-        var value = value_text.val();
-        var personal_data_pk = value_text.attr('pk');
+        function create_link(election_slug, candidate_slug){
+            var link_name = document.getElementById("link_name").value
+            var link_url = document.getElementById("link_url").value
 
-        $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
-        {
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'value': value
-        },
-        function(data) { $("#status-pd-"+personal_data_pk).text("guardado!"); },
-        'json');
-    });
-    return false;
-});
+            $.post('/{{ candidate.pk }}/create_link',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_name': link_name,
+                'link_url': link_url,
+                'election_slug': election_slug,
+                'candidate_slug': candidate_slug,
+                'candidate_name': '{{candidate.name}}',
+            },
+            function(data) {
+                var n = $(".link-list-li").size();
+                var name = data['name'];
+                var url = data['url'];
+                $(".link-list").append("<li class='link-list-li' id='id-li-link-"+data.pk+"'><span class='link-number'>"+(n+1)+"</span> - <a href="+url+" target='_blanc'>"+name+"</a>(<a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'>X</a>)</li>");
+                $("#link_name").val("");
+                $("#link_url").val("");
+            },
+            'json');
+            return false;
+        }
 
-$(".save-background").click(function(e){
-    $(".background-input").each(function(i){
-        var value_text = $(this);
-        var value = value_text.val();
-        var background_pk = value_text.attr('pk');
+        $(".save-personal-data").click(function(e){
+            $(".personal-data-input").each(function(i){
+                var value_text = $(this);
+                var value = value_text.val();
+                var personal_data_pk = value_text.attr('pk');
 
-        $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
-        {
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'value': value
-        },
-        function(data) {
-            $("#status-b-"+background_pk).text("guardado!");
-        },
-        'json');
-    });
-    return false;
-});
-
-
-$('.answerform').live('submit', function (e) {
-        e.preventDefault()
-        $.post($(this).attr('action'), $(this).serialize(), function (json) {
-            var new_radio = $('<input type="radio">');
-            new_radio.addClass('answer');
-            new_radio.attr('id', 'answer-' + json.pk);
-            new_radio.attr('name', 'answer-' + json.question);
-            new_radio.attr('checked', true);
-            var new_answer = $('<li>').append($('<label>').append(new_radio).append('&nbsp; ' + json.caption));
-
-            $('#question-' + json.question + ' > ul > li:last-child').before(new_answer);
-
-            $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+                $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
                 {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'answer': json.pk
+                    'value': value
                 },
-                function(data) {},
-                'json'
-            );
+                function(data) { $("#status-pd-"+personal_data_pk).text("guardado!"); },
+                'json');
+            });
+            return false;
         });
-        $('input[name=caption]', this).val('');
-    });
 
-$(".answer").live('change', function(e){
-    console.log("asd");
-    var answerId = $(this).attr('id');
-    answerId = answerId.substr(answerId.indexOf('-')+1);
-    console.log(answerId);
-    var $answerEl = $(this);
-    $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
-    {
-        'csrfmiddlewaretoken': '{{ csrf_token }}',
-        'answer': answerId
-    },
-    function(data) {
-        $answerEl.siblings().removeClass('active');
-        $("#answer-"+data.answer).addClass('active');
-    },
-    'json');
-});
+        $(".save-background").click(function(e){
+            $(".background-input").each(function(i){
+                var value_text = $(this);
+                var value = value_text.val();
+                var background_pk = value_text.attr('pk');
 
-</script>
-{% endblock %}
+                $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+                {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'value': value
+                },
+                function(data) {
+                    $("#status-b-"+background_pk).text("guardado!");
+                },
+                'json');
+            });
+            return false;
+        });
+
+
+        $('.answerform').live('submit', function (e) {
+                e.preventDefault()
+                $.post($(this).attr('action'), $(this).serialize(), function (json) {
+                    var new_radio = $('<input type="radio">');
+                    new_radio.addClass('answer');
+                    new_radio.attr('id', 'answer-' + json.pk);
+                    new_radio.attr('name', 'answer-' + json.question);
+                    new_radio.attr('checked', true);
+                    var new_answer = $('<li>').append($('<label>').append(new_radio).append('&nbsp; ' + json.caption));
+
+                    $('#question-' + json.question + ' > ul > li:last-child').before(new_answer);
+
+                    $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+                        {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'answer': json.pk
+                        },
+                        function(data) {},
+                        'json'
+                    );
+                });
+                $('input[name=caption]', this).val('');
+            });
+
+        $(".answer").live('change', function(e){
+            console.log("asd");
+            var answerId = $(this).attr('id');
+            answerId = answerId.substr(answerId.indexOf('-')+1);
+            console.log(answerId);
+            var $answerEl = $(this);
+            $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'answer': answerId
+            },
+            function(data) {
+                $answerEl.siblings().removeClass('active');
+                $("#answer-"+data.answer).addClass('active');
+            },
+            'json');
+        });
+        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+        $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+        </script>
+{% endblock extra_js %}

@@ -1,63 +1,29 @@
 {% extends "elections/base.html" %}
+{% load i18n %}
 
-{% block title %}
-{{ block.super }} Election
-{% endblock title %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{ election.logo }}" high = "200" width = "202"><br/>
-<h2>Eleccion</h2><a href="{% url election_detail username=election.owner slug=election.slug %}">{{ election.name }}</a> <a href="{% url election_update slug=election.slug %}">(Editar)</a>
 
-<br>
-<h2>Candidatos</h2>(<a href="{% url candidate_create election_slug=election.slug %}">Agregar Candidatos</a>):
-<ul>
-{% for candidate in election.candidate_set.all %}
-    <li>
-    <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug%}">{{ candidate.name }}</a>
-    <a href="{% url candidate_update election_slug=election.slug slug=candidate.slug %}">(Editar)</a>
-    <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug %}">(llenar plantilla)</a>
-    <a href="{% url associate_answer_candidate election_slug=election.slug candidate_slug=candidate.slug %}">(Responder Cuestionario)</a>
-    </li>
-{% endfor %}
-</ul>
-<br>
-<h2>Antecedentes</h2>(<a href="{% url background_category_create election_slug=election.slug %}">Editar Antecedentes</a>)
+{% include 'elections/election_admin_menu.html'%}
 
-<ul>
-{% for background_category in election.backgroundcategory_set.all %}
-    <li>
-    {{ background_category.name }}
-    <ul>
-    {% for background in background_category.background_set.all %}
-        <li>{{ background.name }}</li>
-    {% endfor %}
-    </ul>
-    </li>
-{% endfor %}
-</ul>
+<div class="papel_edit">
+	<div class="contenedor_edit">
 
-
-<br>
-<h2>Cuestionario</h2>
-(<a href="{% url category_create election_slug=election.slug %}">Editar Cuestionario</a>):
-<ul>
-{% for category in election.category_set.all %}
-    <li>
-    {{ category.name }} <a href="{% url category_update election_slug=election.slug slug=category.slug %}">(Editar)</a>
-    <ul>
-        {% for question in category.question_set.all %}
-            <li>
-            {{ question.question}}
-            <ul>
-                {% for answer in question.answer_set.all %}
-                    <li>{{ answer.caption }}</li>
-                {% endfor %}
-            </ul>
-            </li>
-        {% endfor %}
-    </ul>
-    </li>
-{% endfor %}
-</ul>
-
+    <div class="instrucciones">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
+    <p>1. Hacer cambios en la elección en el menú <a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Editar elección"</a></p>
+    <p>2. Completar las planillas de cada candidato en el menú <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Candidatos"</a></p>
+    
+    
+    <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
+    3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
+    {% endblocktrans %}</p>
+   
+   </div> 
+</div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+$('#election-url').keydown(function(event){event.preventDefault();})
+</script>
+{% endblock extra_js %}

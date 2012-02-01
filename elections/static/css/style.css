@@ -1,6 +1,8 @@
 @charset "UTF-8";
 /* CSS Document */
 
+html, body { height: 100%; }
+
 body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
     width: 100%;}
 
@@ -44,7 +46,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 /* links */
 a:link, a:visited { text-decoration: none; }
 a:hover{
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /* headings */
@@ -120,18 +122,18 @@ h3{
 
 h4 { font-size: 12px; }
 
-h5 { 
+h5 {
     color:#80b6e2;
     font-size:34px;
     text-transform:uppercase;
-	margin: 50px 25px 13px;
-	text-decoration: none;
+    margin: 50px 25px 13px;
+    text-decoration: none;
 }
 
-h6 { 
-	font-size: 12px; 
-	text-transform: uppercase;
-	padding-top:10px;
+h6 {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-top:10px;
 }
 
 /* horizontal rule */
@@ -335,7 +337,7 @@ background-color:white;
     font-size: 13px;
     padding: 2px 30px 2px 4px;
     text-transform: uppercase;
-	margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .accordionContent{
@@ -350,53 +352,52 @@ background-color:white;
 /*=====================FONDO=========================*/
 
 .papel{
-	background: none repeat scroll 0 0 white;
+    background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #666666;
     left: 50%;
     margin-left: -450px;
     margin-top: 25px;
-    overflow: hidden;
     position: relative;
     width: 900px;
 }
 
 .contenedor1{
-	width: 850px;
-	border: 1px solid #D7D7D7;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom:25px;
+    width: 850px;
+    border: 1px solid #D7D7D7;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-bottom:25px;
 }
 
 .contenedor2{
-	width: 824px;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 13px;
-	padding-left:13px;
-	margin-bottom: 13px;
+    width: 824px;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+    margin-top: 13px;
+    padding-left:13px;
+    margin-bottom: 13px;
 }
 
 .contenedor3{
-	width: 850px;
-	position: relative;
-	left: 50%;
-	margin-left: -426px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom: -12px;
+    width: 850px;
+    position: relative;
+    left: 50%;
+    margin-left: -426px;
+    overflow: hidden;
+	margin-bottom: -13px;
+	padding-top: 25px;
 }
 
 
 /*======= HOME ========*/
 
 #homeNavigation{
-	margin-top: 13px;
+    margin-top: 13px;
 }
 
 ul.homeNav{}
@@ -443,7 +444,7 @@ ul.homeNav{}
     position: absolute;
     text-align: center;
     width: 100%;
-	letter-spacing: 2px;
+    letter-spacing: 2px;
 }
 
 .homeLi:last-child{
@@ -456,8 +457,8 @@ ul.homeNav{}
 }
 
 .homeListMedianaranja h5{
-	color:#94a9af;
-	margin-top: 154px;
+    color:#94a9af;
+    margin-top: 154px;
 }
 
 .homeListPerfiles {
@@ -466,9 +467,9 @@ ul.homeNav{}
 
 .homeListPerfiles h5{
     color:#94a9af;
-	margin-top: 154px;
-	margin-left: 7px;
-	text-indent: 14px;
+    margin-top: 154px;
+    margin-left: 7px;
+    text-indent: 14px;
 }
 
 .homeListComparar{
@@ -477,9 +478,9 @@ ul.homeNav{}
 
 .homeListComparar h5{
     color:#94a9af;
-	margin-top: 154px;
-	margin-left: 7px;
-	text-indent: 21px;
+    margin-top: 154px;
+    margin-left: 7px;
+    text-indent: 21px;
 }
 
 ul.homeNav ul.sidebarMenu{
@@ -487,83 +488,255 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-	position: relative;
-	margin-top: -47px;
-	border-right: 1px dashed #DFDFDF;
-	width: 150px;
-	height: 70px;
+    width: 824px;
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 13px;
 }
 
 .nombre_eleccion{
-	width: 676px;
-	position: relative;
-	margin-left: 176px;
-	margin-bottom: 5px;
+    position: relative;
+    margin-bottom: 5px;
 }
 
 .fecha_eleccion {
-	margin-left: 176px;
+    font-family: 'AllerBold';
+    color: #72ACD9;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/*---------------------------BUTTONS---------------------------------*/
+.bt_publish{
 	font-family: 'AllerBold';
-	color: #72ACD9;
+	color: white;
+	font-size: 10px;
+	margin-left: 10px;
+	margin-top: -18px;
+}
+
+.bt{
+	font-family: 'AllerBold';
+	color: white;
 	font-size: 12px;
-    text-transform:uppercase;
-    letter-spacing:1px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
 }
 
-/*---------------------------EDIT---------------------------------*/
-
-.edit_tit h5{
-	font-size:24px;
-	margin-top: 0px;
-	margin: 0px 0px 25px;
+.bt_publish:hover{
+	opacity:0.8;
 }
 
-.contenedor_edit{
-	width: 800px;
-	position: relative;
-	left: 50%;
-	margin-left: -400px;
-	overflow: hidden;
-	margin-top: 25px;
-	margin-bottom: -12px;
+.newElection{
+	position: absolute;
+	top: 16px;
+	left: 98.8%;
 }
 
-.blue_edit{
+
+/*---------------------------MENU EDIT---------------------------------*/
+
+.candidate-edit-menu{
+    background: #C7DCF0;
+	width: 157px;
+	margin-left: 173px;
+	float: left;
+	padding-top: 25px;
+	margin-top: -25px;
+	min-height: 600px;
+}
+
+.menuedit_tit{
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-weight:bold;
+    font-style:italic;
+    color:#72acd9;
+    margin-left: 10px;
+    line-height: 19px;
+}
+
+.menuedit_election{
 	font-family:'AllerBold';
     color:#ffffff;
     font-size:12px;
     background-color:#80b6e2;
     border:1px solid #72acd9;
     text-transform:uppercase;
+    letter-spacing:1px;
+	padding: 2px 16px 2px 10px;
+	height: 26px;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.menuedit_election:after{
+	content:url(../img/flecha_blanca.png);
+    position: absolute;
+	margin-left: -17px;
+	margin-top: 6px;
+}
+
+
+.menuedit a{
+    display: block;
+    color:#ffffff;
+    line-height: 19px;
+    padding-left: 10px;
+}
+
+.menuedit a:hover{
+    background-color:#bbd4ed;
+}
+
+.menuedit a:active{
+    background-color:#afceea;
+}
+
+/*---------------------------EDIT---------------------------------*/
+
+.papel_edit {
+    background: none repeat scroll 0 0 white;
+	box-shadow: 0 1px 8px 1px #666666;
+	left: 50%;
+	margin-bottom: 20%;
+	position: absolute;
+	width: 720px;
+	margin-left: -273px;
+	min-height: 250px;
+}
+
+.edit_tit h5{
+    font-size:24px;
+    margin-top: 0px;
+    margin: 0px 0px 25px;
+}
+
+.contenedor_edit{
+    width: 670px;
+    position: relative;
+    left: 59%;
+    margin-left: -400px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    height: 100%;
+}
+
+.green_edit{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:12px;
+    background-color:#a1b2b8;
+    border:1px solid #94a9af;
+    text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left: 16px;
+    letter-spacing:1px;
+    margin-left:16px;
+}
+
+.green_edit:before {
+    content:url(../img/asterisco_verde.png);
+    position: absolute;
+    margin-top: 1px;
+}
+
+.green2_edit{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:12px;
+    background-color:#a1b2b8;
+    border:1px solid #94a9af;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+    letter-spacing:1px;
+    margin-left: 16px;
+}
+
+.grey_edit{
+    font-family:'AllerBold';
+    color:#757a7e;
+    font-size:12px;
+    background-color:#e8e8e8;
+    border:1px solid #d7d7d7;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+    letter-spacing:1px;
+    margin-left:16px;
+}
+
+.grey_edit.mandatory:before {
+    content:url(../img/asterisco_grey.png);
+    position: absolute;
+    margin-top: 1px;
+}
+
+.blue_edit{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:12px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 1px 4px 1px;
+    letter-spacing:1px;
+    margin-left: 16px;
 }
 
 .blue_edit:before {
-	content:url(../img/asterisco_blue.png);
-	position: absolute;
-	margin-top: 5px;
+    content:url(../img/asterisco_blue.png);
+    position: absolute;
+    margin-top: 5px;
 }
 
 .lightblue_edit{
-	font-family:'AllerBold';
-	color:#ffffff;
+    font-family:'AllerBold';
+    color:#ffffff;
     font-size:12px;
     background-color:#afceea;
     border:1px solid #a7c7e6;
     text-transform:uppercase;
     padding: 1px 4px 1px;
-	letter-spacing:1px;
-	margin-left: 16px;
+    letter-spacing:1px;
+    margin-left: 16px;
+}
+
+.candidate_name{
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 15px;
+    padding: 1px 4px;
+    margin-top: 3px;
+    margin-left: 16px;
+    margin-bottom: 8px;
 }
 
 p input {
-	background-color: #E8E8E8;
-	border: 1px solid gainsboro;
-	height: 17px;
-	width: 328px;
-	margin-top: 3px;
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 17px;
+    width: 328px;
+    margin-top: 3px;
+}
+
+span input {
+    background-color: #E8E8E8;
+    border: 1px solid gainsboro;
+    height: 17px;
+    width: 313px;
+    margin: 3px 16px 8px;
 }
 
 p textarea{
@@ -572,5 +745,98 @@ p textarea{
     height: 60px;
     width: 350px;
     margin-top: 4px;
-	margin-left: 16px;
+    margin-left: 16px;
+}
+
+.profileImg {
+    float: left;
+    cursor: pointer;
+}
+
+.personaldataEdit{
+    float: left;
+    margin-left: 10px;
+    margin-top: 2px;
+    width: 332px;
+}
+
+.linksEdit{
+    float: left;
+    width: 220px;
+    margin-left: 20px;
+    margin-top: 0px;
+}
+
+.questionsEdit{
+    margin-top: 2%;
+}
+
+.login{
+    background-color: #A1B2B8;
+    padding: 5px;
+    border: 1px solid #94A9AF;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
+    color: white;
+    font-family: allerbold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.login:hover{
+    background-color: #92a7b1;
+    border: 1px solid #7e99a4;
+}
+
+.save{
+    content:url(../img/ok.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
+}
+
+
+.save:hover{
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
+}
+
+.save-personal-data{
+    content:url(../img/ok.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+    text-align: right;
+    float: right;
+    margin-right: -250px;
+    }
+
+.save-personal-data:hover{
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
+}
+
+.instrucciones{
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-style:italic;
+    font-size:12px;
+}
+
+
+#link_name, #link_url {
+    width: 210px;
+}
+
+.link-list-li a {
+    color: #99AAB1;
+	font-family: AllerItalic;
+}
+
+.fondo_wizard {
+    min-height: 600px;
 }

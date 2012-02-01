@@ -14,6 +14,10 @@ class TestMediaNaranja(TestCase):
         election, created = Election.objects.get_or_create(name='election',
                                                             owner=user,
                                                             slug='barbaz')
+        #deleting default categories
+        for category in election.category_set.all():
+            category.delete()
+        #end of deleting default categories
         candidate1 = Candidate.objects.create(name='BarBaz', election=election)
         candidate2 = Candidate.objects.create(name='FooFoo', election=election)
         category1, created = Category.objects.get_or_create(name='FooCat',
@@ -125,3 +129,38 @@ class TestMediaNaranja(TestCase):
         self.assertEqual(get_score2_expected, get_score2)
         self.assertEqual(get_score2_expected, get_score3)
         self.assertEqual(get_score2_expected, get_score4)
+
+    def test_get_score_with_zero_importances(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [0, 0]
+
+        get_score = self.candidate1.get_score(answers, importances)
+        expected_score = (0, [0.0, 0.0])
+
+        self.assertEqual(expected_score,get_score)
+
+
+class TestMediaNaranjaWithNoCategories(TestCase):
+
+
+    def setUp(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='election',
+            owner=user,
+            slug='barbaz')
+        #deleting default categories
+        for category in election.category_set.all():
+            category.delete()
+        #end of deleting default categories
+        self.candidate1 = Candidate.objects.create(name='BarBaz', election=election)
+        self.candidate2 = Candidate.objects.create(name='FooFoo', election=election)
+
+
+
+    def test_get_score_without_categories(self):
+        answers = []
+        importances = []
+        get_score = self.candidate1.get_score(answers,importances)
+        expected_score = (0,[])
+        self.assertEqual(expected_score,get_score)
+

@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
-from views.election_views import ElectionUpdateDataView
+from views.election_views import ElectionUpdateDataView, ElectionRedirectView
+from views.candidate_views import CandidateUpdatePhotoView
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
                   CandidateCreateView, CandidateUpdateView, CategoryCreateView,\
@@ -20,8 +21,11 @@ urlpatterns = patterns('',
     # Root: login_required (por ahora pues no se ha definido un index)
     url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
+    url(r'^$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
+
+
     # My Elections
-    url(r'^$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
+    url(r'^my_election_list/$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),
 
     # Associate Candidate
     url(r'^(?P<election_slug>[-\w]+)/(?P<candidate_slug>[-\w]+)/associate_answers/',
@@ -32,7 +36,7 @@ urlpatterns = patterns('',
     url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
 
     # Create Link Ajax
-    url(r'^(?P<candidate_pk>\d+)/create_link', 'candidator.elections.views.async_create_link', name='answer_create_ajax'),
+    url(r'^(?P<candidate_pk>\d+)/create_link', 'candidator.elections.views.async_create_link', name='link_create_ajax'),
 
     # Estaba al final, cual queda?
     # Create Answer Ajax
@@ -77,11 +81,14 @@ urlpatterns = patterns('',
     # Election compare view with both candidates (and considering one category)
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
 
+    # Election compare view with both candidates (and NO category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates_and_no_category', name='election_compare_two_candidates_and_no_category'),
+
     # Election compare view with 1 candidate
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
 
     # Asynchronous call for compare view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/async-call/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
 
     # Election description
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),
@@ -94,17 +101,28 @@ urlpatterns = patterns('',
     # Update candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/update/?$', CandidateUpdateView.as_view(), name='candidate_update'),
 
+    url(r'^election/update/candidate/(?P<pk>\d+)/photo/$', CandidateUpdatePhotoView.as_view(), name='update_candidate_photo'),
+
     # Create candidate view
     url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
+
+    # Create candidate view not in wizard
+    url(r'^(?P<election_slug>[-\w]+)/candidate/create_alone/?$', CandidateCreateView.as_view(template_name='candidate_form_alone.html'), name='candidate_create_alone'),
 
     # Create candidate using next button
     url(r'^(?P<election_slug>[-\w]+)/candidate/save_candidate/?$', CandidateCreateAjaxView.as_view(), name='async_create_candidate'),
 
+    # List Candidates in json
+    url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/candidate_list.json/?$', 'candidator.elections.views.candidate_views.get_candidate_list_as_json', name='candidate_list_json'),
+
     # Delete candidate view in wizzard
-    url(r'^(?P<candidate_pk>[-\d]+)/candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
+    url(r'^candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
 
     # Candidate data Update (PersonalData and Background)
     url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='candidate_data_update'),
+
+    # Multiple candidate data Update (answering questions for several candidates)
+    url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='multiple_candidate_data_update'),
 
     # Pre-Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
@@ -139,6 +157,9 @@ urlpatterns = patterns('',
     # Delete background view in wizzard
     url(r'^(?P<background_pk>[-\d]+)/background/async_delete/?$', 'candidator.elections.views.async_delete_background' , name='async_delete_background'),
 
+    # Create Category Ajax
+    url(r'^(?P<election_pk>[-\w]+)/category/async_create/?$', 'candidator.elections.views.async_create_category', name='async_create_category'),
+
     # Delete category view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
 
@@ -150,6 +171,9 @@ urlpatterns = patterns('',
 
     # Create question view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/question/async_create/?$', 'candidator.elections.views.async_create_question' , name='async_create_question'),
+
+    # Delete link ajax
+    url(r'^(?P<link_pk>[-\d]+)/link/async_delete/?$', 'candidator.elections.views.async_delete_link' , name='async_delete_link'),
 
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),

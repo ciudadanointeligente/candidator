@@ -1,3 +1,4 @@
+{% load i18n %}
 <!doctype html>
 <html>
 <head>
@@ -5,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
 
-    <title>{% block title%}Candidator{% endblock title %}</title>
+    <title>{% block title%}Aquí los conoces, tú los eliges{% endblock title %} | candideit.org</title>
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
@@ -45,6 +46,7 @@
 {% endblock content %}
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
 {% block extra_js %}
 {% endblock extra_js %}
 </body>

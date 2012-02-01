@@ -3,6 +3,7 @@
 {% load candidate_tags %}
 {% load thumbnail %}
 
+
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
 {% endblock extra_head %}
@@ -19,14 +20,18 @@
 {% endblock extra_js %}
 
 {% block title %}
-    {{ block.super }} | {{ election.name }} - {% trans "Comparar candidatos" %}
-{% endblock title %}
+ {% trans "Perfil de candidatos" %}, {{ election.name }} - {{ block.super }}{% endblock title %}
 
 {% block content %}
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}</h1></a></div>
+    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+{% if election.owner.username == request.user.username %}
+    <a href="{% url election_update_data slug=election.slug %}">(Editar)</a>
+    {% endif %}
+    </h1>
+    </div>
 
 <div class="contenedor1">
     <div class="contenedor2">
@@ -36,6 +41,8 @@
 
         <!--        ProfileHome   -->
         <ul class="profileHome">
+            {% if election.candidate_set.all %}
+
             {% for candidate in election.candidate_set.all %}
             <li>
                 <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
@@ -54,6 +61,12 @@
                 </a>
             </li>
             {% endfor %}{# election.candidate_set.all #}
+
+            {% else %}
+            <br>
+            <center><h4>Esta elección no cuenta aún con Candidatos.</h4></center>
+            <br>
+            {% endif %}
         </ul>
 
     </div>
