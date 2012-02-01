@@ -334,5 +334,7 @@ def create_default_questions(sender, instance, created, **kwargs):
         for default_category in settings.DEFAULT_QUESTIONS:
             category = Category.objects.create(name=default_category['Category'], election=instance)
             for default_question in default_category['Questions']:
-                Question.objects.create(question=default_question['question'],category=category)
+                question = Question.objects.create(question=default_question['question'],category=category)
+                for default_answer in default_question['answers']:
+                    Answer.objects.create(question=question, caption=default_answer)
 
