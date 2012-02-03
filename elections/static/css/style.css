@@ -44,7 +44,9 @@ p { margin: 10px 0px 15px 0px; }
 ul{margin: 0; padding: 0; list-style: none;}
 
 /* links */
-a:link, a:visited { text-decoration: none; }
+a:link, a:visited { text-decoration: none;
+}
+ 
 a:hover{
     text-decoration: none;
 }
@@ -351,6 +353,11 @@ background-color:white;
 
 /*=====================FONDO=========================*/
 
+.contenedor_body{
+	width: 950px;
+	margin: auto;
+}
+
 .papel{
     background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #666666;
@@ -535,6 +542,28 @@ ul.homeNav ul.sidebarMenu{
 	-moz-border-radius: 8px;
 }
 
+.bt_cuadrado{
+	font-family: 'AllerBold';
+	color: white !important;
+	font-size: 12px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	width: 157px;
+	padding: 8px 0px;
+	text-align: center;
+	margin-top: 6px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	box-shadow: 1px 1px 8px #b8b8b8;
+}
+
 .bt_publish:hover{
 	opacity:0.8;
 }
@@ -549,12 +578,11 @@ ul.homeNav ul.sidebarMenu{
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-    background: #C7DCF0;
-	width: 157px;
-	margin-left: 173px;
+    background: #E8E8E8;
+	width: 159px;
 	float: left;
 	padding-top: 25px;
-	margin-top: -25px;
+	margin-top: 7px;
 	min-height: 600px;
 }
 
@@ -609,13 +637,13 @@ ul.homeNav ul.sidebarMenu{
 
 .papel_edit {
     background: none repeat scroll 0 0 white;
-	box-shadow: 0 1px 8px 1px #666666;
-	left: 50%;
+	box-shadow: 0px 0px 10px #b8b8b8;
 	margin-bottom: 20%;
-	position: absolute;
-	width: 720px;
-	margin-left: -273px;
+	width: 770px;
 	min-height: 250px;
+	float: right;
+	border: 1px solid #CCC;
+	margin-top: 6px;
 }
 
 .edit_tit h5{
@@ -840,3 +868,57 @@ p textarea{
 .fondo_wizard {
     min-height: 600px;
 }
+
+/* -----------------------------begin css tabs-------------------------------- */
+
+ul#tabnav { /* general settings */
+text-align: left; /* set to left, right or center */
+margin: 1em 0 1em 0; /* set margins as desired */
+border-bottom: 1px solid #6c6; /* set border COLOR as desired */
+list-style-type: none;
+padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+}
+
+ul#tabnav li { /* do not change */
+display: inline;
+}
+
+.tab {
+	background-color: white;
+	border-top: 1px solid #EDEDED;
+	padding: 6px 6px 0px;
+	border-left: 1px solid #EDEDED;
+	border-right: 1px solid #EDEDED;
+	background-color:#e8e8e8;
+}
+
+.tab_selected { /* settings for selected tab */
+	border-bottom: 5px solid white;
+	background-color: white;
+	border-top: 1px solid #EDEDED;
+	padding: 6px 6px 0px;
+	border-left: 1px solid #EDEDED;
+	border-right: 1px solid #EDEDED;
+}
+
+li.tab_selected a { /* settings for selected tab link */
+background-color: #fff; /* set selected tab background color as desired */
+color: #000; /* set selected tab link color as desired */
+position: relative;
+top: 1px;
+padding-top: 4px; /* must change with respect to padding (X) above and below */
+}
+
+ul#tabnav li a { /* settings for all tab links */
+padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+color: #666; /* set unselected tab link color as desired */
+margin-right: 0px; /* set additional spacing between tabs as desired */
+text-decoration: none;
+border-bottom: none;
+}
+
+ul#tabnav a:hover { /* settings for hover effect */
+background: #fff; /* set desired hover color */
+}
+
+/* end css tabs */
