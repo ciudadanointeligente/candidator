@@ -25,7 +25,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>3.RESPONDE:<span class="celeste">COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
+        <h1>4.RESPUESTAS:<span class="celeste"> COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
 		<hr />
         </head>
         
@@ -38,7 +38,12 @@
                 {% endif %}
             {% endfor %}
         </ul>
+<<<<<<< HEAD
         <div class="candidate"><img src="{{ STATIC_URL }}/img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
+=======
+        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
+        <div id="status"></div>
+>>>>>>> 63c57a7e7cf0221c05d24d4adfb496409cb70166
 
             <div class="profileImg">
 
@@ -96,8 +101,7 @@
                         </span>
                         <br/>
                         <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
-                        <br>
-                            <a class="save-personal-data" style="margin-right:0px;" href="">guardar</a>
+                        <br />
                     </li>
 
 
@@ -127,7 +131,6 @@
                     </li>
                 {% endfor %}
                 <li>
-                    <a class="save-background" href="#" style="content: url(../../../static/img/ok.png);background-color: #AFCEEA;padding: 5px;border: 1px solid #A7C7E6;border-radius: 15px;">Guardar</a>
                 </li>
                 </ul>
             </div>
@@ -151,13 +154,6 @@
                         </li>
 
                     {% endfor %}
-                        <li>
-                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
-                                {% csrf_token %}
-                                <input type="text" name="caption" />
-                                <input type="submit" value="{% trans 'crear' %}" />
-                            </form>
-                        </li>
                     </ul>
                 </li>
             {% endfor %}
@@ -181,7 +177,14 @@
 
 {% block extra_js %}
         <script type="text/javascript">
-
+        function notify(message, timeOut) {
+            // Set the message using text method and chain fadeIn with it
+            // apply simple setTimeout to fadeOut the message
+            $('#status').text(message).fadeIn();
+            setTimeout(function(){
+                $('#status').fadeOut();
+            }, timeOut*1000);
+        }
         function link_delete(link_pk){
             var answer = confirm("¿Estas seguro que quieres eliminar este link?");
             if(answer){
@@ -223,42 +226,35 @@
             'json');
             return false;
         }
+        $(".personal-data-input").change(
+                function(){
+                    var value_text = $(this);
+                    var value = value_text.val();
+                    var personal_data_pk = value_text.attr('pk');
+                    $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
+                    {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'value': value
+                    },
+                    function(data) { notify('guardado',1) },
+                    'json');
+                }
+        )
 
-        $(".save-personal-data").click(function(e){
-            $(".personal-data-input").each(function(i){
-                var value_text = $(this);
-                var value = value_text.val();
-                var personal_data_pk = value_text.attr('pk');
-
-                $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
-                {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'value': value
-                },
-                function(data) { $("#status-pd-"+personal_data_pk).text("guardado!"); },
-                'json');
-            });
-            return false;
-        });
-
-        $(".save-background").click(function(e){
-            $(".background-input").each(function(i){
-                var value_text = $(this);
-                var value = value_text.val();
-                var background_pk = value_text.attr('pk');
-
-                $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
-                {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'value': value
-                },
-                function(data) {
-                    $("#status-b-"+background_pk).text("guardado!");
-                },
-                'json');
-            });
-            return false;
-        });
+        $(".background-input").change(function(){
+            var value_text = $(this);
+            var value = value_text.val();
+            var background_pk = value_text.attr('pk');
+            $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'value': value
+            },
+            function(data) {
+                notify("guardado!",1);
+            },
+            'json');
+        })
 
 
         $('.answerform').live('submit', function (e) {

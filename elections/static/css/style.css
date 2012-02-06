@@ -539,45 +539,6 @@ ul.homeNav ul.sidebarMenu{
 	margin-top: -18px;
 }
 
-.bt{
-	font-family: 'AllerBold';
-	color: white;
-	font-size: 12px;
-	background: #c4d4ff; /* Old browsers */
-	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
-	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
-	border:1px solid #a7c7e6;
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-}
-
-.bt_cuadrado{
-	font-family: 'AllerBold';
-	color: white !important;
-	font-size: 12px;
-	background: #c4d4ff; /* Old browsers */
-	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
-	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
-	border:1px solid #a7c7e6;
-	width: 157px;
-	padding: 8px 0px;
-	text-align: center;
-	margin-top: 6px;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	box-shadow: 1px 1px 8px #b8b8b8;
-}
-
 .bt_publish:hover{
 	opacity:0.8;
 }
@@ -725,24 +686,6 @@ ul.homeNav ul.sidebarMenu{
     margin-top: 1px;
 }
 
-.blue_edit{
-    font-family:'AllerBold';
-    color:#ffffff;
-    font-size:12px;
-    background-color:#80b6e2;
-    border:1px solid #72acd9;
-    text-transform:uppercase;
-    padding: 1px 4px 1px;
-    letter-spacing:1px;
-    margin-left: 16px;
-}
-
-.blue_edit:before {
-    content:url(../img/asterisco_blue.png);
-    position: absolute;
-    margin-top: 5px;
-}
-
 .lightblue_edit{
     font-family:'AllerBold';
     color:#ffffff;
@@ -765,29 +708,12 @@ ul.homeNav ul.sidebarMenu{
     margin-bottom: 8px;
 }
 
-p input {
-    background-color: #E8E8E8;
-    border: 1px solid gainsboro;
-    height: 17px;
-    width: 328px;
-    margin-top: 3px;
-}
-
 span input {
     background-color: #E8E8E8;
     border: 1px solid gainsboro;
     height: 17px;
     width: 313px;
     margin: 3px 16px 8px;
-}
-
-p textarea{
-    background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-    height: 60px;
-    width: 350px;
-    margin-top: 4px;
-    margin-left: 16px;
 }
 
 .profileImg {

@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from elections.forms.election_form import AnswerForm
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
@@ -76,7 +77,7 @@ class ElectionModelTest(TestCase):
         backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
 
-    def test_create_default_questions_and_categories(self):
+    def test_create_default_categories_questions_and_answers(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
         question_categories = Category.objects.filter(election=election)
@@ -85,7 +86,17 @@ class ElectionModelTest(TestCase):
         questions = question_categories[0].question_set.all()
         self.assertEquals(questions.count(),2)
         self.assertEquals(questions[0].question,u'¿Crees que Chile debe tener una educación gratuita?')
+
+        first_question = questions[0]
+        self.assertEquals(first_question.answer_set.count(),2)
+        self.assertEquals(first_question.answer_set.all()[0].caption,u"Sí")
+        self.assertEquals(first_question.answer_set.all()[1].caption,u"No")
         self.assertEquals(questions[1].question,u'¿Estas de acuerdo con la desmunicipalización?')
+
+        second_question = questions[1]
+        self.assertEquals(second_question.answer_set.count(),2)
+        self.assertEquals(second_question.answer_set.all()[0].caption,u"Sí")
+        self.assertEquals(second_question.answer_set.all()[1].caption,u"No")
 
 
 
@@ -606,6 +617,9 @@ class ElectionUpdateDataViewTest(TestCase):
 
         self.assertTrue('category_form' in response.context)
         self.assertIsInstance(response.context['category_form'], CategoryForm)
+
+        self.assertTrue('answer_form' in response.context)
+        self.assertIsInstance(response.context['answer_form'], AnswerForm)
 
 
 PASSWORD = 'password'
