@@ -50,6 +50,24 @@ hr {
     border: none;
 }
 
+h1 {
+    color:#72acd9;
+    font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+}
+
+.celeste{
+	   font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+	color: #a7c7e6;
+}
+
 /* blockquotes */
 blockquote {
     margin: 10px 0 10px 15px;
@@ -132,35 +150,6 @@ blockquote {
 
 /* FORMULARIOS */
 
-.instrucciones{
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-style:italic;
-    font-size:12px;
-}
-
-.tit_fondoverde{
-    font-size:12px;
-    color:#fff;
-    font-family: 'AllerBold';
-    padding: 2px 4px 1px 6px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    background-color:#a1b2b8;
-    border: 1px none #94A9AF;
-}
-
-
-.tit_fondoceleste{
-    font-size:12px;
-    color:#fff;
-    font-family: 'AllerBold';
-    padding-top:20px;
-    padding-bottom:20px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    background-color:#a1b2b8;
-    border: 1px none #94A9AF;
-}
 
 .bt_siguiente{
     float: right;

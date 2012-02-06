@@ -1,0 +1,101 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; line-height:19px; overflow-x: hidden;
+    width: 100%;}
+
+
+/*
+ * Browser Reset
+ */
+
+
+label{font-weight: normal;}
+
+pre .cake-debug{ display: block; position:absolute; }
+
+fieldset, img { border: 0; }
+
+
+a:focus { outline: none; }
+
+
+
+html {
+    height: 100%;
+    margin-bottom: 1px;
+}
+
+/*
+ * New standard values
+ */
+
+
+/* paragraph */
+p { margin: 10px 0px 5px;}
+
+/* lists */
+ul{margin: 0; padding: 0; list-style:none}
+
+/* tables */
+td, th { padding: 1px; }
+
+
+/* horizontal rule */
+hr {
+    margin: 15px 0px 15px 0px;
+    display: block;
+    background: #e8e8e8;
+    height: 1px;
+    border: none;
+}
+
+h1 {
+    color:#72acd9;
+    font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+}
+
+.h2{
+    font-family:'AllerBold';
+    color:#ffffff;
+    font-size:14px;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
+    text-transform:uppercase;
+    padding: 6px 8px 6px;
+}
+
+.celeste{
+	   font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+	color: #a7c7e6;
+}
+
+.candidate h4 { 
+	margin-left: 30px;
+	margin-top: -25px;
+	margin-bottom: 25px;
+}
+
+/* blockquotes */
+blockquote {
+    margin: 10px 0 10px 15px;
+    padding: 0px 0px 0px 0px;
+    font-style: italic;
+    font-size: 130%
+}
+
+.wrapper_plantillas{
+	width: 744px;
+    overflow: hidden;
+    margin-top: 25px;
+    padding-left:13px;
+    margin-bottom: 13px
+}

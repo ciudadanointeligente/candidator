@@ -7,9 +7,12 @@
 {% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
 {% endblock title %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+
+{% endblock extra_head %}
+
 {% block content %}
-
-
 
 
 <div class="contenedor_body">
@@ -20,7 +23,12 @@
  
 <!-- CONTENIDO -->    
     <div class="papel_edit">
-    
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>3.RESPONDE:<span class="celeste">COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
+		<hr />
+        </head>
+        
         <ul id="tabnav">
             {% for my_candidate in election.candidate_set.all  %}
                 {% if my_candidate == candidate %}
@@ -30,7 +38,7 @@
                 {% endif %}
             {% endfor %}
         </ul>
-        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
+        <div class="candidate"><img src="{{ STATIC_URL }}/img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
 
             <div class="profileImg">
 
@@ -45,6 +53,7 @@
             {% endthumbnail %}
             </div>
 
+	<h2>DATOS PERSONALES</h2>
             <div class="personaldataEdit">
                 <ul>
                     <span class="green_edit">NOMBRE</span><br />
@@ -160,11 +169,13 @@
 
         {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
 
+	
+    	</div>
     </div>
-</div>
-
-<div id="form-candidate-photo">
-</div>
+    
+    <div id="form-candidate-photo">
+    </div>
+    </div>
 {% endblock content %}
 
 

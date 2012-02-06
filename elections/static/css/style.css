@@ -3,7 +3,16 @@
 
 html, body { height: 100%; }
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; 
+	background: #ffffff;
+	background: -moz-linear-gradient(left,  #ffffff 0%, #e8e8e8 50%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#e8e8e8), color-stop(100%,#ffffff));
+	background: -webkit-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: -o-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: -ms-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
+	line-height:16px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -122,7 +131,11 @@ h3{
     padding: 6px 8px 6px;
 }
 
-h4 { font-size: 12px; }
+h4 { 
+	font-size: 18px;
+	color: #94A9AF;
+	text-transform: uppercase;
+}
 
 h5 {
     color:#80b6e2;
@@ -399,6 +412,7 @@ background-color:white;
 	margin-bottom: -13px;
 	padding-top: 25px;
 }
+	
 
 
 /*======= HOME ========*/
@@ -633,7 +647,7 @@ ul.homeNav ul.sidebarMenu{
     background-color:#afceea;
 }
 
-/*---------------------------EDIT---------------------------------*/
+/*---------------------------PLANTILLAS---------------------------------*/
 
 .papel_edit {
     background: none repeat scroll 0 0 white;
@@ -865,16 +879,13 @@ p textarea{
 	font-family: AllerItalic;
 }
 
-.fondo_wizard {
-    min-height: 600px;
-}
 
 /* -----------------------------begin css tabs-------------------------------- */
 
 ul#tabnav { /* general settings */
 text-align: left; /* set to left, right or center */
 margin: 1em 0 1em 0; /* set margins as desired */
-border-bottom: 1px solid #6c6; /* set border COLOR as desired */
+border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
 list-style-type: none;
 padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
 }
@@ -885,20 +896,20 @@ display: inline;
 
 .tab {
 	background-color: white;
-	border-top: 1px solid #EDEDED;
-	padding: 6px 6px 0px;
-	border-left: 1px solid #EDEDED;
-	border-right: 1px solid #EDEDED;
+	border-top: 1px solid #cccccc;
+	padding: 6px 6px 4px;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
 	background-color:#e8e8e8;
 }
 
 .tab_selected { /* settings for selected tab */
 	border-bottom: 5px solid white;
 	background-color: white;
-	border-top: 1px solid #EDEDED;
+	border-top: 1px solid #cccccc;
 	padding: 6px 6px 0px;
-	border-left: 1px solid #EDEDED;
-	border-right: 1px solid #EDEDED;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
 }
 
 li.tab_selected a { /* settings for selected tab link */
