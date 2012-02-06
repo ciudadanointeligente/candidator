@@ -21,6 +21,7 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
+from elections.forms.election_form import AnswerForm
 from elections.models import Election, Candidate, Category
 
 
@@ -166,6 +167,7 @@ class ElectionUpdateDataView(DetailView):
         context['background_form'] = BackgroundForm()
         context['question_form'] = QuestionForm(election=self.object)
         context['category_form'] = CategoryForm()
+        context['answer_form'] = AnswerForm()
         return context
 
     def get_queryset(self):

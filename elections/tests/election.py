@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from elections.forms.election_form import AnswerForm
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
@@ -616,6 +617,9 @@ class ElectionUpdateDataViewTest(TestCase):
 
         self.assertTrue('category_form' in response.context)
         self.assertIsInstance(response.context['category_form'], CategoryForm)
+
+        self.assertTrue('answer_form' in response.context)
+        self.assertIsInstance(response.context['answer_form'], AnswerForm)
 
 
 PASSWORD = 'password'

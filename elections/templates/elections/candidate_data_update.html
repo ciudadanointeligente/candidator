@@ -133,13 +133,6 @@
                         </li>
 
                     {% endfor %}
-                        <li>
-                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
-                                {% csrf_token %}
-                                <input type="text" name="caption" />
-                                <input type="submit" value="{% trans 'crear' %}" />
-                            </form>
-                        </li>
                     </ul>
                 </li>
             {% endfor %}
