@@ -9,7 +9,6 @@
 
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
-
 {% endblock extra_head %}
 
 {% block content %}
@@ -38,14 +37,14 @@
                 {% endif %}
             {% endfor %}
         </ul>
-<<<<<<< HEAD
-        <div class="candidate"><img src="{{ STATIC_URL }}/img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
-=======
-        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
-        <div id="status"></div>
->>>>>>> 63c57a7e7cf0221c05d24d4adfb496409cb70166
 
-            <div class="profileImg">
+        <div class="candidate"><img src="{{ STATIC_URL }}/img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
+
+
+            
+
+	<h2>DATOS PERSONALES</h2>
+    		<div class="profileImg">
 
             {% thumbnail candidate.photo "80x100" crop="center" as im %}
             <img src="{{ im.url }}" alt="{{ candidate.name }}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
@@ -57,19 +56,17 @@
                 {% endif %}
             {% endthumbnail %}
             </div>
-
-	<h2>DATOS PERSONALES</h2>
+            
             <div class="personaldataEdit">
                 <ul>
-                    <span class="green_edit">NOMBRE</span><br />
-                    <div class="candidate_name">{{ candidate.name }}</div>
+                    <span class="bold">Nombre</span>
+                    <span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
                     <li>
 
-                        <span class="green2_edit">{{ personal_data.label }}</span>
-                        <span>
-                        <input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
+                        <span class="bold">{{ personal_data.label }}</span>
+                        <span><input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}

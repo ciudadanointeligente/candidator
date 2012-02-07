@@ -50,6 +50,11 @@
     <br style='clear: both;'/>
 </div>
 
+
+
+
+
+
     <div class="edit_tit">
         <h2>b. Antecedentes</h2>
     </div>
@@ -65,13 +70,13 @@
             </h3>
             </div>
 
-            <ul id="id_background_list_{{ background_category.pk }}">
+            <ul class= "backgrounds" id="id_background_list_{{ background_category.pk }}">
                 {% for background in background_category.background_set.all %}
                 <li id="background_{{background.pk}}">
                     {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
                 </li>
                 {% endfor %}
-                <p id="add_background_{{ background_category.pk}}">
+                <p "id="add_background_{{ background_category.pk}}">
                     {% with background_form.name.html_name as html_name %}
                     <input type="text" 
                            name="{{ html_name }}" 
@@ -85,14 +90,13 @@
             </ul>
         </li>
         {% endfor %}
-        <li id="add_backgroundcategory">
+        <p id="add_backgroundcategory">
             <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
                                name="{{ backgroundcategory_form.name.html_name }}"
                                placeholder="agregar categoría" />
-            <a class="save_background_category_link" href="#" pk="{{election.pk}}">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+            <a class="bt_input" href="#" pk="{{election.pk}}">agregar categoría
             </a>
-        </li>
+        </p>
     </ul>
     <br/>
     
@@ -103,33 +107,40 @@
             </aside>
 
 </div>
+ 
+ 
+ 
+ 
 
-    <h5>Cuestionario <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+    <h2>c. Cuestionario</h2>
+    <div class="ayuda">Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto deben ser respondidas por todos.</div>
+<div class="wrapper_preguntas">
+
     <ul id="lista_preguntas">
         {% for category in election.category_set.all %}
         <li id="category_{{ category.pk }}">
-            <h6>
+            <div class= "categoriasAntecedentes"><h3>
                 {{ category.name }}
                 <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
-                    <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                    <img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/>
                 </a>
-            </h6>
+            </h3></div>
             <ul id="id_question_list_{{ category.pk }}">
                 {% for question in category.question_set.all %}
                 <li id="question_{{question.pk}}">
-                    {{ question.question }}
+                    <div class= "bold">{{ question.question }}
                     <a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;">
-                        <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
-                    </a>
+                        <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/>
+                    </a></div>
                     <div>
                     <ul class="list_of_answers">
                         {% for answer in question.answer_set.all %}
                             <li>{{ answer }}</li>
                         {% endfor %}
-                        <li style="margin-top:30px;">
-                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
+                        <li>
+                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
-                                <input type="text" name="caption" placeholder="agregar respuesta" />
+                                <p><input type="text" name="caption" placeholder="agregar respuesta" /></p>
                                 <input type="submit" value="{% trans 'crear' %}" />
                             </form>
                         </li>
@@ -139,29 +150,31 @@
                 </li>
 
                 {% endfor %}
-                <li id="add_question_{{ category.pk }}">
+                <div class= "addQuestion">
+                <p id="add_question_{{ category.pk }}">
                     {% with question_form.question.html_name as html_name %}
                     <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
                     {% endwith %}
-                    <a class="save_question_link" href="#" pk="{{category.pk}}">
-                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                    <a class="bt_input" href="#" pk="{{category.pk}}">agregar
                     </a>
-                </li>
+                </p>
+                </div>
+                
             </ul>
         </li>
         {% endfor %}
-        <li id="add_category">
+        <p id="add_category">
             {% with category_form.name.html_name as html_name %}
             <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
             {% endwith %}
-            <a class="save_category_link" href="#" pk="{{election.pk}}">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            <a class="bt_input" href="#" pk="{{election.pk}}">agregar categoría
             </a>
-        </li>
+        </p>
     </ul>
 
         {% csrf_token %}
     </div>
+</div>
 </div>
 </div>
 

@@ -42,13 +42,11 @@
         {% endfor %}
     </ul>
     <br/>
-
+<div id="link_add">
     <form id="newcandidate" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.non_field_errors }}
         {{ form.as_p }}
-        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
-        <div id="link_add">
-            <a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a>
+<div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a></div>
         </div>
         {% if election.candidate_set.count > 1 %}
 

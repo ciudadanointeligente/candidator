@@ -40,6 +40,19 @@ ul{margin: 0; padding: 0; list-style:none}
 /* tables */
 td, th { padding: 1px; }
 
+
+.papel_edit {
+    background: none repeat scroll 0 0 white;
+	box-shadow: 0px 0px 10px #b8b8b8;
+	margin-bottom: 20%;
+	width: 770px;
+	min-height: 250px;
+	float: right;
+	border: 1px solid #CCC;
+	margin-top: 6px;
+	padding-bottom: 40px;
+}
+
 /* BUTTONS */
 
 .bt{
@@ -62,6 +75,7 @@ td, th { padding: 1px; }
 	margin-right: 6px;
 	margin-bottom: 6px;
 	padding: 0px 13px 2px;
+	margin-top: 25px;
 }
 
 .bt:hover{
@@ -129,14 +143,15 @@ td, th { padding: 1px; }
 	-moz-border-radius-bottomright: 12px;
 	box-shadow: 1px 1px 6px #b8b8b8;
 	padding: 0px 13px 2px;
-	margin-left: 382px;
+	margin-left: 4px;
 	position: absolute;
-	margin-top: -28px;
+	margin-top: 3px;
 }
 
-.bt_input,#add_personal_data{
-	margin-left: 4px;
-	margin-top: 3px;
+.bt_addCandidate{
+	margin-left: 384px;
+	margin-top: -31px;
+	margin-bottom: 25px;
 }
 
 
@@ -222,7 +237,6 @@ h3{
 .bold{
 	font-family:'AllerBold';
 	color:#666666;
-	margin-left: 13px;
 }
 
 /* blockquotes */
@@ -285,6 +299,15 @@ p input {
 	padding-left: 4px;
 }
 
+span input{
+background-color: #F2F2F2;
+border: 1px solid #E8E8E8;
+height: 17px;
+width: 256px;
+margin: 0px 0px 4px;
+float: right;
+}
+
 input#id_date{
     background-color: #F2F2F2;
 	border: 1px solid #E8E8E8;
@@ -305,8 +328,7 @@ p textarea{
 
 #lista_candidatos{
 	border:1px dashed #dedede;
-	padding-top: 8px;
-	padding-bottom: 6px;
+	padding: 8px;
 	margin-bottom: 25px;
 }
 
@@ -330,9 +352,75 @@ p textarea{
 
 .ejAntecedentes{
 	margin-left: 13px;
-	margin-top: -212px;
+	margin-top: -295px;
 	line-height: 13px;
 	border-left: 1px dashed #80B6E2;
 	padding-left: 6px;
 }
+
+.backgrounds{
+	border-right:1px solid #dedede;
+	border-left:1px solid #dedede;
+	border-bottom:1px solid #dedede;
+	padding: 6px;
+	width:431px;
+	margin-bottom: 25px;
+}
+
+#lista_preguntas .bold{
+	border-right:1px solid #dedede;
+	border-left:1px solid #dedede;
+	padding-left: 8px;
+	width: 435px;
+	padding-top: 8px;
+}
+
+.list_of_answers{
+	border-right:1px solid #dedede;
+	border-left:1px solid #dedede;
+	padding: 8px;
+	width:427px;
+}
+
+.addQuestion{
+	border-right: 1px solid #DEDEDE;
+	border-left: 1px solid #DEDEDE;
+	padding: 8px;
+	width: 427px;
+	border-bottom: 1px solid #DEDEDE;
+	margin-bottom: 25px;
+	border-top: 1px dashed #DEDEDE;
+}
+
+/* 4 */
+
+.profileImg {
+	margin-top: 13px;
+}
+
+span.bold{
+	line-height: 23px;
+}
+
+ul span.bold{
+	line-height: 23px;
+}
+
+.candidate_name{
+    background-color: #F2F2F2;
+	border: 1px solid #E8E8E8;
+	height: 15px;
+	padding: 1px 4px;
+	margin-left: 29px;
+	width: 248px;
+	position: absolute;
+	margin-top: 13px;
+}
+
+.personaldataEdit {
+	margin-top: 8px;
+}
+
+
+	
 
