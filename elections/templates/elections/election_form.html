@@ -56,6 +56,11 @@
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
+            <p class="fieldWrapper">
+                <label for="id_source" class="instrucciones">{{ form.information_source.label }}</label><br />
+                {{ form.information_source }}
+                {{ form.information_source.errors }}
+            </p>
 
             <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"></a>
         </form>
