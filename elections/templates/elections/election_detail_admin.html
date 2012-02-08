@@ -1,25 +1,33 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
 
 {% block content %}
 
-{% include 'elections/election_admin_menu.html'%}
+<div class="contenedor_body">
 
-<div class="papel_edit">
-	<div class="contenedor_edit">
-
-    <div class="instrucciones">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
-    <p>1. Hacer cambios en la elección en el menú <a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Editar elección"</a></p>
-    <p>2. Completar las planillas de cada candidato en el menú <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Candidatos"</a></p>
-    
-    
-    <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
-    3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
-    {% endblocktrans %}</p>
+<!-- MENU VERTICAL -->
+      {% include 'elections/election_admin_menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+        
+            <div class="instrucciones">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
+            <p>1. Hacer cambios en la elección en el menú <a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Editar elección"</a></p>
+            <p>2. Completar las planillas de cada candidato en el menú <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Candidatos"</a></p>
+            
+            
+            <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
+            3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
+            {% endblocktrans %}</p>
    
-   </div> 
-</div>
+    </div> 
+    </div>
 {% endblock content %}
 
 {% block extra_js %}

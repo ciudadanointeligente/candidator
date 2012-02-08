@@ -75,7 +75,7 @@
             </div>
 
            <div class="linksEdit">
-                <span class="grey_edit mandatory">Links</span>
+                
                 <ul class="link-list">
                     {% for link in candidate.link_set.all %}
                     <li class="link-list-li" id="id-li-link-{{link.pk}}">
@@ -87,7 +87,7 @@
                     <br>
                     <ul>
                     <li>
-                        <span class="grey_edit">{% trans 'Nombre' %}</span><br/>
+                        <img src="{{ STATIC_URL }}/img/ic_arrow_right.png" ><span class="link">link</span><br/>
                         <span>
                             <input type="text" name="name" id="link_name" />
                         </span>

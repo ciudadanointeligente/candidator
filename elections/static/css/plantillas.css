@@ -148,6 +148,17 @@ td, th { padding: 1px; }
 	margin-top: 3px;
 }
 
+.bt_input:hover{
+	background: #e8e8e8;
+	background: -moz-linear-gradient(top,  #e8e8e8 0%, #dedede 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8e8e8), color-stop(100%,#dedede));
+	background: -webkit-linear-gradient(top,  #e8e8e8 0%,#dedede 100%);
+	background: -o-linear-gradient(top,  #e8e8e8 0%,#dedede 100%);
+	background: -ms-linear-gradient(top,  #e8e8e8 0%,#dedede 100%);
+	background: linear-gradient(top,  #e8e8e8 0%,#dedede 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#dedede',GradientType=0 );
+}
+
 .bt_addCandidate{
 	margin-left: 384px;
 	margin-top: -31px;
@@ -248,10 +259,10 @@ blockquote {
 }
 
 .wrapper_plantillas{
-	width: 744px;
+	width: 720px;
     overflow: hidden;
     margin-top: 25px;
-    padding-left:13px;
+    padding-left:25px;
     margin-bottom: 13px
 }
 
@@ -294,7 +305,7 @@ p input {
     background-color: #F2F2F2;
 	border: 1px solid #E8E8E8;
     height: 22px;
-    width: 328px;
+    width: 300px;
     margin-top: 3px;
 	padding-left: 4px;
 }
@@ -312,7 +323,7 @@ input#id_date{
     background-color: #F2F2F2;
 	border: 1px solid #E8E8E8;
     height: 22px;
-    width: 313px;
+    width: 286px;
     margin-top: 3px;
 }
 
@@ -320,7 +331,7 @@ p textarea{
     background-color: #F2F2F2;
 	border: 1px solid #E8E8E8;
 	height: 60px;
-	width: 493px;
+	width: 400px;
 	margin-top: -11px;
 }
 
@@ -414,11 +425,18 @@ ul span.bold{
 	margin-left: 29px;
 	width: 248px;
 	position: absolute;
-	margin-top: 13px;
 }
 
 .personaldataEdit {
 	margin-top: 8px;
+}
+
+.link{
+	ffont-family: 'AllerItalic';
+	color: #94A9AF;
+	position: absolute;
+	margin-left: -3px;
+	margin-top: 1px;
 }
 
 

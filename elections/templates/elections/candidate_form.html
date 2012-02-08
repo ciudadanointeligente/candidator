@@ -34,7 +34,7 @@
         {% for candidate in election.candidate_set.all %}
         <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
             <span class="bold">
-                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-left:6px; margin-top: 4px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
+                {{ candidate.name }} <a href="javascript:void(0);" onclick="candidate_delete({{candidate.pk}}); return false;"><img style="position:absolute; margin-left:6px; margin-top: 7px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
                 <!-- {% blocktrans with num=forloop.counter %}Candidato {{ num }}{% endblocktrans %} -->
             </span>
             <!-- &nbsp;{{ candidate.name }} -->
