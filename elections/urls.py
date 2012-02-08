@@ -125,7 +125,7 @@ urlpatterns = patterns('',
     url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='multiple_candidate_data_update'),
 
     # Pre-Create PersonalData
-    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
+    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/wizard/step_two_point_five.html")), name='pre_personaldata'),
 
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),

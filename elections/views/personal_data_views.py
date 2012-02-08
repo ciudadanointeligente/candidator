@@ -24,6 +24,9 @@ from elections.models import Election, Candidate, PersonalData
 class PersonalDataCreateView(CreateView):
     model = PersonalData
     form_class = PersonalDataForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_three.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

@@ -39,7 +39,10 @@ class CandidateDetailView(DetailView):
 class CandidateUpdateView(UpdateView):
     model = Candidate
     form_class = CandidateUpdateForm
-
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_two.html']
+    
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(CandidateUpdateView, self).dispatch(request, *args, **kwargs)
@@ -61,6 +64,9 @@ class CandidateUpdateView(UpdateView):
 class CandidateCreateView(CreateView):
     model = Candidate
     form_class = CandidateForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_two.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

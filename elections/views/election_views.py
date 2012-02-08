@@ -61,6 +61,9 @@ class ElectionDetailView(DetailView):
 class ElectionCreateView(CreateView):
     model = Election
     form_class = ElectionForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_one.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

@@ -423,7 +423,11 @@ class ElectionCreateViewTest(TestCase):
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('candidate_create',
                                                kwargs={'election_slug': election.slug}))
-
+        
+    def test_template_step_one(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('election_create'))
+        self.assertTemplateUsed(response,'elections/wizard/step_one.html')
 
 class ElectionUpdateViewTest(TestCase):
     def setUp(self):

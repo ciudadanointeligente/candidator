@@ -24,6 +24,9 @@ from elections.models import Category, Question, Election, Answer
 class QuestionCreateView(CreateView):
     model = Question
     form_class = QuestionForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_five.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

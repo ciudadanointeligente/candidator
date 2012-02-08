@@ -434,6 +434,12 @@ class CandidateCreateViewTest(TestCase):
                                                kwargs={'election_slug': candidate.election.slug}))
 
 
+
+    def test_renders_step_two_of_the_wizard(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
+        self.assertTemplateUsed(response,'elections/wizard/step_two.html')
+
 class CandidateUpdateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')

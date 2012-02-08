@@ -126,15 +126,16 @@
 
         function save_candidate(election_slug){
             var candidate = document.getElementById("id_name").value
+            var new_location = "{% url pre_personaldata election_slug=election.slug %}";
             if(document.getElementById("id_name").value == ""){
-                window.location = get_base_url()+"/pre_personaldata"
+                window.location = new_location;
             }
             else{
                 /* @FIX */
-                var dir = "/"+election_slug+"/candidate/save_candidate/"
+                var dir = "{% url async_create_candidate election_slug=election.slug %}";
                 $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
                 function(json){
-                    window.location = get_base_url()+"/pre_personaldata"
+                    window.location = new_location;
              })
             }
         }
