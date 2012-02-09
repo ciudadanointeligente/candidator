@@ -49,14 +49,6 @@
 <div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a></div>
 
         </div>
-        {% if election.candidate_set.count > 1 %}
-
-
-        <div class="link_next">
-            <a class="bt" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">siguiente
-            </a>
-        </div>
-        {% endif %}
 
 
     </form>

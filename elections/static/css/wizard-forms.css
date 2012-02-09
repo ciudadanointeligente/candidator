@@ -386,3 +386,7 @@ div.instrucciones{
 .selected {
 color:red;
 }
+.twitter{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+    padding-left: 25px;
+}
