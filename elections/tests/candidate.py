@@ -764,7 +764,7 @@ class CandidateUpdateDataViewTest(TestCase):
     def test_get_owned_candidate(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertTemplateUsed(response, 'elections/updating/answers.html')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertTrue('candidate' in response.context)
@@ -827,7 +827,7 @@ class MultipleCandidateDataUpdate(TestCase):
     def test_get_first_candidate_ordered_by_name(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertTemplateUsed(response, 'elections/updating/answers.html')
         self.assertEqual(response.status_code, 200)
 
 

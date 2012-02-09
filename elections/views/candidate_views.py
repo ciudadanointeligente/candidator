@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.template.context import RequestContext
 from django.utils import simplejson as json, simplejson
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
@@ -64,9 +64,6 @@ class CandidateUpdateView(UpdateView):
 class CandidateCreateView(CreateView):
     model = Candidate
     form_class = CandidateForm
-    
-    def get_template_names(self):
-        return ['elections/wizard/step_two.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -99,6 +96,7 @@ class CandidateDataUpdateView(UpdateView):
     form_class = CandidateForm
                 
     @method_decorator(login_required)
+    @method_decorator(require_GET)
     def dispatch(self, request, *args, **kwargs):
         return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
 
