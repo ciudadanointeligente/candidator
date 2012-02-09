@@ -97,7 +97,7 @@ class CandidateCreateView(CreateView):
 class CandidateDataUpdateView(UpdateView):
     model = Candidate
     form_class = CandidateForm
-
+                
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)

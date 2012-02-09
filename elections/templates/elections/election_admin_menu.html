@@ -6,15 +6,13 @@
 
         <div class="menuedit_accordion">
         {% for my_election in user.election_set.all %}
-            <div class="menuedit_tit nombre">{{ my_election.name }}</div>
+            <div class="menuedit_tit nombre election_name {% if election == my_election %}selected_election{% endif %}">{{ my_election.name }}</div>
 
             {% if election == my_election %}
             <div class="menuedit_eleccion actual">
             {% else %}
             <div class="menuedit_eleccion">
             {% endif %}
-
-                <div class="menuedit"><a href="{% url election_detail_admin slug=my_election.slug username=user %}">{% trans 'Administrar Elección' %}</a></div>
                 <div class="menuedit"><a href="{{ my_election.get_absolute_url }}">{% trans 'Ver Elección' %}</a></div>
 
                 <div class="menuedit_tit">{% trans 'Editar Elección' %}</div>

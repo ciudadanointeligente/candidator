@@ -193,6 +193,7 @@ h2{
     text-transform:uppercase;
     padding: 6px 8px 6px;
 	margin:0px;
+	margin-top:5px;
 }
 
 h3{
@@ -435,10 +436,13 @@ ul span.bold{
 	ffont-family: 'AllerItalic';
 	color: #94A9AF;
 	position: absolute;
-	margin-left: -3px;
+	margin-left: -3px;label_background_category
 	margin-top: 1px;
 }
 
 
-	
+.input_background_category{
+    width:400px;
+    margin-right:25px;
+}
 

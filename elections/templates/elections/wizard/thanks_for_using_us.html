@@ -1,0 +1,45 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Gracias' %}
+{% endblock title %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/wizard/wizard_menu.html' with step="thanks" %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+
+            <h1>Gracias!</h1><span class="celeste">{% trans 'tu candideit.org ha sido creado exitosamente. Ahora puedes:' %}</span>
+            <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
+            1. Ver tu candideit.org en: <input id="election-url" type="text" value="http://{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">Ver</a>
+            {% endblocktrans %}</p>
+            <p>2. Modificar las preguntas que te creamos <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Preguntas"</a></p>
+            <p>3. Responder preguntas y completar el perfil de cada candidato<a class="menuedit_tit" href="{% url multiple_candidate_data_update election_slug=election.slug %}">"Respuestas"</a></p>
+            <p>4. Modificar la información general de tu candideit.org<a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Información general"</a></p>
+            
+            
+            
+   
+    </div> 
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+$('#election-url').keydown(function(event){event.preventDefault();})
+</script>
+{% endblock extra_js %}

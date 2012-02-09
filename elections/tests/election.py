@@ -446,7 +446,12 @@ class ElectionUpdateViewTest(TestCase):
         self.assertTrue(isinstance(response.context['form'], ElectionUpdateForm))
         self.assertTrue('election' in response.context)
         self.assertEqual(response.context['election'], self.election)
-        self.assertTemplateUsed(response, 'elections/election_update_form.html')
+    
+    def test_template_election_basic_information_rendered(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        
+        self.assertTemplateUsed(response,'elections/updating/election_basic_information.html')
 
     def test_post_election_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
@@ -605,7 +610,7 @@ class ElectionUpdateDataViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEqual(response.context['election'], self.election)
-        self.assertTemplateUsed(response, 'elections/election_update_data.html')
+        self.assertTemplateUsed(response, 'elections/updating/questions.html')
 
         self.assertTrue('personaldata_form' in response.context)
         self.assertIsInstance(response.context['personaldata_form'], PersonalDataForm)

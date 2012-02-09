@@ -31,7 +31,7 @@ class ElectionUpdateView(UpdateView):
     form_class = ElectionUpdateForm
 
     def get_template_names(self):
-        return 'elections/election_update_form.html'
+        return 'elections/updating/election_basic_information.html'
 
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
@@ -157,7 +157,7 @@ class PrePersonalDataView(TemplateView):
 class ElectionUpdateDataView(DetailView):
     model = Election
     def get_template_names(self):
-        return ['elections/election_update_data.html']
+        return ['elections/updating/questions.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

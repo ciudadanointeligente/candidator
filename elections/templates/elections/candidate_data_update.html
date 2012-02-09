@@ -117,9 +117,9 @@
                     <ul>
                     {% for background in background_category.background_set.all %}
                         <li style='margin-top: 5px; margin-bottom: 0px;'>
-                            <span class="green2_edit">{{ background.name }}</span><br/>
+                            <span class="green2_edit">{{ background.name }}</span>
                             <span>
-                            <input class="background-input" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
+                            <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
                             </span>
                             <span id="status-b-{{ background.pk}}"></span>
                         </li>
