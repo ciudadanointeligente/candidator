@@ -20,3 +20,13 @@ def answer_for_candidate_and_question(candidate, question):
     except Answer.DoesNotExist:
         pass
     return _(u"Aún no hay respuesta")
+    
+    
+@register.simple_tag
+def link_to_updating_this_election(user, election):
+    from django.core.urlresolvers import reverse
+    is_the_owner = not (user is None) and (election.owner.username == user.username)
+    
+    if is_the_owner:
+        return '<a href="'+reverse('election_update',kwargs={"slug":election.slug})+'">(Editar Elección)</a>'
+    return ''
