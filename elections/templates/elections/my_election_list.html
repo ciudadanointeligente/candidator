@@ -1,12 +1,33 @@
-{% extends "elections/base_edits.html" %}
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Bienvenido' %}
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
 
 {% block content %}
-<ul>
-{% for election in user.election_set.all %}
-  <li>
-  <a href="{% url election_detail_admin username=election.owner.username slug=election.slug %}">{{ election }}</a>
-  </li>
-{% endfor %}
-</ul>
-<a href="{% url election_pre_create %}">Crear Eleccion</a>
-{% endblock content %}
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/updating/menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>Bienvenido!</h1>
+		<hr />
+        </head>
+        
+    <br/>
+
+    </div>
+    </div >
+    {% endblock %}
+    </div>

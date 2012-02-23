@@ -188,10 +188,4 @@ class ElectionRedirectView(RedirectView):
         num_elections = self.request.user.election_set.count()
         if self.request.user.election_set.count() <= 0:
             return reverse('election_create')
-        last_election = self.request.user.election_set.latest('pk')
-        if last_election.candidate_set.count() <= 0:
-            return reverse('election_detail_admin',
-                           kwargs={'slug': last_election.slug, 'username': self.request.user.username})
-        return reverse('candidate_data_update',
-                       kwargs={'election_slug': last_election.slug, 'slug': last_election.candidate_set.all()[0].slug})
-
+        return reverse('my_election_list')

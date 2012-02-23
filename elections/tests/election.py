@@ -699,23 +699,20 @@ class ElectionRedirectViewTest(TestCase):
     def test_existing_one_election(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('candidate_data_update',
-                                       kwargs={'election_slug': self.election.slug, 'slug': self.candidate.slug}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_existing_several_elections(self):
         election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
         candidate = Candidate.objects.create(election=election, name='Candidate2')
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('candidate_data_update',
-                                       kwargs={'election_slug': election.slug, 'slug': candidate.slug}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_existing_election_without_candidates(self):
         election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('election_detail_admin',
-                                       kwargs={'slug': election.slug, 'username': self.user.username}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_not_logged(self):
         response = self.client.get(self.url)
