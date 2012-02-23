@@ -124,6 +124,7 @@ class ElectionModelTest(TestCase):
         category = categories.get(name=u'Antecedentes laborales')
         backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
+        
 
     def test_create_default_categories_questions_and_answers(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')

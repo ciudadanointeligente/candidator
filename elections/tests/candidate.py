@@ -49,6 +49,9 @@ class CandidateModelTest(TestCase):
                                                            owner=self.user,
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
+        #deleting all background categories by default
+        for backgroundcategory in self.election.backgroundcategory_set.all():
+            backgroundcategory.delete()
 
     def test_create_candidate(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
@@ -140,6 +143,42 @@ class CandidateModelTest(TestCase):
         expected_dict = {'FooBar' : {'foo': 'BarFoo', 'foo2': 'BarFoo2'},
                          'FooBar2' : {'foo3': 'BarFoo3'}}
         self.assertEqual(candidate.get_background, expected_dict)
+        
+    def test_get_what_the_candidate_answered_when_has_been_answered(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo')
+        background_data_candidate, created = BackgroundCandidate.objects.get_or_create\
+                                            (candidate=candidate,\
+                                            background=background,\
+                                            value="BarFoo")
+        what_the_candidate_answered = candidate.get_answer_for_background(background)
+        expected_answer = "BarFoo"
+        self.assertEqual(what_the_candidate_answered, expected_answer)
+        
+    def test_get_backgrounds_even_if_they_havent_been_answered_by_the_candidate(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo')
+        background2, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo2')
+        background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar2')
+        background3, created = Background.objects.get_or_create(category=background_category2,
+                                                                name='foo3')
+                                                                
+        expected_dict = {'FooBar': {'foo': None, 'foo2': None},
+                         'FooBar2': {'foo3': None}}
+                         
+        self.assertEqual(candidate.get_background, expected_dict)
+        
+        
 
     def test_add_personal_data(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
@@ -179,11 +218,11 @@ class CandidateModelTest(TestCase):
                                                                 name='foo2')
 
         candidate.add_background(background, 'BarFoo')
-        expected = {'FooBar' : {'foo': 'BarFoo'}}
+        expected = {'FooBar' : {'foo': 'BarFoo', 'foo2': None}}
         self.assertEqual(candidate.get_background, expected)
 
         candidate.add_background(background, 'BarFoo2')
-        expected = {'FooBar' : {'foo': 'BarFoo2'}}
+        expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2': None}}
         self.assertEqual(candidate.get_background, expected)
 
         candidate.add_background(background2, 'BarFoo3')
