@@ -3,7 +3,16 @@
 
 html, body { height: 100%; }
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; background-color: #FFF; line-height:16px; overflow-x: hidden;
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; 
+	background: #ffffff;
+	background: -moz-linear-gradient(left,  #ffffff 0%, #e8e8e8 50%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#e8e8e8), color-stop(100%,#ffffff));
+	background: -webkit-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: -o-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: -ms-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	background: linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
+	line-height:16px; overflow-x: hidden;
     width: 100%;}
 
 
@@ -44,7 +53,9 @@ p { margin: 10px 0px 15px 0px; }
 ul{margin: 0; padding: 0; list-style: none;}
 
 /* links */
-a:link, a:visited { text-decoration: none; }
+a:link, a:visited { text-decoration: none;
+}
+ 
 a:hover{
     text-decoration: none;
 }
@@ -120,7 +131,11 @@ h3{
     padding: 6px 8px 6px;
 }
 
-h4 { font-size: 12px; }
+h4 { 
+	font-size: 18px;
+	color: #94A9AF;
+	text-transform: uppercase;
+}
 
 h5 {
     color:#80b6e2;
@@ -351,6 +366,11 @@ background-color:white;
 
 /*=====================FONDO=========================*/
 
+.contenedor_body{
+	width: 950px;
+	margin: auto;
+}
+
 .papel{
     background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #666666;
@@ -392,6 +412,7 @@ background-color:white;
 	margin-bottom: -13px;
 	padding-top: 25px;
 }
+	
 
 
 /*======= HOME ========*/
@@ -518,23 +539,6 @@ ul.homeNav ul.sidebarMenu{
 	margin-top: -18px;
 }
 
-.bt{
-	font-family: 'AllerBold';
-	color: white;
-	font-size: 12px;
-	background: #c4d4ff; /* Old browsers */
-	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
-	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
-	border:1px solid #a7c7e6;
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-}
-
 .bt_publish:hover{
 	opacity:0.8;
 }
@@ -549,12 +553,11 @@ ul.homeNav ul.sidebarMenu{
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-    background: #C7DCF0;
-	width: 157px;
-	margin-left: 173px;
+    background: #E8E8E8;
+	width: 159px;
 	float: left;
 	padding-top: 25px;
-	margin-top: -25px;
+	margin-top: 7px;
 	min-height: 600px;
 }
 
@@ -605,18 +608,7 @@ ul.homeNav ul.sidebarMenu{
     background-color:#afceea;
 }
 
-/*---------------------------EDIT---------------------------------*/
-
-.papel_edit {
-    background: none repeat scroll 0 0 white;
-	box-shadow: 0 1px 8px 1px #666666;
-	left: 50%;
-	margin-bottom: 20%;
-	position: absolute;
-	width: 720px;
-	margin-left: -273px;
-	min-height: 250px;
-}
+/*---------------------------PLANTILLAS---------------------------------*/
 
 .edit_tit h5{
     font-size:24px;
@@ -683,24 +675,6 @@ ul.homeNav ul.sidebarMenu{
     margin-top: 1px;
 }
 
-.blue_edit{
-    font-family:'AllerBold';
-    color:#ffffff;
-    font-size:12px;
-    background-color:#80b6e2;
-    border:1px solid #72acd9;
-    text-transform:uppercase;
-    padding: 1px 4px 1px;
-    letter-spacing:1px;
-    margin-left: 16px;
-}
-
-.blue_edit:before {
-    content:url(../img/asterisco_blue.png);
-    position: absolute;
-    margin-top: 5px;
-}
-
 .lightblue_edit{
     font-family:'AllerBold';
     color:#ffffff;
@@ -713,39 +687,12 @@ ul.homeNav ul.sidebarMenu{
     margin-left: 16px;
 }
 
-.candidate_name{
-    background-color: #E8E8E8;
-    border: 1px solid gainsboro;
-    height: 15px;
-    padding: 1px 4px;
-    margin-top: 3px;
-    margin-left: 16px;
-    margin-bottom: 8px;
-}
-
-p input {
-    background-color: #E8E8E8;
-    border: 1px solid gainsboro;
-    height: 17px;
-    width: 328px;
-    margin-top: 3px;
-}
-
 span input {
-    background-color: #E8E8E8;
-    border: 1px solid gainsboro;
+    background-color: #f2f2f2;
+    border: 1px solid #E8E8E8;
     height: 17px;
     width: 313px;
     margin: 3px 16px 8px;
-}
-
-p textarea{
-    background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-    height: 60px;
-    width: 350px;
-    margin-top: 4px;
-    margin-left: 16px;
 }
 
 .profileImg {
@@ -837,6 +784,57 @@ p textarea{
 	font-family: AllerItalic;
 }
 
-.fondo_wizard {
-    min-height: 600px;
+
+/* -----------------------------begin css tabs-------------------------------- */
+
+ul#tabnav { /* general settings */
+text-align: left; /* set to left, right or center */
+margin: 1em 0 1em 0; /* set margins as desired */
+border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
+list-style-type: none;
+padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
 }
+
+ul#tabnav li { /* do not change */
+display: inline;
+}
+
+.tab {
+	background-color: white;
+	border-top: 1px solid #cccccc;
+	padding: 6px 6px 4px;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	background-color:#e8e8e8;
+}
+
+.tab_selected { /* settings for selected tab */
+	border-bottom: 5px solid white;
+	background-color: white;
+	border-top: 1px solid #cccccc;
+	padding: 6px 6px 0px;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+}
+
+li.tab_selected a { /* settings for selected tab link */
+background-color: #fff; /* set selected tab background color as desired */
+color: #000; /* set selected tab link color as desired */
+position: relative;
+top: 1px;
+padding-top: 4px; /* must change with respect to padding (X) above and below */
+}
+
+ul#tabnav li a { /* settings for all tab links */
+padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+color: #666; /* set unselected tab link color as desired */
+margin-right: 0px; /* set additional spacing between tabs as desired */
+text-decoration: none;
+border-bottom: none;
+}
+
+ul#tabnav a:hover { /* settings for hover effect */
+background: #fff; /* set desired hover color */
+}
+
+/* end css tabs */

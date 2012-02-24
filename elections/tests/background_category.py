@@ -104,7 +104,13 @@ class BackgroundCategoryCreateViewTest(TestCase):
         self.assertTrue(isinstance(request.context['form'], BackgroundCategoryForm))
         self.assertTrue('election' in request.context)
         self.assertTrue(isinstance(request.context['election'], Election))
-
+    
+    def test_renders_step_four_template(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('background_category_create',
+                                    kwargs={'election_slug': self.election.slug}))
+        
+        self.assertTemplateUsed(response, 'elections/wizard/step_four.html')
 
     def test_post_background_category_create_without_login(self):
         params = {'name': 'Bar'}

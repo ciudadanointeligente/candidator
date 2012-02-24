@@ -1,17 +1,18 @@
  {% load i18n %}
-    <div class="candidate-edit-menu">
+
+<div class="bt_cuadrado"><a href="{% url election_create %}">{% trans 'Nueva elección' %}</a></div>
+
+<div class="candidate-edit-menu">
 
         <div class="menuedit_accordion">
         {% for my_election in user.election_set.all %}
-            <div class="menuedit_tit nombre">{{ my_election.name }}</div>
+            <div class="menuedit_tit nombre election_name {% if election == my_election %}selected_election{% endif %}">{{ my_election.name }}</div>
 
             {% if election == my_election %}
             <div class="menuedit_eleccion actual">
             {% else %}
             <div class="menuedit_eleccion">
             {% endif %}
-
-                <div class="menuedit"><a href="{% url election_detail_admin slug=my_election.slug username=user %}">{% trans 'Administrar Elección' %}</a></div>
                 <div class="menuedit"><a href="{{ my_election.get_absolute_url }}">{% trans 'Ver Elección' %}</a></div>
 
                 <div class="menuedit_tit">{% trans 'Editar Elección' %}</div>
@@ -21,14 +22,8 @@
                 <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
                 <!-- Creo que esta funcionalidad de agregar un nuevo candidato debe ir en otro sitio -->
                 <div class="menuedit"><a href="{% url candidate_create_alone election_slug=my_election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
-                <div class="menuedit"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a></div>
-
-
+                <div class="menuedit"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a>					</div>
         </div>
-
         {% endfor %}
-
-
-    </div>
-
-</div>
+    	</div>
+		</div>

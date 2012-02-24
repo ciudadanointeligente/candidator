@@ -215,10 +215,12 @@ DEFAULT_QUESTIONS = [{
     'Category':u'Educación',
     'Questions':[
         {
-            'question':u'¿Crees que Chile debe tener una educación gratuita?'
+            'question':u'¿Crees que Chile debe tener una educación gratuita?',
+            'answers':[u'Sí',u'No']
         },
         {
-            'question':u'¿Estas de acuerdo con la desmunicipalización?'
+            'question':u'¿Estas de acuerdo con la desmunicipalización?',
+            'answers':[u'Sí',u'No']
         }
     ]
 }]

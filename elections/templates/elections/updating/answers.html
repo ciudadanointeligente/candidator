@@ -7,24 +7,44 @@
 {% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
 {% endblock title %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
+
 {% block content %}
 
-{% include 'elections/election_admin_menu.html' %}
 
-<div class="papel_edit">
-    <div class="contenedor_edit">
-        <ul>
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/updating/menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>RESPUESTAS:<span class="celeste"> COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
+		<hr />
+        </head>
+        
+        <ul id="tabnav">
             {% for my_candidate in election.candidate_set.all  %}
                 {% if my_candidate == candidate %}
-                    <li class="current_candidate">{{ my_candidate.name }}</li>
+                    <li class="tab_selected">{{ my_candidate.name }}</li>
                 {% else %}
-                    <li class="normal_candidate"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
+                    <li class="tab"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
-        <div class="edit_tit"><h5>{{ candidate.name }}</h5></div>
 
-            <div class="profileImg">
+        <div class="candidate"><img src="{{ STATIC_URL }}/img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
+
+
+            
+
+	<h2>DATOS PERSONALES</h2>
+    		<div class="profileImg">
 
             {% thumbnail candidate.photo "80x100" crop="center" as im %}
             <img src="{{ im.url }}" alt="{{ candidate.name }}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
@@ -36,18 +56,17 @@
                 {% endif %}
             {% endthumbnail %}
             </div>
-
+            
             <div class="personaldataEdit">
                 <ul>
-                    <span class="green_edit">NOMBRE</span><br />
-                    <div class="candidate_name">{{ candidate.name }}</div>
+                    <span class="bold">Nombre</span>
+                    <span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
                     <li>
 
-                        <span class="green2_edit">{{ personal_data.label }}</span>
-                        <span>
-                        <input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
+                        <span class="bold">{{ personal_data.label }}</span>
+                        <span><input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}
@@ -56,7 +75,7 @@
             </div>
 
            <div class="linksEdit">
-                <span class="grey_edit mandatory">Links</span>
+                
                 <ul class="link-list">
                     {% for link in candidate.link_set.all %}
                     <li class="link-list-li" id="id-li-link-{{link.pk}}">
@@ -68,7 +87,7 @@
                     <br>
                     <ul>
                     <li>
-                        <span class="grey_edit">{% trans 'Nombre' %}</span><br/>
+                        <img src="{{ STATIC_URL }}/img/ic_arrow_right.png" ><span class="link">link</span><br/>
                         <span>
                             <input type="text" name="name" id="link_name" />
                         </span>
@@ -79,8 +98,7 @@
                         </span>
                         <br/>
                         <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
-                        <br>
-                            <a class="save-personal-data" style="margin-right:0px;" href="">guardar</a>
+                        <br />
                     </li>
 
 
@@ -99,9 +117,9 @@
                     <ul>
                     {% for background in background_category.background_set.all %}
                         <li style='margin-top: 5px; margin-bottom: 0px;'>
-                            <span class="green2_edit">{{ background.name }}</span><br/>
+                            <span class="green2_edit">{{ background.name }}</span>
                             <span>
-                            <input class="background-input" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
+                            <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
                             </span>
                             <span id="status-b-{{ background.pk}}"></span>
                         </li>
@@ -110,7 +128,6 @@
                     </li>
                 {% endfor %}
                 <li>
-                    <a class="save-background" href="#" style="content: url(../../../static/img/ok.png);background-color: #AFCEEA;padding: 5px;border: 1px solid #A7C7E6;border-radius: 15px;">Guardar</a>
                 </li>
                 </ul>
             </div>
@@ -134,13 +151,6 @@
                         </li>
 
                     {% endfor %}
-                        <li>
-                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
-                                {% csrf_token %}
-                                <input type="text" name="caption" />
-                                <input type="submit" value="{% trans 'crear' %}" />
-                            </form>
-                        </li>
                     </ul>
                 </li>
             {% endfor %}
@@ -152,17 +162,26 @@
 
         {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
 
+	
+    	</div>
     </div>
-</div>
-
-<div id="form-candidate-photo">
-</div>
+    
+    <div id="form-candidate-photo">
+    </div>
+    </div>
 {% endblock content %}
 
 
 {% block extra_js %}
         <script type="text/javascript">
-
+        function notify(message, timeOut) {
+            // Set the message using text method and chain fadeIn with it
+            // apply simple setTimeout to fadeOut the message
+            $('#status').text(message).fadeIn();
+            setTimeout(function(){
+                $('#status').fadeOut();
+            }, timeOut*1000);
+        }
         function link_delete(link_pk){
             var answer = confirm("¿Estas seguro que quieres eliminar este link?");
             if(answer){
@@ -204,42 +223,35 @@
             'json');
             return false;
         }
+        $(".personal-data-input").change(
+                function(){
+                    var value_text = $(this);
+                    var value = value_text.val();
+                    var personal_data_pk = value_text.attr('pk');
+                    $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
+                    {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'value': value
+                    },
+                    function(data) { notify('guardado',1) },
+                    'json');
+                }
+        )
 
-        $(".save-personal-data").click(function(e){
-            $(".personal-data-input").each(function(i){
-                var value_text = $(this);
-                var value = value_text.val();
-                var personal_data_pk = value_text.attr('pk');
-
-                $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
-                {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'value': value
-                },
-                function(data) { $("#status-pd-"+personal_data_pk).text("guardado!"); },
-                'json');
-            });
-            return false;
-        });
-
-        $(".save-background").click(function(e){
-            $(".background-input").each(function(i){
-                var value_text = $(this);
-                var value = value_text.val();
-                var background_pk = value_text.attr('pk');
-
-                $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
-                {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'value': value
-                },
-                function(data) {
-                    $("#status-b-"+background_pk).text("guardado!");
-                },
-                'json');
-            });
-            return false;
-        });
+        $(".background-input").change(function(){
+            var value_text = $(this);
+            var value = value_text.val();
+            var background_pk = value_text.attr('pk');
+            $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'value': value
+            },
+            function(data) {
+                notify("guardado!",1);
+            },
+            'json');
+        })
 
 
         $('.answerform').live('submit', function (e) {

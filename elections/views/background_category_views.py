@@ -25,6 +25,9 @@ from elections.models import BackgroundCategory, Election
 class BackgroundCategoryCreateView(CreateView):
     model = BackgroundCategory
     form_class = BackgroundCategoryForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_four.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

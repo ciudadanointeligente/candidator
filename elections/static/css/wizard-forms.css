@@ -1,9 +1,6 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 11px; color: #666666; background-color: #A1B2B8; line-height:19px; overflow-x: hidden;
-    width: 100%;}
-
 
 /*
  * Browser Reset
@@ -31,9 +28,6 @@ html {
  */
 
 
-/* paragraph */
-p { margin: 10px 0px 5px;}
-
 /* lists */
 ul{margin: 0; padding: 0; list-style:none}
 
@@ -48,6 +42,24 @@ hr {
     background: #e8e8e8;
     height: 1px;
     border: none;
+}
+
+h1 {
+    color:#72acd9;
+    font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+}
+
+.celeste{
+	   font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+	color: #a7c7e6;
 }
 
 /* blockquotes */
@@ -132,35 +144,6 @@ blockquote {
 
 /* FORMULARIOS */
 
-.instrucciones{
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-style:italic;
-    font-size:12px;
-}
-
-.tit_fondoverde{
-    font-size:12px;
-    color:#fff;
-    font-family: 'AllerBold';
-    padding: 2px 4px 1px 6px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    background-color:#a1b2b8;
-    border: 1px none #94A9AF;
-}
-
-
-.tit_fondoceleste{
-    font-size:12px;
-    color:#fff;
-    font-family: 'AllerBold';
-    padding-top:20px;
-    padding-bottom:20px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    background-color:#a1b2b8;
-    border: 1px none #94A9AF;
-}
 
 .bt_siguiente{
     float: right;
@@ -195,14 +178,6 @@ form{
     margin-top: -25px;
 }
 
-p input{
-    background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-    height: 17px;
-    width: 328px;
-    margin-top:3px;
-}
-
 p textarea{
     background-color: #E8E8E8;
     border: 1px solid #DCDCDC;
@@ -213,7 +188,7 @@ p textarea{
 
 p input#id_name{
     margin-top:3px;
-    width: 327px;
+    width: 370px;
 }
 
 p input#id_date{
@@ -407,4 +382,11 @@ div.instrucciones{
 #newelection #id_description {
     margin-left: 0px;
     width: 328px;
+}
+.selected {
+color:red;
+}
+.twitter{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+    padding-left: 25px;
 }

@@ -1,5 +1,6 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
+{% load election_tags %}
 {% load thumbnail %}
 
 {% block extra_head %}
@@ -36,9 +37,7 @@
 
 
 <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
-{% if election.owner.username == request.user.username %}
-    <a href="{% url election_update_data slug=election.slug %}">(Editar)</a>
-    {% endif %}
+    {% link_to_updating_this_election request.user election %}
     </h1>
     </div>
 
