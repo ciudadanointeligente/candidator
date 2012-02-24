@@ -7,11 +7,60 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from elections.forms.election_form import AnswerForm
+from django.template import Template, Context
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
+
+class ElectionTagsTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='doe',
+                                                password='joe',
+                                                email='doe@joe.cl')
+        self.not_user = User.objects.create_user(username='joe',
+                                                password='joe',
+                                                email='doe@joe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.election2, created = Election.objects.get_or_create(name='BarBaz2',
+                                                            owner=self.user,
+                                                            slug='barbaz2')
+        self.candidate = Candidate.objects.create(name='Bar Baz',
+                                                            election=self.election)
+        self.candidate2, created = Candidate.objects.get_or_create(
+                                                            name='Bar Baz',
+                                                            election=self.election2)
+    
+    def test_create_link_for_updating_election_data(self):
+        template = Template('{% load election_tags %}{% link_to_updating_this_election user election %}')
+        
+        
+        context = Context({"user": self.user, "election": self.election})
+        election_update_url = reverse('election_update',kwargs={'slug':self.election.slug})
+        expected_html = u'<a href="'+election_update_url+u'">(Editar Elección)</a>'
+        
+        self.assertEqual(template.render(context), expected_html)
+    
+    def test_if_is_not_the_owner(self):
+        template = Template('{% load election_tags %}{% link_to_updating_this_election user election %}')
+        
+        
+        context = Context({"user": self.not_user, "election": self.election})
+        expected_html = u''
+        self.assertEqual(template.render(context), expected_html)
+        
+        
+    def test_if_there_is_no_logged_user(self):
+        template = Template('{% load election_tags %}{% link_to_updating_this_election user election %}')
+        
+        
+        context = Context({"user": None, "election": self.election})
+        expected_html = u''
+        self.assertEqual(template.render(context), expected_html)
 
 class ElectionModelTest(TestCase):
     def test_create_election(self):
@@ -26,7 +75,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.owner, user)
         self.assertEqual(election.slug, 'barbaz')
         self.assertEqual(election.date, '27 de Diciembre')
-        self.assertEqual(election.description, 'esta es una descripcion')
+        self.assertEqual(election.description, 'esta es una descripcion')     
 
     def test_create_two_election_by_same_user_with_same_slug(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -75,8 +124,9 @@ class ElectionModelTest(TestCase):
         category = categories.get(name=u'Antecedentes laborales')
         backgrounds = Background.objects.filter(category=category)
         self.assertEqual(backgrounds.filter(name=u'Último trabajo').count(), 1)
+        
 
-    def test_create_default_questions_and_categories(self):
+    def test_create_default_categories_questions_and_answers(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         election = Election.objects.create(name='Foo', owner=user, description='Lorem ipsum')
         question_categories = Category.objects.filter(election=election)
@@ -85,7 +135,17 @@ class ElectionModelTest(TestCase):
         questions = question_categories[0].question_set.all()
         self.assertEquals(questions.count(),2)
         self.assertEquals(questions[0].question,u'¿Crees que Chile debe tener una educación gratuita?')
+
+        first_question = questions[0]
+        self.assertEquals(first_question.answer_set.count(),2)
+        self.assertEquals(first_question.answer_set.all()[0].caption,u"Sí")
+        self.assertEquals(first_question.answer_set.all()[1].caption,u"No")
         self.assertEquals(questions[1].question,u'¿Estas de acuerdo con la desmunicipalización?')
+
+        second_question = questions[1]
+        self.assertEquals(second_question.answer_set.count(),2)
+        self.assertEquals(second_question.answer_set.all()[0].caption,u"Sí")
+        self.assertEquals(second_question.answer_set.all()[1].caption,u"No")
 
 
 
@@ -412,7 +472,11 @@ class ElectionCreateViewTest(TestCase):
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('candidate_create',
                                                kwargs={'election_slug': election.slug}))
-
+        
+    def test_template_step_one(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('election_create'))
+        self.assertTemplateUsed(response,'elections/wizard/step_one.html')
 
 class ElectionUpdateViewTest(TestCase):
     def setUp(self):
@@ -431,7 +495,12 @@ class ElectionUpdateViewTest(TestCase):
         self.assertTrue(isinstance(response.context['form'], ElectionUpdateForm))
         self.assertTrue('election' in response.context)
         self.assertEqual(response.context['election'], self.election)
-        self.assertTemplateUsed(response, 'elections/election_update_form.html')
+    
+    def test_template_election_basic_information_rendered(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('election_update', kwargs={'slug': self.election.slug}))
+        
+        self.assertTemplateUsed(response,'elections/updating/election_basic_information.html')
 
     def test_post_election_update_without_login(self):
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
@@ -541,7 +610,7 @@ class ElectionUrlsTest(TestCase):
         self.assertEquals(result, expected)
 
     def test_profiles_url(self):
-        expected = '/juanito/eleccion-la-florida/admin'
+        expected = '/juanito/eleccion-la-florida/gracias'
         result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
 
@@ -590,7 +659,7 @@ class ElectionUpdateDataViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEqual(response.context['election'], self.election)
-        self.assertTemplateUsed(response, 'elections/election_update_data.html')
+        self.assertTemplateUsed(response, 'elections/updating/questions.html')
 
         self.assertTrue('personaldata_form' in response.context)
         self.assertIsInstance(response.context['personaldata_form'], PersonalDataForm)
@@ -606,6 +675,9 @@ class ElectionUpdateDataViewTest(TestCase):
 
         self.assertTrue('category_form' in response.context)
         self.assertIsInstance(response.context['category_form'], CategoryForm)
+
+        self.assertTrue('answer_form' in response.context)
+        self.assertIsInstance(response.context['answer_form'], AnswerForm)
 
 
 PASSWORD = 'password'
@@ -628,23 +700,20 @@ class ElectionRedirectViewTest(TestCase):
     def test_existing_one_election(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('candidate_data_update',
-                                       kwargs={'election_slug': self.election.slug, 'slug': self.candidate.slug}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_existing_several_elections(self):
         election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
         candidate = Candidate.objects.create(election=election, name='Candidate2')
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('candidate_data_update',
-                                       kwargs={'election_slug': election.slug, 'slug': candidate.slug}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_existing_election_without_candidates(self):
         election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('election_detail_admin',
-                                       kwargs={'slug': election.slug, 'username': self.user.username}))
+        self.assertRedirects(response, reverse('my_election_list'))
 
     def test_not_logged(self):
         response = self.client.get(self.url)

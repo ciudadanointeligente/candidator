@@ -122,6 +122,10 @@ class BackgroundCandidateCreateViewTest(TestCase):
         self.election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=self.user,
                                                             slug='barbaz')
+        #deleting all background categories by default
+        for backgroundcategory in self.election.backgroundcategory_set.all():
+            backgroundcategory.delete()
+            
         self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
                                                                     name='FooBar')
 

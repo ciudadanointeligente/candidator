@@ -48,6 +48,13 @@ class QuestionCreateViewTest(TestCase):
         self.assertTrue(isinstance(request.context['form'], QuestionForm))
         self.assertTrue('election' in request.context)
         self.assertTrue(isinstance(request.context['election'], Election))
+    
+    def test_step_five_template_rendered(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('question_create',
+                                    kwargs={'election_slug': self.election.slug}))
+        
+        self.assertTemplateUsed(response, 'elections/wizard/step_five.html')
 
     def test_post_question_create_without_login(self):
         params = {'question': 'BarBaz', 'new_category': 'NewCategory', 'category': None}

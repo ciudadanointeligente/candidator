@@ -7,24 +7,28 @@
 
 
 {% block extra_head %}
-    <link href="{{ STATIC_URL }}/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
-{%  endblock extra_head %}
-
-
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
 
 {% block content %}
 
-{% include 'elections/election_admin_menu.html' %}
+<div class="contenedor_body">
 
-<div class="papel_edit">
-    <div class="contenedor_edit">
+<!-- MENU VERTICAL -->
+      {% include 'elections/updating/menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>ELECCIÓN:<span class="celeste"> INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG</span></h1>
+		<hr />
+        </head>
 
-
-        <div class="edit_tit"><h5>INFORMACIÓN GENERAL DE LA ELECCIÓN</h5></div>
-
-
+		<section>
         <br/>
-        <div class="permalink"><span>Permalink:</span><span>{{ election_url }}</span></div>
+        
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form.non_field_errors }}
@@ -33,11 +37,16 @@
                 {{ form.name }}
                 {{ form.name.errors }}
             </p>
-
+            
+            <aside class='guide'>
+            <div class="permalink">Permalink:<div class="slug">{{ election_url }}</div></div>
+			</aside>
+            
             <p class="fieldWrapper">
-                <label for="id_date" class="lightblue_edit">{{ form.date.label }}</label>
+                <label for="id_date" class="blue_edit">fecha de la elección:</label>
                 {{ form.date }}
                 {{ form.date.errors }}
+                <span class="calendar"><img src="{{ STATIC_URL }}/img/calendar.png" ></span>
             </p>
 
             <p class="fieldWrapper">
@@ -46,57 +55,34 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_description" class="lightblue_edit">{{ form.description.label }}</label><br />
+                <label for="id_description" class="blue_edit">BREVE DESCRIPCIÓN DE TU CANDIDEIT.ORG</label><br />
                 {{ form.description }}
                 {{ form.description.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_logo" class="lightblue_edit">IMAGEN</label><br />
+                <label for="id_logo" class="blue_edit">IMAGEN</label><br />
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
+            
+            <aside class='guide'>
+            <div class="permalink">Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...</div>
+            </aside>
 
             <p class="fieldWrapper">
-                <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
+                <label for="id_source" class="blue_edit">¿DE DÓNDE SACASTE LA INFORMACIÓN?</label><br />
                 {{ form.information_source }}
                 {{ form.information_source.errors }}
-            </p>
-
-
-
-            <a class="save" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">
-               </a>
+            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">Guardar
+               </a></span>
 
         </form>
-
+        </section>
     </div>
 
 
-    <div class="instrucciones">{% trans '¿Quiénes son los candidatos?' %}</div>
-        <ul id="lista_candidatos">
-            {% for candidate in election.candidate_set.all %}
-                <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
-                <span class="tit_fondoverde">
-                    {{ candidate.name }}
-                </span>
-                <a href="javascript:void(0);" onclick="deleteCandidate({{candidate.pk}}); return false;"><img style="margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
-                </li>
-            {% endfor %}
-        </ul>
-        <br/>
-    <form id="newcandidate" method="POST" action="{% url async_create_candidate election_slug=election.slug %}">{% csrf_token %}
-        {{ new_candidate_form.non_field_errors }}
-        {{ new_candidate_form.as_p }}
-        <!-- <a class="bt_siguiente" href="javascript:void(0);" onclick="document.forms['newelection'].submit();return false;"> -->
-        <div id="link_add">
-            <a class="bt_agregar" id="add_candidate" href="javascript:void(0);" onclick="$('#newcandidate').submit();">
-                <img style= "margin-left: 17px;" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
-            </a>
-        </div>
-
-
-    </form>
+   
 
 
 
@@ -105,6 +91,8 @@
 
 
 {% endblock %}
+
+<!-- CIERRE CONTENIDO -->   
 
 {% block extra_js %}
     {{ form.media }}

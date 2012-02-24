@@ -21,6 +21,7 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
+from elections.forms.election_form import AnswerForm
 from elections.models import Election, Candidate, Category
 
 
@@ -30,7 +31,7 @@ class ElectionUpdateView(UpdateView):
     form_class = ElectionUpdateForm
 
     def get_template_names(self):
-        return 'elections/election_update_form.html'
+        return 'elections/updating/election_basic_information.html'
 
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
@@ -60,6 +61,9 @@ class ElectionDetailView(DetailView):
 class ElectionCreateView(CreateView):
     model = Election
     form_class = ElectionForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_one.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -153,7 +157,7 @@ class PrePersonalDataView(TemplateView):
 class ElectionUpdateDataView(DetailView):
     model = Election
     def get_template_names(self):
-        return ['elections/election_update_data.html']
+        return ['elections/updating/questions.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -166,6 +170,7 @@ class ElectionUpdateDataView(DetailView):
         context['background_form'] = BackgroundForm()
         context['question_form'] = QuestionForm(election=self.object)
         context['category_form'] = CategoryForm()
+        context['answer_form'] = AnswerForm()
         return context
 
     def get_queryset(self):
@@ -183,10 +188,4 @@ class ElectionRedirectView(RedirectView):
         num_elections = self.request.user.election_set.count()
         if self.request.user.election_set.count() <= 0:
             return reverse('election_create')
-        last_election = self.request.user.election_set.latest('pk')
-        if last_election.candidate_set.count() <= 0:
-            return reverse('election_detail_admin',
-                           kwargs={'slug': last_election.slug, 'username': self.request.user.username})
-        return reverse('candidate_data_update',
-                       kwargs={'election_slug': last_election.slug, 'slug': last_election.candidate_set.all()[0].slug})
-
+        return reverse('my_election_list')

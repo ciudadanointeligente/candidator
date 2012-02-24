@@ -6,61 +6,78 @@
 {% endblock title %}
 
 {% block extra_head %}
-    <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
-{%  endblock extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
 
 {% block content %}
 
-{% include 'elections/election_admin_menu.html' %}
-<div class="papel_edit">
-    <div class="contenedor_edit">
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/updating/menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>PREGUNTAS:<span class="celeste_preguntas"> ¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!</span></h1>
+		<hr />
+        </head>
 
     <div class="edit_tit">
-        <h5>Datos Personales <img style=" margin-top: 13px;" src="{{ STATIC_URL }}/img/bt_agregar(grande).png"/></h5>
+        <h2>a. datos personales del candidato</h2>
+        <div class="ayuda">Las respuestasde cada candidato las agregarás en la siguiente sección</div>
     </div>
+<div class="wrapper_preguntas">
     <ul id="lista_personaldata">
         {% for personal_data in election.personaldata_set.all %}
         <li style='margin-top: 5px;' id="personal_data_{{ personal_data.pk }}">
-            <span class="tit_fondoverde">{{ personal_data.label }}
+            <span class="bold">{{ personal_data.label }}
             <a href="javascript:void(0);" onclick="personal_data_delete({{personal_data.pk}}); return false;">
-                <img style="position:absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                <img style="position:absolute; margin-left:6px; margin-top: 4px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/>
             </a>
             </span>
         </li>
         {% endfor %}
         <li id="add_personal_data">
             <p style='float: left;'>
-            <input name="add_personal_data_input" placeholder="agregar dato personal"/>
-            </p>
-
-            <a style='float: left; margin-top: 13px; margin-left: 3px;' class="bt_agregar save_personal_data_link" href="#" pk="{{election.pk}}">
-                <img  style="" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
-            </a>
+            <input name="add_personal_data_input" id="add_personal_data_input" placeholder="agregar dato personal"/>
+            </p><aside><a class="bt_input save_personal_data_link" href="#" pk="{{election.pk}}">agregar</a></aside>
         </li>
+
     </ul>
 
     <br style='clear: both;'/>
+</div>
+
+
+
+
+
 
     <div class="edit_tit">
-        <h5>Antecedentes <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+        <h2>b. Antecedentes</h2>
     </div>
+<div class="wrapper_preguntas">
     <ul id="lista_categorias">
         {% for background_category in election.backgroundcategory_set.all %}
         <li id="background_category_{{background_category.pk}}">
-            <h6>
+            <div class="categoriasAntecedentes"><h3>
                 {{ background_category.name }}
                 <a href="javascript:void(0);" onclick="background_category_delete({{background_category.pk}}); return false;">
-                    <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                    <img style="margin-top:-2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/>
                 </a>
-            </h6>
+            </h3>
+            </div>
 
-            <ul id="id_background_list_{{ background_category.pk }}">
+            <ul class= "backgrounds" id="id_background_list_{{ background_category.pk }}">
                 {% for background in background_category.background_set.all %}
                 <li id="background_{{background.pk}}">
-                    {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+                    {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
                 </li>
                 {% endfor %}
-                <li id="add_background_{{ background_category.pk}}">
+                <p id="add_background_{{ background_category.pk}}">
                     {% with background_form.name.html_name as html_name %}
                     <input type="text" 
                            name="{{ html_name }}" 
@@ -68,66 +85,99 @@
                            id="id_{{ forloop.counter }}_{{ html_name }}" 
                            placeholder="agregar antecedente" />
                     {% endwith %}
-                    <a class="save_background_link" href="#" pk="{{ background_category.pk}}" >
-                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+                    <a class="bt_input save_background_link" href="#" pk="{{ background_category.pk}}" >agregar
                     </a>
-                </li>
+                </p>
             </ul>
         </li>
         {% endfor %}
-        <li id="add_backgroundcategory">
+        <p id="add_backgroundcategory">
             <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
                                name="{{ backgroundcategory_form.name.html_name }}"
                                placeholder="agregar categoría" />
-            <a class="save_background_category_link" href="#" pk="{{election.pk}}">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+            <a class="bt_input save_background_category_link" href="#" pk="{{election.pk}}">agregar categoría
             </a>
-        </li>
+        </p>
     </ul>
     <br/>
+    
+    <aside class='guide'>
+            <div class="ejAntecedentes"> Otros antecedentes laborales podrían ser:<br />
+- Prácticas profesionales<br />
+- Experiencia técnica</div>
+            </aside>
 
-    <h5>Cuestionario <img style=" margin-top: 13px;" src="{{ STATIC_URL }}img/bt_agregar(grande).png"/></h5>
+</div>
+ 
+ 
+ 
+ 
+
+    <h2>c. Cuestionario</h2>
+    <div class="ayuda">Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto deben ser respondidas por todos.</div>
+<div class="wrapper_preguntas">
+
     <ul id="lista_preguntas">
         {% for category in election.category_set.all %}
         <li id="category_{{ category.pk }}">
-            <h6>
+            <div class= "categoriasAntecedentes"><h3>
                 {{ category.name }}
                 <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
-                    <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
+                    <img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/>
                 </a>
-            </h6>
+            </h3></div>
             <ul id="id_question_list_{{ category.pk }}">
                 {% for question in category.question_set.all %}
                 <li id="question_{{question.pk}}">
-                    {{ question.question }}
+                    <div class= "bold">{{ question.question }}
                     <a href="javascript:void(0);" onclick="question_delete({{question.pk}}); return false;">
-                        <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/>
-                    </a>
+                        <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/>
+                    </a></div>
+                    <div>
+                    <ul class="list_of_answers">
+                        {% for answer in question.answer_set.all %}
+                            <li>{{ answer }}</li>
+                        {% endfor %}
+                        <li>
+                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
+                                {% csrf_token %}
+                                    <p><input type="text" name="caption" placeholder="agregar respuesta" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">agregar
+                    </a></p>
+                                
+                            </form>
+                        </li>
+                    </ul>
+                    </div>
+
                 </li>
+
                 {% endfor %}
-                <li id="add_question_{{ category.pk }}">
+                <div class= "addQuestion">
+                <p id="add_question_{{ category.pk }}">
                     {% with question_form.question.html_name as html_name %}
                     <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
                     {% endwith %}
-                    <a class="save_question_link" href="#" pk="{{category.pk}}">
-                        <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+                    <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">agregar
                     </a>
-                </li>
+                </p>
+                </div>
+                
             </ul>
         </li>
         {% endfor %}
-        <li id="add_category">
+        <p id="add_category">
             {% with category_form.name.html_name as html_name %}
             <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
             {% endwith %}
-            <a class="save_category_link" href="#" pk="{{election.pk}}">
-                <img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/>
+            <a class="bt_input save_category_link" href="#" pk="{{election.pk}}">agregar categoría
             </a>
-        </li>
+        </p>
     </ul>
 
         {% csrf_token %}
     </div>
+</div>
+</div>
 </div>
 
 {% endblock content %}
@@ -140,7 +190,7 @@ function personal_data_delete(personal_data_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
     if(answer){
         var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
-        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
             function(json){
                 $("#personal_data_"+personal_data_pk).remove();
             })
@@ -154,7 +204,7 @@ function background_category_delete(category_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
     if(answer){
         var dir = "/"+category_pk +"/background_category/async_delete/";
-        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
             function(json){
                 $("li#background_category_"+category_pk).remove();
              })
@@ -168,7 +218,7 @@ function background_delete(background_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
     if(answer){
         var dir = "/"+background_pk +"/background/async_delete/";
-        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
             function(json){
                 $("li#background_"+background_pk).remove();
             })
@@ -182,7 +232,7 @@ function category_delete(category_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
     if(answer){
         var dir = "/"+category_pk +"/category/async_delete/";
-        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
             function(json){
                 $("#category_"+category_pk).remove();
 
@@ -203,7 +253,7 @@ function question_delete(question_pk){
     var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
     if(answer){
         var dir = "/"+question_pk +"/question/async_delete/";
-        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
             function(json){
                 $("#question_"+question_pk).remove();
 
@@ -224,7 +274,16 @@ function question_delete(question_pk){
         return false;
     }
 }
-
+function saveAnswerLink(link){
+    var form = $(link).closest('form');
+    var value_text = $(link).prev();
+    $.post($(form).attr('action'), $(form).serialize(), function (json) {
+        var containing_li = $(form).parent('li');
+        var html = '<li>'+json.caption+'</li>';
+        $(html).insertBefore(containing_li);
+        value_text.val('');
+    });
+}
 $(document).ready(function() {
 
     var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
@@ -250,7 +309,7 @@ $(document).ready(function() {
     };*/
 
     $(".save_personal_data_link").click(function(e){
-        var value_text = $(this).prev("p").children("input");
+        var value_text = $('#add_personal_data_input');
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
 
@@ -261,16 +320,16 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li style="margin-top: 5px;" id="personal_data_'+data.pk+'"><span class="tit_fondoverde">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="position: absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></span></li>';
+            var content = '<li style="margin-top: 5px;" id="personal_data_'+data.pk+'"><span class="bold">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="position:absolute; margin-left:6px; margin-top: 4px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a></span></li>';
 
             var lista = $("ul#lista_personaldata")
             lista.children().last().before(content)
-            value_text.val(default_texts[1][1])
+            value_text.val('')
         },
         'json');
         return false;
     });
-
+    
 
 
     $(".save_background_link").click(save_background);
@@ -287,7 +346,7 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a></li>';
 
             var lista = $("ul#id_background_list_"+background_category_pk)
             lista.children().last().before(content)
@@ -297,13 +356,12 @@ $(document).ready(function() {
         return false;
     }
 
-
     $(".save_background_category_link").click(function(e){
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
-
-        $.post('/'+ election_pk +'/background_category/async_create/',
+        var address = "{% url async_create_background_category election_pk=election.id %}";
+        $.post(address,
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
             'value': value
@@ -318,7 +376,7 @@ $(document).ready(function() {
             });
             last_id++;
             var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" class="add_background_name" />'
-            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">' + background_input  + '<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
+            var content ='<li id="background_category_'+data.pk+'"><div class="categoriasAntecedentes"><h3>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_background_list_'+data.pk+'" class="backgrounds"><p id="add_background_'+data.pk+'">' + background_input  + '<a class="bt_input save_background_link" href="#" pk="'+data.pk+'" >agregar</a></p></ul></li>';
 
             var lista = $("ul#lista_categorias")
             lista.children().last().before(content)
@@ -343,10 +401,14 @@ $(document).ready(function() {
             'value': value
         },
         function(data) {
-            var content = '<li id="question_'+data.pk+'">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
 
-            var lista = $("ul#id_question_list_"+category_pk)
-            lista.children().last().before(content)
+
+            var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="agregar respuesta" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p></form></li></ul></div></li>';
+
+
+            var lista = $("ul#id_question_list_"+category_pk);
+
+            $(content).insertBefore(lista.children().last());
             value_text.val('');
         },
         'json');
@@ -374,7 +436,10 @@ $(document).ready(function() {
             last_id++;
             var question_input = '<input type="text" name="{{ question_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar pregunta" class="question_input"/>';
 
-            var content = '<li id="category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_question_list_'+data.pk+'"><li id="add_question_'+data.pk+'">' + question_input + '<a class="save_question_link" href="#" pk="'+data.pk+'"><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a></li></ul></li>';
+            var content = '<li id="category_'+data.pk+'"><div class="categoriasAntecedentes">' +
+                    '<h3>'+data.name+'' +
+                    '<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;">' +
+                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">agregar</a></p></div></ul></li>';
 
             var lista = $("ul#lista_preguntas")
             lista.children().last().before(content)
@@ -388,6 +453,8 @@ $(document).ready(function() {
 
 
 });
+
+
 
 
 
