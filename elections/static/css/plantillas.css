@@ -446,8 +446,7 @@ ul span.bold{
     margin-right:25px;
 }
 
-#Esto es el elemento seleccionado en el menu al seleccionar un elemento por
-#ejemplo editar preguntas
+
 .selected {
-    color : red;
+    background : red;
 }
