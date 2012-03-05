@@ -18,9 +18,10 @@
     <div class="header_color">
         <header class="wrapBasic" id="mainHeader">
             <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
+            </a>
+            <a href="http://www.ciudadanointeligente.org">
             <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
             </a>
-
             <h1 style="display: none;">Vota inteligente</h1>
         </header>
         <nav id="mainNavigation">
@@ -28,7 +29,6 @@
                 <ul>
                     <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
                     <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">SOBRE ESTA ELECCIÓN</a></li>
-                    <!-- <li> <a href="{% url election_list %}">ELECCIONES</a> </li> -->
                     <li> <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">MEDIA NARANJA</a></li>
                     <li> <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">PERFIL DE CANDIDATOS</a></li>
                     <li> <a href="{% url election_compare username=election.owner.username slug=election.slug %}">COMPARA</a></li>

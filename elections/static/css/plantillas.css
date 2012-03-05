@@ -446,3 +446,7 @@ ul span.bold{
     margin-right:25px;
 }
 
+
+.selected {
+    background : red;
+}

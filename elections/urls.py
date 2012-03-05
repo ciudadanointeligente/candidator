@@ -19,7 +19,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
 urlpatterns = patterns('',
 
     # Root: login_required (por ahora pues no se ha definido un index)
-    url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
+    #url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
     url(r'^$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
 
