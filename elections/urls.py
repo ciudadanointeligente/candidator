@@ -13,7 +13,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
-                  async_delete_background, async_delete_background_category, PrePersonalDataView
+                  async_delete_background, async_delete_background_category, \
+                  PrePersonalDataView, AnswerDeleteAjaxView
 
 
 urlpatterns = patterns('',
@@ -34,6 +35,11 @@ urlpatterns = patterns('',
 
     # Create Answer Ajax
     url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
+    
+    #Delete Answer Ajax
+    url(r'answer_delete/(?P<pk>\d+)', AnswerDeleteAjaxView.as_view(), \
+        name='answer_delete_ajax'),
+
 
     # Create Link Ajax
     url(r'^(?P<candidate_pk>\d+)/create_link', 'candidator.elections.views.async_create_link', name='link_create_ajax'),

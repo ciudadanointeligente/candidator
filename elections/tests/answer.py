@@ -159,3 +159,44 @@ class CreateAnswerWithCategoryAjax(TestCase):
         self.assertEqual(response.status_code, 400)
         response = self.client.post(self.url, params)
         self.assertEqual(response.status_code, 400)
+
+class AsyncDeleteAnswerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='joe', email='joe@doe.cl')
+        self.user2 = User.objects.create_user(username='doe', password='joe', email='dow@doe.cl')
+        self.election = Election.objects.create(name='BarBaz',
+            owner=self.user,
+            slug='barbaz')
+        self.category = Category.objects.create(name='FooCat',
+            election=self.election)
+        self.question = Question.objects.create(question='Foo',
+            category=self.category)
+        self.answer = Answer.objects.create(caption='The first answer',
+                question = self.question)
+
+        self.url = reverse('answer_delete_ajax', kwargs={'pk':
+            self.answer.pk})
+        
+        self.assertEqual(Answer.objects.filter(pk=self.answer.pk).count(),1)
+
+
+    def test_delete_correctly_an_answer(self):
+        previous_count = Answer.objects.all().count()
+        self.client.login(username=self.user.username, password='joe')
+        response = self.client.post(self.url)
+        count_after_deletion_of_one_answer = Answer.objects.all().count()
+        self.assertEqual(Answer.objects.filter(pk=self.answer.pk).count(),0)
+        self.assertEqual(count_after_deletion_of_one_answer, previous_count - 1)
+
+    def test_delete_only_by_owner(self):
+        self.client.login(username=self.user2.username, password='joe')
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_if_answer_does_not_exist_get_404(self):
+        self.client.login(username=self.user.username, password='joe')
+        unexistentid = 199999
+        url = reverse('answer_delete_ajax', kwargs={'pk': \
+                unexistentid})
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 404)
