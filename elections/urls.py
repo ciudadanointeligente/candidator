@@ -14,7 +14,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
                   async_delete_background, async_delete_background_category, \
-                  PrePersonalDataView, AnswerDeleteAjaxView
+                  PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView
 
 
 urlpatterns = patterns('',
@@ -77,6 +77,8 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/gracias$', ElectionDetailView.as_view(template_name='elections/wizard/thanks_for_using_us.html'), name='election_detail_admin'),
 
     url(r'^election/(?P<slug>[-\w]+)/questions/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
+    
+    url(r'^election/(?P<pk>\d+)/update_election_photo', ElectionLogoUpdateView.as_view(), name="update_election_photo"),
 
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
