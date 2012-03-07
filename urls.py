@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     (r'^profiles/', include('profiles.urls')),
 
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
-    url(r'^accounts/', include('registration.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
 
     url(r'^report/', include('report_objects.urls')),
 
