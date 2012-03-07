@@ -21,11 +21,32 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
-from elections.forms.election_form import AnswerForm
+from elections.forms.election_form import AnswerForm, ElectionLogoUpdateForm
 from elections.models import Election, Candidate, Category
 
 
 # Election Views
+class ElectionLogoUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionLogoUpdateForm
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, pk=kwargs['pk'], owner=request.user)
+        return super(ElectionLogoUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(ElectionLogoUpdateView, self).get_form_kwargs()
+        kwargs['election'] = self.object
+        return kwargs
+    
+    def get_template_names(self):
+        return 'elections/updating/election_logo_form.html'
+
+    def get_success_url(self):
+        url = reverse('election_update', kwargs={'slug': self.object.slug})
+        return url
+
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm

@@ -12,6 +12,7 @@ from django.utils import simplejson as json, simplejson
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic.edit import BaseDeleteView
 
 # Import forms
 from elections.forms import AnswerForm
@@ -68,3 +69,24 @@ class AnswerCreateView(CreateView):
         question = get_object_or_404(Question, pk=self.kwargs['question_pk'], category__election__owner=self.request.user)
         self.object.question = question
         return super(AnswerCreateView, self).form_valid(form)
+
+
+
+class AnswerDeleteAjaxView(BaseDeleteView):
+    model = Answer
+    pk_url_kwarg = 'pk'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(AnswerDeleteAjaxView, self).dispatch(request, *args, \
+                **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.question.category.election.owner != request.user:
+            raise Http404
+        self.object.delete()
+        json_dictionary = {"result":"OK"}
+        return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+

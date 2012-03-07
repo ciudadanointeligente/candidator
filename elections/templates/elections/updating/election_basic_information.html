@@ -1,5 +1,6 @@
 {% extends 'elections/base_edits.html' %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block title %}
 {% trans 'Información general de la elección' %}
@@ -61,14 +62,13 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_logo" class="blue_edit">IMAGEN</label><br />
-                {{ form.logo }}
-                {{ form.logo.errors }}
+                <label class="blue_edit">IMAGEN</label><br />
+                {% thumbnail election.logo "824x80" as im %}
+
+                    <div class="logo_eleccion electionLogo" alt="Cambia la imagen"><img src="{{ election.logo.url }}"/></div>
+
+                {% endthumbnail %}
             </p>
-            
-            <aside class='guide'>
-            <div class="permalink">Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...</div>
-            </aside>
 
             <p class="fieldWrapper">
                 <label for="id_source" class="blue_edit">¿DE DÓNDE SACASTE LA INFORMACIÓN?</label><br />
@@ -87,7 +87,7 @@
 
 
 </div>
-
+<div id="form-election-logo"></div>
 
 
 {% endblock %}
@@ -98,7 +98,12 @@
     {{ form.media }}
     <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
     <script type="text/javascript">
+        
         $(document).ready(function() {
+            $('#form-election-logo').load('{% url update_election_photo pk=election.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+            $('.electionLogo').click(function(event){console.log('oli');$('#form-election-logo').dialog('open');});
+
+
             $('#newcandidate').ajaxForm(function() {
                 getCandidateList();
             });

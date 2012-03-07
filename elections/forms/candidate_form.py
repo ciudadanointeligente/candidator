@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import formsets
+from django.forms import formsets, ImageField, FileInput
 from django.forms.formsets import formset_factory
 from elections.models import Candidate, Link, BackgroundCandidate, PersonalDataCandidate, Answer
 
@@ -14,6 +14,7 @@ class CandidateForm(forms.ModelForm):
             }
     
 class CandidatePhotoForm(forms.ModelForm):
+    photo = ImageField(widget=FileInput)
     def __init__(self, candidate, *args, **kwargs):
         self.candidate = candidate
         super(CandidatePhotoForm, self).__init__(*args, **kwargs)

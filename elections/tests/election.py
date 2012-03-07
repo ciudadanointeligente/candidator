@@ -11,7 +11,7 @@ from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -147,7 +147,47 @@ class ElectionModelTest(TestCase):
         self.assertEquals(second_question.answer_set.all()[0].caption,u"Sí")
         self.assertEquals(second_question.answer_set.all()[1].caption,u"No")
 
+class ElectionPhotoUpdateViewFormTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.user2 = User.objects.create_user(username='pepito', password=PASSWORD, email='pepito@exmaple.net')
+        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
+        self.url = reverse('update_election_photo', kwargs={'pk': self.election.pk})
+        self.new_file = open(os.path.join(dirname, 'media/dummy_logo.jpg'), 'rb')
+    
+    def test_get_form_as_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/updating/election_logo_form.html')
+        self.assertTrue('form' in response.context)
+        self.assertIsInstance(response.context['form'], ElectionLogoUpdateForm)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
 
+    def test_post_new_image_as_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        data = {
+            'logo': self.new_file
+        }
+        response = self.client.post(self.url, data)
+        self.new_file.seek(0)
+        self.assertRedirects(response, reverse('election_update', 
+                                       kwargs={'slug': self.election.slug}))
+        election = Election.objects.get(pk=self.election.pk)
+        self.assertEquals(election.logo.file.read(), self.new_file.read())
+        os.unlink(election.logo.path)
+
+        
+    def test_get_form_as_no_user(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '/accounts/login/?next=/election/2/update_election_photo')
+        
+    def test_get_form_as_user_but_no_owner(self):
+        self.client.login(username=self.user2.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 404)
+        
 
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
