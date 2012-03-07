@@ -136,7 +136,12 @@
                     <div>
                     <ul class="list_of_answers">
                         {% for answer in question.answer_set.all %}
-                            <li>{{ answer }}</li>
+                        <li id="answer_{{ answer.id }}">{{ answer }}
+                        <a href="javascript:void(0);"
+                            onclick="answer_delete({{answer.pk}}); return false;">
+                            <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/>
+                        </a>
+                        </li>
                         {% endfor %}
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
@@ -274,12 +279,29 @@ function question_delete(question_pk){
         return false;
     }
 }
+function answer_delete(answer_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    if(answer){
+        var dir = "/answer_delete/"+answer_pk;
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
+            function(json){
+            $("#answer_"+answer_pk).remove();
+                })
+    }
+    else {
+        return false;
+    }
+}
+
 function saveAnswerLink(link){
     var form = $(link).closest('form');
     var value_text = $(link).prev();
     $.post($(form).attr('action'), $(form).serialize(), function (json) {
         var containing_li = $(form).parent('li');
-        var html = '<li>'+json.caption+'</li>';
+        var delete_link = "<a href=\"javascript:void(0);\"onclick=\"answer_delete("+json.pk+"); return false;\"><img style=\"margin-top:-1px; margin-left:6px;\" src=\"{{ STATIC_URL }}img/bt_eliminar.png\"/></a>";
+
+        var html = '<li id="answer_'+json.pk+'">'+json.caption+delete_link+'</li>';
+
         $(html).insertBefore(containing_li);
         value_text.val('');
     });
