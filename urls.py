@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     (r'^profiles/', include('profiles.urls')),
 
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^accounts/', include('registration.urls')),
 
     url(r'^report/', include('report_objects.urls')),
 
@@ -25,7 +25,6 @@ urlpatterns = patterns('',
     # url(r'^index/?$', direct_to_template, {'template': 'index.html'}), # DESCOMENTAR CUANDO SE DEFINA UN INDEX
 
 )
-
 
 from django.conf import settings
 if settings.DEBUG:
