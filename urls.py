@@ -26,7 +26,6 @@ urlpatterns = patterns('',
 
 )
 
-
 from django.conf import settings
 if settings.DEBUG:
     from django.conf.urls.static import static
