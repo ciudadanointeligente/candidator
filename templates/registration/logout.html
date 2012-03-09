@@ -1,7 +1,18 @@
 {% extends "elections/base_edits.html" %}
-{% block title %}
-	Candidator - Logout
-{% endblock title %}
+{% load url from future %}
+{% load i18n %}
+    {% block title %}Candidator - Logout{% endblock title %}
 {% block content %}
-    You have logged out, to log in again you should click <a href="{% url auth_login %}">here</a>
+
+<div class="fondo_formulario">
+	<div class="forms_content">
+		<h1>{% trans 'Candidator - Logout' %}</h1><hr /><br />
+    	<div class="instrucciones"><img src="{{ STATIC_URL }}img/asterisco_celeste.png" />{% trans 'Te has salido de candideit.org, si deseas ingresar de nuevo debes entrar a' %} <a href="{% url 'django.contrib.auth.views.login' %}">login</a></div>
+	</div>
+</div>
 {% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}

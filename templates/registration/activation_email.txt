@@ -1,6 +1,6 @@
-Remember to activate your account or it will expire after {{expiration_days}} days.
+Acuerdate de activar tu cuenta o esta expirará después de {{expiration_days}} días.
 
-To activate your account, click the following link or paste it in the address bar of your browser
+Para activar tu cuenta haz click en el siguiente link o copia y pega la dirección en tu navegador
 <a href="http://{{ site.domain }}{% url registration_activate activation_key %}">
 http://{{ site.domain }}{% url registration_activate activation_key %}
 </a>
