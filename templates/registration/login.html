@@ -1,6 +1,7 @@
 {% extends "elections/base_edits.html" %}
 
 {% load url from future %}
+{% load i18n %}
 {% block title %}Login {% endblock title %}
 {% block content %}
 
@@ -10,7 +11,7 @@
 	
 
     {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <p>{% trans 'Tu username y password no concuerdan por favor intentalo de nuevo.' %}</p>
     {% endif %}
 
     <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
@@ -32,6 +33,8 @@
     </table>
 
     <input type="submit" class="login" value="login" />
+
+
     <input type="hidden" name="next" value="{{ next }}" />
     
     </form>
@@ -43,6 +46,8 @@
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login">comparar los candidatos...</div>
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_login">descubrir quien es tu media naranja política...</div>
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_login">y compartir los resultados</div>
+
+        <a href="{% url 'registration.views.register' %}" class="login">{% trans 'Regístrate' %}</a>
        
     <br />
     <br />

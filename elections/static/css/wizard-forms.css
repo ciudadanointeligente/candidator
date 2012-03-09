@@ -273,6 +273,7 @@ div.instrucciones{
     width:352px;
     overflow:hidden;
     padding-left: 25px;
+    margin-bottom: 10px;
 }
 
 .add_background_input{
@@ -310,7 +311,7 @@ div.instrucciones{
 }
 
 .usuario{
-    margin-top: -34px;
+    margin-top: 14px;
     margin-left: 20px;
 }
 
