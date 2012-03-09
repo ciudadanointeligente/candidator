@@ -1,52 +1,80 @@
 {% extends "elections/base_edits.html" %}
-    {% block title %}Registration{% endblock title %}
+{% load i18n %}
+    {% block title %}Registro{% endblock title %}
 {% block content %}
-  <h1>Create an account</h1>
+
+
+
+<div class="fondo_formulario">
+    <div class="forms_content">
+        <h1>{% trans 'Registro' %}</h1><hr /><br />
   <form action="." method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
+    <table>
+    <tr>
+        <div class="usuario">
+            <span class="green_edit">{{ form.username.label_tag }}</span><p>{{ form.username }}</p>
+            {% if form.username.errors %}
+                    <ul>
+                    {% for error in form.username.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+    </tr>
+    <tr>
+        <div class="usuario">
+            <span class="green_edit">{{ form.email.label_tag  }}</span><p>{{ form.email }}</p>
+            {% if form.email.errors %}
+                    <ul>
+                    {% for error in form.email.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
 
-    <label for="id_username">Username:</label> {{ form.username }}
-    {% if form.username.errors %}
-        <ul>
-        {% for error in form.username.errors %}
-            <li><strong>{{ error }}</strong></li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+        
+    </tr>
+    <tr>
+        <div class="usuario">
+            <span class="green_edit">{{ form.password1.label_tag  }}</span><p>{{ form.password1 }}</p>
+            {% if form.password1.errors %}
+                    <ul>
+                    {% for error in form.password1.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
 
-    <br/>
+        
+    </tr>
+    <tr>
+        <div class="usuario">
+            <span class="green_edit">{{ form.password2.label_tag }}</span><p>{{ form.password2 }}</p>
+            {% if form.password2.errors %}
+                    <ul>
+                    {% for error in form.password2.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
 
-    <label for="id_email">E-mail:</label> {{ form.email }}
-    {% if form.email.errors %}
-        <ul>
-        {% for error in form.email.errors %}
-            <li><strong>{{ error  }}</strong></li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+        
+    </tr>
+    </table>
 
-    <br/>
-    <label for="id_password1">Password:</label> {{ form.password1 }}
-    {% if form.password1.errors %}
-        <ul>
-        {% for error in form.password1.errors %}
-            <li><strong>{{ error  }}</strong></li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
-    <br/>
-    <label for="id_password2">Password (again):</label> {{ form.password2 }}
-    {% if form.password2.errors %}
-        <ul>
-        {% for error in form.password2.errors %}
-            <li><strong>{{ error  }}</strong></li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
-    <br/>
-    <input type="submit" value="Create the account" />
-  </label>
+    <input type="submit" class="login" value="Crea tu cuenta" />
+    </form>
+</div>    
+</div>
 {% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}

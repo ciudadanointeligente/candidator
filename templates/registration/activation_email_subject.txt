@@ -1,1 +1,1 @@
-Activate your {{ site.name}} account!
+Activación de tu cuenta en {{ site.name}}
