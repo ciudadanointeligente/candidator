@@ -36,7 +36,7 @@
                         <header>
                             <div class="tit"><h3>{{ candidate.name }}
                             {% if election.owner.username == request.user.username %}
-                            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">(Modificar Respuestas)</a>
+                            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans '(Modificar Respuestas)' %}</a>
                             {% endif %}</h3></div>
                         </header>
 
@@ -130,7 +130,7 @@
                                     </div>
                                     {% endfor %}
 				{% else %}
-                                    <span class="profile-description">No hay antecedentes disponibles.</span><br>
+                                    <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
 				{% endif %}
                                 </div>
                                 <!--ends accordion-->
@@ -166,7 +166,7 @@
                                 {% endfor %}{# end category_set #}
 
                             {% else %}
-                                 <span class="profile-description">No hay información disponible.</span><br>
+                                 <span class="profile-description">{% trans 'No hay información disponible.' %}</span><br>
                             {% endif %}
                             </div>
                             <!-- ends accordion-->

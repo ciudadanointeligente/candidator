@@ -22,7 +22,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>ELECCIÓN:<span class="celeste">{% trans 'Para empezar, completa los siguientes datos...' %}</span></h1>
+        <h1>{% trans 'ELECCIÓN:' %}<span class="celeste">{% trans 'Para empezar, completa los siguientes datos...' %}</span></h1>
 		<hr />
         </head>
 
@@ -69,14 +69,14 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...</div>
+            <div class="permalink">{% trans 'Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...' %}</div>
             </aside>
 
             <p class="fieldWrapper">
                 <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
                 {{ form.information_source }}
                 {{ form.information_source.errors }}
-            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">siguente
+            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">{% trans 'siguente' %}
                </a></span>
 
         </form>

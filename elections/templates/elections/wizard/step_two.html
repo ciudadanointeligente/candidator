@@ -22,7 +22,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>CANDIDATOS:<span class="celeste"> ¿QUIÉNES SON?</span></h1>
+        <h1>{% trans 'CANDIDATOS:' %}<span class="celeste"> {% trans '¿QUIÉNES SON?' %}</span></h1>
 		<hr />
         </head>
 
@@ -48,14 +48,14 @@
     <form id="newcandidate" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.non_field_errors }}
         <p><input id="id_name" type="text" maxlength="255" name="name" placeholder="{{ form.name.label}}"></p>
-<div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a></div>
+<div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">{% trans 'agregar' %}</a></div>
 
         </div>
         {% if election.candidate_set.count > 1 %}
 
 
         <div class="link_next">
-            <a class="bt" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">siguiente
+            <a class="bt" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">{% trans 'siguiente' %}
             </a>
         </div>
         {% endif %}
@@ -109,7 +109,7 @@
         }
 
         function candidate_delete(candidate_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
+            var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este candidato ?' %}");
             if(answer){
                 var dir = "{% url async_delete_candidate %}";
                 $.post(dir, {

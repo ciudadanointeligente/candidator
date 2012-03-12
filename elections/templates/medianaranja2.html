@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
- Media Naranja, {{ election.name }} - {{ block.super }}
+ {% trans 'Media Naranja,' %} {{ election.name }} - {{ block.super }}
 {% endblock title %}
 
 {% block extra_head %}
@@ -31,7 +31,7 @@
     	<div class="contenedor2">
 
     	<div class="txt_intro">
-    		<p><font size=4>Tu media naranja política es ...</font></p>
+    		<p><font size=4>{% trans 'Tu media naranja política es ...' %}</font></p>
     	</div>
 	<div>
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
@@ -46,7 +46,7 @@
 			                  		<tr>
 			                  			<td colspan="2">
 						            		<div class="globo_left">
-												índices de compatibilidad
+												{% trans 'índices de compatibilidad' %}
 											</div>
 			                  			</td>
 			                  		</tr>
@@ -138,7 +138,7 @@
     	<div class="contenedor2">
             <td colspan="2">
                 <div class="globo_left">
-                    compatibilidad con otros candidatos
+                    {% trans 'compatibilidad con otros candidatos' %}
                 </div>
             </td>
             <table>

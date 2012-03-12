@@ -1,23 +1,24 @@
 {% extends "elections/base_edits.html" %}
+{% load i18n %}
 
 {% block content %}
 
-Candidato: {{ candidate.name }}
+{% trans 'Candidato:' %} {{ candidate.name }}
 <br>
-Categoria de Antecedente: {{ background.category.name }}
+{% trans 'Categoria de Antecedente:' %} {{ background.category.name }}
 <br>
-Antecedente: {{ background.name }}
+{% trans 'Antecedente:' %} {{ background.name }}
 <br>
-Valor: <span id="text_value"></span>
+{% trans 'Valor:' %} <span id="text_value"></span>
 
-<h2>Agregar Antecedente</h2>
+<h2>{% trans 'Agregar Antecedente' %}</h2>
 
 <form method="POST">{% csrf_token %}
     <table>
     {{form.as_table}}
     </table>
 </form>
-<a id="guardar" href="">guardar</a>
+<a id="guardar" href="">{% trans 'guardar' %}</a>
 {% endblock %}
 
 {% block extra_js %}
