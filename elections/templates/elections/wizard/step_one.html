@@ -48,7 +48,12 @@
                 {{ form.date.errors }}
                 <span class="calendar"><img src="{{ STATIC_URL }}/img/calendar.png" ></span>
             </p>
-            
+            <p class="fieldWrapper">
+                <label for="id_template" class="blue_edit">{% trans 'Selecciona la plantilla de tu elección' %}</label><br />
+                <select>
+                    <option>{% trans "Elección de centro de alumnos" %}</option>
+                </select>
+            </p>
             
             <p class="fieldWrapper">
                 <p style="display:none">{{ form.slug }}
