@@ -1,5 +1,6 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block title %}
 {% trans 'Sobre la elección' %}, {{ election.name }} - {{ block.super }}
@@ -30,7 +31,9 @@
     <div class="contenedor3">
 
             {% if election.logo %}
-        <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
+                {% thumbnail election.logo "850x80" as im %}
+                    <div class="logo_eleccion"><center><img src="{{ im.url }}"style="margin: {{ im|margin:"850x80" }}" width="850" height="80"/></center></div>
+                {% endthumbnail %}
         {% else %}
         
         {% endif %}
