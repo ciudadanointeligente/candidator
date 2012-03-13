@@ -178,14 +178,6 @@ form{
     margin-top: -25px;
 }
 
-p textarea{
-    background-color: #E8E8E8;
-    border: 1px solid #DCDCDC;
-    height: 60px;
-    width: 350px;
-    margin-top:3px;
-}
-
 p input#id_name{
     margin-top:3px;
     width: 370px;

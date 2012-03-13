@@ -440,6 +440,15 @@ ul span.bold{
 	margin-top: 1px;
 }
 
+.bt_cuadrado.publish{
+	font-size: 24px;
+	width: 450px;
+	margin-left: 130px;
+	height: 100px;
+	padding-top: 25px;
+	margin-bottom: 25px;
+}
+
 
 .input_background_category{
     width:400px;
