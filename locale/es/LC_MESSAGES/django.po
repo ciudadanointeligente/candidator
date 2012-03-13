@@ -1,0 +1,750 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-12 18:31-0400\n"
+"PO-Revision-Date: 2012-03-13 12:35-0300\n"
+"Last-Translator: Felipe Álvarez <felipealvarez@votainteligente.cl>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: elections/models.py:24
+msgid "NOMBRE DE LA ELECCIÓN:"
+msgstr ""
+
+#: elections/models.py:25
+msgid "Con este link podras acceder a la eleccion:"
+msgstr ""
+
+#: elections/models.py:27
+msgid "DESCRIPCIÓN DE LA ELECCIÓN:"
+msgstr ""
+
+#: elections/models.py:28
+msgid "DE DONDE OBTUVISTE LA INFORMACIÓN:"
+msgstr ""
+
+#: elections/models.py:32
+msgid "fecha en que ocurrirá:"
+msgstr ""
+
+#: elections/models.py:217
+msgid "Nuevo dato personal"
+msgstr ""
+
+#: elections/models.py:234
+msgid "Nueva categoría de antecedentes"
+msgstr ""
+
+#: elections/models.py:308
+msgid "PREGUNTA:"
+msgstr ""
+
+#: elections/models.py:309
+msgid "CATEGORIA:"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:4
+#: elections/templates/medianaranja2.html:5
+msgid "Media Naranja,"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:26
+msgid "TU MEDIA NARANJA POLÍTICA"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:28
+msgid "La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos."
+msgstr ""
+
+#: elections/templates/medianaranja1.html:41
+msgid "Responde la encuesta y encuentra tu 1/2 naranja política"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:42
+msgid "Asígnale la importancia que tú quieras a cada pregunta"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:58
+msgid "Ninguna de las anteriores representa mi posición"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:62
+msgid "Importancia"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:75
+msgid "Encontrar mi Media Naranja"
+msgstr ""
+
+#: elections/templates/medianaranja1.html:84
+msgid "Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación."
+msgstr ""
+
+#: elections/templates/medianaranja2.html:34
+msgid "Tu media naranja política es ..."
+msgstr ""
+
+#: elections/templates/medianaranja2.html:49
+msgid "índices de compatibilidad"
+msgstr ""
+
+#: elections/templates/medianaranja2.html:141
+msgid "compatibilidad con otros candidatos"
+msgstr ""
+
+#: elections/templates/elections/answer_form.html:6
+msgid "Respuestas para pregunta"
+msgstr ""
+
+#: elections/templates/elections/answer_form.html:12
+msgid "Agregar respuesta"
+msgstr ""
+
+#: elections/templates/elections/answer_form.html:17
+#: elections/templates/elections/background_form.html:19
+#: elections/templates/elections/category_form.html:44
+msgid "Guardar"
+msgstr ""
+
+#: elections/templates/elections/answer_form.html:19
+msgid "volver"
+msgstr ""
+
+#: elections/templates/elections/associate_answer.html:4
+msgid "Candidator"
+msgstr ""
+
+#: elections/templates/elections/associate_answer.html:4
+msgid "Asociar respuestas candidato"
+msgstr ""
+
+#: elections/templates/elections/associate_answer.html:36
+msgid "crear"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:6
+#: elections/templates/elections/personal_data_associate.html:5
+msgid "Candidato:"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:8
+msgid "Categoria de Antecedente:"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:10
+msgid "Antecedente:"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:12
+#: elections/templates/elections/personal_data_associate.html:9
+msgid "Valor:"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:14
+#: elections/templates/elections/background_form.html:13
+msgid "Agregar Antecedente"
+msgstr ""
+
+#: elections/templates/elections/background_associate.html:21
+#: elections/templates/elections/personal_data_associate.html:18
+msgid "guardar"
+msgstr ""
+
+#: elections/templates/elections/background_form.html:5
+msgid "Antecedentes para"
+msgstr ""
+
+#: elections/templates/elections/base.html:9
+msgid "Aquí los conoces, tú los eliges"
+msgstr ""
+
+#: elections/templates/elections/base.html:9
+#: elections/templates/elections/base_edits.html:10
+msgid "candideit.org"
+msgstr ""
+
+#: elections/templates/elections/base.html:31
+msgid "SOBRE ESTA ELECCIÓN"
+msgstr ""
+
+#: elections/templates/elections/base.html:32
+msgid "MEDIA NARANJA"
+msgstr ""
+
+#: elections/templates/elections/base.html:33
+#: elections/templates/elections/election_detail_profiles.html:39
+msgid "PERFIL DE CANDIDATOS"
+msgstr ""
+
+#: elections/templates/elections/base.html:34
+msgid "COMPARA"
+msgstr ""
+
+#: elections/templates/elections/base.html:36
+#: elections/templates/elections/base_edits.html:35
+msgid "SALIR"
+msgstr ""
+
+#: elections/templates/elections/base.html:38
+#: elections/templates/elections/base_edits.html:37
+msgid "CONECTARSE"
+msgstr ""
+
+#: elections/templates/elections/base_edits.html:10
+msgid "Administración"
+msgstr ""
+
+#: elections/templates/elections/base_edits.html:31
+msgid "PÁGINA PRINCIPAL"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:18
+msgid "Perfil"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:39
+msgid "(Modificar Respuestas)"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:58
+msgid "Información personal"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:76
+#: elections/templates/elections/election_compare.html:141
+#: elections/templates/elections/election_detail.html:68
+msgid "Compara"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:81
+msgid "Media<wbr>Naranja"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:90
+msgid "Comparte"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:99
+msgid "Enlaces personales"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:113
+msgid "Antecedentes"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:113
+msgid "Posición política en"
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:133
+msgid "No hay antecedentes disponibles."
+msgstr ""
+
+#: elections/templates/elections/candidate_detail.html:169
+msgid "No hay información disponible."
+msgstr ""
+
+#: elections/templates/elections/candidate_photo_form.html:6
+msgid "Cambiar foto"
+msgstr ""
+
+#: elections/templates/elections/category_form.html:8
+#: elections/templates/elections/wizard/step_five.html:12
+#: elections/templates/elections/wizard/step_four.html:11
+#: elections/templates/elections/wizard/step_two_point_five.html:11
+msgid "1."
+msgstr ""
+
+#: elections/templates/elections/category_form.html:10
+#: elections/templates/elections/wizard/step_five.html:14
+#: elections/templates/elections/wizard/step_four.html:13
+#: elections/templates/elections/wizard/step_two_point_five.html:13
+msgid "2."
+msgstr ""
+
+#: elections/templates/elections/category_form.html:13
+#: elections/templates/elections/wizard/step_five.html:17
+#: elections/templates/elections/wizard/step_four.html:16
+#: elections/templates/elections/wizard/step_two_point_five.html:15
+msgid "3."
+msgstr ""
+
+#: elections/templates/elections/category_form.html:16
+#: elections/templates/elections/wizard/step_five.html:20
+#: elections/templates/elections/wizard/step_four.html:18
+#: elections/templates/elections/wizard/step_two_point_five.html:16
+msgid "4."
+msgstr ""
+
+#: elections/templates/elections/category_form.html:18
+#: elections/templates/elections/wizard/step_five.html:22
+#: elections/templates/elections/wizard/step_four.html:19
+#: elections/templates/elections/wizard/step_two_point_five.html:17
+msgid "5."
+msgstr ""
+
+#: elections/templates/elections/category_form.html:21
+#: elections/templates/elections/wizard/step_five.html:24
+msgid "Cuestionario"
+msgstr ""
+
+#: elections/templates/elections/category_form.html:35
+msgid "Agregar nueva categoría"
+msgstr ""
+
+#: elections/templates/elections/category_form.html:39
+msgid "Agregar categoria"
+msgstr ""
+
+#: elections/templates/elections/category_form.html:57
+msgid "Finalizar"
+msgstr ""
+
+#: elections/templates/elections/election_about.html:5
+msgid "Sobre la elección"
+msgstr ""
+
+#: elections/templates/elections/election_about.html:41
+#: elections/templates/elections/election_detail.html:45
+msgid "Fecha de la elección:"
+msgstr ""
+
+#: elections/templates/elections/election_about.html:49
+msgid "Creada por:"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:156
+msgid "Los 2 candidatos son iguales"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:165
+#: elections/templates/elections/election_compare.html:228
+msgid "Selecciona un candidato"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:309
+#: elections/templates/elections/election_compare.html:317
+msgid "No hay respuesta"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:327
+msgid "Selecciona los dos candidatos y la categoría"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:333
+msgid "Temas"
+msgstr ""
+
+#: elections/templates/elections/election_compare.html:349
+msgid "No hay categorías disponibles."
+msgstr ""
+
+#: elections/templates/elections/election_detail.html:58
+msgid "Media"
+msgstr ""
+
+#: elections/templates/elections/election_detail.html:58
+msgid "Naranja"
+msgstr ""
+
+#: elections/templates/elections/election_detail.html:63
+msgid "Perfil de Candidatos"
+msgstr ""
+
+#: elections/templates/elections/election_detail.html:68
+msgid "candidatos"
+msgstr ""
+
+#: elections/templates/elections/election_detail_admin.html:25
+#, python-format
+msgid ""
+"\n"
+"            3. Ver tu encuesta en: <input id=\"election-url\" type=\"text\" value=\"%(base_url)s%(election_url)s\"> <a class=\"menuedit_tit\" href=\"%(election_url)s\">ir</a>\n"
+"            "
+msgstr ""
+
+#: elections/templates/elections/election_detail_profiles.html:24
+msgid "Perfil de candidatos"
+msgstr ""
+
+#: elections/templates/elections/election_detail_profiles.html:66
+msgid "Esta elección no cuenta aún con Candidatos."
+msgstr ""
+
+#: elections/templates/elections/election_pre_create.html:5
+msgid "Crea tu elección"
+msgstr ""
+
+#: elections/templates/elections/election_pre_create.html:24
+msgid "crea tu elección"
+msgstr ""
+
+#: elections/templates/elections/election_pre_create.html:30
+msgid "en estos simples pasos; no te preocupes si te equivocas al finalizar podrás reeditar toda la información..."
+msgstr ""
+
+#: elections/templates/elections/my_election_list.html:5
+msgid "Bienvenido"
+msgstr ""
+
+#: elections/templates/elections/my_election_list.html:24
+msgid "Bienvenido!"
+msgstr ""
+
+#: elections/templates/elections/personal_data_associate.html:7
+msgid "Dato personal:"
+msgstr ""
+
+#: elections/templates/elections/personal_data_associate.html:11
+msgid "Agregar Dato Personal"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:7
+msgid "Cuestionario de candidato"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:27
+#, fuzzy
+msgid "RESPUESTAS:"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:27
+msgid "COMPLETA EL PERFIL DE CADA CANDIDATO"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:46
+msgid "DATOS PERSONALES"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:62
+#: templates/profiles/profile_detail.html:8
+msgid "Nombre"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:95
+msgid "Url"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:100
+msgid "Crear Link"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:112
+msgid "2. Antecedentes"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:138
+msgid "3. Cuestionario"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:159
+msgid "No hay categorías"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:186
+msgid "¿Estas seguro que quieres eliminar este link?"
+msgstr ""
+
+#: elections/templates/elections/updating/answers.html:236
+msgid "guardado"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:5
+#: elections/templates/elections/updating/menu.html:22
+msgid "Candidatos"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:24
+#: elections/templates/elections/wizard/step_two.html:25
+msgid "CANDIDATOS:"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:24
+#: elections/templates/elections/wizard/step_two.html:25
+msgid "¿QUIÉNES SON?"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:29
+#: elections/templates/elections/wizard/step_two.html:31
+msgid "Aún no tienes candidatos"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:32
+#: elections/templates/elections/wizard/step_two.html:34
+msgid "Debes tener al menos dos candidatos"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:38
+#: elections/templates/elections/wizard/step_two.html:40
+#, python-format
+msgid "Candidato %(num)s"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:49
+#: elections/templates/elections/wizard/step_two.html:51
+msgid "agregar"
+msgstr ""
+
+#: elections/templates/elections/updating/candidates.html:102
+#: elections/templates/elections/wizard/step_two.html:112
+msgid "¿Estas seguro que quieres eliminar este candidato ?"
+msgstr ""
+
+#: elections/templates/elections/updating/election_basic_information.html:6
+#: elections/templates/elections/wizard/step_one.html:5
+msgid "Información general de la elección"
+msgstr ""
+
+#: elections/templates/elections/updating/election_logo_form.html:6
+msgid "Cambiar logo"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:3
+msgid "Nueva elección"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:16
+msgid "Ver Elección"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:18
+msgid "Editar Elección"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:19
+msgid "Información general"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:20
+#: elections/templates/elections/wizard/step_two_point_five.html:5
+msgid "Preguntas"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:24
+msgid "Nuevo candidato"
+msgstr ""
+
+#: elections/templates/elections/updating/menu.html:25
+msgid "Respuestas de los candidatos"
+msgstr ""
+
+#: elections/templates/elections/updating/questions.html:5
+msgid "Plantilla de la elección"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_five.html:5
+msgid "Cuestionario de preguntas"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_five.html:43
+msgid "Agrega tus preguntas y asígnales una categoría..."
+msgstr ""
+
+#: elections/templates/elections/wizard/step_five.html:97
+#: elections/templates/elections/wizard/step_four.html:83
+msgid "¿Estas seguro que quieres eliminar esta categoría?"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_five.html:119
+msgid "¿Estas seguro que quieres eliminar esta pregunta?"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_four.html:5
+msgid "Antecedentes de los candidatos"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_four.html:21
+msgid "Antecedentes:"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_four.html:25
+msgid "¿Qué antecedentes preguntarás a los candidatos? debes clasificarlos en categorías..."
+msgstr ""
+
+#: elections/templates/elections/wizard/step_four.html:100
+msgid "¿Estas seguro que quieres eliminar este antecedente?"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_four.html:145
+#: elections/templates/elections/wizard/step_one.html:99
+msgid "Ejemplo"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_one.html:25
+msgid "ELECCIÓN:"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_one.html:25
+msgid "Para empezar, completa los siguientes datos..."
+msgstr ""
+
+#: elections/templates/elections/wizard/step_one.html:72
+msgid "Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles..."
+msgstr ""
+
+#: elections/templates/elections/wizard/step_one.html:79
+msgid "siguente"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_two.html:5
+#: elections/templates/elections/wizard/wizard_menu.html:5
+msgid "¿Quienes son los candidatos?"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_two.html:58
+msgid "siguiente"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_two_point_five.html:19
+msgid "Preguntas:"
+msgstr ""
+
+#: elections/templates/elections/wizard/step_two_point_five.html:23
+msgid "A continuación deberás crear las preguntas. Éstas deberán ser contestadas por todos los candidatos y se clasifican en tres secciones..."
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:5
+msgid "Gracias"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:12
+msgid "He creado un candideit.org para la elección"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:13
+msgid "He creado mi candideit.org y lo puedes visitar en "
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:29
+msgid "Gracias!"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:29
+msgid "tu candideit.org ha sido creado exitosamente. Ahora puedes:"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:31
+msgid "1. Ver tu candideit.org en:"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:34
+msgid "2. Modificar las preguntas que te creamos "
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:34
+msgid "\"Preguntas\""
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:35
+msgid "3. Responder preguntas y completar el perfil de cada candidato"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:35
+msgid "\"Respuestas\""
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:36
+msgid "4. Modificar la información general de tu candideit.org"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:36
+msgid "\"Información general\""
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:37
+msgid "5. Compartir tu candideit.org"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:38
+msgid "Visita mi candideit.org en"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:38
+msgid "Twittear"
+msgstr ""
+
+#: elections/templates/elections/wizard/thanks_for_using_us.html:41
+msgid "Facebook"
+msgstr ""
+
+#: elections/templates/elections/wizard/wizard_menu.html:4
+msgid "Crea tu candideit.org"
+msgstr ""
+
+#: elections/templates/elections/wizard/wizard_menu.html:6
+msgid "Resumen"
+msgstr ""
+
+#: elections/templatetags/election_tags.py:22
+#: elections/tests/candidate_answer.py:62
+msgid "Aún no hay respuesta"
+msgstr ""
+
+#: templates/404.html:4
+msgid "404"
+msgstr ""
+
+#: templates/404.html:5
+msgid "Nada que ver aquí. La página que solicitaste no existe"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:6
+msgid "Usuario"
+msgstr ""
+
+#: templates/profiles/profile_detail.html:10
+msgid "Sobre este usuario"
+msgstr ""
+
+#: templates/profiles/profile_list.html:8
+msgid "No hay usuarios"
+msgstr ""
+
+#: templates/registration/activate.html:7
+#: templates/registration/activate.html:18
+msgid "Error en la activación"
+msgstr ""
+
+#: templates/registration/activate.html:9
+#: templates/registration/activate.html:25
+msgid "Activación exitosa"
+msgstr ""
+
+#: templates/registration/activation_complete.html:9
+msgid "Activación completa"
+msgstr ""
+
+#: templates/registration/login.html:14
+msgid "Tu username y password no concuerdan por favor intentalo de nuevo."
+msgstr ""
+
+#: templates/registration/login.html:50
+msgid "Regístrate"
+msgstr ""
+
+#: templates/registration/logout.html:9
+msgid "Candidator - Logout"
+msgstr ""
+
+#: templates/registration/logout.html:10
+msgid "Te has salido de candideit.org, si deseas ingresar de nuevo debes entrar a"
+msgstr ""
+
+#: templates/registration/registration_complete.html:9
+msgid "Te hemos enviado un mail"
+msgstr ""
+
+#: templates/registration/registration_form.html:10
+msgid "Registro"
+msgstr ""
+
