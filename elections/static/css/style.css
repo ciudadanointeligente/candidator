@@ -838,3 +838,17 @@ background: #fff; /* set desired hover color */
 }
 
 /* end css tabs */
+
+
+.listElectionName {
+    float: left;
+    width:300px;
+}
+.listElectionEdit {
+    float: left;
+    width:100px;
+}
+ul .electionList {
+    list-style-type:none;
+    padding-left: 0px;
+}

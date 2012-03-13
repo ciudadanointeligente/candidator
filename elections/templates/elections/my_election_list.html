@@ -14,17 +14,22 @@
 <div class="contenedor_body">
 
 <!-- MENU VERTICAL -->
-      {% include 'elections/updating/menu.html' %}  
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->    
-    <div class="papel_edit">
+    <div class="papel">
     <div class="wrapper_plantillas">
     	<head>
         <h1>{% trans 'Bienvenido!' %}</h1>
 		<hr />
         </head>
-        
+        <div class="election_list">
+            <ul class="electionList" >
+                {% for election in user.election_set.all %}
+                <li><span  class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></span> <span class="listElectionEdit"><a href="{% url election_update slug=election.slug %}">{% trans 'editar' %}</span></a> {% trans 'Creada el ' %} {{election.created_at }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     <br/>
 
     </div>
