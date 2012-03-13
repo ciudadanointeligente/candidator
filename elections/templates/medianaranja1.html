@@ -19,6 +19,14 @@
 
 
 <div class="contenedor3">
+
+
+            {% if election.logo %}
+        <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
+        {% else %}
+        
+        {% endif %}
+
     <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{election}}<span> - Creada por {{election.owner}}</span></h1></a></div>
 </div>
 
