@@ -27,10 +27,22 @@
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+	<div class="newElection"><a href="/election/pre_create"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+
+<div class="contenedor3">
+
+
+            {% if election.logo %}
+        <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
+        {% else %}
+        
+        {% endif %}
+        
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
     </h1>
     </div>
+</div>
 
 <div class="contenedor1">
     <div class="contenedor2">

@@ -43,10 +43,9 @@
 			</aside>
             
             <p class="fieldWrapper">
-                <label for="id_date" class="blue_edit">{{ form.date.label }}</label>
+                <label for="id_date" class="blue_edit">{% trans "¿Cuándo ocurrirá?" %}</label>
                 {{ form.date }}
                 {{ form.date.errors }}
-                <span class="calendar"><img src="{{ STATIC_URL }}/img/calendar.png" ></span>
             </p>
             <p class="fieldWrapper">
                 <label for="id_template" class="blue_edit">{% trans 'Selecciona la plantilla de tu elección' %}</label><br />
@@ -74,7 +73,7 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">{% trans 'Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...' %}</div>
+            <div class="permalink">{% trans "Carga desde tu computador una imagen para el encabezado de 824 x 80 px" %}</div>
             </aside>
 
             <p class="fieldWrapper">

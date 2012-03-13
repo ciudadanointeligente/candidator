@@ -26,17 +26,19 @@
 {% block content %}
 
 <div class="papel">
-	<div class="contenedor1">
-    	<div class="contenedor2">
 
-{% thumbnail election.logo "824x80" as im %}
+	<div class="newElection"><a href="/election/pre_create"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+	
+    	<div class="contenedor3">
+
+{% thumbnail election.logo "850x80" as im %}
 
     <div class="logo_eleccion"><center><img src="{{ election.logo.url }}"/></center></div>
 
 {% endthumbnail %}
 
 
-<div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+<div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
     {% link_to_updating_this_election request.user election %}
     </h1>
     </div>
@@ -72,7 +74,7 @@
         </nav>
         <br>
 
-	</div>
+	
 </div>
 
     	<div class="contenedor1">
