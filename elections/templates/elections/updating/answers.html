@@ -26,7 +26,7 @@
     	<head>
         <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
         {% if first_time %}
-            <div class="success">{% trans 'Éxito has creado tu primer candideit.org ahora puedes...' %}</div>
+            <div class="successContainer">&nbsp;<div class="success">{% trans 'Éxito has creado tu primer candideit.org ahora puedes...' %}</div></div>
         {% endif %}
         </h1>
 		<hr />
@@ -178,6 +178,9 @@
 
 {% block extra_js %}
         <script type="text/javascript">
+        $(document).ready(function(){   
+            $('.success').delay(10000).effect('fade');
+        });
         function notify(message, timeOut) {
             // Set the message using text method and chain fadeIn with it
             // apply simple setTimeout to fadeOut the message
@@ -301,5 +304,6 @@
         });
         $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
         $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+
         </script>
 {% endblock extra_js %}
