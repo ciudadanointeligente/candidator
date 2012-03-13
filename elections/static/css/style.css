@@ -3,7 +3,7 @@
 
 html, body { height: 100%; }
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; 
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #333333; 
 	background: #ffffff;
 	background: -moz-linear-gradient(left,  #ffffff 0%, #e8e8e8 50%, #ffffff 100%);
 	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#e8e8e8), color-stop(100%,#ffffff));
@@ -54,10 +54,31 @@ ul{margin: 0; padding: 0; list-style: none;}
 
 /* links */
 a:link, a:visited { text-decoration: none;
+	color: #ffffff;
+}
+
+.goedit a:link, .goedit a:visited {
+	color: #bbFF99;
+	text-transform:lowercase;
+	font-family: 'AllerBoldItalic';
+	font-size: 13px;
+	letter-spacing: 0px;
+}
+
+.goedit:after{
+	content: url("../img/goedit.png");
+	top: 1px;
+	position: relative;
+	left: 3px;
+}
+
+.goedit:hover{
+	opacity: 0.6;
 }
  
 a:hover{
     text-decoration: none;
+	opacity: 0.8;
 }
 
 /* headings */
@@ -521,12 +542,23 @@ ul.homeNav ul.sidebarMenu{
     margin-bottom: 5px;
 }
 
+.nombre_eleccion span{
+	text-transform:none;
+	letter-spacing:0px;
+}
+
 .fecha_eleccion {
     font-family: 'AllerBold';
-    color: #72ACD9;
+    color: #FFFFFF;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
+	background-color: #B0CFEC;
+	padding: 2px 6px;
+}
+
+.creador_eleccion {
+    color: #FFFFFF;
 }
 
 

@@ -22,7 +22,7 @@
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
     </h1>
     </div>
@@ -36,7 +36,7 @@
                         <header>
                             <div class="tit"><h3>{{ candidate.name }}
                             {% if election.owner.username == request.user.username %}
-                            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">(Modificar Respuestas)</a>
+                            <span class="goedit"><a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans "editar respuestas" %}</a></span>
                             {% endif %}</h3></div>
                         </header>
 
