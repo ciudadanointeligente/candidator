@@ -48,7 +48,7 @@
     <div class="contenedor2">
 
                 <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_profiles.png" width="97" height="56" /></div>
-    <div class="tit"><h3>PERFIL DE CANDIDATOS</h3></div>
+    <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}</h3></div>
 
         <!--        ProfileHome   -->
         <ul class="profileHome">
@@ -75,7 +75,7 @@
 
             {% else %}
             <br>
-            <center><h4>Esta elección no cuenta aún con Candidatos.</h4></center>
+            <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
             <br>
             {% endif %}
         </ul>

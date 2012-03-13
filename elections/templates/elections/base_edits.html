@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.15.custom.css">
 
-    <title>{% block title%}{% trans 'Administración' %}{% endblock title %} | candideit.org</title>
+    <title>{% block title%}{% trans 'Administración' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
@@ -23,18 +23,18 @@
             <a href="http://www.ciudadanointeligente.org">
                 <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
             </a>
-            <h1 style="display: none;">Vota inteligente</h1>
+            <h1 style="display: none;">candideit.org</h1>
         </header>
         <nav id="mainNavigation">
             <div class="wrapBasic">
                 <ul>
-                    <li> <a href="/">PÁGINA PRINCIPAL</a> </li>
+                    <li> <a href="/">{% trans 'PÁGINA PRINCIPAL' %}</a> </li>
                     {# <li> <a href="#">QUIÉNES SOMOS</a></li> #}
                     {# <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li> #}
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url auth_logout %}">SALIR</a> </li>
+                        <li> <a href="{% url auth_logout %}">{% trans 'SALIR' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url auth_login %}">CONECTARSE</a> </li>
+                        <li> <a href="{% url auth_login %}">{% trans 'CONECTARSE' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>

@@ -22,7 +22,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>ELECCIÓN:<span class="celeste">{% trans 'Para empezar, completa los siguientes datos...' %}</span></h1>
+        <h1>{% trans 'ELECCIÓN:' %}<span class="celeste">{% trans 'Para empezar, completa los siguientes datos...' %}</span></h1>
 		<hr />
         </head>
 
@@ -47,7 +47,12 @@
                 {{ form.date }}
                 {{ form.date.errors }}
             </p>
-            
+            <p class="fieldWrapper">
+                <label for="id_template" class="blue_edit">{% trans 'Selecciona la plantilla de tu elección' %}</label><br />
+                <select>
+                    <option>{% trans "Elección de centro de alumnos" %}</option>
+                </select>
+            </p>
             
             <p class="fieldWrapper">
                 <p style="display:none">{{ form.slug }}
@@ -68,14 +73,14 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">Carga desde tu computador una imagen para el encabezado de 824 x 80 px</div>
+            <div class="permalink">{% trans "Carga desde tu computador una imagen para el encabezado de 824 x 80 px" %}</div>
             </aside>
 
             <p class="fieldWrapper">
                 <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
                 {{ form.information_source }}
                 {{ form.information_source.errors }}
-            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">siguente
+            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">{% trans 'siguente' %}
                </a></span>
 
         </form>

@@ -459,3 +459,7 @@ ul span.bold{
 .selected {
     background : red;
 }
+
+.successContainer{
+    height: 50px;
+}

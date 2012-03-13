@@ -44,7 +44,7 @@
     </div>
 
 {% if election.date %}
-<span class="fecha_eleccion">Fecha de la elección: {{ election.date }}</span>
+<span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
 {% endif %}
 
 {% if election.description %}
@@ -57,17 +57,17 @@
       <ul class="homeNav">
                 <li class="homeLi homeListMedianaranja">
                     <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
-                        <h5>Media <br/>Naranja</h5>
+                        <h5>{% trans 'Media' %} <br/>{% trans 'Naranja' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListPerfiles">
                     <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">
-                        <h5> Perfil de Candidatos</h5>
+                        <h5> {% trans 'Perfil de Candidatos' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListComparar">
                     <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
-                        <h5>Compara <br> candidatos </h5>
+                        <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
                     </a>
                 </li>
             </ul>

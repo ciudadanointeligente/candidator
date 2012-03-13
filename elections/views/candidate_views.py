@@ -94,6 +94,7 @@ class CandidateCreateView(CreateView):
 class CandidateDataUpdateView(UpdateView):
     model = Candidate
     form_class = CandidateForm
+    first_time = False
                 
     @method_decorator(login_required)
     @method_decorator(require_GET)
@@ -119,6 +120,7 @@ class CandidateDataUpdateView(UpdateView):
         context['background_candidate_form'] = BackgroundCandidateForm()
         context['personal_data_candidate_form'] = PersonalDataCandidateForm()
         context['answer_form'] = AnswerForm()
+        context['first_time'] = self.first_time
         return context
 
 

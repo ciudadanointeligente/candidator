@@ -24,7 +24,11 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>RESPUESTAS:<span class="celeste"> COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
+        <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
+        {% if first_time %}
+            <div class="successContainer">&nbsp;<div class="success">{% trans 'Éxito has creado tu primer candideit.org ahora puedes...' %}</div></div>
+        {% endif %}
+        </h1>
 		<hr />
         </head>
         
@@ -43,7 +47,7 @@
 
             
 
-	<h2>DATOS PERSONALES</h2>
+	<h2>{% trans 'DATOS PERSONALES' %}</h2>
     		<div class="profileImg">
 
             {% thumbnail candidate.photo "80x100" crop="center" as im %}
@@ -59,7 +63,7 @@
             
             <div class="personaldataEdit">
                 <ul>
-                    <span class="bold">Nombre</span>
+                    <span class="bold">{% trans 'Nombre' %}</span>
                     <span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
@@ -97,7 +101,7 @@
                             <input type="text" name="url" id="link_url"/>
                         </span>
                         <br/>
-                        <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+                        <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">{% trans 'Crear Link' %}</a>
                         <br />
                     </li>
 
@@ -109,7 +113,7 @@
 
             <br style='clear: both;'/>
             <div class="backgroundEdit">
-                <div class="edit_tit"><h5>2. Antecedentes</h5></div>
+                <div class="edit_tit"><h5>{% trans '2. Antecedentes' %}</h5></div>
                 <ul>
                 {% for background_category in election.backgroundcategory_set.all %}
                     <li>
@@ -135,7 +139,7 @@
 
 <div class="questionsEdit">
 
-        <div class="edit_tit"><h5>3. Cuestionario</h5></div>
+        <div class="edit_tit"><h5>{% trans '3. Cuestionario' %}</h5></div>
         {% for category in election.category_set.all %}
             <h2>{{ category.name }}</h2>
             <ul>
@@ -156,7 +160,7 @@
             {% endfor %}
             </ul>
         {% empty %}
-            <h2>No hay categorías</h2>
+            <h2>{% trans 'No hay categorías' %}</h2>
         {% endfor %}
 
 
@@ -174,6 +178,9 @@
 
 {% block extra_js %}
         <script type="text/javascript">
+        $(document).ready(function(){   
+            $('.success').delay(10000).effect('fade');
+        });
         function notify(message, timeOut) {
             // Set the message using text method and chain fadeIn with it
             // apply simple setTimeout to fadeOut the message
@@ -183,7 +190,7 @@
             }, timeOut*1000);
         }
         function link_delete(link_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este link?");
+            var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este link?' %}");
             if(answer){
                 var dir = "/"+link_pk +"/link/async_delete/";
                 $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
@@ -233,7 +240,7 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'value': value
                     },
-                    function(data) { notify('guardado',1) },
+                    function(data) { notify("{% trans 'guardado' %}",1) },
                     'json');
                 }
         )
@@ -297,5 +304,6 @@
         });
         $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
         $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+
         </script>
 {% endblock extra_js %}

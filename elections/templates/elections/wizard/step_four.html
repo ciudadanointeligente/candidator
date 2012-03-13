@@ -8,21 +8,21 @@
 {% block content %}
 
 <div class="fondo_formulario">
-    <div class="numero_off uno">1.</div>
+    <div class="numero_off uno">{% trans '1.' %}</div>
     <div class="numero_off dos">
-        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+        <a href="{% url candidate_create election_slug=election.slug %}">{% trans '2.' %}</a>
     </div>
     <div class="numero_off tres">
-        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans '3.' %}</a>
     </div>
-    <div class="numero_on cuatro">4.</div>
-    <div class="numero_off cinco">5.</div>
+    <div class="numero_on cuatro">{% trans '4.' %}</div>
+    <div class="numero_off cinco">{% trans '5.' %}</div>
 <!-- se debe cambiar de lados la flecha y el add -->
-    <h5>Antecedentes:</h5>
+    <h5>{% trans 'Antecedentes:' %}</h5>
 
 <div class="forms_content">
 
-    <div class="instrucciones">¿Qué antecedentes preguntarás a los candidatos? debes clasificarlos en categorías... </div>
+    <div class="instrucciones">{% trans '¿Qué antecedentes preguntarás a los candidatos? debes clasificarlos en categorías...' %} </div>
     <br />
 
     <ul id="lista_categorias">
@@ -80,7 +80,7 @@
 <script type="text/javascript">
 
 function background_category_delete(category_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta categoría?' %}");
     if(answer){
         var dir = "/"+category_pk +"/background_category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
@@ -97,7 +97,7 @@ function background_category_delete(category_pk){
 }
 
 function background_delete(background_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este antecedente?' %}");
     if(answer){
         var dir = "/"+background_pk +"/background/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },

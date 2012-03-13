@@ -1,7 +1,7 @@
  {% load i18n %}
 
 <div class="candidate-edit-menu">
-    <div class="menuedit_tit nombre {% if step == '1' %}selected{% endif %}">Crea</div>
-    <div class="menuedit_tit nombre {% if step == '2' %}selected{% endif %}">¿Quienes son los candidatos?</div>
-    <div class="menuedit_tit nombre {% if step == 'thanks' %}selected{% endif %}">Gracias</div>
+    <div class="menuedit_tit nombre {% if step == '1' %}selected{% endif %}">{% trans 'Crea tu candideit.org'%}</div>
+    <div class="menuedit_tit nombre {% if step == '2' %}selected{% endif %}">{% trans '¿Quienes son los candidatos?'%}</div>
+    <div class="menuedit_tit nombre {% if step == 'thanks' %}selected{% endif %}">{% trans 'Resumen' %}</div>
 </div>
