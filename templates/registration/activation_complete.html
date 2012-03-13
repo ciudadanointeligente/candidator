@@ -1,13 +1,14 @@
 {% extends "elections/base_edits.html" %}
 {% load url from future %}
 {% load i18n %}
-    {% block title %}Candidator - Logout{% endblock title %}
+    {% block title %}Activación completa{% endblock title %}
 {% block content %}
 
 <div class="fondo_formulario">
 	<div class="forms_content">
-		<h1>{% trans 'Candidator - Logout' %}</h1><hr /><br />
-    	<div class="instrucciones"><img src="{{ STATIC_URL }}img/asterisco_celeste.png" />{% trans 'Te has salido de candideit.org, si deseas ingresar de nuevo debes entrar a' %} <a href="{% url 'django.contrib.auth.views.login' %}">login</a></div>
+		<h1>{% trans 'Activación completa' %}</h1><hr /><br />
+    	<div class="instrucciones"><img src="{{ STATIC_URL }}img/asterisco_celeste.png" />Tu cuenta ha sido activada ahora puedes...</div>
+    	<div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login"><a href="/">crear tu primera elección</a></div>
 	</div>
 </div>
 {% endblock content %}

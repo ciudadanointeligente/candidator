@@ -2,9 +2,8 @@
 {% load i18n %}
 
 {% block title %}
-{% trans '¿Quienes son los candidatos?' %}
+{% trans 'Candidatos' %}
 {% endblock title %}
-
 
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
@@ -15,22 +14,23 @@
 <div class="contenedor_body">
 
 <!-- MENU VERTICAL -->
-      {% include 'elections/election_admin_menu.html' %}  
+{% include 'elections/updating/menu.html' with section='new_candidate' %}
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->    
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>2.CANDIDATOS:<span class="celeste"> ¿QUIÉNES SON?</span></h1>
+        <h1>CANDIDATOS:<span class="celeste"> ¿QUIÉNES SON?</span></h1>
 		<hr />
         </head>
-
-	<div class="blue_edit">AGREGA LOS CANDIDATOS DE TU ELECCIÓN</div>
-
-    <br />
-    <p>Tus candidatos...</p>
-    <ul id="lista_candidatos">
+         <ul id="lista_candidatos">
+        {% if election.candidate_set.count == 0 %}
+        {% trans 'Aún no tienes candidatos' %}
+        {% endif %}
+        {% if election.candidate_set.count == 1 %}
+        {% trans 'Debes tener al menos dos candidatos' %}
+        {% endif %}
         {% for candidate in election.candidate_set.all %}
         <li style="margin-bottom:4px;" id="candidate_{{ candidate.pk }}">
             <span class="bold">
@@ -45,17 +45,10 @@
 <div id="link_add">
     <form id="newcandidate" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.non_field_errors }}
-        {{ form.as_p }}
+        <p><input id="id_name" type="text" maxlength="255" name="name" placeholder="{{ form.name.label}}"></p>
 <div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a></div>
-        </div>
-        {% if election.candidate_set.count > 1 %}
 
-
-        <div class="link_next">
-            <a class="bt" href="javascript:void(0);" onclick="save_candidate('{{election.slug}}'); return false;">siguiente
-            </a>
         </div>
-        {% endif %}
 
 
     </form>
@@ -111,7 +104,7 @@
                 var dir = "{% url async_delete_candidate %}";
                 $.post(dir, {
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'candidate_pk':id
+                            'candidate_pk':candidate_pk
                         },
                     function(json){
                         $("#candidate_"+candidate_pk).remove();
@@ -126,15 +119,16 @@
 
         function save_candidate(election_slug){
             var candidate = document.getElementById("id_name").value
+            var new_location = "{% url election_detail_admin slug=election.slug username=user.username %}";
             if(document.getElementById("id_name").value == ""){
-                window.location = get_base_url()+"/pre_personaldata"
+                window.location = new_location;
             }
             else{
                 /* @FIX */
-                var dir = "/"+election_slug+"/candidate/save_candidate/"
+                var dir = "{% url async_create_candidate election_slug=election.slug %}";
                 $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
                 function(json){
-                    window.location = get_base_url()+"/pre_personaldata"
+                    window.location = new_location;
              })
             }
         }

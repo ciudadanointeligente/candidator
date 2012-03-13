@@ -158,13 +158,19 @@ class Candidate(models.Model):
     @property
     def get_background(self):
         backgrounds = {}
-        for background in self.background.all():
-            backgrounds[background.category.name] = {}
-
-        for background in self.background.all():
-            backgrounds[background.category.name][background.name] = self.backgroundcandidate_set.get(background=background).value
-
+        for backgroundcategory in self.election.backgroundcategory_set.all():
+            backgrounds[backgroundcategory.name] = {}
+            for background in backgroundcategory.background_set.all():
+                what_the_candidate_answered = self.get_answer_for_background(background)
+                backgrounds[backgroundcategory.name][background.name] = what_the_candidate_answered
         return backgrounds
+        
+        
+    def get_answer_for_background(self, background):
+        try:
+            return self.backgroundcandidate_set.get(background=background).value
+        except:
+            return None
 
     @property
     def get_personal_data(self):

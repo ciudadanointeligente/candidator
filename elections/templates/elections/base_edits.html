@@ -19,9 +19,10 @@
     <div class="header_color">
         <header class="wrapBasic" id="mainHeader">
             <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
-            <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
             </a>
-
+            <a href="http://www.ciudadanointeligente.org">
+                <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
+            </a>
             <h1 style="display: none;">Vota inteligente</h1>
         </header>
         <nav id="mainNavigation">
@@ -29,7 +30,6 @@
                 <ul>
                     <li> <a href="/">PÁGINA PRINCIPAL</a> </li>
                     {# <li> <a href="#">QUIÉNES SOMOS</a></li> #}
-                    {# <li> <a href="{% url election_list %}">ELECCIONES</a> </li>#}
                     {# <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li> #}
                     {% if user.is_authenticated %}
                         <li> <a href="{% url auth_logout %}">SALIR</a> </li>
@@ -50,11 +50,31 @@
 <script src="{{ STATIC_URL }}js/jquery.admin-menu.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
 {% block extra_js %}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29858310-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 {% endblock extra_js %}
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
 </body>
 
     <div id="footer">
     </div>
 
 </html>
-<html>

@@ -14,14 +14,14 @@
 <div class="contenedor_body">
 
 <!-- MENU VERTICAL -->
-      {% include 'elections/election_admin_menu.html' %}  
+      {% include 'elections/updating/menu.html' with section='questions' %}  
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->    
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>3.PREGUNTAS:<span class="celeste_preguntas"> ¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!</span></h1>
+        <h1>PREGUNTAS:<span class="celeste_preguntas"> ¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!</span></h1>
 		<hr />
         </head>
 
@@ -42,9 +42,10 @@
         {% endfor %}
         <li id="add_personal_data">
             <p style='float: left;'>
-            <input name="add_personal_data_input" placeholder="agregar dato personal"/>
-            </p><aside><a class="bt_input" href="#" pk="{{election.pk}}">agregar</a>
-        </li></aside>
+            <input name="add_personal_data_input" id="add_personal_data_input" placeholder="agregar dato personal"/>
+            </p><aside><a class="bt_input save_personal_data_link" href="#" pk="{{election.pk}}">agregar</a></aside>
+        </li>
+
     </ul>
 
     <br style='clear: both;'/>
@@ -76,7 +77,7 @@
                     {{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
                 </li>
                 {% endfor %}
-                <p "id="add_background_{{ background_category.pk}}">
+                <p id="add_background_{{ background_category.pk}}">
                     {% with background_form.name.html_name as html_name %}
                     <input type="text" 
                            name="{{ html_name }}" 
@@ -84,7 +85,7 @@
                            id="id_{{ forloop.counter }}_{{ html_name }}" 
                            placeholder="agregar antecedente" />
                     {% endwith %}
-                    <a class="bt_input" href="#" pk="{{ background_category.pk}}" >agregar
+                    <a class="bt_input save_background_link" href="#" pk="{{ background_category.pk}}" >agregar
                     </a>
                 </p>
             </ul>
@@ -94,7 +95,7 @@
             <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
                                name="{{ backgroundcategory_form.name.html_name }}"
                                placeholder="agregar categoría" />
-            <a class="bt_input" href="#" pk="{{election.pk}}">agregar categoría
+            <a class="bt_input save_background_category_link" href="#" pk="{{election.pk}}">agregar categoría
             </a>
         </p>
     </ul>
@@ -135,13 +136,19 @@
                     <div>
                     <ul class="list_of_answers">
                         {% for answer in question.answer_set.all %}
-                            <li>{{ answer }}</li>
+                        <li id="answer_{{ answer.id }}">{{ answer }}
+                        <a href="javascript:void(0);"
+                            onclick="answer_delete({{answer.pk}}); return false;">
+                            <img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/>
+                        </a>
+                        </li>
                         {% endfor %}
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
-                                <p><input type="text" name="caption" placeholder="agregar respuesta" /></p>
-                                <input type="submit" value="{% trans 'crear' %}" />
+                                    <p><input type="text" name="caption" placeholder="agregar respuesta" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">agregar
+                    </a></p>
+                                
                             </form>
                         </li>
                     </ul>
@@ -155,7 +162,7 @@
                     {% with question_form.question.html_name as html_name %}
                     <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
                     {% endwith %}
-                    <a class="bt_input" href="#" pk="{{category.pk}}">agregar
+                    <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">agregar
                     </a>
                 </p>
                 </div>
@@ -167,7 +174,7 @@
             {% with category_form.name.html_name as html_name %}
             <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
             {% endwith %}
-            <a class="bt_input" href="#" pk="{{election.pk}}">agregar categoría
+            <a class="bt_input save_category_link" href="#" pk="{{election.pk}}">agregar categoría
             </a>
         </p>
     </ul>
@@ -272,7 +279,33 @@ function question_delete(question_pk){
         return false;
     }
 }
+function answer_delete(answer_pk){
+    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    if(answer){
+        var dir = "/answer_delete/"+answer_pk;
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
+            function(json){
+            $("#answer_"+answer_pk).remove();
+                })
+    }
+    else {
+        return false;
+    }
+}
 
+function saveAnswerLink(link){
+    var form = $(link).closest('form');
+    var value_text = $(link).prev();
+    $.post($(form).attr('action'), $(form).serialize(), function (json) {
+        var containing_li = $(form).parent('li');
+        var delete_link = "<a href=\"javascript:void(0);\"onclick=\"answer_delete("+json.pk+"); return false;\"><img style=\"margin-top:-1px; margin-left:6px;\" src=\"{{ STATIC_URL }}img/bt_eliminar.png\"/></a>";
+
+        var html = '<li id="answer_'+json.pk+'">'+json.caption+delete_link+'</li>';
+
+        $(html).insertBefore(containing_li);
+        value_text.val('');
+    });
+}
 $(document).ready(function() {
 
     var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
@@ -298,7 +331,7 @@ $(document).ready(function() {
     };*/
 
     $(".save_personal_data_link").click(function(e){
-        var value_text = $(this).prev("p").children("input");
+        var value_text = $('#add_personal_data_input');
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
 
@@ -309,16 +342,16 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li style="margin-top: 5px;" id="personal_data_'+data.pk+'"><span class="tit_fondoverde">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="position: absolute; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></span></li>';
+            var content = '<li style="margin-top: 5px;" id="personal_data_'+data.pk+'"><span class="bold">'+data.label+'<a href="javascript:void(0);" onclick="personal_data_delete('+data.pk+'); return false;"><img style="position:absolute; margin-left:6px; margin-top: 4px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a></span></li>';
 
             var lista = $("ul#lista_personaldata")
             lista.children().last().before(content)
-            value_text.val(default_texts[1][1])
+            value_text.val('')
         },
         'json');
         return false;
     });
-
+    
 
 
     $(".save_background_link").click(save_background);
@@ -335,7 +368,7 @@ $(document).ready(function() {
         },
         function(data) {
 
-            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></li>';
+            var content = '<li id="background_'+data.pk+'">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a></li>';
 
             var lista = $("ul#id_background_list_"+background_category_pk)
             lista.children().last().before(content)
@@ -345,13 +378,12 @@ $(document).ready(function() {
         return false;
     }
 
-
     $(".save_background_category_link").click(function(e){
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
-
-        $.post('/'+ election_pk +'/background_category/async_create/',
+        var address = "{% url async_create_background_category election_pk=election.id %}";
+        $.post(address,
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
             'value': value
@@ -366,7 +398,7 @@ $(document).ready(function() {
             });
             last_id++;
             var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" class="add_background_name" />'
-            var content ='<li id="background_category_'+data.pk+'"><h6>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_background_list_'+data.pk+'"><li id="add_background_'+data.pk+'">' + background_input  + '<a class="save_background_link" href="#" pk="'+data.pk+'" ><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a></li></ul></li>';
+            var content ='<li id="background_category_'+data.pk+'"><div class="categoriasAntecedentes"><h3>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_background_list_'+data.pk+'" class="backgrounds"><p id="add_background_'+data.pk+'">' + background_input  + '<a class="bt_input save_background_link" href="#" pk="'+data.pk+'" >agregar</a></p></ul></li>';
 
             var lista = $("ul#lista_categorias")
             lista.children().last().before(content)
@@ -381,7 +413,6 @@ $(document).ready(function() {
     $(".save_question_link").click(save_question);
 
     function save_question(e){
-        console.log('agregando pregunta');
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var category_pk = $(this).attr('pk');
@@ -392,14 +423,14 @@ $(document).ready(function() {
             'value': value
         },
         function(data) {
-            var content = '<li id="question_'+data.pk+'">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a><div><ul class="list_of_answers">';
-            content += "<li style='margin-top:30px;'><form class='answerform' method='POST' action='/answer_create/"+data.pk+".json'>{% csrf_token %}<input type='text' name='caption' placeholder='agregar respuesta' /><input type='submit' value='{% trans 'crear' %}' /></form></li>";
-            content += '</ul></div></li>';
 
 
+            var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="agregar respuesta" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p></form></li></ul></div></li>';
 
-            var lista = $("ul#id_question_list_"+category_pk)
-            lista.children().last().before(content)
+
+            var lista = $("ul#id_question_list_"+category_pk);
+
+            $(content).insertBefore(lista.children().last());
             value_text.val('');
         },
         'json');
@@ -427,10 +458,10 @@ $(document).ready(function() {
             last_id++;
             var question_input = '<input type="text" name="{{ question_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar pregunta" class="question_input"/>';
 
-            var content = '<li id="category_'+data.pk+'">' +
-                    '<h6>'+data.name+'' +
+            var content = '<li id="category_'+data.pk+'"><div class="categoriasAntecedentes">' +
+                    '<h3>'+data.name+'' +
                     '<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;">' +
-                    '<img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></h6><ul id="id_question_list_'+data.pk+'"><li id="add_question_'+data.pk+'">' + question_input + '<a class="save_question_link" href="#" pk="'+data.pk+'"><img  style="margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}/img/bt_agregar(verde).png"/></a></li></ul></li>';
+                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">agregar</a></p></div></ul></li>';
 
             var lista = $("ul#lista_preguntas")
             lista.children().last().before(content)
@@ -444,17 +475,9 @@ $(document).ready(function() {
 
 
 });
-$('.answerform').live('submit', function (e) {
-    e.preventDefault()
-    var form = $(this);
-    $.post($(this).attr('action'), $(this).serialize(), function (json) {
-        var containing_li = $(form).parent('li');
-        console.log(json);
-        console.log($(form).parent('li'));
-        var html = '<li>'+json.caption+'</li>';
-        $(html).insertBefore(containing_li);
-    });
-});
+
+
+
 
 
 </script>

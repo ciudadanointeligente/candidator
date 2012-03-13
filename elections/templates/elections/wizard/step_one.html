@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-{% trans 'Crea tu elección' %}
+{% trans 'Información general de la elección' %}
 {% endblock title %}
 
 
@@ -15,21 +15,19 @@
 <div class="contenedor_body">
 
 <!-- MENU VERTICAL -->
-      {% include 'elections/election_admin_menu.html' %}  
+      {% include 'elections/wizard/wizard_menu.html' with step='1' %}  
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->    
     <div class="papel_edit">
     <div class="wrapper_plantillas">
-
-    <head>
-        <h1>1.elección:<span class="celeste"> INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG</span></h1>
+    	<head>
+        <h1>ELECCIÓN:<span class="celeste">{% trans 'Para empezar, completa los siguientes datos...' %}</span></h1>
 		<hr />
-    </head>
-    
-    <section>
-        <br/>
+        </head>
 
+		<section>
+        <br/>
         
 
         <form id="newelection" method="POST" enctype="multipart/form-data">{% csrf_token %}
@@ -41,29 +39,31 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">Permalink:<div class="slug">{{ election_url }}</div></div>
+            
 			</aside>
-
+            
             <p class="fieldWrapper">
-                <label for="id_date" class="blue_edit">fecha de la elección:</label>
+                <label for="id_date" class="blue_edit">{{ form.date.label }}</label>
                 {{ form.date }}
                 {{ form.date.errors }}
                 <span class="calendar"><img src="{{ STATIC_URL }}/img/calendar.png" ></span>
             </p>
-
+            
+            
             <p class="fieldWrapper">
                 <p style="display:none">{{ form.slug }}
                 {{ form.slug.errors }}</p>
             </p>
-
+            
+            
             <p class="fieldWrapper">
-                <label for="id_description" class="blue_edit">BREVE DESCRIPCIÓN DE TU CANDIDEIT.ORG:</label><br />
+                <label for="id_description" class="blue_edit">{{ form.description.label }}</label><br />
                 {{ form.description }}
                 {{ form.description.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_logo" class="blue_edit">IMAGEN</label>
+                <label for="id_logo" class="blue_edit">{{ form.logo.label }}</label><br />
                 {{ form.logo }}
                 {{ form.logo.errors }}
             </p>
@@ -72,17 +72,22 @@
             <div class="permalink">Necesitas una imagen para el encabezado, puedes cargar una de tu computador (824 x 80 px) o selecciónar una de las disponibles...</div>
             </aside>
 
-            <a class="bt_siguiente" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;"></a>
+            <p class="fieldWrapper">
+                <label for="id_source" class="blue_edit">{{ form.information_source.label }}</label><br />
+                {{ form.information_source }}
+                {{ form.information_source.errors }}
+            </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">siguente
+               </a></span>
+
         </form>
         
-    </section>
-
+       
+        </section>
     </div>
-    </div>
-
-    <div id="example"><img src="{{ STATIC_URL }}img/ej_cuestionario.jpg" /></div>
-
+</div>
 {% endblock %}
+
+<!-- CIERRE CONTENIDO -->   
 
 {% block extra_js %}
     {{ form.media }}
@@ -99,5 +104,3 @@
         });
     </script>
 {% endblock %}
-
-</div>

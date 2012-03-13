@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.forms.util import ErrorList
-from django.forms import formsets
+from django.forms import formsets, ImageField, FileInput
 from django.forms.formsets import formset_factory
 from elections.models import Category, Election, PersonalData,\
                 BackgroundCategory, Background, Question, Answer,\
@@ -21,7 +21,24 @@ class ElectionUpdateForm(forms.ModelForm):
     class Meta:
         model = Election
         exclude = ('owner', 'slug')
+        
+class ElectionLogoUpdateForm(forms.ModelForm):
+    logo = ImageField(widget=FileInput)
+    def __init__(self, election, *args, **kwargs):
+        self.election = election
+        super(ElectionLogoUpdateForm, self).__init__(*args, **kwargs)
 
+
+    class Meta:
+        model = Election
+        fields = ('logo',)
+
+    def save(self, commit=True):
+        self.election.logo = self.cleaned_data['logo']
+        if commit:
+            self.election.save()
+        return self.election
+    
 
 class CategoryForm(forms.ModelForm):
     class Meta:

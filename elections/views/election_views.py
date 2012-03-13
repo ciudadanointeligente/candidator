@@ -21,17 +21,38 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
-from elections.forms.election_form import AnswerForm
+from elections.forms.election_form import AnswerForm, ElectionLogoUpdateForm
 from elections.models import Election, Candidate, Category
 
 
 # Election Views
+class ElectionLogoUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionLogoUpdateForm
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, pk=kwargs['pk'], owner=request.user)
+        return super(ElectionLogoUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(ElectionLogoUpdateView, self).get_form_kwargs()
+        kwargs['election'] = self.object
+        return kwargs
+    
+    def get_template_names(self):
+        return 'elections/updating/election_logo_form.html'
+
+    def get_success_url(self):
+        url = reverse('election_update', kwargs={'slug': self.object.slug})
+        return url
+
 class ElectionUpdateView(UpdateView):
     model = Election
     form_class = ElectionUpdateForm
 
     def get_template_names(self):
-        return 'elections/election_update_form.html'
+        return 'elections/updating/election_basic_information.html'
 
     def get_success_url(self):
         return reverse('election_update', kwargs={'slug': self.object.slug})
@@ -61,6 +82,9 @@ class ElectionDetailView(DetailView):
 class ElectionCreateView(CreateView):
     model = Election
     form_class = ElectionForm
+    
+    def get_template_names(self):
+        return ['elections/wizard/step_one.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -154,7 +178,7 @@ class PrePersonalDataView(TemplateView):
 class ElectionUpdateDataView(DetailView):
     model = Election
     def get_template_names(self):
-        return ['elections/election_update_data.html']
+        return ['elections/updating/questions.html']
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -185,10 +209,4 @@ class ElectionRedirectView(RedirectView):
         num_elections = self.request.user.election_set.count()
         if self.request.user.election_set.count() <= 0:
             return reverse('election_create')
-        last_election = self.request.user.election_set.latest('pk')
-        if last_election.candidate_set.count() <= 0:
-            return reverse('election_detail_admin',
-                           kwargs={'slug': last_election.slug, 'username': self.request.user.username})
-        return reverse('candidate_data_update',
-                       kwargs={'election_slug': last_election.slug, 'slug': last_election.candidate_set.all()[0].slug})
-
+        return reverse('my_election_list')

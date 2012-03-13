@@ -180,7 +180,7 @@ form{
 
 p input#id_name{
     margin-top:3px;
-    width: 327px;
+    width: 370px;
 }
 
 p input#id_date{
@@ -265,6 +265,7 @@ div.instrucciones{
     width:352px;
     overflow:hidden;
     padding-left: 25px;
+    margin-bottom: 10px;
 }
 
 .add_background_input{
@@ -302,7 +303,7 @@ div.instrucciones{
 }
 
 .usuario{
-    margin-top: -34px;
+    margin-top: 14px;
     margin-left: 20px;
 }
 
@@ -374,4 +375,11 @@ div.instrucciones{
 #newelection #id_description {
     margin-left: 0px;
     width: 328px;
+}
+.selected {
+color:red;
+}
+.twitter{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+    padding-left: 25px;
 }

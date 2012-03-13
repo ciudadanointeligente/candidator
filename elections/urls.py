@@ -13,13 +13,14 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   BackgroundCategoryCreateView, BackgroundCreateView, QuestionCreateView,\
                   AnswerCreateView, personal_data_candidate_create, background_candidate_create,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
-                  async_delete_background, async_delete_background_category, PrePersonalDataView
+                  async_delete_background, async_delete_background_category, \
+                  PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView
 
 
 urlpatterns = patterns('',
 
     # Root: login_required (por ahora pues no se ha definido un index)
-    url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
+    #url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
 
     url(r'^$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
 
@@ -34,6 +35,11 @@ urlpatterns = patterns('',
 
     # Create Answer Ajax
     url(r'answer_create/(?P<question_pk>\d+).json', AnswerCreateAjaxView.as_view(), name='answer_create_ajax'),
+    
+    #Delete Answer Ajax
+    url(r'answer_delete/(?P<pk>\d+)', AnswerDeleteAjaxView.as_view(), \
+        name='answer_delete_ajax'),
+
 
     # Create Link Ajax
     url(r'^(?P<candidate_pk>\d+)/create_link', 'candidator.elections.views.async_create_link', name='link_create_ajax'),
@@ -68,9 +74,11 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
 
     # Election detail view admin
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/admin$', ElectionDetailView.as_view(template_name='elections/election_detail_admin.html'), name='election_detail_admin'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/gracias$', ElectionDetailView.as_view(template_name='elections/wizard/thanks_for_using_us.html'), name='election_detail_admin'),
 
-    url(r'^election/(?P<slug>[-\w]+)/update_data/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
+    url(r'^election/(?P<slug>[-\w]+)/questions/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
+    
+    url(r'^election/(?P<pk>\d+)/update_election_photo', ElectionLogoUpdateView.as_view(), name="update_election_photo"),
 
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
@@ -104,10 +112,10 @@ urlpatterns = patterns('',
     url(r'^election/update/candidate/(?P<pk>\d+)/photo/$', CandidateUpdatePhotoView.as_view(), name='update_candidate_photo'),
 
     # Create candidate view
-    url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(), name='candidate_create'),
+    url(r'^(?P<election_slug>[-\w]+)/candidate/create/?$', CandidateCreateView.as_view(template_name='elections/wizard/step_two.html'),name='candidate_create'),
 
     # Create candidate view not in wizard
-    url(r'^(?P<election_slug>[-\w]+)/candidate/create_alone/?$', CandidateCreateView.as_view(template_name='candidate_form_alone.html'), name='candidate_create_alone'),
+    url(r'^(?P<election_slug>[-\w]+)/candidate/create_alone/?$', CandidateCreateView.as_view(template_name='elections/updating/candidates.html'), name='candidate_create_alone'),
 
     # Create candidate using next button
     url(r'^(?P<election_slug>[-\w]+)/candidate/save_candidate/?$', CandidateCreateAjaxView.as_view(), name='async_create_candidate'),
@@ -119,13 +127,13 @@ urlpatterns = patterns('',
     url(r'^candidate/async_delete/?$', 'candidator.elections.views.async_delete_candidate' , name='async_delete_candidate'),
 
     # Candidate data Update (PersonalData and Background)
-    url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='candidate_data_update'),
+    url(r'^(?P<election_slug>[-\w]+)/candidate/(?P<slug>[-\w]+)/data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/updating/answers.html"), name='candidate_data_update'),
 
     # Multiple candidate data Update (answering questions for several candidates)
-    url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/candidate_data_update.html"), name='multiple_candidate_data_update'),
+    url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/updating/answers.html"), name='multiple_candidate_data_update'),
 
     # Pre-Create PersonalData
-    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/pre_personaldata.html")), name='pre_personaldata'),
+    url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/wizard/step_two_point_five.html")), name='pre_personaldata'),
 
     # Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/personal_data/create/?$', PersonalDataCreateView.as_view(), name='personal_data_create'),

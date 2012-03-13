@@ -87,6 +87,14 @@ class PersonalDataCreateView(TestCase):
 
         self.assertRedirects(response, reverse('personal_data_create',
                                                kwargs={'election_slug': self.election.slug}))
+                                               
+                                               
+    def test_step_three_template_rendered(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('personal_data_create',
+                                    kwargs={'election_slug': self.election.slug}))
+        
+        self.assertTemplateUsed(response,'elections/wizard/step_three.html')
 
 
 

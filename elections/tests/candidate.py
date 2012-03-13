@@ -49,6 +49,9 @@ class CandidateModelTest(TestCase):
                                                            owner=self.user,
                                                            slug='barbaz',
                                                            description='esta es una descripcion')
+        #deleting all background categories by default
+        for backgroundcategory in self.election.backgroundcategory_set.all():
+            backgroundcategory.delete()
 
     def test_create_candidate(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
@@ -140,6 +143,42 @@ class CandidateModelTest(TestCase):
         expected_dict = {'FooBar' : {'foo': 'BarFoo', 'foo2': 'BarFoo2'},
                          'FooBar2' : {'foo3': 'BarFoo3'}}
         self.assertEqual(candidate.get_background, expected_dict)
+        
+    def test_get_what_the_candidate_answered_when_has_been_answered(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo')
+        background_data_candidate, created = BackgroundCandidate.objects.get_or_create\
+                                            (candidate=candidate,\
+                                            background=background,\
+                                            value="BarFoo")
+        what_the_candidate_answered = candidate.get_answer_for_background(background)
+        expected_answer = "BarFoo"
+        self.assertEqual(what_the_candidate_answered, expected_answer)
+        
+    def test_get_backgrounds_even_if_they_havent_been_answered_by_the_candidate(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo')
+        background2, created = Background.objects.get_or_create(category=background_category,
+                                                                name='foo2')
+        background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar2')
+        background3, created = Background.objects.get_or_create(category=background_category2,
+                                                                name='foo3')
+                                                                
+        expected_dict = {'FooBar': {'foo': None, 'foo2': None},
+                         'FooBar2': {'foo3': None}}
+                         
+        self.assertEqual(candidate.get_background, expected_dict)
+        
+        
 
     def test_add_personal_data(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
@@ -179,11 +218,11 @@ class CandidateModelTest(TestCase):
                                                                 name='foo2')
 
         candidate.add_background(background, 'BarFoo')
-        expected = {'FooBar' : {'foo': 'BarFoo'}}
+        expected = {'FooBar' : {'foo': 'BarFoo', 'foo2': None}}
         self.assertEqual(candidate.get_background, expected)
 
         candidate.add_background(background, 'BarFoo2')
-        expected = {'FooBar' : {'foo': 'BarFoo2'}}
+        expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2': None}}
         self.assertEqual(candidate.get_background, expected)
 
         candidate.add_background(background2, 'BarFoo3')
@@ -434,6 +473,12 @@ class CandidateCreateViewTest(TestCase):
                                                kwargs={'election_slug': candidate.election.slug}))
 
 
+
+    def test_renders_step_two_of_the_wizard(self):
+        self.client.login(username='joe', password='doe')
+        response = self.client.get(reverse('candidate_create', kwargs={'election_slug': self.election.slug}))
+        self.assertTemplateUsed(response,'elections/wizard/step_two.html')
+
 class CandidateUpdateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -544,55 +589,55 @@ class CandidateUrlsTest(TestCase):
         self.assertEquals(result, expected)
 
 
-# class CandidateDataUpdateTest(TestCase):
-#     def setUp(self):
-#         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-#         self.election, created = Election.objects.get_or_create(name='BarBaz',
-#                                                            owner=self.user,
-#                                                            slug='barbaz',
-#                                                            description='esta es una descripcion')
+class CandidateDataUpdateTest(TestCase):
+     def setUp(self):
+         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+         self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz',
+                                                            description='esta es una descripcion')
 
-#         self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-#                                             election=self.election,
-#                                             photo='photos/dummy.jpg')
+         self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
+                                             election=self.election,
+                                             photo='photos/dummy.jpg')
 
-#     def test_get_update_candidate_data_by_user_without_login(self):
-#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+     def test_get_update_candidate_data_by_user_without_login(self):
+         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
 
-#         self.assertEquals(request.status_code, 302)
+         self.assertEquals(request.status_code, 302)
 
-#     def test_get_update_candidate_data_by_user_success(self):
-#         self.client.login(username='joe', password='doe')
-#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
+     def test_get_update_candidate_data_by_user_success(self):
+         self.client.login(username='joe', password='doe')
+         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': self.candidate.slug, 'election_slug': self.election.slug}))
 
 
-#         self.assertTrue('candidate' in request.context)
-#         self.assertEqual(request.context['candidate'], self.candidate)
-#         self.assertTrue('election' in request.context)
-#         self.assertEqual(request.context['election'], self.election)
+         self.assertTrue('candidate' in request.context)
+         self.assertEqual(request.context['candidate'], self.candidate)
+         self.assertTrue('election' in request.context)
+         self.assertEqual(request.context['election'], self.election)
 
-#     def test_update_candidate_data_strager_candidate(self):
-#         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
-#         election2, created = Election.objects.get_or_create(name='BarBaz',
-#                                                            owner=user2,
-#                                                            slug='barbaz2',
-#                                                            description='esta es una descripcion')
+     def test_update_candidate_data_strager_candidate(self):
+         user2 = User.objects.create_user(username='doe', password='doe', email='joe@doe.cl')
+         election2, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user2,
+                                                            slug='barbaz2',
+                                                            description='esta es una descripcion')
 
-#         candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
-#                                             election=election2,
-#                                             photo='photos/dummy.jpg')
+         candidate2, created = Candidate.objects.get_or_create(name='Juan Candidato',
+                                             election=election2,
+                                             photo='photos/dummy.jpg')
+         self.client.login(username='joe', password='doe')
+         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
+         
+         self.assertEquals(request.status_code, 404)
 
-#         self.client.login(username='joe', password='doe')
-#         request = self.client.get(reverse('candidate_data_update', kwargs={'slug': candidate2.slug, 'election_slug': election2.slug}))
-#         self.assertEquals(request.status_code, 404)
-
-#     def test_post_candidate_data_update_405(self):
-#         self.client.login(username='joe', password='doe')
-#         request = self.client.post(reverse('candidate_data_update',
-#                                     kwargs={'slug': self.candidate.slug,
-#                                             'election_slug': self.election.slug}),
-#                                     {'var':'foo'})
-#         self.assertEquals(request.status_code, 405)
+     def test_post_candidate_data_update_405(self):
+         self.client.login(username='joe', password='doe')
+         request = self.client.post(reverse('candidate_data_update',
+                                     kwargs={'slug': self.candidate.slug,
+                                             'election_slug': self.election.slug}),
+                                     {'var':'foo'})
+         self.assertEquals(request.status_code, 405)
 
 
 class AsyncDeleteCandidateTest(TestCase):
@@ -758,7 +803,7 @@ class CandidateUpdateDataViewTest(TestCase):
     def test_get_owned_candidate(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertTemplateUsed(response, 'elections/updating/answers.html')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertTrue('candidate' in response.context)
@@ -821,7 +866,7 @@ class MultipleCandidateDataUpdate(TestCase):
     def test_get_first_candidate_ordered_by_name(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'elections/candidate_data_update.html')
+        self.assertTemplateUsed(response, 'elections/updating/answers.html')
         self.assertEqual(response.status_code, 200)
 
 
