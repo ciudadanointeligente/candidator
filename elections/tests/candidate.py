@@ -862,6 +862,15 @@ class MultipleCandidateDataUpdate(TestCase):
             election=self.election)
         self.url = reverse('multiple_candidate_data_update', kwargs={'election_slug': self.election.slug})
 
+    def test_get_right_after_filling_their_names_and_showing_a_success_text(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('multiple_candidate_data_update_first_time', kwargs={'election_slug': self.election.slug})
+        response = self.client.get(url)
+        
+        self.assertTemplateUsed(response, 'elections/updating/answers.html')
+        self.assertContains(response, '<div class="success">')
+        
+
 
     def test_get_first_candidate_ordered_by_name(self):
         self.client.login(username=self.user.username, password=PASSWORD)

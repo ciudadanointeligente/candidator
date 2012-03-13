@@ -24,7 +24,11 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span></h1>
+        <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
+        {% if first_time %}
+            <div class="success">{% trans 'Éxito has creado tu primer candideit.org ahora puedes...' %}</div>
+        {% endif %}
+        </h1>
 		<hr />
         </head>
         

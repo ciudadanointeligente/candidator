@@ -129,7 +129,7 @@
 
         function save_candidate(election_slug){
             var candidate = document.getElementById("id_name").value
-            var new_location = "{% url election_detail_admin slug=election.slug username=user.username %}";
+            var new_location = "{% url multiple_candidate_data_update_first_time election_slug=election.slug %}";
             if(document.getElementById("id_name").value == ""){
                 window.location = new_location;
             }

@@ -132,6 +132,9 @@ urlpatterns = patterns('',
     # Multiple candidate data Update (answering questions for several candidates)
     url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update/?$', CandidateDataUpdateView.as_view(template_name="elections/updating/answers.html"), name='multiple_candidate_data_update'),
 
+    # Multiple candidate data Update (answering questions for several candidates) but this is just the first time ritght after the wizard
+    url(r'^(?P<election_slug>[-\w]+)/multiple_candidate_data_update_first_time/?$', CandidateDataUpdateView.as_view(template_name="elections/updating/answers.html", first_time=True), name='multiple_candidate_data_update_first_time'),
+
     # Pre-Create PersonalData
     url(r'^(?P<election_slug>[-\w]+)/pre_personaldata/?$', login_required(PrePersonalDataView.as_view(template_name="elections/wizard/step_two_point_five.html")), name='pre_personaldata'),
 
