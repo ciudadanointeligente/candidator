@@ -30,13 +30,7 @@
 
     <div class="contenedor3">
 
-            {% if election.logo %}
-                {% thumbnail election.logo "850x80" as im %}
-                    <div class="logo_eleccion"><center><img src="{{ im.url }}"style="margin: {{ im|margin:"850x80" }}" width="850" height="80"/></center></div>
-                {% endthumbnail %}
-        {% else %}
-        
-        {% endif %}
+        {% include 'election_logo.html' %}
         
         <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}<span>{% trans ' - Creada por' %} {{election.owner}}</span></h1></a></div>
         
