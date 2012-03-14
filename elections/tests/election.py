@@ -41,7 +41,7 @@ class ElectionTagsTests(TestCase):
         
         context = Context({"user": self.user, "election": self.election})
         election_update_url = reverse('election_update',kwargs={'slug':self.election.slug})
-        expected_html = u'<a href="'+election_update_url+u'">(Editar Elección)</a>'
+        expected_html = u'<span class="goedit"><a href="'+election_update_url+u'">Editar Elección</a></span>'
         
         self.assertEqual(template.render(context), expected_html)
     
