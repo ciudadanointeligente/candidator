@@ -64,6 +64,7 @@ nav ul ul li { float:none; }
 ul.leftNav {
     float: left !important;
 }
-ul.leftNav li:first {
+ul.leftNav li:first-child {
     border-left: none !important;
 }
+
