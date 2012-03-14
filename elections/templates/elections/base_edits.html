@@ -27,8 +27,13 @@
         </header>
         <nav id="mainNavigation">
             <div class="wrapBasic">
+                <ul class="leftNav">
+                    <li>
+                        {% trans "Hola" %} {{user.username}}!
+                    </li>
+                </ul>
                 <ul>
-                    <li> <a href="/">{% trans 'PÁGINA PRINCIPAL' %}</a> </li>
+                    <li> <a href="/">{% trans 'HOME' %}</a> </li>
                     {# <li> <a href="#">QUIÉNES SOMOS</a></li> #}
                     {# <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li> #}
                     {% if user.is_authenticated %}
@@ -38,6 +43,7 @@
                     {% endif %}
                 </ul>
             </div>
+            
         </nav>
       </div>
 <div class="fondo_wizard">
