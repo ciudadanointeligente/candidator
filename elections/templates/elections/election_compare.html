@@ -1,6 +1,7 @@
 {% extends "elections/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load election_tags %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
@@ -8,6 +9,7 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+
     <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
@@ -135,6 +137,9 @@
 
 
     </script>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -151,7 +156,17 @@
 
     {% include 'election_logo.html' %}
 
-    <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{election.name}}<span> - Creada por {{election.owner}}</span></a></h1></div>
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+{% link_to_updating_this_election request.user election %}
+    <div style="float:right">
+
+        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+    </div>
+    </h1>
+    
+    </div>
 
 </div>
 
