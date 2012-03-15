@@ -53,32 +53,27 @@ p { margin: 10px 0px 15px 0px; }
 ul{margin: 0; padding: 0; list-style: none;}
 
 /* links */
-a:link, a:visited { text-decoration: none;
-	color: #ffffff;
+a:link, a:visited { 
+	text-decoration: none;
+	opacity: 0.9;
 }
 
 .goedit a:link, .goedit a:visited {
-	color: #bbFF99;
-	text-transform:lowercase;
-	font-family: 'AllerBoldItalic';
-	font-size: 13px;
+	color: white;
+	text-transform: lowercase;
+	font-family: 'AllerItalic';
+	font-size: 12px;
 	letter-spacing: 0px;
-}
-
-.goedit:after{
-	content: url("../img/goedit.png");
-	top: 1px;
-	position: relative;
-	left: 3px;
-}
-
-.goedit:hover{
 	opacity: 0.6;
+}
+
+.goedit a:hover{
+	opacity: 1;
 }
  
 a:hover{
     text-decoration: none;
-	opacity: 0.8;
+	opacity: 1;
 }
 
 /* headings */
@@ -544,6 +539,10 @@ ul.homeNav ul.sidebarMenu{
 .nombre_eleccion span{
 	text-transform:none;
 	letter-spacing:0px;
+}
+
+.nombre_eleccion a{
+	color: #FFFFFF;
 }
 
 .fecha_eleccion {
