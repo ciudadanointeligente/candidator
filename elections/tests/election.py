@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
+from django.utils.translation import ugettext as _
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
@@ -666,6 +667,25 @@ class PrePersonalDataViewTest(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEquals(response.context['election'], self.election)
+
+
+
+class SharingYourElectionButton(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
+
+    def test_share_my_election(self):
+        self.client.login(username='joe', password='doe')
+        expected_url = '/election/eleccion-la-florida/share'
+        url = reverse('share_my_election', kwargs={'slug': self.election.slug})
+        self.assertEquals(url, expected_url)
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'elections/updating/share.html')
+        self.assertEquals(response.context['election'], self.election)
+
+
+
 
 
 PASSWORD = 'password'

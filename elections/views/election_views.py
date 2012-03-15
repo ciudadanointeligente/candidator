@@ -78,6 +78,9 @@ class ElectionDetailView(DetailView):
     def get_queryset(self):
         return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
 
+class ElectionShareView(DetailView):
+    model = Election
+
 
 class ElectionCreateView(CreateView):
     model = Election
