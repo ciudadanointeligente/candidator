@@ -26,6 +26,13 @@
         </header>
         <nav id="mainNavigation">
             <div class="wrapBasic">
+                {% if user.is_authenticated %}
+                <ul class="leftNav">
+                    <li>
+                        <a href="{% url my_election_list %}">{% trans "Hola" %} {{user.username}}!</a>
+                    </li>
+                </ul>
+                {% endif %}
                 <ul>
                     <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
                     <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
@@ -33,9 +40,9 @@
                     <li> <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
                     <li> <a href="{% url election_compare username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url auth_logout %}">{% trans 'SALIR' %}</a> </li>
+                        <li> <a href="{% url auth_logout %}">{% trans 'LOGOUT' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url auth_login %}">{% trans 'CONECTARSE' %}</a> </li>
+                        <li> <a href="{% url auth_login %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>
