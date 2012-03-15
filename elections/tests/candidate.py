@@ -443,6 +443,24 @@ class CandidateCreateViewTest(TestCase):
 
         self.assertEquals(response.status_code, 404)
 
+    def test_if_the_request_is_sent_from_create_alone_it_redirects_to_it_create_alone(self):
+        self.client.login(username='joe', password='doe')
+
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'Juan Candidato',
+                  'photo': f,
+                  'form-TOTAL_FORMS': u'0',
+                  'form-INITIAL_FORMS': u'0',
+                  'form-MAX_NUM_FORMS': u'',
+                  'link-TOTAL_FORMS': u'0',
+                  'link-INITIAL_FORMS': u'0',
+                  'link-MAX_NUM_FORMS': u'',}
+        response = self.client.post(reverse('candidate_create_alone', kwargs={'election_slug': self.election.slug}), params, follow=True)
+        f.seek(0)
+
+
+        self.assertTemplateUsed(response, 'elections/updating/candidates.html')
+
     def test_post_candidate_create_logged(self):
         self.client.login(username='joe', password='doe')
 

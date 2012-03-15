@@ -75,6 +75,9 @@ class CandidateCreateView(CreateView):
         return context
 
     def get_success_url(self):
+        url_to_updating_candidates = reverse('candidate_create_alone', kwargs={'election_slug': self.object.election.slug})
+        if self.request.path_info == url_to_updating_candidates:
+            return url_to_updating_candidates
         return reverse('candidate_create', kwargs={'election_slug': self.object.election.slug})
 
     def form_valid(self, form):
