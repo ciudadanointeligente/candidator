@@ -55,7 +55,6 @@ ul{margin: 0; padding: 0; list-style: none;}
 /* links */
 a:link, a:visited { 
 	text-decoration: none;
-	opacity: 0.9;
 }
 
 .goedit a:link, .goedit a:visited {
@@ -68,7 +67,7 @@ a:link, a:visited {
 }
 
 .goedit a:hover{
-	opacity: 1;
+	text-decoration:underline;
 }
  
 a:hover{
@@ -871,14 +870,43 @@ background: #fff; /* set desired hover color */
 
 
 .listElectionName {
-    float: left;
-    width:300px;
+	text-align: left;
+	width: 200px;
+	height: 20px;
+	display: inline-block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-.listElectionEdit {
-    float: left;
-    width:100px;
+
+.listElectionEdit a{
+	color: #80b6e2;
+	font-family: 'AllerItalic';
 }
+
+.listElectionDate {
+    width:200px;
+	height: 20px;
+	display: inline-block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 ul .electionList {
     list-style-type:none;
     padding-left: 0px;
+}
+
+.listElectionName a{
+	color: #666;
+	font-family: 'AllerBold';
+}
+
+.listElectionName a:hover{
+	text-decoration:underline;
+}
+
+.listElectionEdit a:hover{
+	text-decoration:underline;
 }

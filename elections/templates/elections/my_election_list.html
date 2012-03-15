@@ -18,18 +18,27 @@
  
 <!-- CONTENIDO -->    
     <div class="papel">
-    <div class="wrapper_plantillas">
+    <div class="contenedor3">
     	<head>
-        <h1>{% trans 'Bienvenido!' %}</h1>
+        <h1>{% trans 'Mis Elecciones' %}</h1>
 		<hr />
         </head>
-        <div class="election_list">
-            <ul class="electionList" >
-                {% for election in user.election_set.all %}
-                <li><span  class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></span> <span class="listElectionEdit"><a href="{% url election_update slug=election.slug %}">{% trans 'editar' %}</span></a> {% trans 'Creada el ' %} {{election.created_at }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        
+        
+<div class="election_list">
+	<ul class="electionList" >
+                    {% for election in user.election_set.all %}
+        <table border="0">
+            <tr>
+                <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
+                <td class="listElectionDate">{{election.created_at }}</td>
+                <td class="listElectionEdit"><a href="{% url election_update slug=election.slug %}">{% trans 'editar' %}</a></td>
+            </tr>
+		</table>
+        {% endfor %}
+	</ul>
+</div>
+
     <br/>
 
     </div>
