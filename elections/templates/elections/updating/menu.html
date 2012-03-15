@@ -22,7 +22,8 @@
                 <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
                 <!-- Creo que esta funcionalidad de agregar un nuevo candidato debe ir en otro sitio -->
                 <div class="menuedit {% if election == my_election and section == 'new_candidate' %}selected{% endif %}"><a href="{% url candidate_create_alone election_slug=my_election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
-                <div class="menuedit {% if election == my_election and section == 'answers' %}selected{% endif %}"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a>					</div>
+                <div class="menuedit {% if election == my_election and section == 'answers' %}selected{% endif %}"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a></div>
+                <div class="menuedit {% if election == my_election and section == 'share' %}selected{% endif %}"><a href="{% url share_my_election slug=my_election.slug %}">{% trans 'Publicar' %}</a></div>
         </div>
         {% endfor %}
     	</div>
