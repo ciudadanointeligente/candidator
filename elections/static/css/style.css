@@ -591,12 +591,6 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .menuedit_tit{
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-weight:bold;
-    font-style:italic;
-    color:#72acd9;
-    margin-left: 10px;
-    line-height: 19px;
 }
 
 .menuedit_election{
@@ -627,6 +621,14 @@ ul.homeNav ul.sidebarMenu{
     color:#ffffff;
     line-height: 19px;
     padding-left: 10px;
+}
+.election_name {
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-weight:bold;
+    font-style:italic;
+    color:#72acd9;
+    margin-left: 10px;
+    line-height: 19px;
 }
 
 .menuedit a:hover{
