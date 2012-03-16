@@ -29,17 +29,18 @@
             <div class="wrapBasic">
                 <ul class="leftNav">
                     <li>
-                        {% trans "Hola" %} {{user.username}}!
+                        <a href="{% url my_election_list %}">{% trans "Hola" %} {{user.username}}!</a>
                     </li>
                 </ul>
                 <ul>
-                    <li> <a href="/">{% trans 'HOME' %}</a> </li>
+                    <li> <a href="{% url election_create %}">{% trans 'NUEVA ELCCIÓN' %}</a> </li>
+                    <li> <a href="{% url my_election_list %}">{% trans 'MIS ELECCIONES' %}</a> </li>
                     {# <li> <a href="#">QUIÉNES SOMOS</a></li> #}
                     {# <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li> #}
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url auth_logout %}">{% trans 'SALIR' %}</a> </li>
+                        <li> <a href="{% url auth_logout %}">{% trans 'LOGOUT' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url auth_login %}">{% trans 'CONECTARSE' %}</a> </li>
+                        <li> <a href="{% url auth_login %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>
