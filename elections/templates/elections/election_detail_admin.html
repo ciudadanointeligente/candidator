@@ -17,10 +17,9 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
         
-            <div class="instrucciones">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
-            <p>1. Hacer cambios en la elección en el menú <a class="menuedit_tit" href="{% url election_update slug=election.slug %}">"Editar elección"</a></p>
-            <p>2. Completar las planillas de cada candidato en el menú <a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">"Candidatos"</a></p>
+            <div class="blue_edit">Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:</div>
             
+            <div class="bt_cuadrado publish"><a href="{% url election_create %}">PUBLICAR TU</a></div>
             
             <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
             3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>

@@ -24,8 +24,12 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>RESPUESTAS:<span class="celeste"> COMPLETA EL PERFIL DE CADA CANDIDATO</span></h1>
-		<hr />
+        <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
+        {% if first_time %}
+            <div class="successContainer"><div class="success">{% trans 'Felicitaciones! has creado tu candideit.org... ahora puedes completar las respuestas de  cada candidato' %}</div></div>
+        {% endif %}
+        </h1>
+
         </head>
         
         <ul id="tabnav">
@@ -43,7 +47,7 @@
 
             
 
-	<h2>DATOS PERSONALES</h2>
+	<h2>{% trans 'DATOS PERSONALES' %}</h2>
     		<div class="profileImg">
 
             {% thumbnail candidate.photo "80x100" crop="center" as im %}
@@ -59,7 +63,7 @@
             
             <div class="personaldataEdit">
                 <ul>
-                    <span class="bold">Nombre</span>
+                    <span class="bold">{% trans 'Nombre' %}</span>
                     <span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
@@ -97,7 +101,7 @@
                             <input type="text" name="url" id="link_url"/>
                         </span>
                         <br/>
-                        <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">Crear Link</a>
+                        <a class="save-link" href="#" onclick="create_link('{{election.slug}}', '{{candidate.slug}}'); return false;">{% trans 'Crear Link' %}</a>
                         <br />
                     </li>
 
@@ -109,15 +113,15 @@
 
             <br style='clear: both;'/>
             <div class="backgroundEdit">
-                <div class="edit_tit"><h5>2. Antecedentes</h5></div>
+                <div class="edit_tit"><h2>{% trans 'Antecedentes' %}</h2></div>
                 <ul>
                 {% for background_category in election.backgroundcategory_set.all %}
                     <li>
-                    <h2>{{ background_category.name }}</h2>
+                    <div class="blue_edit">{{ background_category.name }}</div>
                     <ul>
                     {% for background in background_category.background_set.all %}
                         <li style='margin-top: 5px; margin-bottom: 0px;'>
-                            <span class="green2_edit">{{ background.name }}</span>
+                            <span class="bold">{{ background.name }}:</span>
                             <span>
                             <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
                             </span>
@@ -135,19 +139,22 @@
 
 <div class="questionsEdit">
 
-        <div class="edit_tit"><h5>3. Cuestionario</h5></div>
+        <div class="edit_tit"><h2>{% trans 'Cuestionario' %}</h2></div>
         {% for category in election.category_set.all %}
-            <h2>{{ category.name }}</h2>
+            <div class="blue_edit">{{ category.name }}</div>
             <ul>
+            
             {% for question in category.question_set.all %}
-                <li id="question-{{ question.pk }}">{{ question.question }}
+                <li id="question-{{ question.pk }}"><br><div class="bold">{{ question.question }}</div>
                     <ul>
+                   
                     {% for answer in question.answer_set.all %}
                         <li>
                             <label>
                                 <input type="radio" class="answer" id="answer-{{ answer.pk }}" name="answer-{{question.pk}}" {% if answer in candidate.answers.all %} checked="checked"{% endif %}/>
                                 &nbsp;{{ answer.caption }}
                             </label>
+                         
                         </li>
 
                     {% endfor %}
@@ -156,7 +163,7 @@
             {% endfor %}
             </ul>
         {% empty %}
-            <h2>No hay categorías</h2>
+            <h2>{% trans 'No hay categorías' %}</h2>
         {% endfor %}
 
 
@@ -174,6 +181,9 @@
 
 {% block extra_js %}
         <script type="text/javascript">
+        $(document).ready(function(){   
+            $('.success').delay(10000).effect('fade');
+        });
         function notify(message, timeOut) {
             // Set the message using text method and chain fadeIn with it
             // apply simple setTimeout to fadeOut the message
@@ -183,7 +193,7 @@
             }, timeOut*1000);
         }
         function link_delete(link_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este link?");
+            var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este link?' %}");
             if(answer){
                 var dir = "/"+link_pk +"/link/async_delete/";
                 $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
@@ -233,7 +243,7 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'value': value
                     },
-                    function(data) { notify('guardado',1) },
+                    function(data) { notify("{% trans 'guardado' %}",1) },
                     'json');
                 }
         )
@@ -297,5 +307,6 @@
         });
         $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
         $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+
         </script>
 {% endblock extra_js %}

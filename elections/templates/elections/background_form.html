@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-<h2>Antecedentes para {{ background_category.name }}</h2>
+<h2>{% trans 'Antecedentes para' %} {{ background_category.name }}</h2>
 <ul>
 {% for background in background_category.background_set.all %}
     <li>{{ background.name }}</li>
@@ -10,7 +10,7 @@
 </ul>
 <br>
 
-<h2>Agregar Antecedente</h2>
+<h2>{% trans 'Agregar Antecedente' %}</h2>
 
 <form method="POST">{% csrf_token %}
     <table>

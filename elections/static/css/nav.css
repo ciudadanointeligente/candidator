@@ -60,3 +60,11 @@ nav ul ul li { float:none; }
 	background-color: rgba(100%, 100%, 100%, 0.3);
 	text-decoration: none;
 }
+
+ul.leftNav {
+    float: left !important;
+}
+ul.leftNav li:first-child {
+    border-left: none !important;
+}
+

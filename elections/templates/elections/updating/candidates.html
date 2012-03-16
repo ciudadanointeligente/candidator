@@ -21,7 +21,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>CANDIDATOS:<span class="celeste"> ¿QUIÉNES SON?</span></h1>
+        <h1>{% trans 'CANDIDATOS:' %}<span class="celeste"> {% trans '¿QUIÉNES SON?' %}</span></h1>
 		<hr />
         </head>
          <ul id="lista_candidatos">
@@ -43,10 +43,10 @@
     </ul>
     <br/>
 <div id="link_add">
-    <form id="newcandidate" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <form id="newcandidate" method="POST" enctype="multipart/form-data" action="{% url candidate_create_alone election_slug=election.slug %}">{% csrf_token %}
         {{ form.non_field_errors }}
         <p><input id="id_name" type="text" maxlength="255" name="name" placeholder="{{ form.name.label}}"></p>
-<div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">agregar</a></div>
+<div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">{% trans 'agregar' %}</a></div>
 
         </div>
 
@@ -91,7 +91,7 @@
 
         function get_base_url(){
             var actual_direction  = location.href
-            var reference_pattern = "/candidate/create"
+            var reference_pattern = "/candidate/candidate_create_alone"
             var position_pattern  = actual_direction.indexOf(reference_pattern)
             var pre_direction     = actual_direction.substring(0,position_pattern)
             //var final_direction   = pre_direction + "/candidate/async_delete/"
@@ -99,7 +99,7 @@
         }
 
         function candidate_delete(candidate_pk){
-            var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
+            var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este candidato ?' %}");
             if(answer){
                 var dir = "{% url async_delete_candidate %}";
                 $.post(dir, {
@@ -114,22 +114,6 @@
             }
             else {
                 return false;
-            }
-        }
-
-        function save_candidate(election_slug){
-            var candidate = document.getElementById("id_name").value
-            var new_location = "{% url election_detail_admin slug=election.slug username=user.username %}";
-            if(document.getElementById("id_name").value == ""){
-                window.location = new_location;
-            }
-            else{
-                /* @FIX */
-                var dir = "{% url async_create_candidate election_slug=election.slug %}";
-                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
-                function(json){
-                    window.location = new_location;
-             })
             }
         }
     </script>

@@ -3,7 +3,7 @@
 
 html, body { height: 100%; }
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666666; 
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #333333; 
 	background: #ffffff;
 	background: -moz-linear-gradient(left,  #ffffff 0%, #e8e8e8 50%, #ffffff 100%);
 	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#e8e8e8), color-stop(100%,#ffffff));
@@ -53,11 +53,26 @@ p { margin: 10px 0px 15px 0px; }
 ul{margin: 0; padding: 0; list-style: none;}
 
 /* links */
-a:link, a:visited { text-decoration: none;
+a:link, a:visited { 
+	text-decoration: none;
+}
+
+.goedit a:link, .goedit a:visited {
+	color: white;
+	text-transform: lowercase;
+	font-family: 'AllerItalic';
+	font-size: 12px;
+	letter-spacing: 0px;
+	opacity: 0.6;
+}
+
+.goedit a:hover{
+	text-decoration:underline;
 }
  
 a:hover{
     text-decoration: none;
+	opacity: 1;
 }
 
 /* headings */
@@ -509,7 +524,6 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .logo_eleccion{
-    width: 824px;
     height: 80px;
     overflow: hidden;
     position: relative;
@@ -521,27 +535,32 @@ ul.homeNav ul.sidebarMenu{
     margin-bottom: 5px;
 }
 
+.nombre_eleccion span{
+	text-transform:none;
+	letter-spacing:0px;
+}
+
+.nombre_eleccion a{
+	color: #FFFFFF;
+}
+
 .fecha_eleccion {
     font-family: 'AllerBold';
-    color: #72ACD9;
+    color: #FFFFFF;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
+	background-color: #B0CFEC;
+	padding: 2px 6px;
+}
+
+.creador_eleccion {
+    color: #FFFFFF;
 }
 
 
 /*---------------------------BUTTONS---------------------------------*/
-.bt_publish{
-	font-family: 'AllerBold';
-	color: white;
-	font-size: 10px;
-	margin-left: 10px;
-	margin-top: -18px;
-}
 
-.bt_publish:hover{
-	opacity:0.8;
-}
 
 .newElection{
 	position: absolute;
@@ -550,24 +569,12 @@ ul.homeNav ul.sidebarMenu{
 }
 
 
+
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-    background: #E8E8E8;
-	width: 159px;
 	float: left;
-	padding-top: 25px;
-	margin-top: 7px;
-	min-height: 600px;
-}
-
-.menuedit_tit{
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-weight:bold;
-    font-style:italic;
-    color:#72acd9;
-    margin-left: 10px;
-    line-height: 19px;
+	margin-top: 22px;
 }
 
 .menuedit_election{
@@ -594,18 +601,61 @@ ul.homeNav ul.sidebarMenu{
 
 
 .menuedit a{
-    display: block;
-    color:#ffffff;
-    line-height: 19px;
-    padding-left: 10px;
+    color: #69C;
+	padding-left: 10px;
+	font-family: 'AllerItalic';
 }
 
-.menuedit a:hover{
-    background-color:#bbd4ed;
+.menuedit:hover {
+	background-color: #DEDEDE;
 }
 
-.menuedit a:active{
-    background-color:#afceea;
+.election_name {
+    color: white;
+	background-color: #AFCEEA;
+	font-family: 'AllerBold';
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	width: 150px;
+	margin-top: 13px;
+	padding: 4px 9px 3px 5px;
+	text-align: right;
+}
+
+.selected:after{
+	background: url(../img/flecha_menu.png) no-repeat scroll 0 center transparent;
+	content: "";
+	display: block;
+	float: right;
+	height: 14px;
+	position: relative;
+	width: 13px;
+	right: -22px;
+	top: -5px;
+	margin-left: -13px;
+}
+
+.selected{
+	color: #6699cc;
+}
+
+.menuBig{
+	font-size: 15px;
+	display: block;
+	margin-bottom: -5px;
+}
+
+.election_name a{
+    color: white;
+}
+
+.election_name a:hover{
+	color: #6699cc;
+}
+
+.menuedit_eleccion{
+	background-color: #ededed;
+	padding: 13px 0px;
 }
 
 /*---------------------------PLANTILLAS---------------------------------*/
@@ -793,6 +843,7 @@ margin: 1em 0 1em 0; /* set margins as desired */
 border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
 list-style-type: none;
 padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+height: 60px;
 }
 
 ul#tabnav li { /* do not change */
@@ -812,9 +863,12 @@ display: inline;
 	border-bottom: 5px solid white;
 	background-color: white;
 	border-top: 1px solid #cccccc;
-	padding: 6px 6px 0px;
+	padding: 6px 6px 40px;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
+	background-image: url(../img/candidato_select.png);
+	background-repeat: no-repeat;
+	background-position:center;
 }
 
 li.tab_selected a { /* settings for selected tab link */
@@ -838,3 +892,46 @@ background: #fff; /* set desired hover color */
 }
 
 /* end css tabs */
+
+
+.listElectionName {
+	text-align: left;
+	width: 200px;
+	height: 20px;
+	display: inline-block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.listElectionEdit a{
+	color: #80b6e2;
+	font-family: 'AllerItalic';
+}
+
+.listElectionDate {
+    width:200px;
+	height: 20px;
+	display: inline-block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+ul .electionList {
+    list-style-type:none;
+    padding-left: 0px;
+}
+
+.listElectionName a{
+	color: #666;
+	font-family: 'AllerBold';
+}
+
+.listElectionName a:hover{
+	text-decoration:underline;
+}
+
+.listElectionEdit a:hover{
+	text-decoration:underline;
+}

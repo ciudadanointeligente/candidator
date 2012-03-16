@@ -12,6 +12,9 @@
 {% block extra_js %}
 <script type="text/javascript" src="{{ STATIC_URL }}/js/accordionForProfiles.js"></script>
 <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e7a236a4a5434b2"></script>
+<script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
 {% endblock extra_js %}
 
 {% block title %}
@@ -22,10 +25,25 @@
 
 <div class="papel">
 
-    <div class="contenedor3 tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}</a>
+<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+
+<div class="contenedor3">
+
+    {% include 'election_logo.html' %}
+
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
-    </h1>
+    <div style="float:right">
+
+        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
     </div>
+    </h1>
+    
+    </div>
+ 
+ </div>
 
     <div class="contenedor1">
         <div class="contenedor2">
@@ -36,7 +54,9 @@
                         <header>
                             <div class="tit"><h3>{{ candidate.name }}
                             {% if election.owner.username == request.user.username %}
-                            <a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">(Modificar Respuestas)</a>
+
+                            <span class="goedit"><a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans "editar respuestas" %}</a></span>
+
                             {% endif %}</h3></div>
                         </header>
 
@@ -70,31 +90,7 @@
 
 
                             </section>
-                            <aside class="profileAside">
-                                <div class="sideButton compare">
-                                    <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}">
-                                        {% trans "Compara" %}
-                                    </a>
-                                </div>
-                                <div class="sideButton medianaranja">
-                                    <a href="{% url medianaranja1 election_slug=candidate.election.slug username=candidate.election.owner.username %}">
-                                        {% trans "Media<wbr>Naranja" %}
-                                    </a>
-                                </div>
-
-                                <!-- AddThis Button BEGIN -->
-                                <div class="addthis_toolbox sideButton share">
-                                    <!-- AddThis Button BEGIN -->
-                                    <a class="addthis_button"
-                                       href="https://www.addthis.com/bookmark.php?v=250&amp;pubid=ra-4e7a236a4a5434b2">
-                                        {% trans "Comparte" %}
-                                    </a>
-
-                                    <!-- AddThis Button END -->
-                                    <div class="atclear"></div>
-                                </div>
-                                <!-- AddThis Button END -->
-                            </aside>
+                           
                             <section class="enlacesPersonales">
                                 <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
                                 <ul class="ulEnlacesPersonales">
@@ -130,7 +126,7 @@
                                     </div>
                                     {% endfor %}
 				{% else %}
-                                    <span class="profile-description">No hay antecedentes disponibles.</span><br>
+                                    <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
 				{% endif %}
                                 </div>
                                 <!--ends accordion-->
@@ -166,7 +162,7 @@
                                 {% endfor %}{# end category_set #}
 
                             {% else %}
-                                 <span class="profile-description">No hay información disponible.</span><br>
+                                 <span class="profile-description">{% trans 'No hay información disponible.' %}</span><br>
                             {% endif %}
                             </div>
                             <!-- ends accordion-->

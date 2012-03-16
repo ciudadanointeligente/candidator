@@ -1,29 +1,26 @@
  {% load i18n %}
 
-<div class="bt_cuadrado"><a href="{% url election_create %}">{% trans 'Nueva elección' %}</a></div>
 
-<div class="candidate-edit-menu">
+            <div class="nombreEleccion"><h1>{% trans 'Editando la elección ' %}{{ election.name }}<a href="{{ election.get_absolute_url }}" target="_blank">{% trans 'ver' %}</a></h1></div>
 
-        <div class="menuedit_accordion">
-        {% for my_election in user.election_set.all %}
-            <div class="menuedit_tit nombre election_name {% if election == my_election %}selected_election{% endif %}">{{ my_election.name }}</div>
 
-            {% if election == my_election %}
-            <div class="menuedit_eleccion actual">
-            {% else %}
-            <div class="menuedit_eleccion">
-            {% endif %}
-                <div class="menuedit"><a href="{{ my_election.get_absolute_url }}" target="_blank">{% trans 'Ver Elección' %}</a></div>
+            <div class="candidate-edit-menu">
+                <div class="nombre election_name {% if section == 'answers' %}selected{% endif %}">
+                    <a href="{% url multiple_candidate_data_update election_slug=election.slug %}"><span class="menuBig">{% trans 'Rellenar' %}</span>{% trans 'mi candideitorg' %}</a>
+                </div>
+                <div class="menuedit_accordion">
+                    <div class="menuedit_tit nombre election_name"><span class="menuBig">{% trans 'Editar' %}</span>{% trans 'mi candideitorg' %}</div>
+                    <div class="menuedit_eleccion {% if section == 'general_information' or section == 'new_candidate' or section == 'questions' %}actual{% endif %}">
+                        <div class="menuedit {% if section == 'general_information' %}selected{% endif %}"><a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></div>
+                        <div class="menuedit {% if section == 'questions' %}selected{% endif %}"><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
+                        <div class="menuedit {% if section == 'new_candidate' %}selected{% endif %}">
+                            <a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Nuevo candidato' %}</a>
+                        </div>
 
-                <div class="menuedit_tit">{% trans 'Editar Elección' %}</div>
-                <div class="menuedit {% if election == my_election and section == 'general_information' %}selected{% endif %}"><a href="{% url election_update slug=my_election.slug %}">{% trans 'Información general' %}</a></div>
-                <div class="menuedit {% if election == my_election and section == 'questions' %}selected{% endif %}"><a href="{% url election_update_data slug=my_election.slug %}">{% trans 'Preguntas' %}</a></div>
-
-                <div class="menuedit_tit">{% trans 'Candidatos' %}</div>
+                    </div>
+                </div>
                 <!-- Creo que esta funcionalidad de agregar un nuevo candidato debe ir en otro sitio -->
-                <div class="menuedit {% if election == my_election and section == 'new_candidate' %}selected{% endif %}"><a href="{% url candidate_create_alone election_slug=my_election.slug %}">{% trans 'Nuevo candidato' %}</a></div>
-                <div class="menuedit {% if election == my_election and section == 'answers' %}selected{% endif %}"><a href="{% url multiple_candidate_data_update election_slug=my_election.slug %}">{% trans 'Respuestas de los candidatos' %}</a>					</div>
-        </div>
-        {% endfor %}
-    	</div>
-		</div>
+                <div class="bt_publicar  {% if section == 'share' %}{% endif %}">
+                    <a href="{% url share_my_election slug=election.slug %}">{% trans 'Publicar' %}</a>
+                </div>
+            </div>

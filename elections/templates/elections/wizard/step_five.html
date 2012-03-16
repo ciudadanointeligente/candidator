@@ -9,19 +9,19 @@
 
 
 <div class="fondo_formulario">
-    <div class="numero_off uno">1.</div>
+    <div class="numero_off uno">{% trans '1.' %}</div>
     <div class="numero_off dos">
-        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+        <a href="{% url candidate_create election_slug=election.slug %}">{% trans '2.' %}</a>
     </div>
     <div class="numero_off tres">
-        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans '3.' %}</a>
     </div>
     <div class="numero_off cuatro">
-        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+        <a href="{% url background_category_create election_slug=election.slug %}">{% trans '4.' %}</a>
     </div>
-    <div class="numero_on cinco">5.</div>
+    <div class="numero_on cinco">{% trans '5.' %}</div>
 
-    <h5>Cuestionario</h5>
+    <h5>{% trans 'Cuestionario' %}</h5>
     <div class="forms_content">
     {% for category in election.category_set.all %}
         <div id="category_{{category.pk}}">
@@ -40,7 +40,7 @@
 
     <hr />
 
-    <div class="instrucciones">Agrega tus preguntas y asígnales una categoría...</div><br>
+    <div class="instrucciones">{% trans 'Agrega tus preguntas y asígnales una categoría...' %}</div><br>
     <form id="newquestion" method="POST">{% csrf_token %}
         {{ form.non_field_errors }}
         <p class="fieldWrapper">
@@ -94,7 +94,7 @@
     })
 
 function category_delete(category_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta categoría?' %}");
     if(answer){
         var dir = "/"+category_pk +"/category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
@@ -116,7 +116,7 @@ function category_delete(category_pk){
 }
 
 function question_delete(question_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta pregunta?' %}");
     if(answer){
         var dir = "/"+question_pk +"/question/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
