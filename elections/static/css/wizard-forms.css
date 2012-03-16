@@ -376,9 +376,24 @@ div.instrucciones{
     margin-left: 0px;
     width: 328px;
 }
-.selected {
-color:red;
+
+.selected{
+	background-color: #80b6e2;
+	color: #ffffff;
 }
+
+.selected:after {
+	top: -24px;
+}
+
+.menuedit_tit .menuBig{
+	font-size: 15px;
+	display: block;
+	margin-top: -3px;
+	padding-bottom: 5px;
+}
+	
+
 .twitter{
     background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
     padding-left: 25px;

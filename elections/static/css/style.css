@@ -63,7 +63,6 @@ a:link, a:visited {
 	font-family: 'AllerItalic';
 	font-size: 12px;
 	letter-spacing: 0px;
-	opacity: 0.6;
 }
 
 .goedit a:hover{
@@ -568,6 +567,10 @@ ul.homeNav ul.sidebarMenu{
 	left: 98.8%;
 }
 
+.newElection:hover{
+	opacity: 0.6;
+}
+
 
 
 /*---------------------------MENU EDIT---------------------------------*/
@@ -636,7 +639,7 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .selected{
-	color: #6699cc;
+	background-color: #80b6e2;
 }
 
 .menuBig{
@@ -838,12 +841,12 @@ span input {
 /* -----------------------------begin css tabs-------------------------------- */
 
 ul#tabnav { /* general settings */
-text-align: left; /* set to left, right or center */
-margin: 1em 0 1em 0; /* set margins as desired */
-border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
-list-style-type: none;
-padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
-height: 60px;
+	text-align: left; /* set to left, right or center */
+	margin: 1em 0 1em 0; /* set margins as desired */
+	border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
+	list-style-type: none;
+	padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+	height: 18px;
 }
 
 ul#tabnav li { /* do not change */
@@ -863,10 +866,9 @@ display: inline;
 	border-bottom: 5px solid white;
 	background-color: white;
 	border-top: 1px solid #cccccc;
-	padding: 6px 6px 40px;
+	padding: 6px 6px 0px;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
-	background-image: url(../img/candidato_select.png);
 	background-repeat: no-repeat;
 	background-position:center;
 }
