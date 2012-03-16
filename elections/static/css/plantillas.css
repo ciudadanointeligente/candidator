@@ -353,7 +353,7 @@ span input{
 background-color: #F2F2F2;
 border: 1px solid #E8E8E8;
 height: 17px;
-width: 256px;
+width: 220px;
 margin: 0px 0px 4px;
 float: right;
 }
@@ -457,13 +457,12 @@ ul span.bold{
 }
 
 .candidate_name{
-    background-color: #F2F2F2;
+	background-color: #F2F2F2;
 	border: 1px solid #E8E8E8;
 	height: 15px;
 	padding: 1px 4px;
-	margin-left: 29px;
-	width: 248px;
-	position: absolute;
+	width: 212px;
+	float: right;
 }
 
 .personaldataEdit {
@@ -519,4 +518,8 @@ ul span.bold{
 
 .nombreEleccion a:hover{
 	text-decoration: underline;
+}
+
+.respuestasAntecedentes{
+	width:600px;
 }

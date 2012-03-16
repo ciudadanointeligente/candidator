@@ -63,13 +63,12 @@
             
             <div class="personaldataEdit">
                 <ul>
-                    <span class="bold">{% trans 'Nombre' %}</span>
-                    <span class="candidate_name">{{ candidate.name }}</span>
+                    <span class="bold">{% trans 'Nombre' %}:</span><span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
                     <li>
 
-                        <span class="bold">{{ personal_data.label }}</span>
+                        <span class="bold">{{ personal_data.label }}:</span>
                         <span><input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
@@ -118,13 +117,13 @@
                 {% for background_category in election.backgroundcategory_set.all %}
                     <li>
                     <div class="blue_edit">{{ background_category.name }}</div>
-                    <ul>
+                    <ul class="respuestasAntecedentes">
                     {% for background in background_category.background_set.all %}
                         <li style='margin-top: 5px; margin-bottom: 0px;'>
                             <span class="bold">{{ background.name }}:</span>
-                            <span>
+                            <p>
                             <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
-                            </span>
+                            </p>
                             <span id="status-b-{{ background.pk}}"></span>
                         </li>
                     {% endfor %}
