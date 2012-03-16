@@ -822,6 +822,7 @@ margin: 1em 0 1em 0; /* set margins as desired */
 border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
 list-style-type: none;
 padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+height: 60px;
 }
 
 ul#tabnav li { /* do not change */
@@ -841,9 +842,12 @@ display: inline;
 	border-bottom: 5px solid white;
 	background-color: white;
 	border-top: 1px solid #cccccc;
-	padding: 6px 6px 0px;
+	padding: 6px 6px 40px;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
+	background-image: url(../img/candidato_select.png);
+	background-repeat: no-repeat;
+	background-position:center;
 }
 
 li.tab_selected a { /* settings for selected tab link */
