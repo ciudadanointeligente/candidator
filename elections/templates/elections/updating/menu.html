@@ -1,15 +1,15 @@
  {% load i18n %}
 
 
-            <div class="">{% trans 'Editando la elección ' %}{{ election.name }}<a href="{{ election.get_absolute_url }}" target="_blank">{% trans 'Ver Elección' %}</a></div>
+            <div class="nombreEleccion"><h1>{% trans 'Editando la elección ' %}{{ election.name }}<a href="{{ election.get_absolute_url }}" target="_blank">{% trans 'ver' %}</a></h1></div>
 
 
             <div class="candidate-edit-menu">
                 <div class="nombre election_name {% if section == 'answers' %}selected{% endif %}">
-                    <a href="{% url multiple_candidate_data_update election_slug=election.slug %}">{% trans 'Rellenar mi candideitorg' %}</a>
+                    <a href="{% url multiple_candidate_data_update election_slug=election.slug %}"><span class="menuBig">{% trans 'Rellenar' %}</span>{% trans 'mi candideitorg' %}</a>
                 </div>
                 <div class="menuedit_accordion">
-                    <div class="menuedit_tit nombre election_name">{% trans 'Editar mi candideitorg' %}</div>
+                    <div class="menuedit_tit nombre election_name"><span class="menuBig">{% trans 'Editar' %}</span>{% trans 'mi candideitorg' %}</div>
                     <div class="menuedit_eleccion {% if section == 'general_information' or section == 'new_candidate' or section == 'questions' %}actual{% endif %}">
                         <div class="menuedit {% if section == 'general_information' %}selected{% endif %}"><a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></div>
                         <div class="menuedit {% if section == 'questions' %}selected{% endif %}"><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <!-- Creo que esta funcionalidad de agregar un nuevo candidato debe ir en otro sitio -->
-                <div class="nombre election_name  {% if section == 'share' %}selected{% endif %}">
+                <div class="bt_publicar  {% if section == 'share' %}{% endif %}">
                     <a href="{% url share_my_election slug=election.slug %}">{% trans 'Publicar' %}</a>
                 </div>
             </div>

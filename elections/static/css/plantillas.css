@@ -90,6 +90,44 @@ td, th { padding: 1px; }
 	border:1px solid #72acd9;
 }
 
+.bt_publicar{
+	font-family: 'AllerBold';
+	padding: 0px 51px 2px;
+	font-size: 12px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	float:right;
+	box-shadow: 1px 1px 6px #b8b8b8;
+	margin-bottom: 6px;
+	margin-top: 13px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.bt_publicar:hover{
+	background: #a4c5db;
+	background: -moz-linear-gradient(top,  #a4c5db 0%, #80b6e2 96%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a4c5db), color-stop(96%,#80b6e2));
+	background: -webkit-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -o-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -ms-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
+	border:1px solid #72acd9;
+}
+
+.bt_publicar a{
+	color: #ffffff;
+}
+
+
 .bt_cuadrado{
 	font-family: 'AllerBold';
 	color: white !important;
@@ -455,11 +493,6 @@ ul span.bold{
     margin-right:25px;
 }
 
-
-.selected {
-    background : red;
-}
-
 .success{
 	background-color: #99cc1e;
 	color: #ffffff;
@@ -468,4 +501,22 @@ ul span.bold{
 	letter-spacing: 0px;
 	padding: 15px 10px;
 	margin-top: 13px;
+}
+
+.nombreEleccion h1{
+	color: #94a9af;
+	margin: 25px -3px 13px;
+}
+
+.nombreEleccion a{
+	font-size: 12px;
+	font-family: 'AllerBoldItalic';
+	letter-spacing: 0px;
+	text-transform: lowercase;
+	color: #94a9af;
+	margin-left: 5px;
+}
+
+.nombreEleccion a:hover{
+	text-decoration: underline;
 }

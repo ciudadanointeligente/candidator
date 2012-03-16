@@ -560,17 +560,7 @@ ul.homeNav ul.sidebarMenu{
 
 
 /*---------------------------BUTTONS---------------------------------*/
-.bt_publish{
-	font-family: 'AllerBold';
-	color: white;
-	font-size: 10px;
-	margin-left: 10px;
-	margin-top: -18px;
-}
 
-.bt_publish:hover{
-	opacity:0.8;
-}
 
 .newElection{
 	position: absolute;
@@ -579,18 +569,12 @@ ul.homeNav ul.sidebarMenu{
 }
 
 
+
 /*---------------------------MENU EDIT---------------------------------*/
 
 .candidate-edit-menu{
-    background: #E8E8E8;
-	width: 159px;
 	float: left;
-	padding-top: 25px;
-	margin-top: 7px;
-	min-height: 600px;
-}
-
-.menuedit_tit{
+	margin-top: 22px;
 }
 
 .menuedit_election{
@@ -617,26 +601,61 @@ ul.homeNav ul.sidebarMenu{
 
 
 .menuedit a{
-    display: block;
-    color:#ffffff;
-    line-height: 19px;
-    padding-left: 10px;
+    color: #69C;
+	padding-left: 10px;
+	font-family: 'AllerItalic';
 }
+
+.menuedit:hover {
+	background-color: #DEDEDE;
+}
+
 .election_name {
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-weight:bold;
-    font-style:italic;
-    color:#72acd9;
-    margin-left: 10px;
-    line-height: 19px;
+    color: white;
+	background-color: #AFCEEA;
+	font-family: 'AllerBold';
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	width: 150px;
+	margin-top: 13px;
+	padding: 4px 9px 3px 5px;
+	text-align: right;
 }
 
-.menuedit a:hover{
-    background-color:#bbd4ed;
+.selected:after{
+	background: url(../img/flecha_menu.png) no-repeat scroll 0 center transparent;
+	content: "";
+	display: block;
+	float: right;
+	height: 14px;
+	position: relative;
+	width: 13px;
+	right: -22px;
+	top: -5px;
+	margin-left: -13px;
 }
 
-.menuedit a:active{
-    background-color:#afceea;
+.selected{
+	color: #6699cc;
+}
+
+.menuBig{
+	font-size: 15px;
+	display: block;
+	margin-bottom: -5px;
+}
+
+.election_name a{
+    color: white;
+}
+
+.election_name a:hover{
+	color: #6699cc;
+}
+
+.menuedit_eleccion{
+	background-color: #ededed;
+	padding: 13px 0px;
 }
 
 /*---------------------------PLANTILLAS---------------------------------*/
