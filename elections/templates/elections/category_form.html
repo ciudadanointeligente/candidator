@@ -5,20 +5,20 @@
 
 <div class="fondo_formulario">
 
-    <div class="numero_off uno">1.</div>
+    <div class="numero_off uno">{% trans '1.' %}</div>
     <div class="numero_off dos">
-        <a href="{% url candidate_create election_slug=election.slug %}">2.</a>
+        <a href="{% url candidate_create election_slug=election.slug %}">{% trans '2.' %}</a>
     </div>
     <div class="numero_off tres">
-        <a href="{% url personal_data_create election_slug=election.slug %}">3.</a>
+        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans '3.' %}</a>
     </div>
     <div class="numero_off cuatro">
-        <a href="{% url background_category_create election_slug=election.slug %}">4.</a>
+        <a href="{% url background_category_create election_slug=election.slug %}">{% trans '4.' %}</a>
     </div>
-    <div class="numero_on cinco">5.</div>
+    <div class="numero_on cinco">{% trans '5.' %}</div>
 
     <h2>
-        Cuestionario
+        {% trans 'Cuestionario' %}
     </h2>
 
 <ul id="lista_preguntas">
@@ -32,7 +32,7 @@
     {% for category in election.category_set.all %}
         <option value="{{ category.pk }}">{{ category.name }} </option>
     {% endfor %}
-    <option value="other">Agregar nueva categoría</option>
+    <option value="other">{% trans 'Agregar nueva categoría' %}</option>
 </select>
 
 

@@ -75,6 +75,9 @@ class CandidateCreateView(CreateView):
         return context
 
     def get_success_url(self):
+        url_to_updating_candidates = reverse('candidate_create_alone', kwargs={'election_slug': self.object.election.slug})
+        if self.request.path_info == url_to_updating_candidates:
+            return url_to_updating_candidates
         return reverse('candidate_create', kwargs={'election_slug': self.object.election.slug})
 
     def form_valid(self, form):
@@ -94,6 +97,7 @@ class CandidateCreateView(CreateView):
 class CandidateDataUpdateView(UpdateView):
     model = Candidate
     form_class = CandidateForm
+    first_time = False
                 
     @method_decorator(login_required)
     @method_decorator(require_GET)
@@ -119,6 +123,7 @@ class CandidateDataUpdateView(UpdateView):
         context['background_candidate_form'] = BackgroundCandidateForm()
         context['personal_data_candidate_form'] = PersonalDataCandidateForm()
         context['answer_form'] = AnswerForm()
+        context['first_time'] = self.first_time
         return context
 
 

@@ -1,7 +1,8 @@
 {% extends "elections/base.html" %}
-
+{% load i18n %}
+{% load election_tags %}
 {% block title %}
-Media Naranja, {{ election.name }} - {{ block.super }} 
+{% trans 'Media Naranja,' %} {{ election.name }} - {{ block.super }} 
 {% endblock title %}
 
 {% block extra_head %}
@@ -14,18 +15,35 @@ Media Naranja, {{ election.name }} - {{ block.super }}
 
 <div class="papel">
 
-	<div class="newElection"><a href="/election/pre_create"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+	
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
 
-    <div class="contenedor3 tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{election}}</h1></a></div>
+
+<div class="contenedor3">
+
+
+        {% include 'election_logo.html' %}
+
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+{% link_to_updating_this_election request.user election %}
+    <div style="float:right">
+
+        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+    </div>
+    </h1>
+    
+    </div>
 
 <div class="contenedor1">
     <div class="contenedor2">
 
 
     <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" /></div>
-    <div class="tit"><h3>TU MEDIA NARANJA POLÍTICA</h3></div>
+    <div class="tit"><h3>{% trans 'TU MEDIA NARANJA POLÍTICA' %}</h3></div>
 
-    <div class="txt_intro">La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.<br /><br />
+    <div class="txt_intro">{% trans 'La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.' %}<br /><br />
     </div>
 
     </div>
@@ -38,8 +56,8 @@ Media Naranja, {{ election.name }} - {{ block.super }}
     <div class="contenedor1">
 
     <div class="contenedor_globo">
-    <div class="globo_left">Responde la encuesta y encuentra tu 1/2 naranja política</div>
-    <div class="globo_right">Asígnale la importancia que tú quieras a cada pregunta</div>
+    <div class="globo_left">{% trans 'Responde la encuesta y encuentra tu 1/2 naranja política' %}</div>
+    <div class="globo_right">{% trans 'Asígnale la importancia que tú quieras a cada pregunta' %}</div>
     </div>
 
     {% for cat,data in stt %}
@@ -55,11 +73,11 @@ Media Naranja, {{ election.name }} - {{ block.super }}
         {% endfor %}
         <!-- value = -1 is meant for default answers -->
         <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
-        Ninguna de las anteriores representa mi posición<br />
+        {% trans 'Ninguna de las anteriores representa mi posición' %}<br />
      </div>
 
      <div class="col_right">
-            <h4>Importancia</h4>
+            <h4>{% trans 'Importancia' %}</h4>
             <input type="radio" name="importance-{{num}}" value="1" class="star"/>
         <input type="radio" name="importance-{{num}}" value="2" class="star"/>
         <input type="radio" name="importance-{{num}}" value="3" checked="checked" class="star"/>
@@ -72,7 +90,7 @@ Media Naranja, {{ election.name }} - {{ block.super }}
         </div><!--categoria-->
     {% endfor %}
 
-    <input type="submit" class='submit' value="Encontrar mi Media Naranja" />
+    <input type="submit" class='submit' value="{% trans 'Encontrar mi Media Naranja' %}" />
 
     </div><!--contenedor1-->
 
@@ -81,7 +99,7 @@ Media Naranja, {{ election.name }} - {{ block.super }}
 
     <div class="contenedor1">
 	<br>
-	<center><h4>Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación.</h4></center>
+	<center><h4>{% trans 'Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación.' %}</h4></center>
 	<br>
     </div>
 
@@ -95,4 +113,7 @@ Media Naranja, {{ election.name }} - {{ block.super }}
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/jquery.MetaData.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.rating.js"></script>
+<script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
 {% endblock extra_js %}
