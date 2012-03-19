@@ -827,16 +827,38 @@ span input {
     font-size:12px;
 }
 
-
-#link_name, #link_url {
-    width: 210px;
+.link_name {
+    width: 95px;
+    float: none;
+    margin-left: 0px;
 }
-
+.link_url {
+    width: 75px;
+    margin-left: 0px;
+    float:none;
+}
+input.link_name {
+}
+input.link_url{
+}
+.link_bullet {
+}
 .link-list-li a {
-    color: #99AAB1;
-	font-family: AllerItalic;
+    color: #999999;
+	font-family: 'AllerRegular',Helvetica,Arial,sans-serif;
 }
+.new_link_container {
+    width: 250px;
+    margin-top: 10px;
+}
+.link-list {
+    width: 250px !important;
 
+}
+.links_title {
+    width:264px !important;
+    margin-top: 10px;
+}
 
 /* -----------------------------begin css tabs-------------------------------- */
 
