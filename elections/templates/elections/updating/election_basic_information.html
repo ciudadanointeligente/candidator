@@ -65,7 +65,7 @@
                 <label class="blue_edit">IMAGEN</label><br />
                 {% thumbnail election.logo "850x80" as im %}
 
-                    <div class="logo_eleccion electionLogo" alt="Cambia la imagen"><img src="{{ im.url }}" style="margin: {{ im|margin:"850x80" }}" width="850" height="80" /></div>
+                    <div class="logo_eleccion electionLogo election_logo_change" alt="Cambia la imagen"><img src="{{ im.url }}" style="margin: {{ im|margin:"850x80" }}" /></div>
 
                 {% endthumbnail %}
 

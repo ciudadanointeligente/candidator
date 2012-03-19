@@ -644,6 +644,9 @@ ul.homeNav ul.sidebarMenu{
 .section_selected {
     background-color: #DEDEDE;
 }
+.election_logo_change {
+    cursor: pointer;
+}
 
 .menuBig{
 	font-size: 15px;
