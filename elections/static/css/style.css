@@ -856,7 +856,7 @@ display: inline;
 .tab {
 	background-color: white;
 	border-top: 1px solid #cccccc;
-	padding: 6px 6px 4px;
+	padding: 4px 0px 4px;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
 	background-color:#e8e8e8;
@@ -866,11 +866,12 @@ display: inline;
 	border-bottom: 5px solid white;
 	background-color: white;
 	border-top: 1px solid #cccccc;
-	padding: 6px 6px 0px;
+	padding: 4px 6px 0px;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
 	background-repeat: no-repeat;
 	background-position:center;
+	color: #666;
 }
 
 li.tab_selected a { /* settings for selected tab link */
@@ -882,7 +883,7 @@ padding-top: 4px; /* must change with respect to padding (X) above and below */
 }
 
 ul#tabnav li a { /* settings for all tab links */
-padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+padding: 4px 6px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
 color: #666; /* set unselected tab link color as desired */
 margin-right: 0px; /* set additional spacing between tabs as desired */
 text-decoration: none;
@@ -890,7 +891,7 @@ border-bottom: none;
 }
 
 ul#tabnav a:hover { /* settings for hover effect */
-background: #fff; /* set desired hover color */
+background: #DEDEDE;; /* set desired hover color */
 }
 
 /* end css tabs */
@@ -936,4 +937,43 @@ ul .electionList {
 
 .listElectionEdit a:hover{
 	text-decoration:underline;
+}
+
+.menuNumero{
+	border-right: 5px solid white;
+	width: 18px;
+	margin-top: -42px;
+	height: 31px;
+	padding: 11px 0px 0px 6px;
+	color: white;
+	font-size: 21px;
+}
+
+.link_a_tu_candideitorg{
+	background: #F2F2F2;
+	width: 412px;
+	padding: 5px;
+	margin-left: 26%;
+	border: 1px solid #E8E8E8;
+	margin-top: -30px;
+	margin-bottom: 25px;
+	font-size: 13px;
+	color: #94A9AF;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	font-family: 'AllerBold';
+}
+
+.link_a_tu_candideitorg_label{
+	width: 45px;
+	display: block;
+	line-height: 15px;
+	margin-left: 15%;
+}
+
+.sharing_my_election{
+	margin-left: 36%;
 }

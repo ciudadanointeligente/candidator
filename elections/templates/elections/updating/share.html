@@ -19,10 +19,11 @@
 	{% include 'elections/updating/menu.html' with section='share' %}  
 <div class="papel_edit">
 	<div class="wrapper_plantillas">
-		<img src="{{ STATIC_URL }}img/avion.png"></img>
+    <div class="blue_edit" style="text-align: center;">TU CANDIDEIT.ORG ESTA PUBLICADO, AHORA COMPARTELO!</div>
+		<img src="{{ STATIC_URL }}img/avion.png" style="margin: -30px 0px 40px -27px;"></img>
 
 		<br />
-		<span class="link_a_tu_candideitorg_label">Link a tu candideitorg</span>
+		<span class="link_a_tu_candideitorg_label">Link a tu candideit.org:</span>
 		<div class="link_a_tu_candideitorg">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</div>
 		<div class="sharing_my_election" >
 			<span class='st_facebook_vcount' displayText='Facebook' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
