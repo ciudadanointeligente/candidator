@@ -641,6 +641,9 @@ ul.homeNav ul.sidebarMenu{
 .selected{
 	background-color: #80b6e2;
 }
+.section_selected {
+    background-color: #DEDEDE;
+}
 
 .menuBig{
 	font-size: 15px;
