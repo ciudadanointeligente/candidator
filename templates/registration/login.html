@@ -5,41 +5,59 @@
 {% block title %}Login {% endblock title %}
 {% block content %}
 
-<div class="papel">
-	<div class="contenedor3">
-		<div class="slider-wrapper theme-default">
-            <div class="ribbon"></div>
-            <div id="nivoslider-125" class="nivoSlider" style="width:700px;height:300px;">
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/nemo83-700x300.png" alt="" />
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/slider65-700x300.png" alt="" />
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/walle12-700x300.png" alt="" /></div>
-            </div>
-            </div>
+<div class="fondo_formulario">
+    <div class="forms_content">
+        <div class="logo"><img src="{{ STATIC_URL }}img/logo.png" /></div>
 
-            <br />
 
-        <div class="listInTheLeft">
-            <ul>
-            </ul>
+    {% if form.errors %}
+    <p>{% trans 'Tu username y password no concuerdan por favor intentalo de nuevo.' %}</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+    
+    
+    <table>
+    <tr>
+        <div class="usuario">
+            <span class="green_edit">{{ form.username.label_tag }}</span><p>{{ form.username }}</p>
         </div>
+    </tr>
+    <tr>
+        <div class="clave">
+        <h3>{{ form.password.label_tag }}</h3><p>{{ form.password }}</p>
+        </div>
+        
+    </tr>
+    </table>
+
+    <input type="submit" class="login" value="login" />
+
+
+    <input type="hidden" name="next" value="{{ next }}" />
+    
+    </form>
+    
+    <br />
+    <br />
+
+        <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login">comparar los candidatos...</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_login">descubrir quien es tu media naranja política...</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_login">y compartir los resultados</div>
+
+        <a href="{% url 'registration.views.register' %}" class="login">{% trans 'Regístrate' %}</a>
+       
+    <br />
+    <br />
+
+    
     </div>    
 </div>
     
 {% endblock content %}
 
 {% block extra_head %}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css" />
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nivo-slider.css" />
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css" />
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/themes/default/default.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
 {% endblock extra_head %}
-
-{% block extra_js %}
-<script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
-<script type="text/javascript">
-jQuery(window).load(function(){
-    jQuery("#nivoslider-125").nivoSlider();
-});
-</script>
-
-{% endblock extra_js %}

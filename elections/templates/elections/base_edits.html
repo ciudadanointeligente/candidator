@@ -40,14 +40,12 @@
                     </li>
                 </ul>
                 <ul>
-                    <li> <a href="{% url 'election_create' %}">{% trans 'NUEVA ELCCIÓN' %}</a> </li>
-                    <li> <a href="{% url 'my_election_list' %}">{% trans 'MIS ELECCIONES' %}</a> </li>
                     {% if user.is_authenticated %}
+                        <li> <a href="{% url 'election_create' %}">{% trans 'NUEVA ELECCIÓN' %}</a> </li>
+                        <li> <a href="{% url 'my_election_list' %}">{% trans 'MIS ELECCIONES' %}</a> </li>
                         <li> <a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'LOGOUT' %}</a> </li>
-
                     {% else %}
-                        <li> <div id="loginButton">{% trans 'LOGIN' %}</div></li>
-                        
+                        <li> <a href="{% url 'django.contrib.auth.views.login' %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>
@@ -55,37 +53,6 @@
         </nav>
       </div>
 <div class="fondo_wizard">
-    {% if not user.is_authenticated %}
-    <div class="loginContainer">
-        <div id="loginBox">
-            {% if form.errors %}
-            <p>{% trans 'Tu username y password no concuerdan por favor intentalo de nuevo.' %}</p>
-            {% endif %}
-
-            <form id="loginForm" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-            {% csrf_token %}
-            
-            <fieldset id="body">
-                <fieldset>
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                </fieldset>
-                <fieldset>
-                    {{ form.password.label_tag }}
-                    {{ form.password }}
-                 </fieldset>
-                 <input type="submit" class="login" value="login" />
-            </fieldset>
-
-            
-
-
-            <input type="hidden" name="next" value="{{ next }}" />
-            
-            </form>
-        </div>
-    </div>
-    {% endif %}
 {% block content %}
 {% endblock content %}
 </div>

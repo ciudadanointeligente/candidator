@@ -7,7 +7,7 @@
 <div class="fondo_formulario">
 	<div class="forms_content">
 		<h1>{% trans 'Candidator - Logout' %}</h1><hr /><br />
-    	<div class="instrucciones"><img src="{{ STATIC_URL }}img/asterisco_celeste.png" />{% trans 'Te has salido de candideit.org, si deseas ingresar de nuevo debes entrar a' %} <a href="{% url 'django.contrib.auth.views.login' %}">login</a></div>
+    	<div class="instrucciones">{% trans 'Te has salido de candideit.org, si deseas ingresar de nuevo debes entrar a' %} <a href="{% url 'django.contrib.auth.views.login' %}">login</a></div>
 	</div>
 </div>
 {% endblock content %}

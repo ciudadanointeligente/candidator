@@ -189,6 +189,7 @@
 
 	
     	</div>
+        <div id="boton" class="bt">{% trans ' Guardar ' %}</div>
     </div>
     
     <div id="form-candidate-photo">
@@ -263,9 +264,18 @@
             'json');
             return false;
         }
-        $(".personal-data-input").change(
-                function(){
-                    var value_text = $(this);
+
+        $('#boton').click(function(){
+            saveAllData();
+        });
+        function saveAllData(){
+            savePersonalData();
+            saveBackgrounds();
+            saveAnswers();
+        }
+        function savePersonalData(){
+            $(".personal-data-input").each(function(index, element){
+                var value_text = $(element);
                     var value = value_text.val();
                     var personal_data_pk = value_text.attr('pk');
                     $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
@@ -275,68 +285,41 @@
                     },
                     function(data) { notify("{% trans 'guardado' %}",1) },
                     'json');
-                }
-        )
-
-        $(".background-input").change(function(){
-            var value_text = $(this);
-            var value = value_text.val();
-            var background_pk = value_text.attr('pk');
-            $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
-            {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'value': value
-            },
-            function(data) {
-                notify("guardado!",1);
-            },
-            'json');
-        })
-
-
-        $('.answerform').live('submit', function (e) {
-                e.preventDefault()
-                $.post($(this).attr('action'), $(this).serialize(), function (json) {
-                    var new_radio = $('<input type="radio">');
-                    new_radio.addClass('answer');
-                    new_radio.attr('id', 'answer-' + json.pk);
-                    new_radio.attr('name', 'answer-' + json.question);
-                    new_radio.attr('checked', true);
-                    var new_answer = $('<li>').append($('<label>').append(new_radio).append('&nbsp; ' + json.caption));
-
-                    $('#question-' + json.question + ' > ul > li:last-child').before(new_answer);
-
-                    $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
-                        {
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            'answer': json.pk
-                        },
-                        function(data) {},
-                        'json'
-                    );
-                });
-                $('input[name=caption]', this).val('');
             });
-
-        $(".answer").live('change', function(e){
-            console.log("asd");
-            var answerId = $(this).attr('id');
-            answerId = answerId.substr(answerId.indexOf('-')+1);
-            console.log(answerId);
-            var $answerEl = $(this);
-            $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
-            {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'answer': answerId
-            },
-            function(data) {
-                $answerEl.siblings().removeClass('active');
-                $("#answer-"+data.answer).addClass('active');
-            },
-            'json');
-        });
-        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
-        $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+        }
+        function saveBackgrounds(){
+            $(".background-input").each(function(index, element){
+                var value_text = $(element);
+                var value = value_text.val();
+                var background_pk = value_text.attr('pk');
+                $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+                {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'value': value
+                },
+                function(data) {
+                    notify("guardado!",1);
+                },
+                'json');
+            });
+        }
+        function saveAnswers(){
+            $('.answer:checked').each(function(index, element){
+                var answerId = $(element).attr('id');
+                answerId = answerId.substr(answerId.indexOf('-')+1);
+                var $answerEl = $(element);
+                $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+                {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'answer': answerId
+                },
+                function(data) {
+                    $answerEl.siblings().removeClass('active');
+                    $("#answer-"+data.answer).addClass('active');
+                },
+                'json');
+            });
+        }
 
         </script>
 {% endblock extra_js %}

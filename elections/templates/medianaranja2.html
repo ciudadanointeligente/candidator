@@ -14,7 +14,9 @@
 {% if candidate.photo %}
 <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ winner.2.photo.url }}" />
 {% else %}
-<meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ election.logo.url }}" />
+    {% if election.logo %}
+        <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ election.logo.url }}" />
+    {% endif %}
 {% endif %}
 <meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" />
 <meta property="og:description" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
