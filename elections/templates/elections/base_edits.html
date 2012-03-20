@@ -1,4 +1,6 @@
+{% load url from future %}
 {% load i18n %}
+
 <!doctype html>
 <html>
 <head>
@@ -6,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.15.custom.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.qtip.css">
+    {% if not user.is_authenticated %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
+    {% endif %}
 
     <title>{% block title%}{% trans 'Administración' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% block extra_head %}
@@ -29,18 +35,18 @@
             <div class="wrapBasic">
                 <ul class="leftNav">
                     <li>
-                        <a href="{% url my_election_list %}">{% trans "Hola" %} {{user.username}}!</a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'my_election_list' %}">{% trans "Hola" %} {{user.username}}!</a>
+                        {% endif %}
                     </li>
                 </ul>
                 <ul>
-                    <li> <a href="{% url election_create %}">{% trans 'NUEVA ELCCIÓN' %}</a> </li>
-                    <li> <a href="{% url my_election_list %}">{% trans 'MIS ELECCIONES' %}</a> </li>
-                    {# <li> <a href="#">QUIÉNES SOMOS</a></li> #}
-                    {# <li> <a href="{% url my_election_list %}">MIS ELECCIONES</a> </li> #}
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url auth_logout %}">{% trans 'LOGOUT' %}</a> </li>
+                        <li> <a href="{% url 'election_create' %}">{% trans 'NUEVA ELECCIÓN' %}</a> </li>
+                        <li> <a href="{% url 'my_election_list' %}">{% trans 'MIS ELECCIONES' %}</a> </li>
+                        <li> <a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'LOGOUT' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url auth_login %}">{% trans 'LOGIN' %}</a> </li>
+                        <li> <a href="{% url 'django.contrib.auth.views.login' %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>
@@ -56,7 +62,9 @@
 <script src="{{ STATIC_URL }}js/jquery-ui-1.8.16.custom.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.admin-menu.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.qtip.js"></script>
 {% block extra_js %}
+{% endblock extra_js %}
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -70,7 +78,21 @@
   })();
 
 </script>
-{% endblock extra_js %}
+<script type="text/javascript">
+        $(function() {
+            var button = $('#loginButton');
+            var box = $('#loginBox');
+            var form = $('#loginForm');
+            button.removeAttr('href');
+            button.mouseup(function(login) {
+                box.toggle();
+                button.toggleClass('active');
+            });
+            form.mouseup(function() { 
+                return false;
+            });
+        });
+</script>
 <script type="text/javascript">
   var uvOptions = {};
   (function() {
@@ -78,6 +100,24 @@
     uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
+  $.fn.qtip.defaults.content.attr = 'alt';
+  $.fn.qtip.defaults.style.classes = 'ui-tooltip-blue ui-tooltip-shadow';
+  $.fn.qtip.defaults.style.tip.corner = false;
+  $.fn.qtip.defaults.hide.fixed = true;
+  $(document).ready(function(){
+    $('img[alt]').qtip({
+        position: {
+            my:'center',
+            at: 'center'
+            }
+        });
+      $('*[alt]:not(img)').qtip({
+        position: {
+            my:'top left',
+            at: 'bottom left'
+            }
+        });
+  });
 </script>
 </body>
 

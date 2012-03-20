@@ -11,6 +11,13 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
 <meta property="og:title" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
 <meta property="og:type" content="" />
+{% if candidate.photo %}
+<meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ winner.2.photo.url }}" />
+{% else %}
+    {% if election.logo %}
+        <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ election.logo.url }}" />
+    {% endif %}
+{% endif %}
 <meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" />
 <meta property="og:description" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
 <meta property="og:site_name" content="candideit.org" />
@@ -129,9 +136,9 @@
 									</tr>
 								-->
 
-                                    <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-                                    <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-                                    <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
 								</table>
 							</td>
 
