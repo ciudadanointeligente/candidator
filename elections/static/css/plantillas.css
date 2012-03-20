@@ -448,6 +448,10 @@ p textarea{
 	margin-top: 13px;
 }
 
+.profileImg:hover{
+	opacity: 0.6;
+}
+
 span.bold{
 	line-height: 23px;
 }

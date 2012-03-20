@@ -304,15 +304,12 @@ div.instrucciones{
 
 .usuario{
     margin-top: 14px;
-    margin-left: 20px;
 }
 
-.usuario .green_edit:before{
-    margin-left: -20px;
-}
-
-.usuario .green_edit{
-    margin-left: 0px;
+.usuario span input{
+	width: 277px;
+	margin: 3px 6px 8px;
+	height: 22px;
 }
 
 .usuario p{
@@ -328,8 +325,13 @@ div.instrucciones{
 }
 
 .clave{
-    margin-left: 20px;
-    margin-top: 13px;
+    margin-top: 0px;
+}
+
+.clave span input{
+	width: 249px;
+	margin: 3px 6px 8px;
+	height: 22px;
 }
 
 .img_login{
