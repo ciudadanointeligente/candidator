@@ -705,7 +705,6 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .green_edit:before {
-    content:url(../img/asterisco_verde.png);
     position: absolute;
     margin-top: 1px;
 }
@@ -720,6 +719,15 @@ ul.homeNav ul.sidebarMenu{
     padding: 1px 4px 1px;
     letter-spacing:1px;
     margin-left: 16px;
+}
+
+.blue_edit{
+    font-family:'AllerBold';
+    color:#72acd9;
+    font-size:12px;
+    text-transform:uppercase;
+	letter-spacing:1px;
+	line-height: 40px;
 }
 
 .grey_edit{
@@ -1003,3 +1011,46 @@ ul .electionList {
 .sharing_my_election{
 	margin-left: 36%;
 }
+
+.bt{
+	font-family: 'AllerBold';
+	color: white;
+	font-size: 12px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	border-radius: 12px;
+	-moz-border-radius: 12px;
+	float:right;
+	box-shadow: 1px 1px 6px #b8b8b8;
+	margin-right: 6px;
+	margin-bottom: 6px;
+	padding: 0px 13px 2px;
+	margin-top: 25px;
+}
+
+.bt:hover{
+	background: #a4c5db;
+	background: -moz-linear-gradient(top,  #a4c5db 0%, #80b6e2 96%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a4c5db), color-stop(96%,#80b6e2));
+	background: -webkit-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -o-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -ms-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
+	border:1px solid #72acd9;
+}
+	
+
+
+/* -----------------------------HOME-------------------------------- */
+
+.alRegistrarte{
+}
+	

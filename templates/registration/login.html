@@ -21,36 +21,38 @@
     <table>
     <tr>
         <div class="usuario">
-            <span class="green_edit">{{ form.username.label_tag }}</span><p>{{ form.username }}</p>
+            <span class="blue_edit">{% trans 'Usuario' %}:</span><span>{{ form.username }}</span>
         </div>
     </tr>
     <tr>
         <div class="clave">
-        <h3>{{ form.password.label_tag }}</h3><p>{{ form.password }}</p>
+        <span class="blue_edit">{{ form.password.label_tag }}:</span><span>{{ form.password }}</span>
         </div>
         
     </tr>
     </table>
 
-    <input type="submit" class="login" value="login" />
+    <input type="submit" class="bt" value="login" />
 
 
     <input type="hidden" name="next" value="{{ next }}" />
     
     </form>
     
-    <br />
-    <br />
+    <br>
+    <br>
+    <br>
+    <br>
 
         <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login">comparar los candidatos...</div>
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_login">descubrir quien es tu media naranja política...</div>
         <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_login">y compartir los resultados</div>
 
-        <a href="{% url 'registration.views.register' %}" class="login">{% trans 'Regístrate' %}</a>
+        <a href="{% url 'registration.views.register' %}" class="bt">{% trans 'regístrate' %}</a>
        
-    <br />
-    <br />
+    <br>
+    <br>
 
     
     </div>    
