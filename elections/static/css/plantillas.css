@@ -76,6 +76,7 @@ td, th { padding: 1px; }
 	margin-bottom: 6px;
 	padding: 0px 13px 2px;
 	margin-top: 25px;
+	cursor: pointer;
 }
 
 .bt:hover{
