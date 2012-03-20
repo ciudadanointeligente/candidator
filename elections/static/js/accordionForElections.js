@@ -1,6 +1,13 @@
 function toggle_accordion(){
-    $("div.menuedit_eleccion").hide('slow');
-    $(this).next().show('slow');
+	var is_visible = $("div.menuedit_eleccion").is(':visible');
+	if (is_visible) {
+		$("div.menuedit_eleccion").hide('blind');
+	}
+	else {
+		$(this).next().show('blind');
+	}
+    
+    
 
     return false;
 }

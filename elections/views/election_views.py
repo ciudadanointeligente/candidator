@@ -200,16 +200,3 @@ class ElectionUpdateDataView(DetailView):
     def get_queryset(self):
         return super(ElectionUpdateDataView, self).get_queryset().filter(owner=self.request.user)
 
-
-class ElectionRedirectView(RedirectView):
-    permanent = False
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(ElectionRedirectView, self).dispatch(request, *args, **kwargs)
-
-    def get_redirect_url(self, **kwargs):
-        num_elections = self.request.user.election_set.count()
-        if self.request.user.election_set.count() <= 0:
-            return reverse('election_create')
-        return reverse('my_election_list')

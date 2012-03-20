@@ -1,10 +1,11 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
+from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
 from elections.views.answer_views import AnswerCreateAjaxView
 
 from models import Election
-from views.election_views import ElectionUpdateDataView, ElectionRedirectView
+from views.election_views import ElectionUpdateDataView
 from views.candidate_views import CandidateUpdatePhotoView
 from views import associate_answer_to_candidate, ElectionCreateView,\
                   ElectionUpdateView, ElectionDetailView, CandidateDetailView,\
@@ -20,10 +21,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
 urlpatterns = patterns('',
 
     # Root: login_required (por ahora pues no se ha definido un index)
-    #url(r'^elections/?$', login_required(ListView.as_view(model=Election)), name='election_list'),
-
-    url(r'^$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
-
+    url(r'^$', direct_to_template, {'template': 'home.html'}),
 
     # My Elections
     url(r'^my_election_list/$', login_required(TemplateView.as_view(template_name="elections/my_election_list.html")), name='my_election_list'),

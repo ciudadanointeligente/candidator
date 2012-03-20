@@ -26,13 +26,15 @@
         </header>
         <nav id="mainNavigation">
             <div class="wrapBasic">
-                {% if user.is_authenticated %}
+                
                 <ul class="leftNav">
                     <li>
+                        {% if user.is_authenticated %}
                         <a href="{% url my_election_list %}">{% trans "Hola" %} {{user.username}}!</a>
+                        {% endif %}
                     </li>
                 </ul>
-                {% endif %}
+                
                 <ul>
                     <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
                     <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
