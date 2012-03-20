@@ -11,11 +11,12 @@
                 <div class="menuedit_accordion">
                     <div class="menuedit_tit nombre election_name{% if section == 'general_information' or section == 'new_candidate' or section == 'questions' %} selected{% endif %} "><span class="menuBig">{% trans 'Editar' %}</span>{% trans 'mi candideitorg' %}</div>
                     <div class="menuedit_eleccion {% if section == 'general_information' or section == 'new_candidate' or section == 'questions' %}actual{% endif %}">
-                        <div class="menuedit {% if section == 'general_information' %}section_selected{% endif %}"><a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></div>
-                        <div class="menuedit {% if section == 'questions' %}section_selected{% endif %}"><a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
+                        <div class="menuedit {% if section == 'general_information' %}section_selected{% endif %}">
+                        	<a href="{% url election_update slug=election.slug %}">{% trans 'Información general' %}</a></div>
+                        <div class="menuedit {% if section == 'questions' %}section_selected{% endif %}">
+                        	<a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
                         <div class="menuedit {% if section == 'new_candidate' %}section_selected{% endif %}">
-                            <a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Candidatos' %}</a>
-                        </div>
+                            <a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Candidatos' %}</a></div>
 
                     </div>
                 </div>

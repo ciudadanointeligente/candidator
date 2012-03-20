@@ -381,9 +381,34 @@ div.instrucciones{
 	background-color: #80b6e2;
 	color: #ffffff;
 }
+	
 
-.selected:after {
-	top: -24px;
+.twitter{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+    padding-left: 25px;
+}
+
+/*---------------------------MENU WIZARD---------------------------------*/
+
+.candidate-wizard-menu{
+	float: left;
+	margin-top: 22px;
+}
+
+.select{
+	background-color: #80b6e2;
+}
+
+.select:after{
+	background: url(../img/flecha_menu.png) no-repeat scroll 0 center transparent;
+	content: "";
+	display: block;
+	float: right;
+	height: 14px;
+	position: relative;
+	width: 13px;
+	left: 22px;
+	top: -23px;
 }
 
 .menuedit_tit .menuBig{
@@ -392,9 +417,13 @@ div.instrucciones{
 	margin-top: -3px;
 	padding-bottom: 5px;
 }
-	
 
-.twitter{
-    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
-    padding-left: 25px;
+.menuNumero{
+	border-right: 5px solid white;
+	width: 18px;
+	margin-top: -42px;
+	height: 31px;
+	padding: 11px 0px 0px 6px;
+	color: white;
+	font-size: 21px;
 }

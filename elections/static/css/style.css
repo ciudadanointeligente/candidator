@@ -527,6 +527,7 @@ ul.homeNav ul.sidebarMenu{
     overflow: hidden;
     position: relative;
     margin-bottom: 13px;
+	background: #B0CFEC;
 }
 
 .nombre_eleccion{
@@ -595,13 +596,6 @@ ul.homeNav ul.sidebarMenu{
 	white-space:nowrap;
 }
 
-.menuedit_election:after{
-	content:url(../img/flecha_blanca.png);
-    position: absolute;
-	margin-left: -17px;
-	margin-top: 6px;
-}
-
 
 .menuedit a{
     color: #69C;
@@ -631,16 +625,16 @@ ul.homeNav ul.sidebarMenu{
 	display: block;
 	float: right;
 	height: 14px;
-	position: relative;
+	position: absolute;
 	width: 13px;
-	right: -22px;
-	top: -5px;
-	margin-left: -13px;
+	margin-left: 159px;
+	margin-top: -23px;
 }
 
 .selected{
 	background-color: #80b6e2;
 }
+
 .section_selected {
     background-color: #DEDEDE;
 }
@@ -659,6 +653,14 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .election_name a:hover{
+	color: #6699cc;
+}
+
+.election_name:hover{
+	color: #6699cc;
+}
+
+.election_name:active{
 	color: #6699cc;
 }
 
@@ -837,11 +839,13 @@ span input {
     width: 95px;
     float: none;
     margin-left: 0px;
+	height: 21px;
 }
 .link_url {
     width: 75px;
     margin-left: 0px;
     float:none;
+	height: 21px;
 }
 input.link_name {
 }
@@ -965,16 +969,6 @@ ul .electionList {
 
 .listElectionEdit a:hover{
 	text-decoration:underline;
-}
-
-.menuNumero{
-	border-right: 5px solid white;
-	width: 18px;
-	margin-top: -42px;
-	height: 31px;
-	padding: 11px 0px 0px 6px;
-	color: white;
-	font-size: 21px;
 }
 
 .link_a_tu_candideitorg{
