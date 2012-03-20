@@ -51,12 +51,12 @@
     		<div class="profileImg">
 
             {% thumbnail candidate.photo "80x100" crop="center" as im %}
-            <img src="{{ im.url }}" alt="{{ candidate.name }}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
+            <img src="{{ im.url }}" alt="{% trans 'Cambiar' %}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
             {% empty %}
                 {% if candidate.photo %}
-                <img width="80" height="100" style="margin: 0px 0px 0px 0px" alt="{{candidate.name}}" src="{{ STATIC_URL }}{{candidate.photo}}">
+                <img width="80" height="100" style="margin: 0px 0px 0px 0px" alt="{% trans 'Cambiar' %}" src="{{ STATIC_URL }}{{candidate.photo}}">
                 {% else %}
-                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" />
+                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" alt="{% trans 'Cambiar' %}" />
                 {% endif %}
             {% endthumbnail %}
             </div>
@@ -320,6 +320,8 @@
                 'json');
             });
         }
+        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+        $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
 
         </script>
 {% endblock extra_js %}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.15.custom.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.qtip.css">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
     {% endif %}
@@ -61,6 +62,7 @@
 <script src="{{ STATIC_URL }}js/jquery-ui-1.8.16.custom.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.admin-menu.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.qtip.js"></script>
 {% block extra_js %}
 {% endblock extra_js %}
 <script type="text/javascript">
@@ -83,10 +85,8 @@
             var form = $('#loginForm');
             button.removeAttr('href');
             button.mouseup(function(login) {
-                console.log(box);
                 box.toggle();
                 button.toggleClass('active');
-                console.log(box);
             });
             form.mouseup(function() { 
                 return false;
@@ -100,6 +100,24 @@
     uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
+  $.fn.qtip.defaults.content.attr = 'alt';
+  $.fn.qtip.defaults.style.classes = 'ui-tooltip-blue ui-tooltip-shadow';
+  $.fn.qtip.defaults.style.tip.corner = false;
+  $.fn.qtip.defaults.hide.fixed = true;
+  $(document).ready(function(){
+    $('img[alt]').qtip({
+        position: {
+            my:'center',
+            at: 'center'
+            }
+        });
+      $('*[alt]:not(img)').qtip({
+        position: {
+            my:'top left',
+            at: 'bottom left'
+            }
+        });
+  });
 </script>
 </body>
 
