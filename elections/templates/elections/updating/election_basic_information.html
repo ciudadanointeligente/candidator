@@ -40,7 +40,7 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">Permalink:<div class="slug">{{ election_url }}</div></div>
+            <div class="permalink" alt="{% trans 'Dirección de tu candideitorg' %}" >Permalink:<div class="slug">{{ election_url }}</div></div>
 			</aside>
             
             <p class="fieldWrapper">
@@ -56,16 +56,16 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_description" class="blue_edit">BREVE DESCRIPCIÓN DE TU CANDIDEIT.ORG:</label><br />
+                <label for="id_description" class="blue_edit">{% trans 'BREVE DESCRIPCIÓN DE TU CANDIDEIT.ORG:' %}</label><br />
                 {{ form.description }}
                 {{ form.description.errors }}
             </p>
 
             <p class="fieldWrapper">
-                <label class="blue_edit">IMAGEN</label><br />
-                {% thumbnail election.logo "850x80" as im %}
+                <label class="blue_edit">{% trans 'IMAGEN' %}</label><br />
+                {% thumbnail election.logo "680x64" as im %}
 
-                    <div class="logo_eleccion electionLogo election_logo_change" alt="Cambia la imagen"><img src="{{ im.url }}" style="margin: {{ im|margin:"850x80" }}" /></div>
+                    <div class="logo_eleccion_edit logo_eleccion electionLogo election_logo_change" ><img src="{{ im.url }}" alt="Cambia la imagen" style="margin: {{ im|margin:"680x64" }}" /></div>
 
                 {% endthumbnail %}
 

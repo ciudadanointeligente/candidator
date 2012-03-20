@@ -529,6 +529,10 @@ ul.homeNav ul.sidebarMenu{
     margin-bottom: 13px;
 	background: #B0CFEC;
 }
+.logo_eleccion_edit{
+    height: 64px !important;
+    background: none !important;
+}
 
 .nombre_eleccion{
     position: relative;
