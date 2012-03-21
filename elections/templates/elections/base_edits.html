@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.15.custom.css">
+    <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.qtip.css">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
@@ -105,13 +106,7 @@
   $.fn.qtip.defaults.style.tip.corner = false;
   $.fn.qtip.defaults.hide.fixed = true;
   $(document).ready(function(){
-    $('img[alt]').qtip({
-        position: {
-            my:'center',
-            at: 'center'
-            }
-        });
-      $('*[alt]:not(img)').qtip({
+      $('*[alt]').qtip({
         position: {
             my:'top left',
             at: 'bottom left'

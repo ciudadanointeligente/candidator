@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-{% trans 'Plantilla de la elección' %}
+{% trans 'Preguntas de la elección' %}
 {% endblock title %}
 
 {% block extra_head %}
@@ -17,7 +17,8 @@
       {% include 'elections/updating/menu.html' with section='questions' %}  
 <!-- CIERRE MENU VERTICAL -->     
  
-<!-- CONTENIDO -->    
+<!-- CONTENIDO -->
+    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url election_update_data slug=election.slug%}">{% trans 'Preguntas de la elección' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
@@ -25,9 +26,9 @@
 		<hr />
         </head>
 
-    <div class="edit_tit">
-        <h2>a. datos personales del candidato</h2>
-        <div class="ayuda">Las respuestasde cada candidato las agregarás en la siguiente sección</div>
+    <div id="personal_data_titulo" class="edit_tit">
+        <h2>{% trans 'a. datos personales del candidato' %}</h2>
+        <div class="ayuda">{% trans 'Las respuestasde cada candidato las agregarás en la siguiente sección' %}</div>
     </div>
 <div class="wrapper_preguntas">
     <ul id="lista_personaldata">
@@ -56,7 +57,7 @@
 
 
 
-    <div class="edit_tit">
+    <div id="antecedentes_titulo" class="edit_tit">
         <h2>b. Antecedentes</h2>
     </div>
 <div class="wrapper_preguntas">
@@ -113,7 +114,7 @@
  
  
 
-    <h2>c. Cuestionario</h2>
+    <h2 id="lista_preguntas_titulo">c. Cuestionario</h2>
     <div class="ayuda">Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto deben ser respondidas por todos.</div>
 <div class="wrapper_preguntas">
 

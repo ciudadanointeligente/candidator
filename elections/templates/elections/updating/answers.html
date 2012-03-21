@@ -20,14 +20,18 @@
 {% include 'elections/updating/menu.html' with section='answers' %}
 <!-- CIERRE MENU VERTICAL -->     
  
-<!-- CONTENIDO -->    
+<!-- CONTENIDO -->
+    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'Respuestas' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
         <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
         {% if first_time %}
             <div class="successContainer"><div class="success">{% trans 'Felicitaciones! has creado tu candideit.org... ahora puedes completar las respuestas de  cada candidato' %}</div></div>
+        {% else %}
+            <div class="successContainer"><div class="success" style="display:none;"></div></div>
         {% endif %}
+
         </h1>
 
         </head>
@@ -62,7 +66,7 @@
             </div>
             
             <div class="personaldataEdit">
-                <ul>
+                <ul>                    
                     <span class="bold">{% trans 'Nombre' %}:</span><span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
@@ -73,8 +77,8 @@
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}
-
                 </ul>
+                <span class="goedit anchor" ><a href="{% url election_update_data slug=election.slug %}#personal_data_titulo">{% trans 'Te faltaron datos personales?' %}</a></span>
             </div>
 
            <div class="linksEdit">
@@ -132,6 +136,9 @@
             <br style='clear: both;'/>
             <div class="backgroundEdit">
                 <div class="edit_tit"><h2>{% trans 'Antecedentes' %}</h2></div>
+                <span class="goedit anchor" >
+                    <a href="{% url election_update_data slug=election.slug %}#antecedentes_titulo">{% trans 'Te faltaron antecedentes?' %}</a>
+                </span>
                 <ul>
                 {% for background_category in election.backgroundcategory_set.all %}
                     <li>
@@ -158,9 +165,13 @@
 <div class="questionsEdit">
 
         <div class="edit_tit"><h2>{% trans 'Cuestionario' %}</h2></div>
+        <span class="goedit anchor" >
+            <a href="{% url election_update_data slug=election.slug %}#lista_preguntas_titulo">{% trans 'Te faltaron preguntas?' %}</a>
+        </span>
         {% for category in election.category_set.all %}
             <div class="blue_edit">{{ category.name }}</div>
             <ul>
+
             
             {% for question in category.question_set.all %}
                 <li id="question-{{ question.pk }}"><br><div class="bold">{{ question.question }}</div>
@@ -175,8 +186,13 @@
                          
                         </li>
 
+
                     {% endfor %}
+                        
                     </ul>
+                    <span class="goedit anchor" >
+                            <a href="{% url election_update_data slug=election.slug %}#question_{{ question.pk }}">{% trans 'Te faltaron alternativas?' %}</a>
+                        </span>
                 </li>
             {% endfor %}
             </ul>
@@ -206,10 +222,9 @@
         function notify(message, timeOut) {
             // Set the message using text method and chain fadeIn with it
             // apply simple setTimeout to fadeOut the message
-            $('#status').text(message).fadeIn();
-            setTimeout(function(){
-                $('#status').fadeOut();
-            }, timeOut*1000);
+            $('.success').text(message).show();
+            $('body,html').animate({scrollTop: $('.success').position().top}, 800);
+            $('.success').delay(timeOut).effect('fade');
         }
         function link_delete(link_pk){
             var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este link?' %}");
@@ -271,7 +286,7 @@
         function saveAllData(){
             savePersonalData();
             saveBackgrounds();
-            //saveAnswers();
+            notify('{% trans "Éxito tus respuestas han sido guardadas" %}',3000);
         }
         function savePersonalData(){
             $(".personal-data-input").each(function(index, element){
@@ -283,7 +298,8 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'value': value
                     },
-                    function(data) { notify("{% trans 'guardado' %}",1) },
+                    function(data) { 
+                    },
                     'json');
             });
         }
@@ -298,7 +314,6 @@
                     'value': value
                 },
                 function(data) {
-                    notify("guardado!",1);
                 },
                 'json');
             });
@@ -306,8 +321,10 @@
         /*
         function saveAnswers(){
             $('.answer:checked').each(function(index, element){
+                console.log("asd");
                 var answerId = $(element).attr('id');
                 answerId = answerId.substr(answerId.indexOf('-')+1);
+                console.log(answerId);
                 var $answerEl = $(element);
                 $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
                 {
@@ -321,6 +338,7 @@
                 'json');
             });
         }*/
+        
         $(".answer").live('change', function(e){
             console.log("asd");
             var answerId = $(this).attr('id');
