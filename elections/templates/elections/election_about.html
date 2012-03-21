@@ -47,20 +47,20 @@
     </h1>
     
     </div>
-        <span class="fecha_eleccion">{% trans 'Creador de esta elección:' %}</span>&nbsp;<p>{{ election.owner }}</p>
-        <br />
+        
         {% if election.date %}
-        <span class="fecha_eleccion">{% trans 'Fecha de la elección:' %}</span>&nbsp;<p>{{ election.date }}</p>
-        {% endif %}
+<span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
+{% endif %}
+        
         
 <br />
         
         {% if election.description %}
-        <span class="fecha_eleccion">{% trans 'Descripción:' %}</span>&nbsp;<p>{{ election.description }}</span>
+        &nbsp;<p>{{ election.description }}</span>
         {% endif %}
 <br /><br />
         {% if election.information_source %}
-        <span class="fecha_eleccion">{% trans 'Origen de la información:' %}</span>&nbsp;<p>{{ election.information_source }}</p>
+        <span class="blue_edit">{% trans '¿DE DÓNDE SE SACÓ LA INFORMACIÓN?' %}</span>&nbsp;<p>{{ election.information_source }}</p>
         {% endif %}
 
 

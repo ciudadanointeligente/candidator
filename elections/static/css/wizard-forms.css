@@ -264,7 +264,7 @@ div.instrucciones{
 .forms_content{
     width:352px;
     overflow:hidden;
-    padding-left: 25px;
+    padding: 25px;
     margin-bottom: 10px;
 }
 
@@ -290,7 +290,6 @@ div.instrucciones{
 /*LOGIN*/
 
 .logo{
-    margin-top:25px;
     margin-bottom: 25px;
 }
 
@@ -312,6 +311,17 @@ div.instrucciones{
 	height: 22px;
 }
 
+.usuario .instrucciones{
+	margin-top: -10px;
+	margin-bottom: 10px;
+}
+
+.email span input{
+	width: 291px;
+	margin: 3px 6px 8px;
+	height: 22px;
+}
+
 .usuario p{
     margin:0px;
 }
@@ -326,6 +336,17 @@ div.instrucciones{
 
 .clave{
     margin-top: 0px;
+}
+
+.clave_otravez .blue_edit{
+	display: block;
+	width: 127px;
+	line-height: 15px;
+}
+
+.clave_otravez span input{
+	margin: -20px 7px 0px 0px;
+	width: 248px;
 }
 
 .clave span input{

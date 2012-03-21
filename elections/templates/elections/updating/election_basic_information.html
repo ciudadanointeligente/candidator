@@ -19,7 +19,8 @@
       {% include 'elections/updating/menu.html' with section='general_information' %}  
 <!-- CIERRE MENU VERTICAL -->     
  
-<!-- CONTENIDO -->    
+<!-- CONTENIDO -->
+    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url election_update slug=election.slug%}">{% trans 'Información general de la elección' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>

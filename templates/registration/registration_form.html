@@ -7,14 +7,14 @@
 
 <div class="fondo_formulario">
     <div class="forms_content">
-        <h1>{% trans 'Registro' %}</h1><hr /><br />
+        <h1>{% trans 'Registro de usuarios' %}</h1><hr /><br />
   <form action="." method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <table>
     <tr>
         <div class="usuario">
-            <span class="green_edit">{{ form.username.label_tag }}</span><p>{{ form.username }}</p>
+            <span class="blue_edit">{% trans 'Usuario' %}:</span><span>{{ form.username }}</span><div class="instrucciones">(no debe contener espacios ni caracteres especiales)</div>
             {% if form.username.errors %}
                     <ul>
                     {% for error in form.username.errors %}
@@ -25,8 +25,8 @@
         </div>
     </tr>
     <tr>
-        <div class="usuario">
-            <span class="green_edit">{{ form.email.label_tag  }}</span><p>{{ form.email }}</p>
+        <div class="email">
+            <span class="blue_edit">E-mail:</span><span>{{ form.email }}</span>
             {% if form.email.errors %}
                     <ul>
                     {% for error in form.email.errors %}
@@ -39,8 +39,8 @@
         
     </tr>
     <tr>
-        <div class="usuario">
-            <span class="green_edit">{{ form.password1.label_tag  }}</span><p>{{ form.password1 }}</p>
+        <div class="clave">
+            <span class="blue_edit">{{ form.password1.label_tag  }}:</span><span>{{ form.password1 }}</span>
             {% if form.password1.errors %}
                     <ul>
                     {% for error in form.password1.errors %}
@@ -53,8 +53,8 @@
         
     </tr>
     <tr>
-        <div class="usuario">
-            <span class="green_edit">{{ form.password2.label_tag }}</span><p>{{ form.password2 }}</p>
+        <div class="clave_otravez">
+            <span class="blue_edit">{{ form.password2.label_tag }}:</span><span>{{ form.password2 }}</span>
             {% if form.password2.errors %}
                     <ul>
                     {% for error in form.password2.errors %}
@@ -68,7 +68,7 @@
     </tr>
     </table>
 
-    <input type="submit" class="login" value="Crea tu cuenta" />
+    <input type="submit" class="bt" value="Crea tu cuenta" />
     </form>
 </div>    
 </div>
