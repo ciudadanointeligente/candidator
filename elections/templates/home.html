@@ -40,7 +40,9 @@
 <script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
 <script type="text/javascript">
 jQuery(window).load(function(){
-    jQuery("#nivoslider-125").nivoSlider();
+    jQuery("#nivoslider-125").nivoSlider({
+        effect: 'slideInLeft'
+    });
 });
 </script>
 
