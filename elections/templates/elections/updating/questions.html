@@ -146,7 +146,7 @@
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
-                                    <p><input type="text" name="caption" placeholder="agregar respuesta" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">agregar
+                                    <p><input type="text" name="caption" placeholder="{% trans 'agregar alternativa' %}" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">{% trans 'agregar' %}
                     </a></p>
                                 
                             </form>
@@ -162,7 +162,7 @@
                     {% with question_form.question.html_name as html_name %}
                     <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
                     {% endwith %}
-                    <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">agregar
+                    <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">{% trans 'agregar ' %}
                     </a>
                 </p>
                 </div>
