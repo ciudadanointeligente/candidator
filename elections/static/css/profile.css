@@ -69,7 +69,7 @@ span.profile-description{
     font-family: 'AllerItalic';
     font-size: 12px;
     letter-spacing: 0;
-    margin-top: 35px;
+    margin-top: -85px;
     padding-right: 10px;
     text-align: right;
     width: 266px;
@@ -109,7 +109,7 @@ span.profile-description{
 
 .sideButton{
     border: 1px solid #E2E3E4;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 5px 5px 5px 5px;
     display: block;
     font-family: 'AllerBold',Helvetica,Arial,sans-serif;
     font-size: 11px;
@@ -229,3 +229,7 @@ span.profile-description{
 
 /*TOOLTIPS*/
 .explanationAnswer .sentence{}
+
+.candidatesBasicInformation .tit h3{
+	width: 550px;
+}
