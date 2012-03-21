@@ -59,7 +59,10 @@ a:link, a:visited {
  .anchor a:link, .anchor a:visited{
     color: #94A9AF !important;
  }
-
+.breadcrumbs {
+    width: 770px;
+    float: right;
+}
 .goedit a:link, .goedit a:visited {
 	color: white;
 	text-transform: lowercase;

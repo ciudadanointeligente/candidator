@@ -17,7 +17,8 @@
 {% include 'elections/updating/menu.html' with section='new_candidate' %}
 <!-- CIERRE MENU VERTICAL -->     
  
-<!-- CONTENIDO -->    
+<!-- CONTENIDO -->
+    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url candidate_create_alone election_slug=election.slug%}">{% trans 'Candidatos' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
