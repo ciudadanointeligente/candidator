@@ -65,7 +65,7 @@
             </div>
             
             <div class="personaldataEdit">
-                <ul>
+                <ul>                    
                     <span class="bold">{% trans 'Nombre' %}:</span><span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
@@ -76,8 +76,8 @@
                         <span id="status-pd-{{ personal_data.pk}}"></span>
                     </li>
                     {% endfor %}
-
                 </ul>
+                <span class="goedit anchor" ><a href="{% url election_update_data slug=election.slug %}#personal_data_titulo">{% trans 'Te faltaron datos personales?' %}</a></span>
             </div>
 
            <div class="linksEdit">
@@ -135,6 +135,9 @@
             <br style='clear: both;'/>
             <div class="backgroundEdit">
                 <div class="edit_tit"><h2>{% trans 'Antecedentes' %}</h2></div>
+                <span class="goedit anchor" >
+                    <a href="{% url election_update_data slug=election.slug %}#antecedentes_titulo">{% trans 'Te faltaron antecedentes?' %}</a>
+                </span>
                 <ul>
                 {% for background_category in election.backgroundcategory_set.all %}
                     <li>
@@ -161,9 +164,13 @@
 <div class="questionsEdit">
 
         <div class="edit_tit"><h2>{% trans 'Cuestionario' %}</h2></div>
+        <span class="goedit anchor" >
+            <a href="{% url election_update_data slug=election.slug %}#lista_preguntas_titulo">{% trans 'Te faltaron preguntas?' %}</a>
+        </span>
         {% for category in election.category_set.all %}
             <div class="blue_edit">{{ category.name }}</div>
             <ul>
+
             
             {% for question in category.question_set.all %}
                 <li id="question-{{ question.pk }}"><br><div class="bold">{{ question.question }}</div>
@@ -178,8 +185,13 @@
                          
                         </li>
 
+
                     {% endfor %}
+                        
                     </ul>
+                    <span class="goedit anchor" >
+                            <a href="{% url election_update_data slug=election.slug %}#question_{{ question.pk }}">{% trans 'Te faltaron alternativas?' %}</a>
+                        </span>
                 </li>
             {% endfor %}
             </ul>

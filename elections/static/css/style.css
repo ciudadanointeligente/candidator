@@ -56,6 +56,9 @@ ul{margin: 0; padding: 0; list-style: none;}
 a:link, a:visited { 
 	text-decoration: none;
 }
+ .anchor a:link, .anchor a:visited{
+    color: #94A9AF !important;
+ }
 
 .goedit a:link, .goedit a:visited {
 	color: white;
