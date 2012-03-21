@@ -7,24 +7,31 @@
 
 <div class="papel">
 	<div class="contenedor3">
-		<div class="slider-wrapper theme-default">
-            <div class="ribbon"></div>
-            <div id="nivoslider-125" class="nivoSlider" style="width:700px;height:300px;">
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/nemo83-700x300.png" alt="" />
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/slider65-700x300.png" alt="" />
-                <img src="http://nivo.dev7studios.com/wp-content/uploads/2011/08/walle12-700x300.png" alt="" /></div>
+			<div class="slider-wrapper theme-default">
+            	<div class="ribbon"></div>
+            	<div id="nivoslider-125" class="nivoSlider" style="width:850px;height:300px;">
+                <img src="{{ STATIC_URL }}img/home1.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home2.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home3.jpg" alt="" /></div>
             </div>
 
             <br />
+            
+            <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
+            
 	<div class="alRegistrarte">
         <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
-            <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login">comparar los candidatos...</div>
-            <div class="img_login"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_login">descubrir quien es tu media naranja política...</div>
-            <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_login">y compartir los resultados</div>
+            <div class="img_comparar"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_comparar">comparar los candidatos...</div>
+            <div class="img_descubrir"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_descubrir">descubrir quien es tu media naranja política...</div>
+            <div class="img_compartir"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_compartir">y compartir los resultados</div>
      </div>   
+
+
 
     </div>    
 </div>
+
+
 
     
 {% endblock content %}

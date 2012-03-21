@@ -568,6 +568,47 @@ ul.homeNav ul.sidebarMenu{
     color: #FFFFFF;
 }
 
+.img_comparar{
+    margin: 10px 13px 10px 0px;
+}
+
+.img_descubrir{
+    margin: 10px 13px 10px 107px;
+}
+
+.img_compartir{
+    margin: 10px 13px 10px 240px;
+}
+
+.txt_comparar{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 12px;
+    width: 134px;
+    line-height: 14px;
+    margin-top: -51px;
+    margin-left: 51px;
+}
+
+.txt_descubrir{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 12px;
+    width: 134px;
+    line-height: 14px;
+    margin-top: -46px;
+	margin-left: 151px;
+}
+
+.txt_compartir{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 12px;
+    width: 134px;
+    line-height: 14px;
+    margin: -51px 51px 80px 289px;
+}
+
 
 /*---------------------------BUTTONS---------------------------------*/
 
@@ -580,6 +621,51 @@ ul.homeNav ul.sidebarMenu{
 
 .newElection:hover{
 	opacity: 0.6;
+}
+
+.bt_cuadrado{
+	font-family: 'AllerBold';
+	color: white !important;
+	font-size: 12px;
+	background: #c4d4ff; /* Old browsers */
+	background: -moz-linear-gradient(top, #c4d4ff 0%, #afceea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4d4ff), color-stop(100%,#afceea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* IE10+ */
+	background: linear-gradient(top, #c4d4ff 0%,#afceea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4d4ff', endColorstr='#afceea',GradientType=0 ); /* IE6-9 */
+	border:1px solid #a7c7e6;
+	width: 157px;
+	padding: 8px 0px;
+	text-align: center;
+	margin-top: 6px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	box-shadow: 1px 1px 6px #b8b8b8;
+}
+
+.bt_cuadrado:hover{
+	background: #a4c5db;
+	background: -moz-linear-gradient(top,  #a4c5db 0%, #80b6e2 96%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a4c5db), color-stop(96%,#80b6e2));
+	background: -webkit-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -o-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: -ms-linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
+	border:1px solid #72acd9;
+}
+
+.bthome{
+	float: right;
+	font-size: 24px;
+	padding: 35px 5px;
+	width: 400px;
+}
+
+.bthome a{
+	color: #fff;
 }
 
 
@@ -1051,12 +1137,5 @@ ul .electionList {
 	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
 	border:1px solid #72acd9;
-}
-	
-
-
-/* -----------------------------HOME-------------------------------- */
-
-.alRegistrarte{
 }
 	
