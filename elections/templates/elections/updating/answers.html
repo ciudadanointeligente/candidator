@@ -27,7 +27,10 @@
         <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
         {% if first_time %}
             <div class="successContainer"><div class="success">{% trans 'Felicitaciones! has creado tu candideit.org... ahora puedes completar las respuestas de  cada candidato' %}</div></div>
+        {% else %}
+            <div class="successContainer"><div class="success" style="display:none;"></div></div>
         {% endif %}
+
         </h1>
 
         </head>
@@ -206,10 +209,9 @@
         function notify(message, timeOut) {
             // Set the message using text method and chain fadeIn with it
             // apply simple setTimeout to fadeOut the message
-            $('#status').text(message).fadeIn();
-            setTimeout(function(){
-                $('#status').fadeOut();
-            }, timeOut*1000);
+            $('.success').text(message).show();
+            $('body,html').animate({scrollTop: $('.success').position().top}, 800);
+            $('.success').delay(timeOut).effect('fade');
         }
         function link_delete(link_pk){
             var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este link?' %}");
@@ -271,7 +273,7 @@
         function saveAllData(){
             savePersonalData();
             saveBackgrounds();
-            //saveAnswers();
+            notify('{% trans "Éxito tus respuestas han sido guardadas" %}',1000);
         }
         function savePersonalData(){
             $(".personal-data-input").each(function(index, element){
@@ -283,7 +285,8 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'value': value
                     },
-                    function(data) { notify("{% trans 'guardado' %}",1) },
+                    function(data) { 
+                    },
                     'json');
             });
         }
@@ -298,7 +301,6 @@
                     'value': value
                 },
                 function(data) {
-                    notify("guardado!",1);
                 },
                 'json');
             });
@@ -306,8 +308,10 @@
         /*
         function saveAnswers(){
             $('.answer:checked').each(function(index, element){
+                console.log("asd");
                 var answerId = $(element).attr('id');
                 answerId = answerId.substr(answerId.indexOf('-')+1);
+                console.log(answerId);
                 var $answerEl = $(element);
                 $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
                 {
@@ -321,6 +325,7 @@
                 'json');
             });
         }*/
+        
         $(".answer").live('change', function(e){
             console.log("asd");
             var answerId = $(this).attr('id');
