@@ -32,7 +32,7 @@
         {% endif %}
 
         </h1>
-
+        <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'Respuestas' %}</a></span>
         </head>
         
         <ul id="tabnav">
