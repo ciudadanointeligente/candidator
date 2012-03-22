@@ -16,13 +16,13 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
-                  ElectionShareView, ElectionRedirectView
+                  ElectionShareView, ElectionRedirectView, HomeTemplateView
 
 
 urlpatterns = patterns('',
 
     # Root: login_required (por ahora pues no se ha definido un index)
-    url(r'^$', direct_to_template, {'template': 'home.html'}, name="home"),
+    url(r'^$', HomeTemplateView.as_view(), name="home"),
     #Election redirects to my elections if I have at least one election or to create
     url(r'^election_redirect/$', login_required(ElectionRedirectView.as_view()), name='election_redirect'),
     # My Elections
