@@ -13,6 +13,7 @@ from django.utils.translation import ugettext as _
 
 from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
+from elections.views import ElectionRedirectView
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
@@ -741,3 +742,42 @@ class ElectionUpdateDataViewTest(TestCase):
 
 
 PASSWORD = 'password'
+
+class ElectionRedirectViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.election = Election.objects.create(owner=self.user, name='Election', slug='election')
+        self.candidate = Candidate.objects.create(election=self.election, name='Candidate')
+        self.candidate2 = Candidate.objects.create(election=self.election, name='Candidate2')
+        self.url = reverse('election_redirect')
+
+    def test_non_existing_election(self):
+        user = User.objects.create_user(username='doe', password=PASSWORD, email='doe@example.net')
+        self.client.login(username=user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('election_create'))
+
+    def test_existing_one_election(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('candidate_data_update',
+                                       kwargs={'election_slug': self.election.slug, 'slug': self.candidate.slug}))
+
+    def test_existing_several_elections(self):
+        election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
+        candidate = Candidate.objects.create(election=election, name='Candidate2')
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('candidate_data_update',
+                                       kwargs={'election_slug': election.slug, 'slug': candidate.slug}))
+
+    def test_existing_election_without_candidates(self):
+        election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('election_detail_admin',
+                                       kwargs={'slug': election.slug, 'username': self.user.username}))
+
+    def test_not_logged(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
