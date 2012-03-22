@@ -1140,3 +1140,11 @@ ul .electionList {
 	border:1px solid #72acd9;
 }
 	
+.lista_elecciones_en_home{
+    float:left;
+    width:282px;
+    margin-left:1px;
+}
+.informacion_de_elecciones_existentes {
+    height:50px;
+}

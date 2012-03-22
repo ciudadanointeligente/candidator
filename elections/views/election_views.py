@@ -217,3 +217,13 @@ class ElectionRedirectView(RedirectView):
                            kwargs={'slug': last_election.slug, 'username': self.request.user.username})
         return reverse('candidate_data_update',
                        kwargs={'election_slug': last_election.slug, 'slug': last_election.candidate_set.all()[0].slug})
+
+
+class HomeTemplateView(TemplateView):
+    template_name = 'home.html'
+
+
+    def get_context_data(self,**kwargs):
+        last_five_elections = Election.objects.all().order_by('-created_at')[:5]
+        kwargs['last_elections'] = last_five_elections
+        return kwargs
