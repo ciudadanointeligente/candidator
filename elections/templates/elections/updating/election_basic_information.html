@@ -64,11 +64,15 @@
 
             <p class="fieldWrapper">
                 <label class="blue_edit">{% trans 'IMAGEN' %}</label><br />
-                {% thumbnail election.logo "680x64" as im %}
+                {% if election.logo %}
+                    {% thumbnail election.logo "680x64" as im %}
 
-                    <div class="logo_eleccion_edit logo_eleccion electionLogo election_logo_change" ><img src="{{ im.url }}" alt="Cambia la imagen" style="margin: {{ im|margin:"680x64" }}" /></div>
+                        <div class="logo_eleccion_edit logo_eleccion electionLogo election_logo_change" ><img src="{{ im.url }}" alt="Cambia la imagen" style="margin: {{ im|margin:"680x64" }}" /></div>
 
-                {% endthumbnail %}
+                    {% endthumbnail %}
+                {% else %}
+                    <div class="logo_eleccion_edit logo_eleccion electionLogo election_logo_change" style="width:680px;height:64px;" ><center>{% trans 'No has seleccionado ninguna imagen' %}</center></div>
+                {% endif %}
 
             </p>
 
@@ -103,7 +107,7 @@
         
         $(document).ready(function() {
             $('#form-election-logo').load('{% url update_election_photo pk=election.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
-            $('.electionLogo').click(function(event){console.log('oli');$('#form-election-logo').dialog('open');});
+            $('.electionLogo').click(function(event){$('#form-election-logo').dialog('open');});
 
 
             $('#newcandidate').ajaxForm(function() {

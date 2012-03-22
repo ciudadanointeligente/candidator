@@ -57,7 +57,8 @@ a:link, a:visited {
 	text-decoration: none;
 }
  .anchor a:link, .anchor a:visited{
-    color: #94A9AF !important;
+    color: #80B6E2 !important;
+	text-transform: none !important;
  }
 .breadcrumbs {
     width: 770px;
