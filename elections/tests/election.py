@@ -781,3 +781,22 @@ class ElectionRedirectViewTest(TestCase):
     def test_not_logged(self):
         response = self.client.get(self.url)
         self.assertRedirects(response, settings.LOGIN_URL + '?next=' + self.url)
+
+
+class HomeTemplateView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1')
+        self.election2 = Election.objects.create(owner=self.user, name='Election', slug='election2')
+        self.election3 = Election.objects.create(owner=self.user, name='Election', slug='election3')
+        self.election4 = Election.objects.create(owner=self.user, name='Election', slug='election4')
+        self.election5 = Election.objects.create(owner=self.user, name='Election', slug='election5')
+        self.election6 = Election.objects.create(owner=self.user, name='Election', slug='election6')
+        self.url = reverse('home')
+
+    def test_it_brings_the_last_five_create_elections(self):
+        response = self.client.get(self.url)
+        self.assertTrue('last_elections' in response.context)
+        elections = response.context['last_elections']
+        self.assertTrue(elections.count() == 5)
+        self.assertTrue(elections[0] == self.election6)
