@@ -408,7 +408,7 @@ background-color:white;
 
 .papel{
     background: none repeat scroll 0 0 white;
-    box-shadow: 0 1px 8px 1px #666666;
+    box-shadow: 0 1px 8px 1px #cccccc;
     left: 50%;
     margin-left: -450px;
     margin-top: 25px;
@@ -1154,6 +1154,9 @@ ul .electionList {
 	border:1px solid #72acd9;
 }
 	
+	
+/* 3 COLUMNAS HOME */	
+	
 .lista_elecciones_en_home{
     width:263px;
 	float: left;
@@ -1188,6 +1191,8 @@ padding: 0 13px;
 	font-family:'AllerBold';
 	color:#666666;
 }
+
+/* FOOTER */
 
 .github{
 	display: block;
