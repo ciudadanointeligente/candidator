@@ -264,7 +264,7 @@ blockquote {
 }
 .wrapBasic{
     margin: auto;
-    width: 930px;
+    width: 922px;
 }
 
 /*HEADER*/
@@ -302,7 +302,7 @@ background-color:white;
 
 .logo_ciudadano{
     display: inline;
-    left: 390px;
+    left: 382px;
     margin-right: 6px;
     position: relative;
     top: 17px;
@@ -408,12 +408,13 @@ background-color:white;
 
 .papel{
     background: none repeat scroll 0 0 white;
-    box-shadow: 0 1px 8px 1px #666666;
+    box-shadow: 0 1px 8px 1px #cccccc;
     left: 50%;
     margin-left: -450px;
     margin-top: 25px;
     position: relative;
     width: 900px;
+	min-height: 255px;
 }
 
 .contenedor1{
@@ -548,7 +549,7 @@ ul.homeNav ul.sidebarMenu{
     overflow: hidden;
     position: relative;
     margin-bottom: 13px;
-	background: url("../img/background_header.jpg") no-repeat scroll right 3px transparent;
+	background: url("../img/background_header.jpg") no-repeat scroll right 0px transparent;
 }
 .logo_eleccion_edit{
     height: 64px !important;
@@ -588,11 +589,11 @@ ul.homeNav ul.sidebarMenu{
 }
 
 .img_descubrir{
-    margin: 10px 13px 10px 107px;
+    margin: 20px 13px 10px 107px;
 }
 
 .img_compartir{
-    margin: 10px 13px 10px 240px;
+    margin: 20px 13px 10px 240px;
 }
 
 .txt_comparar{
@@ -1154,11 +1155,13 @@ ul .electionList {
 	border:1px solid #72acd9;
 }
 	
+	
+/* 3 COLUMNAS HOME */	
+	
 .lista_elecciones_en_home{
     width:263px;
 	float: left;
 	margin: 0 10px 25px;
-	height: 250px;
 }
 
 .lista_elecciones_en_home ul{
@@ -1166,6 +1169,7 @@ ul .electionList {
 	border-right: 1px solid #E8E8E8;
 	border-left: 1px solid #E8E8E8;
 	padding: 13px;
+	min-height: 106px;
 }
 
 .even{
@@ -1188,6 +1192,8 @@ padding: 0 13px;
 	font-family:'AllerBold';
 	color:#666666;
 }
+
+/* FOOTER */
 
 .github{
 	display: block;
