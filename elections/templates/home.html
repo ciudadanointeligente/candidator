@@ -29,10 +29,11 @@
         <div class="lista_elecciones_en_home">
             <h2>{% trans '¿Por qué candideit.org?' %}</h2>
             <ul>
+            {% if  values|random == 1 %}
             <span class="bold">Candideit.org es una herramienta que busca fortalecer la democracia desde los ciudadanos.</span> Con tu participación, podrás ser un activista del voto informado; entregando información comparable y compartiendo con tus círculos la elección. 
-			<br>
-            <br>
+            {% else %}
 <span class="bold">Candideit.org es tu aliado para repartir la torta.</span> Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo. 
+            {% endif %}
             </ul>
          </div>
         <div class="lista_elecciones_en_home">
