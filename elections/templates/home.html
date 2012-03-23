@@ -7,12 +7,13 @@
 
 <div class="papel">
 	<div class="contenedor3">
-			<!--div class="slider-wrapper theme-default">
+			<div class="slider-wrapper theme-default">
             	<div class="ribbon"></div-->
             	<div id="nivoslider-125" class="nivoSlider" style="width:850px;height:349px;">
                 <img src="{{ STATIC_URL }}img/home1.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home2.jpg" alt="" />
              	</div>
-            <!--/div-->
+            </div>
 
             <br />
             
@@ -110,12 +111,12 @@
 
 {% block extra_js %}
 <script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
-<!--script type="text/javascript">
+<script type="text/javascript">
 jQuery(window).load(function(){
     jQuery("#nivoslider-125").nivoSlider({
         effect: 'slideInLeft'
     });
 });
-</script-->
+</script>
 
 {% endblock extra_js %}
