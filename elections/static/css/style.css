@@ -3,7 +3,7 @@
 
 html, body { height: 100%; }
 
-body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #333333; 
+body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px; color: #666; 
 	background: #ffffff;
 	background: -moz-linear-gradient(left,  #ffffff 0%, #e8e8e8 50%, #ffffff 100%);
 	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#e8e8e8), color-stop(100%,#ffffff));
@@ -75,6 +75,18 @@ a:link, a:visited {
 .goedit a:hover{
 	text-decoration:underline;
 }
+
+.goeditAzul a:link, .goeditAzul a:visited {
+	color: #80B6E2;
+	text-transform: lowercase;
+	font-family: 'AllerItalic';
+	font-size: 12px;
+	letter-spacing: 0px;
+}
+
+.goeditAzul a:hover{
+	text-decoration:underline;
+}
  
 a:hover{
     text-decoration: none;
@@ -113,12 +125,14 @@ h1{
 h2{
     color:#ffffff;
     font-size:12px;
-    background-color:#afceea;
-    border:1px solid #a7c7e6;
+    background-color:#80b6e2;
+    border:1px solid #72acd9;
     text-transform:uppercase;
-    padding: 2px 4px 2px;
-    margin: 0px 13px;
+    padding: 6px 8px 6px;
+	margin:0px;
+	margin-top:5px;
 }
+
 
 .tit h2{
     color:#ffffff;
@@ -1141,10 +1155,46 @@ ul .electionList {
 }
 	
 .lista_elecciones_en_home{
-    float:left;
-    width:282px;
-    margin-left:1px;
+    width:263px;
+	float: left;
+	margin: 0 10px 25px;
+	height: 250px;
 }
+
+.lista_elecciones_en_home ul{
+	border-bottom: 1px solid #E8E8E8;
+	border-right: 1px solid #E8E8E8;
+	border-left: 1px solid #E8E8E8;
+	padding: 13px;
+}
+
+.even{
+	background-color: #f2f2f2;
+	margin: 0 -13px;
+padding: 0 13px;
+}
+
+.lista_elecciones_en_home li{
+	line-height: 21px;
+}
+
+
 .informacion_de_elecciones_existentes {
-    height:50px;
+    height: 250px;
+}
+
+
+.bold{
+	font-family:'AllerBold';
+	color:#666666;
+}
+
+.github{
+	display: block;
+	width: 227px;
+}
+
+.otrasApp{
+	margin-left: 195px;
+	margin-top: -160px;
 }
