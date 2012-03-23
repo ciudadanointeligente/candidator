@@ -800,3 +800,6 @@ class HomeTemplateView(TestCase):
         elections = response.context['last_elections']
         self.assertTrue(elections.count() == 5)
         self.assertTrue(elections[0] == self.election6)
+        self.assertTrue('values' in response.context)
+        self.assertTrue(response.context['values'] == [1,2])
+        
