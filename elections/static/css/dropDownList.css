@@ -39,6 +39,8 @@
     position: relative;
     z-index: 30000;
 	margin: 0 1px;
+	overflow: scroll;
+	height: 155px;
 }
 	
 
