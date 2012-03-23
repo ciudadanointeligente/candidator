@@ -24,40 +24,76 @@
             <div class="img_descubrir"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_descubrir">descubrir quien es tu media naranja política...</div>
             <div class="img_compartir"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_compartir">y compartir los resultados</div>
      </div>   
-     <!--div class="informacion_de_elecciones_existentes">
+     <div class="informacion_de_elecciones_existentes">
+        
         <div class="lista_elecciones_en_home">
-            {% trans 'Últimas 5 elecciones' %}
+            <h2>{% trans '¿Por qué candideit.org?' %}</h2>
+            <ul>
+            <span class="bold">Candideit.org es una herramienta que busca fortalecer la democracia desde los ciudadanos.</span> Con tu participación, podrás ser un activista del voto informado; entregando información comparable y compartiendo con tus círculos la elección. 
+			<br>
+            <br>
+<span class="bold">Candideit.org es tu aliado para repartir la torta.</span> Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo. 
+            </ul>
+         </div>
+        <div class="lista_elecciones_en_home">
+            <h2>{% trans 'Elecciones destacadas' %}</h2>
+            <ul>
+            Aún no tenemos elecciones destacadas.
+            </ul>
+         </div>
+        <div class="lista_elecciones_en_home">
+            <h2>{% trans 'Últimas elecciones' %}</h2>
             <ul>
                 {% for last_election in last_elections %}
-                    <li><a href="{{ last_election.get_absolute_url }}">{{ last_election }}</a></li>
+                <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
+                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}"> ver</a></span></li>
+                </div>
                 {% endfor %}
             </ul>
          </div>
-         <div class="lista_elecciones_en_home">
-            {% trans 'Elecciones destacadas' %}
-            <ul>
-            </ul>
-         </div>
-         <div class="lista_elecciones_en_home">
-            {% trans '¿Por qué candideit.org?' %}
-            <ul>
-            </ul>
-         </div>
+         
+         
     </div>
-    <div class="img_comparar"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_comparar">comparar los candidatos...</div-->
-
-
-     
-
-
-
-
-
-
+    <br>
+    <br>
+    <br>
     </div>    
-</div>
+</div>  
+    
+    
+<!-- FOOTER -->
 
-<br />  
+<div class="papel">
+	<div class="contenedor3">
+    
+    <div class="github goeditAzul">¿Quieres ver nuestro código? revisalo acá: <a href="http://www.github.com/ciudadanointeligente/candidator.org">http://www.github.com/ciudadanointeligente/candidator.org</a></div>
+
+<hr />
+
+
+	<footer>
+	<div class="img_comparar"><img src="{{ STATIC_URL }}img/fci_footer.png" /></div>
+                <div class="otrasApp">
+					<iframe src="http://ciudadanointeligente.cl/commonAssets/masproyectos.html" width="680px" height="220" frameborder="0" style="overflow: hidden;">	
+				</iframe>
+                </div>
+			
+	</footer>
+	
+	
+
+	</div>
+</div>
+     
+<!-- END FOOTER -->
+
+
+
+
+
+
+
+  
 
 
 
