@@ -1162,7 +1162,6 @@ ul .electionList {
     width:263px;
 	float: left;
 	margin: 0 10px 25px;
-	height: 250px;
 }
 
 .lista_elecciones_en_home ul{
@@ -1170,6 +1169,7 @@ ul .electionList {
 	border-right: 1px solid #E8E8E8;
 	border-left: 1px solid #E8E8E8;
 	padding: 13px;
+	min-height: 106px;
 }
 
 .even{
