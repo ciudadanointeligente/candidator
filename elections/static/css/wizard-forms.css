@@ -356,7 +356,7 @@ div.instrucciones{
 }
 
 .img_login{
-    margin: 10px 13px 10px 0px;
+    margin: 18px 13px 10px 0px;
 }
 
 .txt_login{
@@ -397,7 +397,6 @@ div.instrucciones{
 
 #newelection #id_description {
     margin-left: 0px;
-    width: 328px;
 }
 
 .selected{

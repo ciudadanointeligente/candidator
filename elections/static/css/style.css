@@ -752,6 +752,7 @@ ul.homeNav ul.sidebarMenu{
 }
 .election_logo_change {
     cursor: pointer;
+	border: 1px solid #DEDEDE;
 }
 
 .menuBig{

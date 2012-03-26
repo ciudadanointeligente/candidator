@@ -28,7 +28,7 @@
 
     <div id="personal_data_titulo" class="edit_tit">
         <h2>{% trans 'a. datos personales del candidato' %}</h2>
-        <div class="ayuda">{% trans 'Las respuestasde cada candidato las agregarás en la siguiente sección' %}</div>
+        <div class="ayuda">{% trans 'Las respuestas de cada candidato las agregarás en la sección "Rellena mi Candideit.org."' %}</div>
     </div>
 <div class="wrapper_preguntas">
     <ul id="lista_personaldata">
@@ -147,7 +147,7 @@
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
-                                    <p><input type="text" name="caption" placeholder="{% trans 'agregar alternativa' %}" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">{% trans 'agregar' %}
+                                    <p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">{% trans 'agregar' %}
                     </a></p>
                                 
                             </form>
@@ -426,7 +426,7 @@ $(document).ready(function() {
         function(data) {
 
 
-            var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="agregar respuesta" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p></form></li></ul></div></li>';
+            var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p></form></li></ul></div></li>';
 
 
             var lista = $("ul#id_question_list_"+category_pk);
