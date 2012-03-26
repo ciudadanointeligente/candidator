@@ -49,7 +49,7 @@
             <ul>
                 {% for last_election in last_elections %}
                 <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
-                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}"> ver</a></span></li>
+                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ last_election.get_absolute_url }}"> ver</a></span></li>
                 </div>
                 {% endfor %}
             </ul>

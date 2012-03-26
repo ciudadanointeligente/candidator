@@ -6,8 +6,11 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
-
+    <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
+    {% if election %}
+    <meta name="Description" content="{{ election.description }}" />
+    {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
@@ -57,9 +60,13 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
-{% block extra_js %}
 <script type="text/javascript">
-
+    var uvOptions = {};
+    (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-29858310-1']);
   _gaq.push(['_trackPageview']);
@@ -71,7 +78,9 @@
   })();
 
 </script>
+{% block extra_js %}
 {% endblock extra_js %}
+
 </body>
 
     <div id="footer">
