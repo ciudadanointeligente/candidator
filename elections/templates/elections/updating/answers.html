@@ -286,7 +286,7 @@
         function saveAllData(){
             savePersonalData();
             saveBackgrounds();
-            notify('{% trans "Éxito tus respuestas han sido guardadas" %}',3000);
+            notify('{% trans "Tus respuestas han sido guardadas exitosamente" %}',3000);
         }
         function savePersonalData(){
             $(".personal-data-input").each(function(index, element){
@@ -356,7 +356,7 @@
             },
             'json');
         });
-        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 130, modal: true});
         $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
 
         </script>
