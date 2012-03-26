@@ -58,6 +58,7 @@ h3 {
 	margin-top: 8px;
 	color: #666;
 	line-height: 21px;
+    min-height: 80px;
 }
 
 span.profile-description{
