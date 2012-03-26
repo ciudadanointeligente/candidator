@@ -10,8 +10,9 @@
 			<div class="slider-wrapper theme-default">
             	<div class="ribbon"></div-->
             	<div id="nivoslider-125" class="nivoSlider" style="width:850px;height:349px;">
-                <img src="{{ STATIC_URL }}img/home1.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home3.jpg" alt="" />
                 <img src="{{ STATIC_URL }}img/home2.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home1.jpg" alt="" />
              	</div>
             </div>
 
@@ -48,7 +49,7 @@
             <ul>
                 {% for last_election in last_elections %}
                 <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
-                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}"> ver</a></span></li>
+                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ last_election.get_absolute_url }}"> ver</a></span></li>
                 </div>
                 {% endfor %}
             </ul>
@@ -115,7 +116,7 @@
 jQuery(window).load(function(){
     jQuery("#nivoslider-125").nivoSlider({
         effect: 'slideInLeft',
-        animSpeed: 1000,
+        animSpeed: 500,
         pauseTime: 10000,
     });
 });
