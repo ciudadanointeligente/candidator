@@ -470,7 +470,16 @@ $(document).ready(function() {
             $(".save_question_link[pk=\""+data.pk+"\"]").click(save_question);
             //$("li#add_question_"+data.pk+" input#id_question").val(default_texts[1][1])
         },
-        'json');
+        'json').error(function(data){
+            var errors = jQuery.parseJSON(data.responseText).errors;
+            var target = $(e.currentTarget);
+            var htmlToAppend = '<ul>';
+            for (var errorIndex in errors) {
+                htmlToAppend += '<li>'+errors[errorIndex]+'</li>';
+            }
+            htmlToAppend += '</ul>';
+            target.after(htmlToAppend);
+        });
         return false;
     });
 

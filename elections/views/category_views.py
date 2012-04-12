@@ -94,6 +94,12 @@ def async_create_category(request, election_pk):
 
     value = request.POST.get('value', None)
     category = Category(name=value, election=election)
+    try:
+        category.full_clean()
+    except ValidationError, e:
+        errors = {'errors': e.messages}
+        return HttpResponse(json.dumps(errors),status=412)
+
     category.save()
     return HttpResponse(json.dumps({"pk": category.pk, "name": category.name}),
                         content_type='application/json')

@@ -102,7 +102,7 @@
                                 <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
                                 <ul class="ulEnlacesPersonales">
                                     {% for link in candidate.link_set.all %}
-                                    <li class="{{ link.css_class }}"><a rel="external" href="{{ link.http_prefix }}">{{ link.name }}</a></li>
+                                    <li class="{{ link.css_class }}"><a target="_blank" href="{{ link.http_prefix }}">{{ link.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </section>

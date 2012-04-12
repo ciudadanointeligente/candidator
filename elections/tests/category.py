@@ -8,6 +8,7 @@ from django.db import IntegrityError
 
 from elections.models import Candidate, Election, Category, Question, Answer
 from elections.forms import QuestionForm, CategoryForm, ElectionForm, CategoryUpdateForm
+from django.core.exceptions import ValidationError
 
 class CategoryModelTest(TestCase):
     def setUp(self):
@@ -36,6 +37,13 @@ class CategoryModelTest(TestCase):
         updated_category = Category.objects.get(slug='foocat', election=self.election)
         self.assertEqual(updated_category.name, new_category_name)
 
+    def test_category_name_cannot_be_empty(self):
+        category = Category.objects.create(name='', election=self.election)
+        try:
+            category.full_clean()
+            self.fail('The category name can be empty')
+        except ValidationError:
+            pass
 
 class CategoryCreateViewTest(TestCase):
     def setUp(self):
@@ -116,6 +124,18 @@ class CategoryCreateViewTest(TestCase):
 
         self.assertRedirects(response, reverse('category_create',
                                                kwargs={'election_slug': self.election.slug}))
+
+    def test_cannot_create_a_category_with_an_empty_name(self):
+        self.client.login(username='joe', password='doe')
+        params = {'name': ''}
+        response = self.client.post(reverse('category_create',
+                                        kwargs={'election_slug': self.election.slug}),
+                                    params,
+                                    follow=True)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertFormError(response, 'form', 'name', u'This field is required.')
+
 
 class CategoryUpdateViewTest(TestCase):
     def setUp(self):
@@ -328,3 +348,16 @@ class AsyncCreateCategoryViewTest(TestCase):
         self.assertTrue(params['value'] in category_names)
         category = self.election.category_set.get(name=params['value'])
         self.assertEquals(response.content, '{"pk": %d, "name": "%s"}' % (category.pk, params['value']))
+
+    def test_post_async_create_category_with_an_empty_name(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': ''}
+        response = self.client.post(reverse('async_create_category',
+                                    kwargs={'election_pk': self.election.pk}),
+                                    params,
+                                    follow=True)
+
+        #412 means error
+        self.assertEquals(response.status_code, 412)
+        print response.content
