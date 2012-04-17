@@ -360,4 +360,3 @@ class AsyncCreateCategoryViewTest(TestCase):
 
         #412 means error
         self.assertEquals(response.status_code, 412)
-        print response.content
