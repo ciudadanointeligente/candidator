@@ -1213,5 +1213,5 @@ padding: 0 13px;
 	right: 2px;
 	top: 90px;
 	z-index: 10;
-	display: none; /* BORRAR AL ACTIVAR */
+	/*display: none;  BORRAR AL ACTIVAR */
 }
