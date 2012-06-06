@@ -1205,3 +1205,12 @@ padding: 0 13px;
 	margin-left: 195px;
 	margin-top: -160px;
 }
+
+/* AMPOLLETA */
+
+.fci-ampolleta-light {
+	position: absolute;
+	right: 6px;
+	top: 158px;
+	display: none; /* BORRAR AL ACTIVAR */
+}
