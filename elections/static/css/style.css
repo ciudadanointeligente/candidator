@@ -1210,8 +1210,8 @@ padding: 0 13px;
 
 .fci-ampolleta-light {
 	position: absolute;
-	right: -110px;
-	top: -30px;
+	right: 2px;
+	top: 90px;
 	z-index: 10;
 	display: none; /* BORRAR AL ACTIVAR */
 }
