@@ -301,7 +301,7 @@ background-color:white;
 }
 
 .logo_ciudadano{
-    display: inline;
+    display: none;
     left: 382px;
     margin-right: 6px;
     position: relative;
