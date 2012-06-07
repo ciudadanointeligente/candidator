@@ -1213,7 +1213,6 @@ ul .electionList {
 	top: 109px;
 	z-index: 10;
 	right: -135px;
-	display: none;/* SACAR PARA ACTIVAR */
 }
 
 .bulb_container {
