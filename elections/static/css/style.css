@@ -301,7 +301,7 @@ background-color:white;
 }
 
 .logo_ciudadano{
-    display: inline;
+    display: none;
     left: 382px;
     margin-right: 6px;
     position: relative;
@@ -1176,7 +1176,7 @@ ul .electionList {
 .even{
 	background-color: #f2f2f2;
 	margin: 0 -13px;
-padding: 0 13px;
+	padding: 0 13px;
 }
 
 .lista_elecciones_en_home li{
@@ -1204,4 +1204,19 @@ padding: 0 13px;
 .otrasApp{
 	margin-left: 195px;
 	margin-top: -160px;
+}
+
+/* AMPOLLETA */
+
+.fci-ampolleta-light {
+	position: absolute;
+	top: 109px;
+	z-index: 10;
+	right: -135px;
+}
+
+.bulb_container {
+	width: 950px;
+	margin: 0 auto;
+	position: relative;
 }
