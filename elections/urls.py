@@ -16,10 +16,66 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
-                  ElectionShareView, ElectionRedirectView, HomeTemplateView
+                  ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView
 
 
 urlpatterns = patterns('',
+    
+
+
+
+    #frontend embed
+    # Election detail view embeded
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/embeded/?$', ElectionDetailView.as_view(template_name="elections/embeded/election_detail.html"), name='election_detail_embeded'),
+    # Election candidates profiles
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles/embeded/?$', ElectionDetailView.as_view(template_name='elections/embeded/election_detail_profiles.html'), name='election_detail_profiles_embeded'),
+    # Media Naranja
+    url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja/embeded/?$', 'candidator.elections.views.medianaranja1_embed',name='medianaranja1_embeded'),
+
+    # Election compare view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/embeded/?$', CompareView.as_view(template_name='elections/embeded/election_compare.html'), name='election_compare_embeded'),
+
+    # Election compare view with both candidates (and considering one category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/embeded/?$', CompareView.as_view(template_name='elections/embeded/election_compare.html'), name='election_compare_two_candidates_embeded'),
+
+    # Election compare view with both candidates (and NO category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/embeded/?$', CompareView.as_view(template_name='elections/embeded/election_compare.html'), name='election_compare_two_candidates_and_no_category_embeded'),
+
+    # Election compare view with 1 candidate
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/embeded?$', CompareView.as_view(template_name='elections/embeded/election_compare.html'), name='election_compare_one_candidate_embeded'),
+
+    #frontend
+    # Election candidates profiles
+
+
+
+
+
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles/?$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
+
+    # Election compare view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/?$', CompareView.as_view(template_name='elections/election_compare.html'), name='election_compare'),
+
+    # Election compare view with both candidates (and considering one category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/?$', CompareView.as_view(template_name='elections/election_compare.html'), name='election_compare_two_candidates'),
+
+    # Election compare view with both candidates (and NO category)
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/?$', CompareView.as_view(template_name='elections/election_compare.html'), name='election_compare_two_candidates_and_no_category'),
+
+    # Election compare view with 1 candidate
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', CompareView.as_view(template_name='elections/election_compare.html'), name='election_compare_one_candidate'),
+
+    # Asynchronous call for compare view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
+
+    # Election description
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),
+    # Election detail view
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
+
+    
+
+
 
     # Root: login_required (por ahora pues no se ha definido un index)
     url(r'^$', HomeTemplateView.as_view(), name="home"),
@@ -48,7 +104,6 @@ urlpatterns = patterns('',
     # Create Answer Ajax
     # url(r'^(?P<question_pk>[0-9]+)/answer/ajax_create/?$', answer_ajax_create, name='answer_ajax_create'),
 
-
     # Create Category View
     url(r'^(?P<election_slug>[-\w]+)/category/create/?$', CategoryCreateView.as_view(), name='category_create'),
 
@@ -73,38 +128,15 @@ urlpatterns = patterns('',
     # Election share view
     url(r'^election/(?P<slug>[-\w]+)/share/?$', ElectionShareView.as_view(template_name='elections/updating/share.html'), name='share_my_election'),
 
-    # Election detail view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
-
     # Election detail view admin
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/gracias$', ElectionDetailView.as_view(template_name='elections/wizard/thanks_for_using_us.html'), name='election_detail_admin'),
 
     url(r'^election/(?P<slug>[-\w]+)/questions/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
     
     url(r'^election/(?P<pk>\d+)/update_election_photo', ElectionLogoUpdateView.as_view(), name="update_election_photo"),
-
-    # Election candidates profiles
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail_profiles'),
-
-    # Election compare view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/?$', 'candidator.elections.views.election_compare_view', name='election_compare'),
-
-    # Election compare view with both candidates (and considering one category)
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/(?P<category_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates', name='election_compare_two_candidates'),
-
-    # Election compare view with both candidates (and NO category)
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/(?P<second_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_two_candidates_and_no_category', name='election_compare_two_candidates_and_no_category'),
-
-    # Election compare view with 1 candidate
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_view_one_candidate', name='election_compare_one_candidate'),
-
-    # Asynchronous call for compare view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
-
-    # Election description
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),
-
-
+    # Media Naranja
+    url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
+    
 
 
 
@@ -189,11 +221,17 @@ urlpatterns = patterns('',
     # Delete link ajax
     url(r'^(?P<link_pk>[-\d]+)/link/async_delete/?$', 'candidator.elections.views.async_delete_link' , name='async_delete_link'),
 
-    # Media Naranja
-    url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
+    
 
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)$', CandidateDetailView.as_view(), name='candidate_detail'),
+
+
+
+
+
+
+
 
 
 )

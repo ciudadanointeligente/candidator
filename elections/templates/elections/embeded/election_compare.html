@@ -1,4 +1,4 @@
-{% extends "elections/base.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load thumbnail %}
 {% load election_tags %}
@@ -9,14 +9,6 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
-
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
 
@@ -31,7 +23,9 @@
 
     function get_base_url(){
         var actual_direction  = "{{ request.build_absolute_uri }}"
-        var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare"
+
+        //cambiar este patrón
+        var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare/embeded/"
         var position_pattern  = actual_direction.indexOf(reference_pattern)
         var pre_direction     = actual_direction.substring(0,position_pattern)
         var final_direction   = pre_direction + reference_pattern
@@ -41,7 +35,7 @@
     function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
 
         $("#"+div_id).empty();
-        var dir = get_base_url() + "-async/"+candidate_slug+"/"
+        var dir = "/{{election.owner.username}}/{{election.slug}}/compare-async/"+candidate_slug;
          $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}'},
             function(json) {
                 var data = json["personal_data"]
@@ -83,10 +77,10 @@
                error_div.style.display = "inline"
             }
             else{
-                var final_direction = get_base_url() +"/";
+                var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
                 final_direction += first_select.value + "/" + second_select.value;
-                final_direction +=  "/" + get_checked_radio_button_value();
-                window.location = final_direction;
+                final_direction +=  "/" + get_checked_radio_button_value() + "/embeded";
+                window.location     = final_direction
             }
         }
         else{
@@ -97,10 +91,10 @@
                error_div.style.display = "inline";
             }
             else{
-                var final_direction = get_base_url() +"/";
+                var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
                 final_direction += first_select.value + "/" + second_select.value;
-                final_direction +=  "/" + get_checked_radio_button_value();
-                window.location = final_direction;
+                final_direction +=  "/" + get_checked_radio_button_value() + "/embeded";
+                window.location     = final_direction
             }
         }
     }
@@ -109,17 +103,11 @@
         var first_select  = document.getElementById("firstCandidate");
         var second_select = document.getElementById("secondCandidate");
         if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
-            var final_direction = get_base_url() +"/"+first_select.value + "/" + second_select.value + "/" + current_radio_button.value
+            var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
+            final_direction += first_select.value + "/" + second_select.value + "/" + current_radio_button.value + "/embeded";
             window.location     = final_direction
         }
     }
-
-    function get_facebook_comment_direction(){
-        var facebook_comment_direction = get_base_url() + '/' + "{{facebook_link}}"
-        alert(facebook_comment_direction)
-        return facebook_comment_direction
-    }
-
     function hide_selected_candidate(position){
         if(position == 'first')
             other = 'second';
@@ -148,9 +136,6 @@
 
 {% block content %}
 
-<div class="papel">
-
-<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
 
 <div class="contenedor3">
 
@@ -378,6 +363,6 @@
 		</div>
 	</div>
 
-</div>
+
 
 {% endblock content %}

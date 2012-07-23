@@ -74,7 +74,7 @@ def get_medianaranja1(request, username, election_slug):
                 check = True
                 break
 
-    return render_to_response('medianaranja1.html', {'stt':send_to_template, 'check': check, 'election': election}, context_instance = RequestContext(request))
+    return {'stt':send_to_template, 'check': check, 'election': election}
 
 def medianaranja1(request, username, election_slug):
 
@@ -82,7 +82,16 @@ def medianaranja1(request, username, election_slug):
         return post_medianaranja1(request, username, election_slug)
 
     else:
-        return get_medianaranja1(request, username, election_slug)
+        context = get_medianaranja1(request, username, election_slug)
+        return render_to_response('medianaranja1.html', context, context_instance = RequestContext(request))
+
+
+def medianaranja1_embed(request, username, election_slug):
+    if request.method == "POST":
+        pass
+    else:
+        context = get_medianaranja1(request, username, election_slug)
+        return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
 
 def medianaranja2(request, my_answers, importances, candidates, categories, election):
 

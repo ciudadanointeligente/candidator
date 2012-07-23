@@ -1,4 +1,4 @@
-{% extends "elections/base.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load election_tags %}
 {% load thumbnail %}
@@ -35,7 +35,7 @@
             {% include 'election_logo.html' %}
 
 
-            <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+            <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
             {% link_to_updating_this_election request.user election %}
             <div style="float:right">
 
@@ -59,17 +59,17 @@
 <nav id="homeNavigation">
       <ul class="homeNav">
                 <li class="homeLi homeListMedianaranja">
-                    <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
+                    <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">
                         <h5>{% trans 'Media' %} <br/>{% trans 'Naranja' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListPerfiles">
-                    <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">
+                    <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">
                         <h5> {% trans 'Perfil de Candidatos' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListComparar">
-                    <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
+                    <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">
                         <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
                     </a>
                 </li>
