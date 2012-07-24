@@ -30,6 +30,8 @@ class Election(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
+    #TODO: 
+    #y ver como deployar esto arriba
     #highlighted = models.BooleanField(default=False)
 
     class Meta:

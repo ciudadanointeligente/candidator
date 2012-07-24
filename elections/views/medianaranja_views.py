@@ -79,7 +79,8 @@ def get_medianaranja1(request, username, election_slug):
 def medianaranja1(request, username, election_slug):
 
     if request.method == "POST":
-        return post_medianaranja1(request, username, election_slug)
+        context = post_medianaranja1(request, username, election_slug)
+        return render_to_response('medianaranja2.html', context, context_instance = RequestContext(request))
 
     else:
         context = get_medianaranja1(request, username, election_slug)
@@ -88,7 +89,8 @@ def medianaranja1(request, username, election_slug):
 
 def medianaranja1_embed(request, username, election_slug):
     if request.method == "POST":
-        pass
+        context = post_medianaranja1(request, username, election_slug)
+        return render_to_response('elections/embeded/medianaranja2.html', context, context_instance = RequestContext(request))
     else:
         context = get_medianaranja1(request, username, election_slug)
         return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
@@ -107,4 +109,6 @@ def medianaranja2(request, my_answers, importances, candidates, categories, elec
 
     winner = scores_and_candidates[0]
     other_candidates = scores_and_candidates[1:]
-    return render_to_response('medianaranja2.html', {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))
+
+    context = {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}
+    return context
