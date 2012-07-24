@@ -201,6 +201,8 @@ class ElectionDetailViewTest(TestCase):
                 'slug': election.slug
             })
         response = self.client.get(url)
+        self.assertTemplateUsed(response, "elections/base.html")
+        self.assertTemplateUsed(response, "elections/election_detail.html")
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEquals(response.context['election'], election)
@@ -213,7 +215,7 @@ class ElectionDetailViewTest(TestCase):
                                                'slug': 'asd-asd'}))
         self.assertEquals(response.status_code, 404)
 
-    def test_detail_non_existing_election_for_user_view(self):
+    def test_detail_non_existinmeg_election_for_user_view(self):
         user = User.objects.create(username='foobar')
         user2 = User.objects.create(username='barbaz')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
@@ -222,7 +224,6 @@ class ElectionDetailViewTest(TestCase):
                                                'username': user.username,
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 404)
-
 
 class ElectionCompareViewTest(TestCase):
     def test_compare_existing_election_view(self):

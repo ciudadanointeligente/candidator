@@ -1,4 +1,4 @@
-{% extends "elections/base.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load election_tags %}
 {% load candidate_tags %}
@@ -12,7 +12,7 @@
 {% block extra_js %}
 <script type="text/javascript" src="{{ STATIC_URL }}/js/accordionForProfiles.js"></script>
 <script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e7a236a4a5434b2"></script>
-    <script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
 {% endblock extra_js %}
@@ -24,11 +24,12 @@
 {% block content %}
 
 
+
 <div class="contenedor3">
 
     {% include 'election_logo.html' %}
 
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
     <div style="float:right">
 
@@ -89,8 +90,8 @@
                             </section>
                             
                  <aside class="profileAside">
-                            <div class="sideButton compare"><a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}">{% trans "Compara" %}</a></div>
-                            <div class="sideButton medianaranja"><a href="{% url medianaranja1 election_slug=candidate.election.slug username=candidate.election.owner.username %}">Media<wbr /> Naranja</a></div>
+                            <div class="sideButton compare"><a href="{% url election_compare_one_candidate_embeded first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}">{% trans "Compara" %}</a></div>
+                            <div class="sideButton medianaranja"><a href="{% url medianaranja1_embeded election_slug=candidate.election.slug username=candidate.election.owner.username %}">Media<wbr /> Naranja</a></div>
         
                     
                 </aside>

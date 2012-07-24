@@ -74,15 +74,26 @@ def get_medianaranja1(request, username, election_slug):
                 check = True
                 break
 
-    return render_to_response('medianaranja1.html', {'stt':send_to_template, 'check': check, 'election': election}, context_instance = RequestContext(request))
+    return {'stt':send_to_template, 'check': check, 'election': election}
 
 def medianaranja1(request, username, election_slug):
 
     if request.method == "POST":
-        return post_medianaranja1(request, username, election_slug)
+        context = post_medianaranja1(request, username, election_slug)
+        return render_to_response('medianaranja2.html', context, context_instance = RequestContext(request))
 
     else:
-        return get_medianaranja1(request, username, election_slug)
+        context = get_medianaranja1(request, username, election_slug)
+        return render_to_response('medianaranja1.html', context, context_instance = RequestContext(request))
+
+
+def medianaranja1_embed(request, username, election_slug):
+    if request.method == "POST":
+        context = post_medianaranja1(request, username, election_slug)
+        return render_to_response('elections/embeded/medianaranja2.html', context, context_instance = RequestContext(request))
+    else:
+        context = get_medianaranja1(request, username, election_slug)
+        return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
 
 def medianaranja2(request, my_answers, importances, candidates, categories, election):
 
@@ -98,4 +109,6 @@ def medianaranja2(request, my_answers, importances, candidates, categories, elec
 
     winner = scores_and_candidates[0]
     other_candidates = scores_and_candidates[1:]
-    return render_to_response('medianaranja2.html', {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}, context_instance = RequestContext(request))
+
+    context = {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}
+    return context

@@ -412,9 +412,11 @@ background-color:white;
     left: 50%;
     margin-left: -450px;
     margin-top: 25px;
+    padding-top: 1  px;
     position: relative;
     width: 900px;
 	min-height: 255px;
+    padding-bottom: 1px;
 }
 
 .contenedor1{

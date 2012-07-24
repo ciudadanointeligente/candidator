@@ -11,3 +11,4 @@ from link import *
 from medianaranja import *
 from personal_data import *
 from question import *
+from election_embeded import *
