@@ -142,6 +142,20 @@ class ElectionEmbededDetail(TestCase):
 		self.assertTemplateUsed(response, "elections/base_embed.html")
 
 
+	def test_display_candidate_profile(self):
+		url = reverse('candidate_detail_embeded',kwargs={
+			'username': self.user.username,
+			'election_slug': self.election.slug,
+			'slug':self.candidate_one.slug
+			})
+		response = self.client.get(url)
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateNotUsed(response, "elections/candidate_detail.html")
+		self.assertTemplateUsed(response, "elections/embeded/candidate_detail.html")
+		self.assertTemplateUsed(response, "elections/base_embed.html")
+
+
+
 
 
 

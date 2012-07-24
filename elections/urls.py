@@ -225,6 +225,10 @@ urlpatterns = patterns('',
 
     # Candidate detail view
     url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)$', CandidateDetailView.as_view(), name='candidate_detail'),
+    #embeded
+
+    # Candidate detail view
+    url(r'^(?P<username>[-\w]+)/(?P<election_slug>[-\w]+)/(?P<slug>[-\w]+)/embeded/?$', CandidateDetailView.as_view(template_name="elections/embeded/candidate_detail.html"), name='candidate_detail_embeded'),
 
 
 

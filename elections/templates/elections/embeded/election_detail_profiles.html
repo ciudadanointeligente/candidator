@@ -52,7 +52,7 @@
 
             {% for candidate in election.candidate_set.all %}
             <li>
-                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
                     <div style="width: 115px; height: 144px; background-color: white; margin-top: 13px;">
                     {% thumbnail candidate.photo "115x144" crop="center" as im %}
                         <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
