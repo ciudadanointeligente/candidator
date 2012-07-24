@@ -108,46 +108,70 @@ class ElectionCreateView(CreateView):
 
         return super(ElectionCreateView, self).form_valid(form)
 
-# Election views that are not generic
-def election_compare_view(request, username, slug):
-    election = get_object_or_404(Election, owner__username=username, slug=slug)
-    return render_to_response('elections/election_compare.html', {'election': election }, context_instance = RequestContext(request))
 
-def election_compare_view_one_candidate(request, username, slug, first_candidate_slug):
-    election = get_object_or_404(Election, owner__username=username, slug=slug)
-    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
-    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate}, context_instance = RequestContext(request))
 
-def election_compare_view_two_candidates_and_no_category(request, username, slug, first_candidate_slug, second_candidate_slug):
-    election = get_object_or_404(Election, owner__username=username, slug=slug)
-    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
-    second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
-    if first_candidate == second_candidate:
-        raise Http404
-    facebook_link = 'http'
-    site = Site.objects.get_current()
-    if request.is_secure(): facebook_link += 's'
-    facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
-    facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)
-    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
 
-def election_compare_view_two_candidates(request, username, slug, first_candidate_slug, second_candidate_slug, category_slug):
-    election = get_object_or_404(Election, owner__username=username, slug=slug)
-    first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
-    second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
-    if first_candidate == second_candidate:
-        raise Http404
-    selected_category = get_object_or_404(Category, election=election, slug=category_slug)
-    first_candidate_answers = first_candidate.get_all_answers_by_category(selected_category)
-    second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
-    answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
-    facebook_link = 'http'
-    site = Site.objects.get_current()
-    if request.is_secure(): facebook_link += 's'
-    facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
-    facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
-    return render_to_response('elections/election_compare.html', {'election': election,'first_candidate': first_candidate,'second_candidate': second_candidate, 'selected_category': selected_category, 'answers': answers, 'facebook_link': facebook_link }, context_instance = RequestContext(request))
 
+
+
+
+
+
+
+
+
+# Election views
+class CompareView(DetailView):
+    model = Election
+
+
+    def get_context_data(self, **kwargs):
+        context = super(CompareView, self).get_context_data(**kwargs)
+        username = self.kwargs['username']
+        slug = self.kwargs['slug']
+        #Seleccionar esto del get_queryset
+        #con algo como self.object
+        election = get_object_or_404(Election, owner__username=username, slug=slug)
+        context["election"] = election
+
+        if('first_candidate_slug' in self.kwargs):
+
+            first_candidate_slug = self.kwargs['first_candidate_slug']
+
+            first_candidate = get_object_or_404(Candidate, election=election, slug=first_candidate_slug)
+            context['first_candidate'] = first_candidate
+            if('second_candidate_slug' in self.kwargs):
+                second_candidate_slug = self.kwargs['second_candidate_slug']
+                second_candidate = get_object_or_404(Candidate, election=election, slug=second_candidate_slug)
+                context['second_candidate'] = second_candidate
+
+                if first_candidate == second_candidate:
+                    raise Http404
+                if 'category_slug' in self.kwargs:
+                    category_slug = self.kwargs['category_slug']
+                    selected_category = get_object_or_404(Category, election=election, slug=category_slug)
+                    first_candidate_answers = first_candidate.get_all_answers_by_category(selected_category)
+                    second_candidate_answers = second_candidate.get_all_answers_by_category(selected_category)
+                    answers = first_candidate.get_answers_two_candidates(second_candidate,selected_category)
+                    context['selected_category'] = selected_category
+                    context['answers'] = answers
+                else:
+                    return context
+
+            else:
+                return context
+        else:
+            return context
+        facebook_link = 'http'
+        site = Site.objects.get_current()
+        if self.request.is_secure(): facebook_link += 's'
+        facebook_link += '://' + site.domain + '/' + username + '/' + slug + '/compare/'
+        facebook_link += min(first_candidate_slug,second_candidate_slug) + '/' + max(first_candidate_slug,second_candidate_slug)+ '/' + category_slug
+        
+        
+        
+        context['facebook_link'] = facebook_link
+        return context
 
 @require_POST
 def election_compare_asynchronous_call(request, username, slug, candidate_slug):

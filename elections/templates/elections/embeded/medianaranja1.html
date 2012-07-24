@@ -1,4 +1,4 @@
-{% extends "elections/base_medianaranja.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load election_tags %}
 {% block title %}
@@ -12,12 +12,6 @@
 {% endblock extra_head %}
 
 {% block content %}
-
-<div class="papel">
-
-	
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
-
 
 <div class="contenedor3">
 
@@ -114,8 +108,6 @@
 
     {% endif %}
 
-
-</div><!--papel-->
 
 {% endblock content %}
 

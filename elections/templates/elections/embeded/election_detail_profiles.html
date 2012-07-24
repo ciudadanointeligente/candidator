@@ -1,4 +1,4 @@
-{% extends "elections/base.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load candidate_tags %}
 {% load election_tags %}
@@ -20,12 +20,15 @@
 
 {% block content %}
 
+
+	<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+
 <div class="contenedor3">
 
 
         {% include 'election_logo.html' %}
         
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
     <div style="float:right">
 
@@ -49,7 +52,7 @@
 
             {% for candidate in election.candidate_set.all %}
             <li>
-                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
                     <div style="width: 115px; height: 144px; background-color: white; margin-top: 13px;">
                     {% thumbnail candidate.photo "115x144" crop="center" as im %}
                         <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">

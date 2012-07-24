@@ -1,4 +1,4 @@
-{% extends "elections/base_medianaranja.html" %}
+{% extends "elections/base_embed.html" %}
 {% load i18n %}
 {% load thumbnail %}
 
@@ -38,10 +38,6 @@
 {% endblock extra_js %}
 
 {% block content %}
-
-<div class="papel">
-
-	<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
 
 <div class="contenedor3">
 
@@ -166,18 +162,15 @@
 			</div>
         </div>
     </div>
-
-
-
     <div class="contenedor1">
     	<div class="contenedor2">
             
             <table>
                 <td colspan="2">
-                <div class="globo_left">
-                    {% trans 'compatibilidad con otros candidatos' %}
-                </div>
-            </td>
+                    <div class="globo_left">
+                        {% trans 'compatibilidad con otros candidatos' %}
+                    </div>
+                </td>
                 {% for data_candidate in others %}
                     {% if forloop.counter0|divisibleby:"2" %}
                        <tr>
@@ -231,9 +224,4 @@
     	</div>
 
     </div>
-
-   
-
-</div>
-
 {% endblock content %}
