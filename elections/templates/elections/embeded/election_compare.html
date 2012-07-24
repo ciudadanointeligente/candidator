@@ -141,7 +141,7 @@
 
     {% include 'election_logo.html' %}
 
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
 {% link_to_updating_this_election request.user election %}
     <div style="float:right">
 
