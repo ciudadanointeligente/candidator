@@ -86,36 +86,8 @@
   })();
 
 </script>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    </script>
 {% block extra_js %}
 {% endblock extra_js %}
- <div class="papel">
-    <div class="contenedor1">
-       <div class="contenedor2">
-          <div id="fb-root">
-             <br>
-             {% if facebook_link %}
-             <div class="fb-comments" data-href="{{facebook_link}}" data-num-posts="2" data-width="824"></div>
-             {% else %}
-             <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-num-posts="2" data-width="824"></div>
-             {% endif %}
-             <br>
-          </div>
-       </div>
-    </div>
- </div>
-
-
-
-
-    
 
 
 
