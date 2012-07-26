@@ -17,14 +17,17 @@
     {% endblock extra_head %}
 </head>
 <body>
-    <div class="papel" id="papel">
+    <div id="content">
+    <div class="papel_embeded" id="papel">
         <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
         <div class="viewport">
             <div class="overview">
+                
 
 
 {% block content %}
 {% endblock content %}
+</div>
 </div>
         </div>
     </div>
@@ -55,7 +58,7 @@
 
 $(document).ready(function(){
 
-        $(".papel").tinyscrollbar();
+        $(".papel_embeded").tinyscrollbar();
 
     });
   

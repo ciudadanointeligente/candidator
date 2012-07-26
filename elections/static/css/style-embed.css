@@ -41,3 +41,35 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     margin: 0;
     padding: 0;
 }
+
+.papel_embeded{
+    background: none repeat scroll 0 0 white;
+    box-shadow: 0 1px 8px 1px #cccccc;
+    margin: 5px;
+}
+
+#papel { width: 900px; margin: 0px 0 0px; }
+#papel .viewport { width: 885px; height: 400px; overflow: hidden; position: relative; }
+#papel .overview { list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0; }
+#papel .scrollbar{ background: transparent url(../img/bg-scrollbar-track-y.png) no-repeat 0 0; position: relative; background-position: 0 0; float: right; width: 15px; }
+#papel .track { background: transparent url(../img/bg-scrollbar-trackend-y.png) no-repeat 0 100%; height: 100%; width:13px; position: relative; padding: 0 1px; }
+#papel .thumb { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 100%; height: 20px; width: 25px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -5px; }
+#papel .thumb .end { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 0; overflow: hidden; height: 5px; width: 25px; }
+#papel .disable { display: none; }
+
+
+.contenedor1_embeded{
+    width: 850px;
+    border: 1px solid #D7D7D7;
+    overflow: hidden;
+}
+
+.contenedor2_embeded{
+    width: 824px;
+    overflow: hidden;
+}
+
+.contenedor3_embeded{
+    width: 850px;
+    overflow: hidden;
+}
