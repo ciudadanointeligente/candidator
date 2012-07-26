@@ -15,11 +15,21 @@
     {% endblock extra_head %}
 </head>
 <body>
+    <div class="papel" id="papel">
+        <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+        <div class="viewport">
+            <div class="overview">
+
+
 {% block content %}
 {% endblock content %}
+</div>
+        </div>
+    </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script src="{{ STATIC_URL }}js/jtinyscrollbar.js"></script>
 <script type="text/javascript">
     var uvOptions = {};
     (function() {
@@ -37,9 +47,21 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
+
+
+//invalid name call
+
+$(document).ready(function(){
+
+        $(".papel").tinyscrollbar();
+
+    });
+  
 </script>
+
 {% block extra_js %}
 {% endblock extra_js %}
+
 
 </body>
 
