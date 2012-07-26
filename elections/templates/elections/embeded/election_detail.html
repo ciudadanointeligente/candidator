@@ -18,9 +18,9 @@
 
 {% block content %}
 
-	
-	
-    	<div class="contenedor3">
+<div id="pagewrap">
+    <div id="content">
+    <article>
 
             {% include 'election_logo.html' %}
 
@@ -36,17 +36,18 @@
             </h1>
             </div>
 
-{% if election.date %}
-<span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
-{% endif %}
+            {% if election.date %}
+            <span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
+            {% endif %}
 
-{% if election.description %}
-<p>{{ election.description }}</span>
-{% endif %}
-
-<br>
-
+            {% if election.description %}
+            <p>{{ election.description }}</span>
+            {% endif %}
+    
+    </article>
+    <article>
 <nav id="homeNavigation">
+    
       <ul class="homeNav">
                 <li class="homeLi homeListMedianaranja">
                     <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">
@@ -64,10 +65,12 @@
                     </a>
                 </li>
             </ul>
+    
         </nav>
-        <br>
+    </article>
+    </div>  
 
-	
+
 </div>
 
 {% endblock content %}
