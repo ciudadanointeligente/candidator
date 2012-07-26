@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
     <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
     <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
@@ -64,6 +66,6 @@ $(document).ready(function(){
 
 
 </body>
-
+    <div id="footerembed">
+    </div>
 </html>
-<html>

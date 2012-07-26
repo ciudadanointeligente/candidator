@@ -1,0 +1,43 @@
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+    display: block;
+}
+
+#pagewrap {
+    width: 980px;
+    margin: 0 auto;
+}
+
+#header {
+    height: 160px;
+}
+
+#content {
+    width: 850px;
+    float: left;
+}
+
+#sidebar {
+    width: 280px;
+    float: right;
+}
+
+/* FOOTER */
+#footerembed {
+    background: -moz-linear-gradient(left, rgba(128,182,226,0.6) 0%, rgba(128,182,226,1) 51%, rgba(128,182,226,0.6) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(128,182,226,0.6)), color-stop(51%,rgba(128,182,226,1)), color-stop(100%,rgba(128,182,226,0.6))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* IE10+ */
+    background: linear-gradient(left, rgba(128,182,226,0.6) 0%,rgba(128,182,226,1) 51%,rgba(128,182,226,0.6) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9980b6e2', endColorstr='#9980b6e2',GradientType=1 ); /* IE6-9 */
+    background-color:white;
+    display: block;
+    overflow: hidden;
+    height: 50px;
+    bottom: 0;
+    position:fixed;
+    width: 100%;
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
