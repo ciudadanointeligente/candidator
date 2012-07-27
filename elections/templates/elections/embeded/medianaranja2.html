@@ -1,6 +1,7 @@
-{% extends "elections/base_embed.html" %}
+{% extends "elections/embeded/base_embed.html" %}
 {% load i18n %}
 {% load thumbnail %}
+
 
 {% block title %}
  {% trans 'Media Naranja,' %} {{ election.name }} - {{ block.super }}
@@ -38,14 +39,6 @@
 {% endblock extra_js %}
 
 {% block content %}
-
-<div class="contenedor3_embeded">
-
-	{% include 'election_logo.html' %}
-
-    <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}<span> - Creada por {{election.owner}}</span></h1></a></div>
-    
-</div>
 
 	<div class="contenedor1_embeded">
     	<div class="contenedor2_embeded">

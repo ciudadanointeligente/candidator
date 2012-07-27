@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load election_tags %}
 <!doctype html>
 <html>
 <head>
@@ -15,13 +16,39 @@
     {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
-</head>
+</head>{% load election_tags %}
 <body>
     <div id="content">
     <div class="papel_embeded" id="papel">
         <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
         <div class="viewport">
             <div class="overview">
+                <article>
+
+                {% include 'election_logo.html' %}
+
+
+                <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> {% if election.date %} - {{ election.date }}
+                {% endif %}</span></a>
+                </h1>
+                </div>
+                <nav id="mainNavigation">
+                    <div class="wrapBasic_embeded">
+                        
+                        <ul>
+                            <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
+                            <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                            <li> <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
+                            <li> <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
+                            <li> <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                {% if election.description %}
+                <p>{{ election.description }}</span>
+                {% endif %}
+        
+        </article>
                 
 
 

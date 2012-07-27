@@ -68,3 +68,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     width: 100%;
     overflow: hidden;
 }
+.wrapBasic_embeded{
+    margin: auto;
+}
