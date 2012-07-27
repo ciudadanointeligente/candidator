@@ -20,10 +20,7 @@
 
 {% block content %}
 
-
-	<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
-
-<div class="contenedor3">
+<div class="contenedor3_embeded">
 
 
         {% include 'election_logo.html' %}
@@ -40,8 +37,8 @@
     </div>
 </div>
 
-<div class="contenedor1">
-    <div class="contenedor2">
+<div class="contenedor1_embeded">
+    <div class="contenedor2_embeded">
 
                 <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_profiles.png" width="97" height="56" /></div>
     <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}</h3></div>

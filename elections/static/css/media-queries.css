@@ -1,0 +1,136 @@
+@media screen and (max-width: 980px) {
+
+	#pagewrap {
+		width: 95%;
+	}
+
+	#content {
+		width: 100%;
+	}
+
+		.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1.5em;
+		margin-top: 70%;
+		margin-bottom: 5%;
+	}
+
+	.homeLi {
+		margin-right: 5%;
+		width: 26%;
+		height: 100%;
+		padding: 1em;
+		margin-right: 2.8%;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+	margin-left: 0;
+	text-indent: 0;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+	background-size: 80%;
+	}
+
+}
+
+@media screen and (max-width: 650px) {
+
+	#header {
+		height: auto;
+	}
+
+	#main-nav {
+		position: static;
+	}
+
+	#content {
+		width: auto;
+		float: none;
+		margin: 10px 0;
+	}
+
+	.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1.5em;
+		margin-top: 55%;
+		margin-bottom: 20%;
+	}
+
+	.homeLi {
+		margin-right: 5%;
+		width: 24%;
+		height: 100%;
+		padding: 1em;
+		margin-right: 2.8%;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+	margin-left: 0;
+	text-indent: 0;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+	background-size: 60%;
+	}
+
+}
+
+@media screen and (max-width: 480px) {
+
+	html {
+		-webkit-text-size-adjust: none;
+	}
+
+	#main-nav a {
+		font-size: 90%;
+		padding: 10px 8px;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+		background-image: none;
+	}
+
+	.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1em;
+		margin-top: 30%;
+	}
+
+	.homeLi {
+		margin-right: 5%;
+		width: 24%;
+		height: 7em;
+		padding: 1em;
+		margin-right: 2.8%;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+	margin-left: 0;
+	text-indent: 0;
+	}
+
+
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	width: auto\9; /* ie8 */
+}
+
+.video embed,
+.video object,
+.video iframe {
+	width: 100%;
+	height: auto;
+}
