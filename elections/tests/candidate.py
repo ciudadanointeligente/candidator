@@ -863,6 +863,26 @@ class CandidateUpdateDataViewTest(TestCase):
         self.assertEqual(link.name, link_name)
         self.assertEqual(link.url, link_url)
 
+
+    def test_post_failed(self):
+        self.client.login(username='joe', password='doe')
+        link_details = {
+            'link_name': "",
+            'link_url': "",
+            'election_slug': self.election.slug,
+            'candidate_slug': self.candidate.slug,
+            'candidate_name': self.candidate.name,
+        }
+        url = reverse('link_create_ajax', kwargs={
+            'candidate_pk': self.candidate.pk,
+            })
+        request = self.client.post(url, link_details)
+        self.assertEqual(request.status_code, 200)
+        self.assertEqual(self.candidate.link_set.count(), 0)
+        body = simplejson.loads(request.content)
+        self.assertTrue('name' in body["errors"])
+        self.assertTrue('url' in body["errors"])
+
 class MultipleCandidateDataUpdate(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='asd@asd.cl')
