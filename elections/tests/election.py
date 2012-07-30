@@ -77,7 +77,8 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.owner, user)
         self.assertEqual(election.slug, 'barbaz')
         self.assertEqual(election.date, '27 de Diciembre')
-        self.assertEqual(election.description, 'esta es una descripcion')     
+        self.assertEqual(election.description, 'esta es una descripcion')
+        self.assertEqual(election.published,False)     
 
     def test_create_two_election_by_same_user_with_same_slug(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -194,7 +195,7 @@ class ElectionPhotoUpdateViewFormTest(TestCase):
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         url = reverse('election_detail',
             kwargs={
                 'username': user.username,
@@ -219,6 +220,14 @@ class ElectionDetailViewTest(TestCase):
         user = User.objects.create(username='foobar')
         user2 = User.objects.create(username='barbaz')
         election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
+        response = self.client.get(reverse('election_detail',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug}))
+        self.assertEquals(response.status_code, 404)
+    def test_detail_non_published_election_for_user_view(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
         response = self.client.get(reverse('election_detail',
                                            kwargs={
                                                'username': user.username,
@@ -773,7 +782,7 @@ class ElectionRedirectViewTest(TestCase):
                                        kwargs={'election_slug': election.slug, 'slug': candidate.slug}))
 
     def test_existing_election_without_candidates(self):
-        election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election')
+        election = Election.objects.create(name='Another Election', owner=self.user, slug='another-election', published=True)
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(self.url)
         self.assertRedirects(response, reverse('election_detail_admin',

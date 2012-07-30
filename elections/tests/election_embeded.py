@@ -24,7 +24,7 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 class ElectionEmbededDetail(TestCase):
 	def setUp(self):
 		self.user = User.objects.create(username='foobar')
-		self.election = Election.objects.create(name='elec foo', slug='elec-foo', owner=self.user)
+		self.election = Election.objects.create(name='elec foo', slug='elec-foo', owner=self.user, published=True)
 		#Deleting default categories
 		for category in self.election.category_set.all():
 			category.delete()
