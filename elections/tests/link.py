@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from elections.models import Link, Candidate, Election
+from django.core.exceptions import ValidationError
 #from elections.forms import CandidateLinkFormset
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +31,33 @@ class LinkModelTest(TestCase):
         self.assertEqual(link.name, 'Google')
         self.assertEqual(link.url, 'http://www.google.com')
         self.assertEqual(link.candidate, self.candidate)
+
+    def test_does_not_create_an_empty_link(self):
+        link = Link(name="", url="", candidate=self.candidate)
+        try:
+            link.full_clean()
+            self.fail('The link name can not be empty')
+        except ValidationError as e:
+            expected_error = {'name':[u'This field cannot be blank.'], 'url':[u'This field cannot be blank.']}
+            self.assertEqual(e.message_dict,expected_error)
+
+        
+        link = Link(name="", url="http://www.google.com", candidate=self.candidate)
+        try:
+            link.full_clean()
+            self.fail('The link name can not be empty')
+        except ValidationError as e:
+            expected_error = {'name':[u'This field cannot be blank.']}
+            self.assertEqual(e.message_dict,expected_error)
+
+
+        link = Link(name="Twitter", url="", candidate=self.candidate)
+        try:
+            link.full_clean()
+            self.fail('The url not can be empty')
+        except ValidationError as e:
+            expected_error = {'url':[u'This field cannot be blank.']}
+            self.assertEqual(e.message_dict,expected_error)
 
     def test_http_prefixes(self):
         link, created = Link.objects.get_or_create(

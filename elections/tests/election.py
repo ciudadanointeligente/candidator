@@ -45,7 +45,7 @@ class ElectionTagsTests(TestCase):
         election_update_url = reverse('election_update',kwargs={'slug':self.election.slug})
         expected_html = u'<span class="goedit"><a href="'+election_update_url+u'">Editar Elección</a></span>'
         
-        self.assertEqual(template.render(context), expected_html)
+        self.assertEqual(template.render(context), expected_html)     
     
     def test_if_is_not_the_owner(self):
         template = Template('{% load election_tags %}{% link_to_updating_this_election user election %}')
