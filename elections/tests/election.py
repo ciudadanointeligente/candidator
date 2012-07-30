@@ -691,7 +691,9 @@ class SharingYourElectionButton(TestCase):
         expected_url = '/election/eleccion-la-florida/share'
         url = reverse('share_my_election', kwargs={'slug': self.election.slug})
         self.assertEquals(url, expected_url)
+        self.assertEqual(self.election.published,False)
         response = self.client.get(url)
+        self.assertEqual(self.election.published,True)
         self.assertTemplateUsed(response, 'elections/updating/share.html')
         self.assertEquals(response.context['election'], self.election)
 
