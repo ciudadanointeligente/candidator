@@ -60,8 +60,7 @@
 	}
 
 	.homeLi {
-		margin-right: 5%;
-		width: 24%;
+		width: 26%;
 		height: 100%;
 		padding: 1em;
 		margin-right: 2.8%;
@@ -117,6 +116,12 @@
 	.homeListPerfiles h5, .homeListComparar  h5 {
 	margin-left: 0;
 	text-indent: 0;
+	}
+
+	.logo_eleccion img{
+    height: 100%;
+    overflow: hidden;
+    max-width: none;
 	}
 
 

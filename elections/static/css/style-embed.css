@@ -16,6 +16,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     float: right;
 }
 
+body{
+    background: transparent;
+}
+
 /* FOOTER */
 #footerembed {
     background: -moz-linear-gradient(left, rgba(128,182,226,0.6) 0%, rgba(128,182,226,1) 51%, rgba(128,182,226,0.6) 100%); /* FF3.6+ */
@@ -35,16 +39,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     clear: both;
     margin: 0;
     padding: 0;
+    box-shadow: 0 1px 8px 1px #cccccc;
 }
 
 .papel_embeded{
     background: none repeat scroll 0 0 white;
     box-shadow: 0 1px 8px 1px #cccccc;
     margin: 5px;
+    max-width: 850px;
+    padding: 2%; 
 }
 
-#papel { width: 100%; margin: 0px 0 0px; }
-#papel .viewport { width: 98%; height: 450px; overflow: hidden; position: relative; }
+#papel .viewport {
+    height: 450px;
+    overflow: scroll;
+    position: relative;
+}
+
 #papel .overview { list-style: none; left: 0; top: 0; padding: 0; margin: 0; }
 #papel .scrollbar{ background: transparent url(../img/bg-scrollbar-track-y.png) no-repeat 0 0; position: relative; background-position: 0 0; float: right; width: 15px; }
 #papel .track { background: transparent url(../img/bg-scrollbar-trackend-y.png) no-repeat 0 100%; height: 100%; width:13px; position: relative; padding: 0 1px; }
@@ -70,4 +81,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 .wrapBasic_embeded{
     margin: auto;
+}
+
+.logo_eleccion img{
+    height: 100%;
+}
+
+#mainNavigation {
+    background-color: #B0CFEC;
+    font-size: 11px;
+}
+
+#mainNavigation li {
+    padding: 2px 8px;
+    border-left: 2px dotted #D6E8F8;
 }
