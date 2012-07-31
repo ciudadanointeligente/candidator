@@ -81,6 +81,17 @@ class ElectionDetailView(DetailView):
 
 class ElectionShareView(DetailView):
     model = Election
+    def get_queryset(self):
+        return super(ElectionShareView, self).get_queryset().filter(owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+            self.object.published=True
+            self.object.save()
+            context = super(ElectionShareView, self).get_context_data(**kwargs)
+            return context
+    # def get_queryset(self):
+    #     return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+
 
 
 class ElectionCreateView(CreateView):

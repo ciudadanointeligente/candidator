@@ -693,6 +693,7 @@ class SharingYourElectionButton(TestCase):
         self.assertEquals(url, expected_url)
         self.assertEqual(self.election.published,False)
         response = self.client.get(url)
+        self.election=Election.objects.get(name='elec foo', slug='eleccion-la-florida', owner=self.user)
         self.assertEqual(self.election.published,True)
         self.assertTemplateUsed(response, 'elections/updating/share.html')
         self.assertEquals(response.context['election'], self.election)
