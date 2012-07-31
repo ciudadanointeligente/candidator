@@ -18,6 +18,10 @@
 
 {% block content %}
     <article>
+                {% if election.description %}
+                <p>{{ election.description }}</span>
+                {% endif %}
+
 <nav id="homeNavigation">
     
       <ul class="homeNav">

@@ -8,6 +8,7 @@
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
 
 {% endblock extra_head %}
 
@@ -30,7 +31,7 @@
     {% if stt and check %}
     <form action="" method="POST">{% csrf_token %}
 
-    <div class="contenedor1">
+    <div class="contenedor1_embeded">
 
     <div class="contenedor_globo">
     <div class="globo_left">{% trans 'Responde la encuesta y encuentra tu 1/2 naranja política' %}</div>
