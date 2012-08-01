@@ -120,18 +120,6 @@ class ElectionCreateView(CreateView):
 
         return super(ElectionCreateView, self).form_valid(form)
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Election views
 class CompareView(DetailView):
     model = Election
@@ -197,9 +185,20 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
-def election_about(request, username, slug):
-    election = get_object_or_404(Election, slug=slug, owner__username=username)
-    return render_to_response('elections/election_about.html', {'election': election }, context_instance = RequestContext(request))
+
+
+
+# Election views
+class ElectionAboutView(DetailView):
+    model = Election
+    template_name = "elections/election_about.html"
+    def get_template_names(self):
+        return [self.template_name]
+
+    def get_queryset(self):
+
+        return super(ElectionAboutView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+
 
 class PrePersonalDataView(TemplateView):
 

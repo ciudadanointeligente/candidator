@@ -16,7 +16,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   CandidateDataUpdateView, async_delete_candidate, async_create_background, \
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
-                  ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView
+                  ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView, \
+                  ElectionAboutView
 
 
 urlpatterns = patterns('',
@@ -43,6 +44,8 @@ urlpatterns = patterns('',
 
     # Election compare view with 1 candidate
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare/(?P<first_candidate_slug>[-\w]+)/embeded?$', CompareView.as_view(template_name='elections/embeded/election_compare.html'), name='election_compare_one_candidate_embeded'),
+     # Election description
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/embeded?$', ElectionAboutView.as_view(template_name="elections/embeded/about.html"), name='election_about_embeded'),
 
     #frontend
     # Election candidates profiles
@@ -69,7 +72,7 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/compare-async/(?P<candidate_slug>[-\w]+)/?$', 'candidator.elections.views.election_compare_asynchronous_call', name='election_compare_asynchronous_call'),
 
     # Election description
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', 'candidator.elections.views.election_about', name='election_about'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', ElectionAboutView.as_view(), name='election_about'),
     # Election detail view
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
 

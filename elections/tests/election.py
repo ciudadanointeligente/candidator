@@ -184,7 +184,7 @@ class ElectionPhotoUpdateViewFormTest(TestCase):
         
     def test_get_form_as_no_user(self):
         response = self.client.get(self.url)
-        self.assertRedirects(response, '/accounts/login/?next=/election/2/update_election_photo')
+        self.assertRedirects(response, '/accounts/login/?next=/election/'+str(self.election.pk)+'/update_election_photo')
         
     def test_get_form_as_user_but_no_owner(self):
         self.client.login(username=self.user2.username, password=PASSWORD)
@@ -453,7 +453,12 @@ class ElectionCompareViewTest(TestCase):
 
     def test_get_election_about(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user,description="This is a description of the election")
+        election = Election.objects.create( name='elec foo', \
+                                            slug='elec-foo', \
+                                            owner=user,\
+                                            description="This is a description of the election",\
+                                            published=True
+                                            )
         url = reverse('election_about',kwargs={
             'username': user.username,
             'slug': election.slug
@@ -461,6 +466,7 @@ class ElectionCompareViewTest(TestCase):
         response = self.client.get(url)
         self.assertContains(response,'election')
         self.assertEqual(response.context['election'], election)
+        self.assertTemplateUsed(response, "elections/election_about.html")
 
 
 

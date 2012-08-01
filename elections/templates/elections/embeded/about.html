@@ -1,0 +1,59 @@
+{% extends "elections/embeded/base_embed.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load election_tags %}
+
+{% block title %}
+{% trans 'Sobre la elección' %}, {{ election.name }} - {{ block.super }}
+{% endblock title %}
+
+{% block extra_js %}
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block content %}
+
+<div class="papel">
+
+	<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+
+    <div class="contenedor3">
+
+        {% include 'election_logo.html' %}
+        
+        <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+{% link_to_updating_this_election request.user election %}
+    <div style="float:right">
+
+        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+    </div>
+    </h1>
+    
+    </div>
+        
+        {% if election.date %}
+<span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
+{% endif %}
+        
+        
+<br />
+        
+        {% if election.description %}
+        &nbsp;<p>{{ election.description }}</span>
+        {% endif %}
+<br /><br />
+        {% if election.information_source %}
+        <span class="blue_edit">{% trans '¿DE DÓNDE SE SACÓ LA INFORMACIÓN?' %}</span>&nbsp;<p>{{ election.information_source }}</p>
+        {% endif %}
+
+
+    </div>
+<br><br>
+
+</div>
+
+{% endblock content %}
