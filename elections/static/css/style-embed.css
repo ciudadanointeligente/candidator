@@ -75,12 +75,16 @@ body{
     border-left: 2px dotted #D6E8F8;
 }
 
+/* 1/2 NARANJA */
+
 .col_left {
     width: 70%;
+    margin-left: 0;
 }
 
 .col_right{
-    width: 25%;
+    width: 28%;
+    margin-right: 0;
 }
 
 .globo_left, .globo_right {
@@ -90,6 +94,59 @@ body{
 .contenedor_globo {
 padding: 6px 0px 16px 0px;
 }
+
+.tit h2 {
+    margin: 0;
+}
+
+.globo_right:after {
+    content: url(../img/flecha_globo.png);
+    margin-top: 13px;
+    position: absolute;
+    right: 25px;
+}
+
+.globo_right:before {
+    content: none;
+}
+
+.globo_left::before {
+    left: 25px;
+}
+
+/* COMPARA */
+
+    .candidatesLists select {
+        width: 100%;
+    }
+
+    .firstCandidate {
+        width: 45%;
+    }
+
+    .secondCandidate {
+        width: 45%;
+    }
+
+    .candidatesLists select {
+        width: 100%;
+    }
+
+    .answerSpace {
+        width: 100%;
+    }
+
+    .comparisonResult {
+        width: 98%;
+    }
+
+    .questionInComparison {
+        width: 97%;
+    }
+
+    .answerSpace ul {
+        width: 47.1%;
+    }
 
 /* FOOTER */
 #footerembed {
@@ -111,8 +168,4 @@ padding: 6px 0px 16px 0px;
     margin: 0;
     padding: 0;
     box-shadow: 0 1px 8px 1px #cccccc;
-}
-
-#footerembed:before {
-    content: url(../img/logo-embed.svg) no-repeat 0 0;
 }

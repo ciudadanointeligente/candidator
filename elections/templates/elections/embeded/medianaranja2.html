@@ -48,13 +48,13 @@
     	</div>
 	<div>
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
-            <header style="width:674px;px;top:0px;">
+            <header style="width:100%;px;top:0px;">
 
                 <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
-                	<table style="margin-left:10px;padding:0;">
+                	<table style="padding:0;">
 		                <tr>
-		                	<td style="width:290px;  border-right:1px dashed #d7d7d7;" valign="top">
+		                	<td style="width:50%;  border-right:1px dashed #d7d7d7;" valign="top">
 		                  		<table>
 			                  		<tr>
 			                  			<td colspan="2">
@@ -80,7 +80,7 @@
 								</table>
 							</td>
 
-							<td  style="width:290px;" valign="top">
+							<td  style="width:50%;" valign="top">
 
 								<table style="padding-left:8px;">
 								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
@@ -155,8 +155,8 @@
 			</div>
         </div>
     </div>
-    <div class="contenedor1">
-    	<div class="contenedor2">
+    <div class="contenedor1_embeded">
+    	<div class="contenedor2_embeded">
             
             <table>
                 <td colspan="2">
@@ -170,7 +170,7 @@
                     {% endif %}
 
                     <td>
-                        <table style="width:418px;border-right:1px dashed #d7d7d7 ;margin-right: 13px; margin-bottom: 6px;">
+                        <table style="width:90%;border-right:1px dashed #d7d7d7 ;margin-right: 13px; margin-bottom: 6px;">
                             <tr>
                                 <td valign="top">
 
@@ -189,7 +189,7 @@
 
                                     </div>
                                 </td>
-                                <td valign="top" style="width:418px;">
+                                <td valign="top" style="width:60%;">
                                     <h6re style=" color:#72acd9;">&nbsp;<a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
                                     <table>
                                         <tr>
