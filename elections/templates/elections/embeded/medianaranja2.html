@@ -52,7 +52,7 @@
 
                 <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
-                	<table style="padding:0;">
+                	<table style="width: 100%;padding:0;">
 		                <tr>
 		                	<td style="width:50%;  border-right:1px dashed #d7d7d7;" valign="top">
 		                  		<table>
@@ -158,7 +158,7 @@
     <div class="contenedor1_embeded">
     	<div class="contenedor2_embeded">
             
-            <table>
+            <table style="width:100%;">
                 <td colspan="2">
                     <div class="globo_left">
                         {% trans 'compatibilidad con otros candidatos' %}
@@ -189,7 +189,7 @@
 
                                     </div>
                                 </td>
-                                <td valign="top" style="width:60%;">
+                                <td valign="top" style="width:75%;">
                                     <h6re style=" color:#72acd9;">&nbsp;<a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
                                     <table>
                                         <tr>

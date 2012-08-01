@@ -17,10 +17,13 @@
 {% endblock title %}
 
 {% block content %}
+
+<div class="contenedor3_embeded">
     <article>
                 {% if election.description %}
                 <p>{{ election.description }}</span>
                 {% endif %}
+
 
 <nav id="homeNavigation">
     
@@ -40,9 +43,12 @@
                         <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
                     </a>
                 </li>
+
             </ul>
     
         </nav>
+
     </article>
+</div>
 
 {% endblock content %}

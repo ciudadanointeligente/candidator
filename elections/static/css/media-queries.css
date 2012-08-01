@@ -27,12 +27,39 @@
 	}
 
 	.homeListPerfiles h5, .homeListComparar  h5 {
-	margin-left: 0;
-	text-indent: 0;
+		margin-left: 0;
+		text-indent: 0;
 	}
 
 	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
-	background-size: 80%;
+		background-size: 80%;
+	}
+
+	.candidatesBasicInformation .tit h3 {
+		width: 65%;
+	}
+
+	.dropDown li span {
+		margin-left: 20%;
+		line-height: 12px;
+		display: block;
+		bottom: 100%;
+		font-size: 1em;
+	}
+
+	/* COMPARA */
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		width: 50%;
+	}
+
+	.questionInComparison {
+		width: 99%;
+		padding: 1px 2px;
+	}
+
+	.answerSpace ul {
+		width: 47.9%;
 	}
 
 }
@@ -109,15 +136,11 @@
 		font-size: 10px;
 	}
 
-	.dropDown li {
-		background-color: transparent;
-	}
-
 	.dropDown li span {
-		margin-left: 33%;
-		top: -80%;
-		line-height: 10px;
-	}
+        margin-left: 33%;
+        top: -80%;
+        line-height: 10px;
+    }
 
 }
 
