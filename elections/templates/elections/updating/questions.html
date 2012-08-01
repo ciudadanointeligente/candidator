@@ -147,8 +147,14 @@
                         <li>
                             <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
-                                    <p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">{% trans 'agregar' %}
-                    </a></p>
+                                    <p>
+                                        <input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" />
+                                        <a class="bt_input save_answer_link" href="javascript:void(0);" onclick="saveAnswerLink(this);">{% trans 'agregar' %}
+                                        </a>
+                                        
+                                    </p>
+                                    <div class="answersError"></div>
+
                                 
                             </form>
                         </li>
@@ -166,6 +172,7 @@
                     <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">{% trans 'agregar ' %}
                     </a>
                 </p>
+                <div class="questionsError"></div>
                 </div>
                 
             </ul>
@@ -298,13 +305,26 @@ function saveAnswerLink(link){
     var form = $(link).closest('form');
     var value_text = $(link).prev();
     $.post($(form).attr('action'), $(form).serialize(), function (json) {
-        var containing_li = $(form).parent('li');
-        var delete_link = "<a href=\"javascript:void(0);\"onclick=\"answer_delete("+json.pk+"); return false;\"><img style=\"margin-top:-1px; margin-left:6px;\" src=\"{{ STATIC_URL }}img/bt_eliminar.png\"/></a>";
+        
+        if(!('error' in json)){
+            var containing_li = $(form).parent('li');
+            var delete_link = "<a href=\"javascript:void(0);\"onclick=\"answer_delete("+json.pk+"); return false;\"><img style=\"margin-top:-1px; margin-left:6px;\" src=\"{{ STATIC_URL }}img/bt_eliminar.png\"/></a>";
 
-        var html = '<li id="answer_'+json.pk+'">'+json.caption+delete_link+'</li>';
+            var html = '<li id="answer_'+json.pk+'">'+json.caption+delete_link+'</li>';
 
-        $(html).insertBefore(containing_li);
-        value_text.val('');
+            $(html).insertBefore(containing_li);
+            value_text.val('');
+        }
+        else {
+
+            var element = $(link).parent().next();
+            element = $(element);
+            element.text(json['error']['caption'][0]);
+            
+            element.effect('highlight', 3000).delay(3000).effect('fade');
+
+
+        }
     });
 }
 $(document).ready(function() {
@@ -418,6 +438,8 @@ $(document).ready(function() {
         var value = value_text.val();
         var category_pk = $(this).attr('pk');
 
+        var errorDiv = $(this).parent().next();
+
         $.post('/'+ category_pk +'/question/async_create/',
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -425,14 +447,22 @@ $(document).ready(function() {
         },
         function(data) {
 
+            if(!('error' in data)){
+                var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p><div class="answersError"></div></form></li></ul></div></li>';
 
-            var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p></form></li></ul></div></li>';
 
+                var lista = $("ul#id_question_list_"+category_pk);
 
-            var lista = $("ul#id_question_list_"+category_pk);
-
-            $(content).insertBefore(lista.children().last());
-            value_text.val('');
+                $(content).insertBefore(lista.children().last());
+                value_text.val('');
+            }
+            else {
+                var element = $(errorDiv);
+                element.text(data['error']['question'][0]);
+                
+                element.effect('highlight', 3000).delay(3000).effect('fade');
+            }
+            
         },
         'json');
         return false;
@@ -462,7 +492,7 @@ $(document).ready(function() {
             var content = '<li id="category_'+data.pk+'"><div class="categoriasAntecedentes">' +
                     '<h3>'+data.name+'' +
                     '<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;">' +
-                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">agregar</a></p></div></ul></li>';
+                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">agregar</a></p><div class="questionsError"></div></div></ul></li>';
 
             var lista = $("ul#lista_preguntas")
             lista.children().last().before(content)

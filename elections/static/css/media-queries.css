@@ -27,12 +27,39 @@
 	}
 
 	.homeListPerfiles h5, .homeListComparar  h5 {
-	margin-left: 0;
-	text-indent: 0;
+		margin-left: 0;
+		text-indent: 0;
 	}
 
 	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
-	background-size: 80%;
+		background-size: 80%;
+	}
+
+	.candidatesBasicInformation .tit h3 {
+		width: 65%;
+	}
+
+	.dropDown li span {
+		margin-left: 20%;
+		line-height: 12px;
+		display: block;
+		bottom: 100%;
+		font-size: 1em;
+	}
+
+	/* COMPARA */
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		width: 50%;
+	}
+
+	.questionInComparison {
+		width: 99%;
+		padding: 1px 2px;
+	}
+
+	.answerSpace ul {
+		width: 47.9%;
 	}
 
 }
@@ -54,14 +81,13 @@
 	}
 
 	.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
-		font-size: 1.5em;
-		margin-top: 55%;
-		margin-bottom: 20%;
+		font-size: 1.8em;
+		margin-top: 60%;
+		margin-bottom: 10%;
 	}
 
 	.homeLi {
-		margin-right: 5%;
-		width: 24%;
+		width: 26%;
 		height: 100%;
 		padding: 1em;
 		margin-right: 2.8%;
@@ -79,6 +105,42 @@
 	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
 	background-size: 60%;
 	}
+
+	.leftContent {
+		width: 65%;
+	}
+
+	.firstCandidate, .secondCandidate {
+		width: 45%;
+	}
+
+	tzSelect .selectBox {
+		font-size: 12px;
+		width: 75%;
+	}
+
+	.categories {
+	width: 30%;
+	}
+
+	.tzSelect .selectBox {
+		font-size: 12px;
+		width: 67%;
+		padding-right: 25px;
+	}
+
+	.dropDown {
+		box-shadow: 0 2px 4px #999;
+		padding: 8px;
+		width: 75%;
+		font-size: 10px;
+	}
+
+	.dropDown li span {
+        margin-left: 33%;
+        top: -80%;
+        line-height: 10px;
+    }
 
 }
 
@@ -103,24 +165,80 @@
 	}
 
 	.homeLi {
-		margin-right: 5%;
-		width: 24%;
-		height: 7em;
-		padding: 1em;
-		margin-right: 2.8%;
+		width: 30%;
+		margin-right: 2%;
+		padding: 2% 0 7% 0;
 	}
 
 	h5 {
 		margin: 0;
 	}
 
-	.homeListPerfiles h5, .homeListComparar  h5 {
-	margin-left: 0;
-	text-indent: 0;
+	.col_left h4, .col_right h4 {
+		font-family: 'AllerRegular';
+		color: #666;
+		text-transform: none;
+		letter-spacing: 0;
 	}
 
+	.homeListPerfiles h5, .homeListComparar  h5 {
+		margin-left: 0;
+		text-indent: 0;
+	}
 
+	.logo_eleccion img{
+	    height: 100%;
+	    overflow: hidden;
+	    max-width: none;
+	}
+
+	.globo_left, .globo_right {
+		display: none;
+	}
+
+	.candidatesLists select {
+		font-size: 0.5em;
+	}
+
+	.firstCandidate {
+        float: left;
+    }
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		padding: 5px 0;
+		width: 100%;
+	}
+
+	.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo {
+		float: left;
+	}
+
+	.categories {
+		width: 100%;
+	}
+
+	div.star-rating {
+	width: 18%;
+	}
+
+	.leftContent {
+        width: 100%;
+    }
+
+	.tzSelect .selectBox {
+		font-size: 12px;
+		line-height: 12px;
+		padding: 2px 25px 0 5px;
+		width: 65%;
+	}
+
+	.tzSelect {
+		min-width: 0px;
+	}
 }
+
+
+
 
 img {
 	max-width: 100%;

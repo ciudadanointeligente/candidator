@@ -1,4 +1,4 @@
-{% extends "elections/base_embed.html" %}
+{% extends "elections/embeded/base_embed.html" %}
 {% load i18n %}
 {% load election_tags %}
 {% load thumbnail %}
@@ -18,33 +18,13 @@
 
 {% block content %}
 
-    
+<div class="contenedor3_embeded">
     <article>
+                {% if election.description %}
+                <p>{{ election.description }}</span>
+                {% endif %}
 
-            {% include 'election_logo.html' %}
 
-
-            <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
-            {% link_to_updating_this_election request.user election %}
-            <div style="float:right">
-
-            <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-            <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-            <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-            </div>
-            </h1>
-            </div>
-
-            {% if election.date %}
-            <span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
-            {% endif %}
-
-            {% if election.description %}
-            <p>{{ election.description }}</span>
-            {% endif %}
-    
-    </article>
-    <article>
 <nav id="homeNavigation">
     
       <ul class="homeNav">
@@ -63,9 +43,12 @@
                         <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
                     </a>
                 </li>
+
             </ul>
     
         </nav>
+
     </article>
+</div>
 
 {% endblock content %}

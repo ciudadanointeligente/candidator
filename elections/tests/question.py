@@ -3,11 +3,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.client import Client
-
-
+from django.utils import simplejson
 from elections.models import Election, Category, Question
 from elections.forms import QuestionForm
-
+from django.core.exceptions import ValidationError
 
 class QuestionModelTest(TestCase):
     def test_create_question(self):
@@ -21,6 +20,23 @@ class QuestionModelTest(TestCase):
         question = Question.objects.create(question='Foo', category=category)
         self.assertEquals(question.question, 'Foo')
         self.assertEquals(question.category, category)
+
+
+    def test_cannot_create_empty_question(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz')
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                           slug='foocat',
+                                                            election=election)
+        question = Question(question='', category=category)
+
+        with self.assertRaises(ValidationError) as e:
+            question.full_clean()
+            expected_error = {'question':[u'This field cannot be blank.']}
+            self.assertEqual(e.message_dict,expected_error)
+            
 
 class QuestionCreateViewTest(TestCase):
     def setUp(self):
@@ -264,3 +280,31 @@ class AsyncCreateQuestionViewTest(TestCase):
         self.assertTrue(params['value'] in question_names)
         question = self.category.question_set.get(question=params['value'])
         self.assertEquals(response.content, '{"pk": %d, "question": "%s"}' % (question.pk, params['value']))
+
+
+    def test_post_creaete_empty_question(self):
+        self.client.login(username='joe', password='doe')
+
+        params = {'value': ''}
+        url = reverse('async_create_question',kwargs={'category_pk': self.category.pk})
+        response = self.client.post(url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        questions_number = Question.objects.filter(category=self.category).count()
+        self.assertEqual(questions_number, 0)
+
+
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue('error' in simplejson.loads(response.content))
+
+
+        expected_error = {u'error':{u'question':[u'This field cannot be blank.']}}
+
+        self.assertEqual(simplejson.loads(response.content), expected_error)
+
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+
+
+        questions = self.category.question_set.all()
+        question_names = [ question.question for question in questions]

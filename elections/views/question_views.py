@@ -64,6 +64,60 @@ def async_create_question(request, category_pk):
 
     value = request.POST.get('value', None)
     question = Question(question=value, category=category)
-    question.save()
-    return HttpResponse(json.dumps({"pk": question.pk, "question": question.question}),
+
+    try:
+        
+        question.full_clean()
+        question.save()
+        return HttpResponse(json.dumps({"pk": question.pk, "question": question.question}),
                         content_type='application/json')
+    except Exception as e:
+        errors = {
+            'error':e.message_dict
+        }
+        return HttpResponse(json.dumps(errors),
+                        content_type='application/json')
+        
+    
+
+
+# class QuestionCreateAjaxView(CreateView):
+#     model = Question
+#     form_class = QuestionForm
+
+#     @method_decorator(login_required)
+#     @method_decorator(require_POST)
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.is_ajax():
+#             return HttpResponseBadRequest()
+#         self.category = get_object_or_404(Category, pk=kwargs['category_pk'], election__owner=request.user)
+#         if self.category.election.owner != request.user:
+#             return HttpResponseForbidden()
+#         return super(QuestionCreateAjaxView, self).dispatch(request, *args, **kwargs)
+
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.category = self.category
+#         self.object.save()
+#         return HttpResponse(content=json.dumps({"pk": question.pk, "question": question.question}),
+#                 content_type='application/json')
+
+#     def form_invalid(self, form):
+
+#         return HttpResponse(content=json.dumps(
+#             {'error': form.errors}),
+#             content_type='application/json')
+
+#     def get_context_data(self, **kwargs):
+#         context = super(QuestionCreateAjaxView, self).get_context_data(**kwargs)
+#         context['election'] = self.category.election
+#         return context
+
+#     def get_form_kwargs(self, *args, **kwargs):
+#         self.object = Question(question=self.request.POST['value'],category=self.category)
+#         print(self.object.category)
+#         kwargs = super(QuestionCreateAjaxView, self).get_form_kwargs(*args, **kwargs)
+#         kwargs['election'] = self.category.election
+
+        
+#         return kwargs
