@@ -8,7 +8,7 @@ from django.utils import simplejson
 
 from elections.models import Candidate, Election, Category, Question, Answer
 from elections.forms import AnswerForm
-
+from django.core.exceptions import ValidationError
 
 class AnswersTest(TestCase):
     def test_create_answer(self):
@@ -23,6 +23,24 @@ class AnswersTest(TestCase):
         answer = Answer.objects.create(question=question, caption='Bar')
         self.assertEquals(answer.caption, 'Bar')
         self.assertEquals(answer.question, question)
+
+
+    def test_cannot_create_empty_answer(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=user,
+                                                            slug='barbaz')
+        category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=election)
+        question, created = Question.objects.get_or_create(question='Foo',
+                                                            category=category)
+        answer = Answer(question=question, caption='')
+
+        with self.assertRaises(ValidationError) as e:
+            answer.full_clean()
+            expected_error = {'caption':[u'This field cannot be blank.']}
+            self.assertEqual(e.message_dict,expected_error)           
+
 
 class AnswerCreateViewTest(TestCase):
     def setUp(self):
@@ -159,6 +177,22 @@ class CreateAnswerWithCategoryAjax(TestCase):
         self.assertEqual(response.status_code, 400)
         response = self.client.post(self.url, params)
         self.assertEqual(response.status_code, 400)
+
+    def test_post_empty_answer(self):
+        self.client.login(username=self.user.username, password='joe')
+        params = {'caption': ''}
+
+        response = self.client.post(self.url, params, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+        answer = Answer.objects.filter(question=self.question)
+        self.assertEqual(answer.count(), 0)
+
+        self.assertTrue('error' in simplejson.loads(response.content))
+        expected_error = {u'error':{u'caption':[u'This field is required.']}}
+        self.assertEqual(simplejson.loads(response.content), expected_error)
+        self.assertEqual(response['Content-Type'], 'application/json')
+
 
 class AsyncDeleteAnswerTest(TestCase):
     def setUp(self):
