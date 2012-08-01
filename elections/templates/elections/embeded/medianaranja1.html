@@ -1,4 +1,4 @@
-{% extends "elections/base_embed.html" %}
+{% extends "elections/embeded/base_embed.html" %}
 {% load i18n %}
 {% load election_tags %}
 {% block title %}
@@ -8,28 +8,12 @@
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
 
 {% endblock extra_head %}
 
 {% block content %}
-
-<div class="contenedor3_embeded">
-
-
-        {% include 'election_logo.html' %}
-
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
-{% link_to_updating_this_election request.user election %}
-    <div style="float:right">
-
-        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
-    </div>
-    </h1>
-    
-    </div>
-</div>
 
 <div class="contenedor1_embeded">
     <div class="contenedor2_embeded">
@@ -48,7 +32,7 @@
     {% if stt and check %}
     <form action="" method="POST">{% csrf_token %}
 
-    <div class="contenedor1">
+    <div class="contenedor1_embeded">
 
     <div class="contenedor_globo">
     <div class="globo_left">{% trans 'Responde la encuesta y encuentra tu 1/2 naranja política' %}</div>

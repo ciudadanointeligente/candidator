@@ -128,6 +128,7 @@
                             </span>
                             <a class="bt_input save_background_link" href="#" onclick="create_a_new_link('{{election.slug}}', '{{candidate.slug}}'); return false;">+</a>
                         </div>
+                        <span id="linkError"></span>
                     </li>
                     </ul>
 
@@ -268,12 +269,19 @@
                 'candidate_slug': candidate_slug,
                 'candidate_name': '{{candidate.name}}',
             },
-            function(data) {
-                var name = data['name'];
-                var url = data['url'];
-                $("<li class='link-list-li' id='id-li-link-"+data.pk+"'><a href="+url+" target='_blanc'>"+name+"</a><a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'><img style='position:absolute; margin-top:4px; margin-left:6px;' src='{{ STATIC_URL }}img/bt_eliminar.png'/></a></li>").insertBefore($(".link-list li:last-child"));
-                $("#link_name").val("");
-                $("#link_url").val("");
+            function(data) {    
+                if(data.result=="OK"){
+                    var name = data['name'];
+                    var url = data['url'];
+                    $("<li class='link-list-li' id='id-li-link-"+data.pk+"'><a href="+url+" target='_blanc'>"+name+"</a><a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'><img style='position:absolute; margin-top:4px; margin-left:6px;' src='{{ STATIC_URL }}img/bt_eliminar.png'/></a></li>").insertBefore($(".link-list li:last-child"));
+                    $("#link_name").val("");
+                    $("#link_url").val("");
+                }
+                else {
+                    $("#linkError").text("{% trans 'El nombre y la url no pueden estar vacios' %}");
+                    $('#linkError').effect('highlight', 3000);
+                }
+                
             },
 
             'json');

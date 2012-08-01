@@ -76,10 +76,22 @@ class ElectionDetailView(DetailView):
     model = Election
 
     def get_queryset(self):
-        return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username'])
+
+        return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
 
 class ElectionShareView(DetailView):
     model = Election
+    def get_queryset(self):
+        return super(ElectionShareView, self).get_queryset().filter(owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+            self.object.published=True
+            self.object.save()
+            context = super(ElectionShareView, self).get_context_data(**kwargs)
+            return context
+    # def get_queryset(self):
+    #     return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+
 
 
 class ElectionCreateView(CreateView):
@@ -107,18 +119,6 @@ class ElectionCreateView(CreateView):
             return super(ElectionCreateView, self).form_invalid(form)
 
         return super(ElectionCreateView, self).form_valid(form)
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Election views
 class CompareView(DetailView):
@@ -185,9 +185,20 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
     return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
 
-def election_about(request, username, slug):
-    election = get_object_or_404(Election, slug=slug, owner__username=username)
-    return render_to_response('elections/election_about.html', {'election': election }, context_instance = RequestContext(request))
+
+
+
+# Election views
+class ElectionAboutView(DetailView):
+    model = Election
+    template_name = "elections/election_about.html"
+    def get_template_names(self):
+        return [self.template_name]
+
+    def get_queryset(self):
+
+        return super(ElectionAboutView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+
 
 class PrePersonalDataView(TemplateView):
 
@@ -248,7 +259,7 @@ class HomeTemplateView(TemplateView):
 
 
     def get_context_data(self,**kwargs):
-        last_five_elections = Election.objects.all().order_by('-created_at')[:5]
+        last_five_elections = Election.objects.filter(published=True).order_by('-created_at')[:5]
         kwargs['last_elections'] = last_five_elections
         kwargs['values'] = [1,2]
         return kwargs

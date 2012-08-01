@@ -24,7 +24,7 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 class ElectionEmbededDetail(TestCase):
 	def setUp(self):
 		self.user = User.objects.create(username='foobar')
-		self.election = Election.objects.create(name='elec foo', slug='elec-foo', owner=self.user)
+		self.election = Election.objects.create(name='elec foo', slug='elec-foo', owner=self.user, published=True)
 		#Deleting default categories
 		for category in self.election.category_set.all():
 			category.delete()
@@ -61,9 +61,9 @@ class ElectionEmbededDetail(TestCase):
 		url = reverse('election_detail_embeded',kwargs={'username': self.user.username,'slug': self.election.slug})
 		response = self.client.get(url)
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 		self.assertTemplateNotUsed(response, "elections/election_detail.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 		self.assertTrue('election' in response.context)
 		self.assertEquals(response.context['election'], self.election)
@@ -82,7 +82,7 @@ class ElectionEmbededDetail(TestCase):
 		url = reverse('election_detail_profiles_embeded',kwargs={'username': self.user.username,'slug': self.election.slug})
 		response = self.client.get(url)
 		self.assertEquals(response.status_code, 200)
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 		self.assertTemplateNotUsed(response, "elections/election_detail_profiles.html")
 		self.assertTrue('election' in response.context)
 		self.assertEquals(response.context['election'], self.election)
@@ -104,7 +104,7 @@ class ElectionEmbededDetail(TestCase):
 		
 		self.assertTemplateNotUsed(response, "medianaranja1.html")
 		self.assertTemplateUsed(response, "elections/embeded/medianaranja1.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 		resolver_match = resolve(url)
 		self.assertEquals(resolver_match.func.__module__,"candidator.elections.views.medianaranja_views")
@@ -126,7 +126,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "medianaranja2.html")
 		self.assertTemplateUsed(response, "elections/embeded/medianaranja2.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 		resolver_match = resolve(url)
 		self.assertEquals(resolver_match.func.__module__,"candidator.elections.views.medianaranja_views")
@@ -138,7 +138,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "elections/election_compare.html")
 		self.assertTemplateUsed(response, "elections/embeded/election_compare.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 
 	def test_compare_view_with_two_candidates_and_category(self):
@@ -156,7 +156,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "elections/election_compare.html")
 		self.assertTemplateUsed(response, "elections/embeded/election_compare.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 
 	def test_compare_view_with_two_candidates_and_no_category(self):
@@ -173,7 +173,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "elections/election_compare.html")
 		self.assertTemplateUsed(response, "elections/embeded/election_compare.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 	def test_compare_view_with_one_candidate_no_category(self):
 		url = reverse('election_compare_one_candidate_embeded',kwargs={
@@ -187,7 +187,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "elections/election_compare.html")
 		self.assertTemplateUsed(response, "elections/embeded/election_compare.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 
 	def test_display_candidate_profile(self):
@@ -200,9 +200,20 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateNotUsed(response, "elections/candidate_detail.html")
 		self.assertTemplateUsed(response, "elections/embeded/candidate_detail.html")
-		self.assertTemplateUsed(response, "elections/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 
 
+	def test_display_election_about(self):
+		url = reverse('election_about_embeded',kwargs={
+			'username': self.user.username,
+			'slug': self.election.slug
+			})
+		response = self.client.get(url)
+		self.assertEquals(response.status_code, 200)
+		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/about.html")
+		self.assertTemplateNotUsed(response, "elections/election_about.html")
+		self.assertTemplateNotUsed(response, "elections/base.html")
 
 
 

@@ -1,0 +1,4 @@
+{% load thumbnail %}
+{% thumbnail election.logo "850x80" as im %}
+    <div class="logo_eleccion"><img src="{{ im.url }}"style="margin: {{ im|margin:"850x80" }}" /></div>
+{% endthumbnail %}

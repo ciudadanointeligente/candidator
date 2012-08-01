@@ -142,7 +142,8 @@ class CategoryUpdateViewTest(TestCase):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election = Election.objects.create(name='BarBaz',
                                                             owner=self.user,
-                                                            slug='barbaz')
+                                                            slug='barbaz',
+                                                            published=True)
         self.category = Category.objects.create(name="Bar1", slug="bar", election=self.election)
 
 

@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load election_tags %}
 <!doctype html>
 <html>
 <head>
@@ -15,13 +16,36 @@
     {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
-</head>
+</head>{% load election_tags %}
 <body>
     <div id="content">
     <div class="papel_embeded" id="papel">
-        <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
         <div class="viewport">
             <div class="overview">
+                <article>
+
+                {% include 'election_logo_embed.html' %}
+
+
+                <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> {% if election.date %} - {{ election.date }}
+                {% endif %}</span></a>
+                </h1>
+                </div>
+                <nav id="mainNavigation">
+                    <div class="wrapBasic_embeded">
+                        
+                        <ul>
+                            <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
+                            <li> <a href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                            <li> <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
+                            <li> <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
+                            <li> <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                
+        
+        </article>
                 
 
 
@@ -34,14 +58,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
-<script src="{{ STATIC_URL }}js/jtinyscrollbar.js"></script>
 <script type="text/javascript">
-    var uvOptions = {};
-    (function() {
-    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-    })();
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-29858310-1']);
   _gaq.push(['_trackPageview']);
@@ -55,20 +72,13 @@
 
 
 //invalid name call
-
-$(document).ready(function(){
-
-        $(".papel_embeded").tinyscrollbar();
-
-    });
   
 </script>
 
 {% block extra_js %}
 {% endblock extra_js %}
 
-
 </body>
-    <div id="footerembed">
+    <div id="footerembed"><a href="http://candideit.org/" target="_parent"><img src="{{ STATIC_URL }}img/logo-embed.svg"></img>
     </div>
 </html>

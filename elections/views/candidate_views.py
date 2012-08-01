@@ -183,17 +183,23 @@ class CandidateCreateAjaxView(CreateView):
 @login_required
 @require_POST
 def async_create_link(request, candidate_pk):
-   link_name = request.POST.get('link_name', False)
-   link_url = request.POST.get('link_url', False)
-   election_slug = request.POST.get('election_slug', False)
-   slug = request.POST.get('candidate_slug', False)
-   cand_name = request.POST.get('candidate_name', False)
-   election = get_object_or_404(Election, slug=election_slug, owner=request.user)
-   candidate = get_object_or_404(Candidate, slug=slug, election=election, name=cand_name)
-   link = Link.objects.create(name = link_name, url= link_url, candidate = candidate)
-   link.save()
-   json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix, 'pk':link.pk}
-   return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    link_name = request.POST.get('link_name', False)
+    link_url = request.POST.get('link_url', False)
+    election_slug = request.POST.get('election_slug', False)
+    slug = request.POST.get('candidate_slug', False)
+    cand_name = request.POST.get('candidate_name', False)
+    election = get_object_or_404(Election, slug=election_slug, owner=request.user)
+    candidate = get_object_or_404(Candidate, slug=slug, election=election, name=cand_name)
+    link = Link(name = link_name, url= link_url, candidate = candidate)
+    try:
+        link.full_clean()
+        link.save()
+        json_dictionary = {"result": "OK", 'name':link_name, 'url':link.http_prefix, 'pk':link.pk}
+    except ValidationError as e:
+        json_dictionary = {"result":"NOK", "errors":e.message_dict}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
+   
 
 @login_required
 @require_POST
