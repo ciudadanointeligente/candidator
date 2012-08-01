@@ -37,7 +37,7 @@
                         
                         <ul>
                             <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
-                            <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                            <li> <a href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
                             <li> <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
                             <li> <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
                             <li> <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
