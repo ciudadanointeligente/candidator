@@ -110,8 +110,15 @@
 	clear: none;
     width: 273px;
 	display: block;
-	float:left;
 }
+
+.firstCandidatesAnswer {
+		float: left;
+	}
+
+.secondCandidatesAnswer{
+		float: right;
+	}
 
 .answerSpace li {
     line-height: 15px;
