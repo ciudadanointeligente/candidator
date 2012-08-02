@@ -25,7 +25,7 @@
 
 		<br />
 		<span class="link_a_tu_candideitorg_label">Link a tu candideit.org:</span>
-		<div class="link_a_tu_candideitorg">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</div>
+		<div class="link_a_tu_candideitorg"><a href="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</a></div>
 		<div class="sharing_my_election" >
 			<span class='st_facebook_vcount' displayText='Facebook' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
 			<span class='st_twitter_vcount' displayText='Tweet' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
