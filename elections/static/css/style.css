@@ -1106,9 +1106,7 @@ ul .electionList {
 	font-size: 13px;
 	color: #94A9AF;
 	letter-spacing: 1px;
-	text-overflow: ellipsis;
 	overflow:hidden;
-	white-space:nowrap;
 	font-family: 'AllerBold';
 }
 
