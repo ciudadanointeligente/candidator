@@ -673,6 +673,7 @@ ul.homeNav ul.sidebarMenu{
 	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
 	border:1px solid #72acd9;
+    cursor: pointer;
 }
 
 .bthome{
