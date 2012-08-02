@@ -20,12 +20,24 @@
 	<span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url share_my_election slug=election.slug%}">{% trans 'Comparte tu elección' %}</a></span>
 <div class="papel_edit">
 	<div class="wrapper_plantillas">
-    <div class="blue_edit" style="text-align: center;">TU CANDIDEIT.ORG ESTA PUBLICADO, AHORA COMPARTELO!</div>
+    <div class="blue_edit" style="text-align: center;">{% trans 'TU CANDIDEIT.ORG ESTA PUBLICADO, AHORA COMPARTELO!' %}</div>
 		<img src="{{ STATIC_URL }}img/avion.png" style="margin: -30px 0px 40px -27px;"></img>
 
 		<br />
-		<span class="link_a_tu_candideitorg_label">Link a tu candideit.org:</span>
-		<div class="link_a_tu_candideitorg"><a href="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</a></div>
+		<span class="link_a_tu_candideitorg_label">{% trans 'Link a tu candideit.org:' %}</span>
+		<span lang="html" class="link_a_tu_candideitorg"><a href="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</a></span>
+
+
+
+
+		<span class="link_a_tu_candideitorg_label">{% trans 'Inserta este código en tu página:' %}</span>
+		<pre class="link_a_tu_candideitorg embedea_tu_candideitorg">
+			    &lt;iframe src="http://{{ request.META.HTTP_HOST }}{% url election_detail_embeded username=election.owner.username  slug=election.slug %}" style="width:860px;" height="522" frameborder="0" scrolling="no"&gt; &lt;/iframe&gt;
+			
+
+
+
+		</pre>
 		<div class="sharing_my_election" >
 			<span class='st_facebook_vcount' displayText='Facebook' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
 			<span class='st_twitter_vcount' displayText='Tweet' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
