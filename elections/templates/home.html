@@ -123,5 +123,10 @@ jQuery(window).load(function(){
     });
 });
 </script>
-
+<script type="text/javascript">
+$(".bt_cuadrado").click(function(){
+     window.location=$(this).find("a").attr("href"); 
+     return false;
+});
+</script>
 {% endblock extra_js %}
