@@ -59,7 +59,15 @@
 	}
 
 	.answerSpace ul {
-		width: 47.9%;
+		width: 47%;
+	}
+
+	.answerSpace.firstCandidatesAnswer {
+		float: left;
+	}
+
+	.answerSpace.secondCandidatesAnswer{
+		float: right;
 	}
 
 }
