@@ -128,11 +128,11 @@ padding: 6px 0px 16px 0px;
     }
 
     .firstCandidate {
-        width: 45%;
+        width: 48%;
     }
 
     .secondCandidate {
-        width: 45%;
+        width: 48%;
     }
 
     .candidatesLists select {
@@ -152,7 +152,7 @@ padding: 6px 0px 16px 0px;
     }
 
     .answerSpace ul {
-        width: 47.1%;
+        width: 46%;
     }
 
     .leftContent {
@@ -167,6 +167,14 @@ padding: 6px 0px 16px 0px;
         background-color: transparent;
     }
 
+    .tzSelect {
+    position: relative;
+    }
+
+    .firstCandidatesAnswer {
+     padding-right: 2.8%;
+    }
+
 /* PERFILES */
 
     .posiciones {
@@ -176,6 +184,10 @@ padding: 6px 0px 16px 0px;
 
     .trayectoria {
         width: 35%;
+    }
+
+    .comparisonBox {
+        width: 98%;
     }
 
 /* FOOTER */

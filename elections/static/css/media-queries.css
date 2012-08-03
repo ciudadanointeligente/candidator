@@ -50,24 +50,16 @@
 	/* COMPARA */
 
 	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
-		width: 50%;
+		width: 45%;
 	}
 
 	.questionInComparison {
 		width: 99%;
-		padding: 1px 2px;
+		padding: 0px 1px;
 	}
 
 	.answerSpace ul {
 		width: 47%;
-	}
-
-	.answerSpace.firstCandidatesAnswer {
-		float: left;
-	}
-
-	.answerSpace.secondCandidatesAnswer{
-		float: right;
 	}
 
 }
