@@ -673,6 +673,7 @@ ul.homeNav ul.sidebarMenu{
 	background: linear-gradient(top,  #a4c5db 0%,#80b6e2 96%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c5db', endColorstr='#80b6e2',GradientType=0 );
 	border:1px solid #72acd9;
+    cursor: pointer;
 }
 
 .bthome{
@@ -1104,11 +1105,8 @@ ul .electionList {
 	margin-bottom: 25px;
 	font-size: 13px;
 	color: #94A9AF;
-	text-transform: uppercase;
 	letter-spacing: 1px;
-	text-overflow: ellipsis;
 	overflow:hidden;
-	white-space:nowrap;
 	font-family: 'AllerBold';
 }
 

@@ -17,7 +17,9 @@ from django.views.decorators.http import require_POST
 
 
 # Import forms
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm,\
+                            BackgroundCategoryForm, BackgroundForm, QuestionForm, \
+                            CategoryForm, ElectionStyleUpdateForm
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
@@ -46,6 +48,23 @@ class ElectionLogoUpdateView(UpdateView):
     def get_success_url(self):
         url = reverse('election_update', kwargs={'slug': self.object.slug})
         return url
+
+class ElectionStyleUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionStyleUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, slug=kwargs['slug'], owner=request.user)
+        return super(ElectionStyleUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_template_names(self):
+        return 'elections/updating/election_style_updating.html'
+
+    def get_success_url(self):
+        url = reverse('update_custom_style', kwargs={'slug': self.object.slug})
+        return url
+
 
 class ElectionUpdateView(UpdateView):
     model = Election
@@ -211,7 +230,6 @@ class PrePersonalDataView(TemplateView):
         context = super(PrePersonalDataView, self).get_context_data(**kwargs)
         context['election'] = self.election
         return context
-
 
 class ElectionUpdateDataView(DetailView):
     model = Election

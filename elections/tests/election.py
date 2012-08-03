@@ -11,8 +11,11 @@ from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
 from django.utils.translation import ugettext as _
 
-from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
+from elections.models import Election, Candidate, Category, PersonalData, \
+                             BackgroundCategory, Background, PersonalDataCandidate
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, \
+                            BackgroundCategoryForm, BackgroundForm, QuestionForm, \
+                            CategoryForm, ElectionLogoUpdateForm, ElectionStyleUpdateForm
 from elections.views import ElectionRedirectView
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -78,7 +81,23 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.slug, 'barbaz')
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
-        self.assertEqual(election.published,False)     
+        self.assertEqual(election.published,False)
+        self.assertEqual(election.custom_style, None)
+
+    def test_edit_embeded_style_for_election(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion',
+                                                           date='27 de Diciembre')
+
+
+        election.custom_style = "body {color:red;}"
+        election.save()
+
+        the_same_election= Election.objects.get(id=election.id)
+        self.assertEqual(the_same_election.custom_style, election.custom_style)  
 
     def test_create_two_election_by_same_user_with_same_slug(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
@@ -189,8 +208,48 @@ class ElectionPhotoUpdateViewFormTest(TestCase):
     def test_get_form_as_user_but_no_owner(self):
         self.client.login(username=self.user2.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, 404)
+        self.assertEquals(response.status_code, 404)   
+
+
+
+class ElectionCustomStyleUpdateView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.user2 = User.objects.create_user(username='doe', password=PASSWORD, email='doe@exmaple.net')
+        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
+        self.url = reverse('update_custom_style', kwargs={'slug': self.election.slug})
+
+    def test_get_form_for_updating_style(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/updating/election_style_updating.html')
+        self.assertTrue('form' in response.context)
+        self.assertIsInstance(response.context['form'], ElectionStyleUpdateForm)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
+
+    def test_post_new_image_as_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        data = {
+            'custom_style': 'body {background-color:red;}'
+        }
+        response = self.client.post(self.url, data)
+
+        self.assertRedirects(response, reverse('update_custom_style', 
+                                       kwargs={'slug': self.election.slug}))
+        election = Election.objects.get(slug=self.election.slug)
+        self.assertEquals(election.custom_style, data['custom_style'])
+
+
+    def test_get_form_as_no_user(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '/accounts/login/?next=/election/'+str(self.election.slug)+'/update_style')
         
+    def test_get_form_as_user_but_no_owner(self):
+        self.client.login(username=self.user2.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 404)  
 
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
