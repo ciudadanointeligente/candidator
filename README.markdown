@@ -39,7 +39,7 @@ Step 2:
 Clone the project from our repo
 
 ```
-git clone git@github.com:ciudadanointeligente/candidator.org.git candidator
+git clone git@github.com:ciudadanointeligente/candidator.git candidator
 ```
 
 Enter the directory
