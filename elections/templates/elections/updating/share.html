@@ -31,13 +31,7 @@
 
 
 		<span class="link_a_tu_candideitorg_label">{% trans 'Inserta este código en tu página:' %}</span>
-		<pre class="link_a_tu_candideitorg embedea_tu_candideitorg">
-			    &lt;iframe src="http://{{ request.META.HTTP_HOST }}{% url election_detail_embeded username=election.owner.username  slug=election.slug %}" style="width:860px;" height="522" frameborder="0" scrolling="no"&gt; &lt;/iframe&gt;
-			
-
-
-
-		</pre>
+		<textarea class="link_a_tu_candideitorg embedea_tu_candideitorg">&lt;iframe src="http://{{ request.META.HTTP_HOST }}{% url election_detail_embeded username=election.owner.username  slug=election.slug %}" style="width:860px;" height="522" frameborder="0" scrolling="no"&gt; &lt;/iframe&gt;</textarea>
 		<div class="sharing_my_election" >
 			<span class='st_facebook_vcount' displayText='Facebook' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
 			<span class='st_twitter_vcount' displayText='Tweet' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
