@@ -55,7 +55,7 @@ class ElectionStyleUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        self.election = get_object_or_404(Election, pk=kwargs['pk'], owner=request.user)
+        self.election = get_object_or_404(Election, slug=kwargs['slug'], owner=request.user)
         return super(ElectionStyleUpdateView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):

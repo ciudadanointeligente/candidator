@@ -215,8 +215,9 @@ class ElectionPhotoUpdateViewFormTest(TestCase):
 class ElectionCustomStyleUpdateView(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.user2 = User.objects.create_user(username='doe', password=PASSWORD, email='doe@exmaple.net')
         self.election = Election.objects.create(name='election', slug='election', owner=self.user)
-        self.url = reverse('update_custom_style', kwargs={'pk': self.election.pk})
+        self.url = reverse('update_custom_style', kwargs={'slug': self.election.slug})
 
     def test_get_form_for_updating_style(self):
         self.client.login(username=self.user.username, password=PASSWORD)
@@ -227,7 +228,28 @@ class ElectionCustomStyleUpdateView(TestCase):
         self.assertIsInstance(response.context['form'], ElectionStyleUpdateForm)
         self.assertTrue('election' in response.context)
         self.assertEqual(response.context['election'], self.election)
+
+    def test_post_new_image_as_owner(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        data = {
+            'custom_style': 'body {background-color:red;}'
+        }
+        response = self.client.post(self.url, data)
+
+        self.assertRedirects(response, reverse('update_custom_style', 
+                                       kwargs={'slug': self.election.slug}))
+        election = Election.objects.get(slug=self.election.slug)
+        self.assertEquals(election.custom_style, data['custom_style'])
+
+
+    def test_get_form_as_no_user(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, '/accounts/login/?next=/election/'+str(self.election.slug)+'/update_style')
         
+    def test_get_form_as_user_but_no_owner(self):
+        self.client.login(username=self.user2.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 404)  
 
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
