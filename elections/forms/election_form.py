@@ -21,6 +21,15 @@ class ElectionUpdateForm(forms.ModelForm):
     class Meta:
         model = Election
         exclude = ('owner', 'slug')
+
+
+class ElectionStyleUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Election
+        exclude = ('owner', 'slug', 'name', 'description', 'information_source','logo','created_at', 'updated_at','date', 'published')
+
+
+
         
 class ElectionLogoUpdateForm(forms.ModelForm):
     logo = ImageField(widget=FileInput)

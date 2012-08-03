@@ -76,7 +76,7 @@
 <div class="papel">
 	<div class="contenedor3">
     
-    <div class="github goeditAzul">¿Quieres ver nuestro código? revisalo acá: <a href="http://www.github.com/ciudadanointeligente/candidator.org">http://www.github.com/ciudadanointeligente/candidator.org</a></div>
+    <div class="github goeditAzul">¿Quieres ver nuestro código? revisalo acá: <a href="http://www.github.com/ciudadanointeligente/candidator">http://www.github.com/ciudadanointeligente/candidator</a></div>
 
 <hr />
 
@@ -123,5 +123,10 @@ jQuery(window).load(function(){
     });
 });
 </script>
-
+<script type="text/javascript">
+$(".bt_cuadrado").click(function(){
+     window.location=$(this).find("a").attr("href"); 
+     return false;
+});
+</script>
 {% endblock extra_js %}
