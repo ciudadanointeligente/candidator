@@ -11,8 +11,11 @@ from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
 from django.utils.translation import ugettext as _
 
-from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
+from elections.models import Election, Candidate, Category, PersonalData, \
+                             BackgroundCategory, Background, PersonalDataCandidate
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, \
+                            BackgroundCategoryForm, BackgroundForm, QuestionForm, \
+                            CategoryForm, ElectionLogoUpdateForm, ElectionStyleUpdateForm
 from elections.views import ElectionRedirectView
 
 dirname = os.path.dirname(os.path.abspath(__file__))
@@ -79,7 +82,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
         self.assertEqual(election.published,False)
-        custom_style = models.TextField(blank=True, null=True)
+        self.assertEqual(election.custom_style, None)
 
     def test_edit_embeded_style_for_election(self):
         user, created = User.objects.get_or_create(username='joe')
@@ -205,7 +208,25 @@ class ElectionPhotoUpdateViewFormTest(TestCase):
     def test_get_form_as_user_but_no_owner(self):
         self.client.login(username=self.user2.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, 404)
+        self.assertEquals(response.status_code, 404)   
+
+
+
+class ElectionCustomStyleUpdateView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
+        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
+        self.url = reverse('update_custom_style', kwargs={'pk': self.election.pk})
+
+    def test_get_form_for_updating_style(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/updating/election_style_updating.html')
+        self.assertTrue('form' in response.context)
+        self.assertIsInstance(response.context['form'], ElectionStyleUpdateForm)
+        self.assertTrue('election' in response.context)
+        self.assertEqual(response.context['election'], self.election)
         
 
 class ElectionDetailViewTest(TestCase):

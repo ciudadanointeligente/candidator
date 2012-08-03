@@ -3,6 +3,7 @@
 <!doctype html>
 <html>
 <head>
+
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
@@ -14,9 +15,21 @@
     {% if election %}
     <meta name="Description" content="{{ election.description }}" />
     {% endif %}
+    {% if election.custom_style %}
+    <!-- custom css -->
+    <style type="text/css">
+    
+        {{ election.custom_style }}
+    
+    </style>
+    <!-- custom css -->
+    {% endif %}
+    
     {% block extra_head %}
     {% endblock extra_head %}
-</head>{% load election_tags %}
+
+    
+</head>
 <body>
     <div id="content">
     <div class="papel_embeded" id="papel">
