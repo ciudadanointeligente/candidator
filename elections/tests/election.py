@@ -78,7 +78,23 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.slug, 'barbaz')
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
-        self.assertEqual(election.published,False)     
+        self.assertEqual(election.published,False)
+        custom_style = models.TextField(blank=True, null=True)
+
+    def test_edit_embeded_style_for_election(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           slug='barbaz',
+                                                           description='esta es una descripcion',
+                                                           date='27 de Diciembre')
+
+
+        election.custom_style = "body {color:red;}"
+        election.save()
+
+        the_same_election= Election.objects.get(id=election.id)
+        self.assertEqual(the_same_election.custom_style, election.custom_style)  
 
     def test_create_two_election_by_same_user_with_same_slug(self):
         user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
