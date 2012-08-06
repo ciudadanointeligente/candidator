@@ -17,7 +17,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
                   ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView, \
-                  ElectionAboutView, ElectionStyleUpdateView
+                  ElectionAboutView, ElectionStyleUpdateView, EmbededTemplateView
 
 
 urlpatterns = patterns('',
@@ -240,7 +240,8 @@ urlpatterns = patterns('',
 
 
 
-
+    # Solo para efectos de prueba del embeded
+    url(r'^prueba_embeded$', EmbededTemplateView.as_view(), name="prueba_embeded"),
 
 
 

@@ -82,7 +82,8 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
         self.assertEqual(election.published,False)
-        self.assertEqual(election.custom_style, None)
+        self.assertEqual(election.custom_style, '')
+        self.assertEqual(election.highlighted, False)
 
     def test_edit_embeded_style_for_election(self):
         user, created = User.objects.get_or_create(username='joe')
@@ -862,9 +863,6 @@ class ElectionRedirectViewTest(TestCase):
 
 
 class HomeTemplateView(TestCase):
-
-        
-
     def test_it_brings_the_last_five_create_elections(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
         election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True)
@@ -899,3 +897,16 @@ class HomeTemplateView(TestCase):
         self.assertTrue('values' in response.context)
         self.assertTrue(response.context['values'] == [1,2])
         
+
+
+class EmbededTestTemplateView(TestCase):
+
+    def test_shows_prueba_html(self):
+        url = reverse('prueba_embeded')
+        response = self.client.get(url)
+
+        self.assertTemplateUsed(response, 'prueba.html')
+        self.assertTrue('embeded_test_web' in response.context)
+
+
+

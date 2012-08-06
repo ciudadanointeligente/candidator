@@ -26,6 +26,7 @@ from elections.forms.candidate_form import CandidateForm
 from elections.forms.election_form import AnswerForm, ElectionLogoUpdateForm
 from elections.models import Election, Candidate, Category
 
+from django.conf import settings
 
 # Election Views
 class ElectionLogoUpdateView(UpdateView):
@@ -281,3 +282,13 @@ class HomeTemplateView(TemplateView):
         kwargs['last_elections'] = last_five_elections
         kwargs['values'] = [1,2]
         return kwargs
+
+
+
+##THIS IS ONLY FOR TESTING PORPOUSES
+
+class EmbededTemplateView(TemplateView):
+    template_name = 'prueba.html'
+
+    def get_context_data(self, **kwargs):
+        return {'embeded_test_web':settings.EMBEDED_TEST_WEB}

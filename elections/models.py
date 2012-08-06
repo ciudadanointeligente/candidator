@@ -31,10 +31,10 @@ class Election(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
     published = models.BooleanField(default=False)
-    custom_style = models.TextField(blank=True, null=True)
+    custom_style = models.TextField(blank=True)
     #TODO: 
     #y ver como deployar esto arriba
-    #highlighted = models.BooleanField(default=False)
+    highlighted = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('owner', 'slug')

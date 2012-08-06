@@ -16,27 +16,24 @@
              	</div>
             </div>
 
+<h4 class="bold" style="line-height=24px;"><span>Candideit.org es tu aliado para repartir la torta.</span> Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.</h4>
             <br />
-            
-            <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
-            
-	<div class="alRegistrarte">
-        <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
+            <br />
+
+    <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
+
+    <div class="alRegistrarte">
+            <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
             <div class="img_comparar"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_comparar">comparar los candidatos...</div>
             <div class="img_descubrir"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_descubrir">descubrir quien es tu media naranja política...</div>
             <div class="img_compartir"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_compartir">y compartir los resultados</div>
-     </div>   
+    </div> 
+
+
      <div class="informacion_de_elecciones_existentes">
         
         <div class="lista_elecciones_en_home">
-            <h2>{% trans '¿Por qué candideit.org?' %}</h2>
-            <ul>
-            {% if  values|random == 1 %}
-            <span class="bold">Candideit.org es una herramienta que busca fortalecer la democracia desde los ciudadanos.</span> Con tu participación, podrás ser un activista del voto informado; entregando información comparable y compartiendo con tus círculos la elección. 
-            {% else %}
-<span class="bold">Candideit.org es tu aliado para repartir la torta.</span> Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo. 
-            {% endif %}
-            </ul>
+                <iframe style="margin-top: 5px;" width="263" height="148" src="http://www.youtube.com/embed/EWuFQa3c_5k?rel=0" frameborder="0" allowfullscreen></iframe>
          </div>
         <div class="lista_elecciones_en_home">
             <h2>{% trans 'Elecciones destacadas' %}</h2>
