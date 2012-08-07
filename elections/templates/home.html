@@ -37,15 +37,12 @@
          </div>
         <div class="lista_elecciones_en_home">
             <h2>{% trans 'Elecciones destacadas' %}</h2>
-            <ul>
-                <div class="even">
-                    <!--
-                    TODO //ADD highlighted elections to model elections
-                    -->
-                    <li><span class="bold">1 </span>Rayo X Político <span
-                        class="goeditAzul"><a href="http://{{ request.META.HTTP_HOST }}/lfalvarez/rayo-x-politico/"
-                                            title="http://{{ request.META.HTTP_HOST }}/lfalvarez/rayo-x-politico/">ver</a></span></li>
+           <ul>
+                {% for highlighted_election in highlighted_elections %}
+                <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
+                <li><span class="bold">{{ forloop.counter }} </span>{{ highlighted_election }} <span class="goeditAzul"><a href="{{ highlighted_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ highlighted_election.get_absolute_url }}"> ver</a></span></li>
                 </div>
+                {% endfor %}
             </ul>
          </div>
         <div class="lista_elecciones_en_home">
