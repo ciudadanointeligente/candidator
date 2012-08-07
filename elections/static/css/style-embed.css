@@ -34,7 +34,7 @@ body{
 }
 
 #papel .viewport {
-    height: 450px;
+    height: 517px;
     overflow-y: scroll;
     position: relative;
 }
@@ -188,6 +188,10 @@ padding: 6px 0px 16px 0px;
 
     .comparisonBox {
         width: 98%;
+    }
+
+    .tzSelect .selectBox {
+        margin-right: 7%;
     }
 
 /* FOOTER */
