@@ -29,17 +29,6 @@
 
                     <div class="candidatesBasicInformation wrapW">
 
-
-                        <header>
-                            <div class="tit"><h3>{{ candidate.name }}
-                            {% if election.owner.username == request.user.username %}
-
-                            <span class="goedit"><a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans "editar respuestas" %}</a></span>
-
-                            {% endif %}</h3></div>
-                        </header>
-
-                        <div>
                             <div class="profileImg">
                                 {% thumbnail candidate.photo "160x200" crop="center" as im %}
                                     <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
@@ -52,8 +41,16 @@
                                     {% endif %}
                                 {% endthumbnail %}
                             </div>
+                        
+                        <section class="personalInfo">
+                        <div class="tit"><h3>{{ candidate.name }}
+                            {% if election.owner.username == request.user.username %}
 
-                            <section class="personalInfo">
+                            <span class="goedit"><a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans "editar respuestas" %}</a></span>
+
+                            {% endif %}</h3></div>
+                        <div>
+                            
                                 <h3 style="display:none;">{% trans "Información personal" %}</h3>
 
 

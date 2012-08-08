@@ -194,6 +194,24 @@ padding: 6px 0px 16px 0px;
         margin-right: 7%;
     }
 
+    .profileAside {
+        height: none;
+        min-height: 160px;
+        width: 8%;
+        margin-top: 0;
+    }
+
+    .personalInfo {
+        width: 68%;
+        margin-top: 0;
+    }
+
+    .profileImg {
+        height: 100%;
+        width: 20%;
+        margin-top: 0;
+    }
+
 /* FOOTER */
 #footerembed {
     background: -moz-linear-gradient(left, rgba(128,182,226,0.6) 0%, rgba(128,182,226,1) 51%, rgba(128,182,226,0.6) 100%); /* FF3.6+ */
