@@ -34,7 +34,7 @@ body{
 }
 
 #papel .viewport {
-    height: 450px;
+    height: 517px;
     overflow-y: scroll;
     position: relative;
 }
@@ -188,6 +188,28 @@ padding: 6px 0px 16px 0px;
 
     .comparisonBox {
         width: 98%;
+    }
+
+    .tzSelect .selectBox {
+        margin-right: 7%;
+    }
+
+    .profileAside {
+        height: none;
+        min-height: 160px;
+        width: 8%;
+        margin-top: 0;
+    }
+
+    .personalInfo {
+        width: 68%;
+        margin-top: 0;
+    }
+
+    .profileImg {
+        height: 100%;
+        width: 20%;
+        margin-top: 0;
     }
 
 /* FOOTER */

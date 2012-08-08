@@ -17,7 +17,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
                   ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView, \
-                  ElectionAboutView
+                  ElectionAboutView, ElectionStyleUpdateView, EmbededTemplateView
 
 
 urlpatterns = patterns('',
@@ -128,6 +128,9 @@ urlpatterns = patterns('',
     # Election update view
     url(r'^election/(?P<slug>[-\w]+)/update/?$', ElectionUpdateView.as_view(), name='election_update'),
 
+    # Election style update view
+    url(r'^election/(?P<slug>[-\w]+)/update_style/?$', ElectionStyleUpdateView.as_view(), name='update_custom_style'),
+
     # Election share view
     url(r'^election/(?P<slug>[-\w]+)/share/?$', ElectionShareView.as_view(template_name='elections/updating/share.html'), name='share_my_election'),
 
@@ -237,7 +240,8 @@ urlpatterns = patterns('',
 
 
 
-
+    # Solo para efectos de prueba del embeded
+    url(r'^prueba_embeded$', EmbededTemplateView.as_view(), name="prueba_embeded"),
 
 
 

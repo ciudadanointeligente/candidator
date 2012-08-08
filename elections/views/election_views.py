@@ -17,13 +17,16 @@ from django.views.decorators.http import require_POST
 
 
 # Import forms
-from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm
+from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm,\
+                            BackgroundCategoryForm, BackgroundForm, QuestionForm, \
+                            CategoryForm, ElectionStyleUpdateForm
 
 # Import models
 from elections.forms.candidate_form import CandidateForm
 from elections.forms.election_form import AnswerForm, ElectionLogoUpdateForm
 from elections.models import Election, Candidate, Category
 
+from django.conf import settings
 
 # Election Views
 class ElectionLogoUpdateView(UpdateView):
@@ -46,6 +49,23 @@ class ElectionLogoUpdateView(UpdateView):
     def get_success_url(self):
         url = reverse('election_update', kwargs={'slug': self.object.slug})
         return url
+
+class ElectionStyleUpdateView(UpdateView):
+    model = Election
+    form_class = ElectionStyleUpdateForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.election = get_object_or_404(Election, slug=kwargs['slug'], owner=request.user)
+        return super(ElectionStyleUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_template_names(self):
+        return 'elections/updating/election_style_updating.html'
+
+    def get_success_url(self):
+        url = reverse('update_custom_style', kwargs={'slug': self.object.slug})
+        return url
+
 
 class ElectionUpdateView(UpdateView):
     model = Election
@@ -212,7 +232,6 @@ class PrePersonalDataView(TemplateView):
         context['election'] = self.election
         return context
 
-
 class ElectionUpdateDataView(DetailView):
     model = Election
     def get_template_names(self):
@@ -261,5 +280,16 @@ class HomeTemplateView(TemplateView):
     def get_context_data(self,**kwargs):
         last_five_elections = Election.objects.filter(published=True).order_by('-created_at')[:5]
         kwargs['last_elections'] = last_five_elections
-        kwargs['values'] = [1,2]
+        kwargs['highlighted_elections'] = Election.objects.filter(highlighted=True).filter(published=True).order_by('?')[:5]
+
         return kwargs
+
+
+
+##THIS IS ONLY FOR TESTING PORPOUSES
+
+class EmbededTemplateView(TemplateView):
+    template_name = 'prueba.html'
+
+    def get_context_data(self, **kwargs):
+        return {'embeded_test_web':settings.EMBEDED_TEST_WEB}

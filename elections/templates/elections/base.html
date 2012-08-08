@@ -1,8 +1,10 @@
-{% load i18n %}
-<!doctype html>
+{% load i18n %}<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
@@ -14,6 +16,7 @@
     {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
+
 </head>
 <body>
 <div class="bulb_container">
