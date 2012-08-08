@@ -3,6 +3,9 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
@@ -14,6 +17,12 @@
     {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
 </head>
 <body>
 <div class="bulb_container">
@@ -61,7 +70,7 @@
         </nav>
       </div>
 <div class="papel">
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ></a></div>
 {% block content %}
 {% endblock content %}
 </div>

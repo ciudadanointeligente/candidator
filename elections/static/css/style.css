@@ -11,7 +11,6 @@ body{ font-family: 'AllerRegular', Helvetica, Arial, sans-serif; font-size: 12px
 	background: -o-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
 	background: -ms-linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
 	background: linear-gradient(left,  #ffffff 0%,#e8e8e8 50%,#ffffff 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
 	line-height:16px; overflow-x: hidden;
     width: 100%;}
 
