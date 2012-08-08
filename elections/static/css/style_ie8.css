@@ -5,8 +5,8 @@
 	overflow: hidden;
 	width: 130px;
 }
-header div.tit h3 {
-	margin-top: 0px;
+section div.tit h3 {
+	margin-top: -24px;
 }
 
 section.personalInfo .tit{
