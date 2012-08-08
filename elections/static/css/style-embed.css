@@ -183,7 +183,7 @@ padding: 6px 0px 16px 0px;
     }
 
     .trayectoria {
-        width: 35%;
+        width: 34%;
     }
 
     .comparisonBox {
@@ -197,12 +197,11 @@ padding: 6px 0px 16px 0px;
     .profileAside {
         height: none;
         min-height: 160px;
-        width: 8%;
         margin-top: 0;
     }
 
     .personalInfo {
-        width: 68%;
+        width: 65%;
         margin-top: 0;
     }
 
@@ -210,6 +209,10 @@ padding: 6px 0px 16px 0px;
         height: 100%;
         width: 20%;
         margin-top: 0;
+    }
+
+    .enlacesPersonales {
+        margin-top: -42px;
     }
 
 /* FOOTER */
