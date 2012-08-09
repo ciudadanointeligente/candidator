@@ -16,6 +16,14 @@
     {% if election %}
     <meta name="Description" content="{{ election.description }}" />
     {% endif %}
+    {% block extra_head %}
+    {% endblock extra_head %}
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
     {% if election.custom_style %}
     <!-- custom css -->
     <style type="text/css">
@@ -26,14 +34,7 @@
     <!-- custom css -->
     {% endif %}
     
-    {% block extra_head %}
-    {% endblock extra_head %}
-    <!--[if IE 8]>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
-    <![endif]-->
-    <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
-    <![endif]-->
+    
 
     
 </head>
