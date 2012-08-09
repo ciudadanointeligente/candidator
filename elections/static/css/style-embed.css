@@ -34,7 +34,7 @@ body{
 }
 
 #papel .viewport {
-    height: 450px;
+    height: 517px;
     overflow-y: scroll;
     position: relative;
 }
@@ -183,11 +183,36 @@ padding: 6px 0px 16px 0px;
     }
 
     .trayectoria {
-        width: 35%;
+        width: 34%;
     }
 
     .comparisonBox {
         width: 98%;
+    }
+
+    .tzSelect .selectBox {
+        margin-right: 7%;
+    }
+
+    .profileAside {
+        height: none;
+        min-height: 160px;
+        margin-top: 0;
+    }
+
+    .personalInfo {
+        width: 65%;
+        margin-top: 0;
+    }
+
+    .profileImg {
+        height: 100%;
+        width: 20%;
+        margin-top: 0;
+    }
+
+    .enlacesPersonales {
+        margin-top: -42px;
     }
 
 /* FOOTER */

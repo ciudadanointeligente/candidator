@@ -877,8 +877,7 @@ class HomeTemplateView(TestCase):
         elections = response.context['last_elections']
         self.assertTrue(elections.count() == 5)
         self.assertTrue(elections[0] == election6)
-        self.assertTrue('values' in response.context)
-        self.assertTrue(response.context['values'] == [1,2])
+
         
     def test_it_brings_the_last_created_and_published_elections(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
@@ -894,10 +893,39 @@ class HomeTemplateView(TestCase):
         elections = response.context['last_elections']
         self.assertTrue(elections.count() == 2)
         self.assertTrue(elections[0] == election2)
-        self.assertTrue('values' in response.context)
-        self.assertTrue(response.context['values'] == [1,2])
         
+    def test_it_brings_the_just_five_highlighted_elections(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True, highlighted=True)
+        election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=True, highlighted=True)
+        election3 = Election.objects.create(owner=self.user, name='Election', slug='election3', published=True, highlighted=True)
+        election4 = Election.objects.create(owner=self.user, name='Election', slug='election4', published=True, highlighted=True)
+        election5 = Election.objects.create(owner=self.user, name='Election', slug='election5', published=True, highlighted=True)
+        election6 = Election.objects.create(owner=self.user, name='Election', slug='election6', published=True, highlighted=True)
+        self.url = reverse('home')
+        response = self.client.get(self.url)
+        self.assertTrue('highlighted_elections' in response.context)
+        elections = response.context['highlighted_elections']
+        self.assertTrue(elections.count() == 5)
 
+        
+    # def test_it_brings_the_last_created_and_published_elections(self):
+    #     self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+    #     election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True)
+    #     election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=True)
+    #     election3 = Election.objects.create(owner=self.user, name='Election', slug='election3')
+    #     election4 = Election.objects.create(owner=self.user, name='Election', slug='election4')
+    #     election5 = Election.objects.create(owner=self.user, name='Election', slug='election5')
+    #     election6 = Election.objects.create(owner=self.user, name='Election', slug='election6')
+    #     self.url = reverse('home')
+    #     response = self.client.get(self.url)
+    #     self.assertTrue('last_elections' in response.context)
+    #     elections = response.context['last_elections']
+    #     self.assertTrue(elections.count() == 2)
+    #     self.assertTrue(elections[0] == election2)
+    #     self.assertTrue('values' in response.context)
+    #     self.assertTrue(response.context['values'] == [1,2])
+        
 
 class EmbededTestTemplateView(TestCase):
 

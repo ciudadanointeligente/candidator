@@ -36,7 +36,7 @@
 	}
 
 	.candidatesBasicInformation .tit h3 {
-		width: 65%;
+		width: 95%;
 	}
 
 	.dropDown li span {
@@ -141,6 +141,10 @@
         top: -80%;
         line-height: 10px;
     }
+
+    .personalInfo {
+		width: 63%;
+	}
 
 }
 
