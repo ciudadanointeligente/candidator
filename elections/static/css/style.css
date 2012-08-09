@@ -455,13 +455,19 @@ background-color:white;
 
 /*======= HOME ========*/
 
+.destacado-home {
+    font-size: 1.7em;
+    line-height: 1.4em;
+    color: #47ADB6;
+}
+
 #homeNavigation{
     margin-top: 13px;
 }
 
 ul.homeNav{}
 .homeLi{
-     background-color: #DAE2E5;
+    background-color: #DAE2E5;
     background-position: center top;
     background-repeat: no-repeat;
     border: 1px solid #C4D4D9;
