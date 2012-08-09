@@ -16,7 +16,7 @@
              	</div>
             </div>
 
-<h4 class="bold" style="line-height=24px;"><span>Candideit.org es tu aliado para repartir la torta.</span> Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.</h4>
+<p class="destacado-home">Candideit.org es tu aliado para repartir la torta. Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.</p>
             <br />
             <br />
 
@@ -37,15 +37,12 @@
          </div>
         <div class="lista_elecciones_en_home">
             <h2>{% trans 'Elecciones destacadas' %}</h2>
-            <ul>
-                <div class="even">
-                    <!--
-                    TODO //ADD highlighted elections to model elections
-                    -->
-                    <li><span class="bold">1 </span>Rayo X Político <span
-                        class="goeditAzul"><a href="http://{{ request.META.HTTP_HOST }}/lfalvarez/rayo-x-politico/"
-                                            title="http://{{ request.META.HTTP_HOST }}/lfalvarez/rayo-x-politico/">ver</a></span></li>
+           <ul>
+                {% for highlighted_election in highlighted_elections %}
+                <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
+                <li><span class="bold">{{ forloop.counter }} </span>{{ highlighted_election }} <span class="goeditAzul"><a href="{{ highlighted_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ highlighted_election.get_absolute_url }}"> ver</a></span></li>
                 </div>
+                {% endfor %}
             </ul>
          </div>
         <div class="lista_elecciones_en_home">
@@ -110,13 +107,24 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+<script type="text/javascript"> 
+var $buoop = {vs:{i:8,f:3.6,o:10.6,s:4,n:9}} 
+$buoop.ol = window.onload; 
+window.onload=function(){ 
+ try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+ var e = document.createElement("script"); 
+ e.setAttribute("type", "text/javascript"); 
+ e.setAttribute("src", "http://browser-update.org/update.js"); 
+ document.body.appendChild(e); 
+} 
+</script>
 <script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
 <script type="text/javascript">
 jQuery(window).load(function(){
     jQuery("#nivoslider-125").nivoSlider({
         effect: 'slideInLeft',
         animSpeed: 500,
-        pauseTime: 10000,
+        pauseTime: 10000
     });
 });
 </script>

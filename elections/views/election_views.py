@@ -280,7 +280,8 @@ class HomeTemplateView(TemplateView):
     def get_context_data(self,**kwargs):
         last_five_elections = Election.objects.filter(published=True).order_by('-created_at')[:5]
         kwargs['last_elections'] = last_five_elections
-        kwargs['values'] = [1,2]
+        kwargs['highlighted_elections'] = Election.objects.filter(highlighted=True).filter(published=True).order_by('?')[:5]
+
         return kwargs
 
 
