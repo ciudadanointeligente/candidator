@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     # django-registration urls, maps common registration urls to the ones in django.contrib.auth
     url(r'^accounts/', include('registration.urls')),
 
+    url(r'^accounts/password_reset/?$','django.contrib.auth.views.password_reset'),
+
     url(r'^report/', include('report_objects.urls')),
 
     url(r'^', include('elections.urls')),
