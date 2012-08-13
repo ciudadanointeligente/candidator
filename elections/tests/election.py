@@ -85,6 +85,70 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
 
+    def test_create_election_without_slug(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created)
+        self.assertEqual(election.slug,'barbaz')
+
+
+    def test_create_two_elections_same_name_without_slug(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election1, created1 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion1',
+                                                           date='27 de Diciembre')
+
+        election2, created2 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion2',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created2)
+        self.assertEqual(election2.name, 'BarBaz')
+        self.assertEqual(election2.slug,'barbaz2')
+
+        election3, created3 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion3',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created3)
+        self.assertEqual(election3.name, 'BarBaz')
+        self.assertEqual(election3.slug,'barbaz3')
+
+    def test_create_two_elections_same_name_without_slug_and_one_with_another(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election1, created1 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion1',
+                                                           date='27 de Diciembre')
+
+        election2, created2 = Election.objects.get_or_create(name='BarBaz2',
+                                                           owner=user,
+                                                           description='esta es una descripcion2',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created2)
+        self.assertEqual(election2.name, 'BarBaz2')
+        self.assertEqual(election2.slug,'barbaz2')
+
+        election3, created3 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion3',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created3)
+        self.assertEqual(election3.name, 'BarBaz')
+        self.assertEqual(election3.slug,'barbaz3')
+
+
+
+
     def test_edit_embeded_style_for_election(self):
         user, created = User.objects.get_or_create(username='joe')
         election, created = Election.objects.get_or_create(name='BarBaz',
@@ -549,16 +613,18 @@ class ElectionCreateViewTest(TestCase):
         self.assertTrue(isinstance(response.context['form'], ElectionForm))
 
     def test_post_election_create_with_same_slug(self):
-        election = Election.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
+        
+        election = Election.objects.create(name='BarBaz', description='whatever', owner=self.user)
 
-        self.client.login(username='joe', password='doe')
+        self.client.login(username=self.user.username, password='doe')
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':u'saqué la info de las paginas'}
-        response = self.client.post(reverse('election_create'), params)
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        response = self.client.post(reverse('election_create'), params, follow=True)
         f.close()
-
+        users_election = Election.objects.filter(owner=self.user)
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'name', 'Ya tienes una eleccion con ese nombre.')
+        self.assertEquals(Election.objects.filter(owner=self.user, name="BarBaz").count(), 2)
+        self.assertTemplateUsed(response,'elections/wizard/step_two.html')
 
 
     def test_post_election_create_without_login(self):
@@ -573,7 +639,7 @@ class ElectionCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
         response = self.client.post(reverse('election_create'), params, follow=True)
         f.seek(0)
 
