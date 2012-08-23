@@ -11,7 +11,7 @@ from elections.models import Category, Election, PersonalData,\
 class ElectionForm(forms.ModelForm):
     class Meta:
         model = Election
-        exclude = ('owner')
+        exclude = ('owner', 'slug')
     class Media:
         js = ('js/jquery.slug.js', )
         css = { 'all': ('css/wizard-forms.css',) }

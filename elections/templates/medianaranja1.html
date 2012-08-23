@@ -16,7 +16,7 @@
 <div class="papel">
 
 	
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ></a></div>
 
 
 <div class="contenedor3">
@@ -41,7 +41,7 @@
     <div class="contenedor2">
 
 
-    <div class="ico_tit"><img src="{{ STATIC_URL }}/img/ico_medianaranja.png" width="76" height="73" /></div>
+    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_medianaranja.png" width="76" height="73" /></div>
     <div class="tit"><h3>{% trans 'TU MEDIA NARANJA POLÍTICA' %}</h3></div>
 
     <div class="txt_intro">{% trans 'La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.' %}<br /><br />
@@ -66,9 +66,9 @@
         <h2>{{cat.name}}</h2>
         {% for num,preg,ans_list in data %}
 
-
+        <input type='hidden' name='question-id-{{num}}' value='{{ preg.id }}' />
      <div class="col_left">
-        <h4>{{preg.question}}</h4>
+        <h4>{{ preg.id }} - {{preg.question}}</h4>
         {% for ans in ans_list %}
         <input type="radio" name="question-{{num}}" value="{{ans.id}}" /> {{ans.caption}}<br />
         {% endfor %}

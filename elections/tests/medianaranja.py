@@ -2,9 +2,10 @@ from django.test import TestCase
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.test.client import Client
+from django.utils.unittest import skip
 
 # Imported models
-from elections.models import Election, Candidate, Category, Question, Answer
+from elections.models import Election, Candidate, Category, Question, Answer, Visitor, VisitorAnswer
 from django.contrib.auth.models import User
 
 class TestMediaNaranja(TestCase):
@@ -64,6 +65,7 @@ class TestMediaNaranja(TestCase):
 
     def test_answers_form(self):
         answers = [self.answer1_1.pk, self.answer1_2.pk]
+        questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
         importances = [5, 3]
         importances_by_category = [5, 3]
         factor_question1 = (answers[0] == self.answer1_1.pk) * importances[0]
@@ -72,7 +74,9 @@ class TestMediaNaranja(TestCase):
         score_category2 = factor_question2 * 100.0 / importances_by_category[1]
         global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
         url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
-        response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], 'importance-0': importances[0], 'importance-1': importances[1]})
+        response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], \
+            'importance-0': importances[0], 'importance-1': importances[1],\
+            'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
         expected_winner = [global_score, [score_category1, score_category1], self.candidate1]
         self.assertEqual(response.context['winner'], expected_winner)
 
@@ -138,6 +142,81 @@ class TestMediaNaranja(TestCase):
         expected_score = (0, [0.0, 0.0])
 
         self.assertEqual(expected_score,get_score)
+
+    def test_save_new_visitor(self):
+        answers = [self.answer1_1.pk, self.answer1_2.pk]
+        questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
+        response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], \
+            'importance-0': importances[0], 'importance-1': importances[1],\
+            'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
+        visitors = Visitor.objects.all()
+        self.assertEqual(visitors.count(), 1)
+        me = visitors[0]
+        self.assertEqual(me.election,self.election)
+        self.assertEqual(me.election_url, reverse("election_detail",kwargs={'username': 'joe', 'slug':'barbaz'}))
+        # TODO test unique hash
+        # TODO test datestamp
+
+    def test_create_visitor_answer(self):
+        visitor1 = Visitor.objects.create(election = self.election, election_url = reverse("election_detail",kwargs={'username': 'joe', 'slug':'barbaz'}))
+        visitor_answer1= VisitorAnswer.objects.create(visitor=visitor1, answer= self.answer1_1, answer_importance=5)
+        self.assertEqual(visitor_answer1.answer_text, self.answer1_1.caption)
+        self.assertEqual(visitor_answer1.question_text, self.answer1_1.question.question)
+        self.assertEqual(visitor_answer1.question_category_text, self.answer1_1.question.category.name)
+        self.assertEqual(visitor_answer1.answer_importance, 5)
+
+
+    def test_save_visitors_answers(self):
+        answers = [self.answer1_1, self.answer1_2]
+        questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
+        response = self.client.post(url, {'question-0': answers[0].pk, 'question-1': answers[1].pk, \
+            'importance-0': importances[0], 'importance-1': importances[1],\
+            'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
+        visitors = Visitor.objects.all()
+        me = visitors[0]
+        visitors_answers = me.visitoranswer_set.all()
+        self.assertEqual(visitors_answers.count(), 2)
+        self.assertEqual(visitors_answers[0].answer_importance, importances[0])
+        self.assertEqual(visitors_answers[1].answer_importance, importances[1])
+        self.assertEqual(visitors_answers[0].answer_text, answers[0].caption)
+        self.assertEqual(visitors_answers[1].answer_text, answers[1].caption)
+        self.assertEqual(visitors_answers[1].question_text, answers[1].question.question)
+        self.assertEqual(visitors_answers[0].question_text, answers[0].question.question)
+        self.assertEqual(visitors_answers[0].question_text, answers[0].question.question)
+    def test_save_visitors_answers_default_values(self):
+        questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
+        answers = [-1, -1]
+        importances = [3, 3]
+        url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
+        response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], \
+            'importance-0': importances[0], 'importance-1': importances[1], \
+            'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
+        visitors = Visitor.objects.all()
+        me = visitors[0]
+        visitors_answers = me.visitoranswer_set.all()
+        self.assertEqual(visitors_answers.count(), 2)
+        self.assertEqual(visitors_answers[0].answer_importance, importances[0])
+        self.assertEqual(visitors_answers[1].answer_importance, importances[1])
+        self.assertEqual(visitors_answers[0].answer_text, "")
+        self.assertEqual(visitors_answers[1].answer_text, "")
+        self.assertEqual(visitors_answers[0].question_text, self.answer1_1.question.question)
+        self.assertEqual(visitors_answers[1].question_text, self.answer1_2.question.question)
+
+
+
+
+
+
+
+
+
+
+        
+
 
 
 class TestMediaNaranjaWithNoCategories(TestCase):

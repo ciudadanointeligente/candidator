@@ -9,6 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
     <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% if election %}
@@ -64,7 +70,7 @@
         </nav>
       </div>
 <div class="papel">
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}/img/bt_nuevaeleccion.png" ></a></div>
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ></a></div>
 {% block content %}
 {% endblock content %}
 </div>

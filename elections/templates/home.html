@@ -20,13 +20,11 @@
             <br />
             <br />
 
-    <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
-
-    <div class="alRegistrarte">
-            <div class="instrucciones">¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...</div>
-            <div class="img_comparar"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_comparar">comparar los candidatos...</div>
-            <div class="img_descubrir"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_descubrir">descubrir quien es tu media naranja política...</div>
-            <div class="img_compartir"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_compartir">y compartir los resultados</div>
+    <div class="pasos">
+        <div class="paso1"><span class="numeropaso">#1</span><span class="txtpaso">CREAR ELECCIÓN</span></div>
+        <div class="paso2"><span class="numeropaso">#2</span><span class="txtpaso">CREAR CANDIDATOS</span></div>
+        <div class="paso3"><span class="numeropaso">#3</span><span class="txtpaso">LLENAR RESPUESTAS</span></div>
+        <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
     </div> 
 
 
@@ -107,6 +105,17 @@
 {% endblock extra_head %}
 
 {% block extra_js %}
+<script type="text/javascript"> 
+var $buoop = {vs:{i:8,f:3.6,o:10.6,s:4,n:9}} 
+$buoop.ol = window.onload; 
+window.onload=function(){ 
+ try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+ var e = document.createElement("script"); 
+ e.setAttribute("type", "text/javascript"); 
+ e.setAttribute("src", "http://browser-update.org/update.js"); 
+ document.body.appendChild(e); 
+} 
+</script>
 <script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
 <script type="text/javascript">
 jQuery(window).load(function(){

@@ -9,12 +9,21 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
+
     <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
     <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% if election %}
     <meta name="Description" content="{{ election.description }}" />
     {% endif %}
+    {% block extra_head %}
+    {% endblock extra_head %}
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
     {% if election.custom_style %}
     <!-- custom css -->
     <style type="text/css">
@@ -25,8 +34,7 @@
     <!-- custom css -->
     {% endif %}
     
-    {% block extra_head %}
-    {% endblock extra_head %}
+    
 
     
 </head>

@@ -53,12 +53,7 @@
                     <option>{% trans "Elección de centro de alumnos" %}</option>
                 </select>
             </p>
-            
-            <p class="fieldWrapper">
-                <p style="display:none">{{ form.slug }}
-                {{ form.slug.errors }}</p>
-            </p>
-            
+                       
             
             <p class="fieldWrapper">
                 <label for="id_description" class="blue_edit">{{ form.description.label }}</label><br />
@@ -95,16 +90,4 @@
 
 {% block extra_js %}
     {{ form.media }}
-    <script type="text/javascript">
-        $("#id_name").slug({
-            'target':$('#id_slug')
-        });
-        $('#example').dialog({
-            title: "{% trans 'Ejemplo' %}",
-            width: 440,
-            height: 410,
-            modal: true,
-            autoOpen: false
-        });
-    </script>
 {% endblock %}
