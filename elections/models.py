@@ -345,6 +345,29 @@ class Answer(models.Model):
     def __unicode__(self):
         return u"%s" % self.caption
 
+class Visitor(models.Model):
+    election = models.ForeignKey('Election')
+    election_url = models.CharField(max_length=255)
+    datestamp = models.DateTimeField(auto_now=True)
+
+class VisitorAnswer(models.Model):
+    """docstring for VisitorAnswer"""
+    visitor = models.ForeignKey('Visitor')
+    answer_text = models.CharField(max_length=255)
+    question_text = models.CharField(max_length=255)
+    question_category_text = models.CharField(max_length=255)
+    answer_importance = models.IntegerField()
+    def __init__(self, *args, **kwargs):
+        if 'answer' in kwargs:
+            kwargs['answer_text'] = kwargs['answer'].caption
+            kwargs['question_text'] = kwargs['answer'].question.question
+            kwargs['question_category_text'] = kwargs['answer'].question.category.name
+            del kwargs['answer']
+        super(VisitorAnswer, self).__init__(*args, **kwargs)
+
+        
+
+
 
 @receiver(post_save, sender=Election)
 def create_default_personaldata(sender, instance, created, **kwargs):
