@@ -1025,4 +1025,24 @@ class EmbededTestTemplateView(TestCase):
         self.assertTrue('embeded_test_web' in response.context)
 
 
+class UserElectionsViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True, highlighted=False)
+        election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=False, highlighted=False)
+        self.url = reverse('user_elections',kwargs={ 'username':self.user.username })
+
+    def test_any_user_can_see_another_users_election(self):
+
+
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'elections/users_election_list.html')
+        self.assertTrue('elections' in response.context)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.context['elections'].count(), 1)
+        self.assertEqual(response.context['elections'][0], self.election1 )
+        self.assertTrue('owner' in response.context)
+        self.assertEqual(response.context['owner'], self.user)
+
 

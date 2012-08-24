@@ -280,7 +280,19 @@ class HomeTemplateView(TemplateView):
 
         return kwargs
 
+class UserElectionsView(TemplateView):
+    template_name = 'elections/users_election_list.html'
 
+    def get_context_data(self, **kwargs):
+        user = get_object_or_404(User, username=kwargs['username'])
+        user_elections = Election.objects.filter(published=True).filter(owner=user)
+        context = super(UserElectionsView, self).get_context_data(**kwargs)
+        context['elections'] = user_elections
+
+        context['owner'] = user
+
+
+        return context
 
 ##THIS IS ONLY FOR TESTING PORPOUSES
 
