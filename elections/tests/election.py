@@ -18,6 +18,9 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
                             CategoryForm, ElectionLogoUpdateForm, ElectionStyleUpdateForm
 from elections.views import ElectionRedirectView
 
+import random
+import string
+
 dirname = os.path.dirname(os.path.abspath(__file__))
 
 class ElectionTagsTests(TestCase):
@@ -612,7 +615,7 @@ class ElectionCreateViewTest(TestCase):
         self.assertTrue('form' in response.context)
         self.assertTrue(isinstance(response.context['form'], ElectionForm))
 
-    def test_post_election_create_with_same_slug(self):
+    def test_post_election_create_with_same_name(self):
         
         election = Election.objects.create(name='BarBaz', description='whatever', owner=self.user)
 
@@ -621,10 +624,29 @@ class ElectionCreateViewTest(TestCase):
         params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
         response = self.client.post(reverse('election_create'), params, follow=True)
         f.close()
-        users_election = Election.objects.filter(owner=self.user)
+        first_election = Election.objects.get(owner=self.user, slug="barbaz")
+        second_election = Election.objects.get(owner=self.user, slug="barbaz2")
+
         self.assertEquals(response.status_code, 200)
         self.assertEquals(Election.objects.filter(owner=self.user, name="BarBaz").count(), 2)
+        self.assertEquals(first_election.name, election.name)
+        self.assertEquals(second_election.name, params["name"])
+
+
         self.assertTemplateUsed(response,'elections/wizard/step_two.html')
+
+    def test_invalid_creation_form(self):
+        election_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(300))
+        #Haciendo que el nombre de la elección tenga más de 255 caractéres
+        self.client.login(username=self.user.username, password='doe')
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': election_name, 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        response = self.client.post(reverse('election_create'), params, follow=True)
+        f.close()
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/wizard/step_one.html')
+        self.assertTrue(response.context['form'].errors.has_key('name'))
+        
 
 
     def test_post_election_create_without_login(self):

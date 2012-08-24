@@ -132,12 +132,7 @@ class ElectionCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.set_slug()
-        try:
-            self.object.full_clean()
-        except ValidationError:
-            from django.forms.util import ErrorList
-            form._errors["name"] = ErrorList([u"Ya tienes una eleccion con ese nombre."])
-            return super(ElectionCreateView, self).form_invalid(form)
+        self.object.full_clean()
 
         return super(ElectionCreateView, self).form_valid(form)
 
