@@ -1,0 +1,173 @@
+#errors{
+	background-color: #FCDBDB;
+    color: #EF3C39;
+}
+#errors li{ 
+	padding:10px 30px 10px 42px;
+	background: url("../img/error.png") no-repeat scroll 6px 6px transparent;
+	margin-bottom: 10px;
+}
+
+.leftContent{
+	border-right: 1px dashed #D7D7D7;
+    float: left;
+    margin-right: 10px;
+    width: 578px;
+
+}
+.comparisonBox {
+    display: block;
+}
+.candidatesLists {
+	overflow:hidden;
+
+}
+
+.candidatesLists select{
+	 width: 275px;
+}
+
+.instruction {
+    background-color: #DFEAF7;
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.firstCandidate {
+    width: 275px;
+    float: left;
+	margin-right: 17px;
+}
+
+.secondCandidate {
+    width: 275px;
+    float: left;
+}
+
+.basicProfileContainer{
+	margin-top: 40px;
+}
+
+.firstCandidate img.candidateComparedImage, .secondCandidate img.candidateComparedImage{ 
+	height: 129px;
+    margin-top: 6px;
+    width: 100px;
+}
+.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo{ 
+	font-size: 11px;
+    padding: 5px;
+    width: 160px;
+
+}
+.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo{
+	float: right;
+}
+
+.secondCandidate img.candidateComparedImage, .firstCandidate ul.candidateBasicProfileInfo{ 
+	float: left;
+}
+.categories {
+	float: left;
+    margin-right: 7px;
+    width: 228px;
+}
+.categoriesList li{
+	margin-top: 10px;
+}
+
+.categoriesList input{margin-right: 10px;}
+
+
+
+.comparisonResult {
+    margin-top: 30px;
+	width: 567px;
+}
+
+.comparisonResult h1{
+	text-align:center;
+}
+
+.questionInComparison {
+    background: none repeat scroll 0 0 #A2B2BD;
+	border: 1px solid #99AAB1;
+	color: white;
+	margin-bottom: 4px;
+	padding: 1px 4px;
+	width: 557px;
+	clear: both;
+	margin-top: 8px;
+}
+.answerSpace{
+	margin-bottom: 20px;
+    overflow: hidden;
+    width: 567px;
+}
+
+.answerSpace ul{
+	clear: none;
+    width: 273px;
+	display: block;
+}
+
+.firstCandidatesAnswer {
+		float: left;
+	}
+
+.secondCandidatesAnswer{
+		float: right;
+	}
+
+.answerSpace li {
+    line-height: 15px;
+	padding: 5px 10px;
+}
+
+.answerInComparison {
+
+}
+
+
+.answered {
+	background-color: #e8e8e8;
+	border:1px solid #d7d7d7;
+}
+
+.notAnswered {
+}
+
+
+.firstCandidatesAnswer {
+	padding-right: 10px;
+	border-right: 1px dashed #D7D7D7;
+    
+}
+.secondCandidatesAnswer {
+	 padding-left: 10px;
+
+
+}
+.candidateBasicComparisonQuestion {
+    font-weight: bold;
+}
+.candidateBasicComparisonAnswer {
+
+}
+h3 {
+    background-color: #6CADDF;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    padding: 5px 7px !important;
+    text-align: center;
+    text-transform: uppercase;
+    width: 557px;
+}
+h3.categoriesTitle{
+	background-color: #A2B3BD;
+	width: 100%;
+	line-height: 18px;
+}
