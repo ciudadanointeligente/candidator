@@ -47,18 +47,13 @@
                 {{ form.date }}
                 {{ form.date.errors }}
             </p>
-            <p class="fieldWrapper">
+            <!--p class="fieldWrapper">
                 <label for="id_template" class="blue_edit">{% trans 'Selecciona la plantilla de tu elección' %}</label><br />
                 <select>
                     <option>{% trans "Elección de centro de alumnos" %}</option>
                 </select>
-            </p>
-            
-            <p class="fieldWrapper">
-                <p style="display:none">{{ form.slug }}
-                {{ form.slug.errors }}</p>
-            </p>
-            
+            </p-->
+                       
             
             <p class="fieldWrapper">
                 <label for="id_description" class="blue_edit">{{ form.description.label }}</label><br />
@@ -73,7 +68,7 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink">{% trans "Carga desde tu computador una imagen para el encabezado de 824 x 80 px" %}</div>
+            <div class="permalink">{% trans "Carga desde tu computador una imagen para el encabezado de 850 x 80 px" %}</div>
             </aside>
 
             <p class="fieldWrapper">
@@ -95,16 +90,4 @@
 
 {% block extra_js %}
     {{ form.media }}
-    <script type="text/javascript">
-        $("#id_name").slug({
-            'target':$('#id_slug')
-        });
-        $('#example').dialog({
-            title: "{% trans 'Ejemplo' %}",
-            width: 440,
-            height: 410,
-            modal: true,
-            autoOpen: false
-        });
-    </script>
 {% endblock %}

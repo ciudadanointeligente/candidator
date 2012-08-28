@@ -147,19 +147,17 @@ h3{
     font-family: 'AllerBold';
     color: white;
     font-size: 12px;
-    background-color: #A1B2B8;
-    border: 1px solid #94A9AF;
+    background-color: #BEBEBE;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 2px 4px 2px;
 }
 
-.tit h3{
+.tit h3 {
     font-family: 'AllerBold';
     color: white;
     font-size: 14px;
-    background-color: #A1B2B8;
-    border: 1px solid #94A9AF;
+    background-color: #BEBEBE;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 6px 8px 6px;
@@ -250,8 +248,19 @@ blockquote {
          url('../fonts/aller_rg-webfont.svg#AllerRegular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
+
+@font-face {
+    font-family: 'harabara';
+    src: url('../fonts/harabara-webfont.eot');
+    src: url('../fonts/harabara-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/harabara-webfont.woff') format('woff'),
+         url('../fonts/harabara-webfont.ttf') format('truetype'),
+         url('../fonts/harabara-webfont.svg#harabararegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /*LAYOUT*/
 
 .wrapper{
@@ -455,9 +464,18 @@ background-color:white;
 /*======= HOME ========*/
 
 .destacado-home {
+<<<<<<< HEAD
     font-size: 1.7em;
     line-height: 1.4em;
     color: #47ADB6;
+=======
+    font-size: 1.8em;
+    line-height: 1.4em;
+    font-family: 'harabara';
+    letter-spacing: 1px;
+    color: #C7C7C7;
+    text-align: center;
+>>>>>>> dev
 }
 
 #homeNavigation{
@@ -591,47 +609,117 @@ ul.homeNav ul.sidebarMenu{
     color: #FFFFFF;
 }
 
-.img_comparar{
-    margin: 10px 13px 10px 0px;
+.paso1, .paso2, .paso3 {
+    width: 20%;
+    background: #cccccc;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NjY2NjYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUlIiBzdG9wLWNvbG9yPSIjZTNlM2UzIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMzQlIiBzdG9wLWNvbG9yPSIjZWRlZGVkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #cccccc 0%, #f5f5f5 5%, #f5f5f5 34%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccccc), color-stop(5%,#e3e3e3), color-stop(34%,#f5f5f5), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top,  #cccccc 0%,#f5f5f5 5%,#f5f5f5 34%,#ffffff 100%);
+    background: -o-linear-gradient(top,  #cccccc 0%,#f5f5f5 5%,#f5f5f5 34%,#ffffff 100%);
+    background: -ms-linear-gradient(top,  #cccccc 0%,#f5f5f5 5%,#f5f5f5 34%,#ffffff 100%);
+    background: linear-gradient(to bottom,  #cccccc 0%,#f5f5f5 5%,#f5f5f5 34%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#ffffff',GradientType=0 );
+    height: 83px;
+    float: left;
+    -webkit-box-shadow: inset 1px 0px 13px 3px #DBDBDB;
+    box-shadow: inset 1px 0px 13px 3px #DBDBDB;
 }
 
-.img_descubrir{
-    margin: 20px 13px 10px 107px;
+.paso1:after {
+    content: url(../img/separacion_pasos.png);
+    left: 148px;
+    position: absolute;
 }
 
-.img_compartir{
-    margin: 20px 13px 10px 240px;
+.paso2:after {
+    content: url(../img/separacion_pasos.png);
+    left: 320px;
+    position: absolute;
 }
 
-.txt_comparar{
-    font-family: Georgia, "Times New Roman", Times, serif;
+.paso3:after {
+    content: url(../img/separacion_paso3.png);
+    left: 486px;
+    position: absolute;
+}
+
+.bt_cuadrado.bthome {
+    float: left;
+    font-size: 24px;
+    padding: 33px 5px 32px;
+    width: 38%;
+    margin-bottom: 50px;
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUlIiBzdG9wLWNvbG9yPSIjZmYwMDk5IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2RlMDA3ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #ff0099 5%, #de007d 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(5%,#ff0099), color-stop(100%,#de007d));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#ff0099 5%,#de007d 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#ff0099 5%,#de007d 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#ff0099 5%,#de007d 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#ff0099 5%,#de007d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#de007d',GradientType=0 );
+    border: 1px solid #CC0083;
+}
+
+.bt_cuadrado.bthome:hover {
+    background: #cc006c;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NjMDA2YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDAwOGMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #cc006c 0%, #ed008c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc006c), color-stop(100%,#ed008c));
+    background: -webkit-linear-gradient(top,  #cc006c 0%,#ed008c 100%);
+    background: -o-linear-gradient(top,  #cc006c 0%,#ed008c 100%);
+    background: -ms-linear-gradient(top,  #cc006c 0%,#ed008c 100%);
+    background: linear-gradient(to bottom,  #cc006c 0%,#ed008c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc006c', endColorstr='#ed008c',GradientType=0 );
+    border: 1px solid #B2007C;
+}
+
+.bt_cuadrado.bthome:after {
+    content: url(../img/final_pasos.png);
+    position: absolute;
+    top: -4px;
+    right: 0;
+}
+
+.pasos {
+    position: relative;
+}
+
+.numeropaso {
+    font-size: 3.3em;
     font-style: italic;
-    font-size: 12px;
-    width: 134px;
-    line-height: 14px;
-    margin-top: -51px;
-    margin-left: 51px;
+    color: #ADADAD;
+    margin: 33px 10px;
+    position: absolute;
+    letter-spacing: -1px;
 }
 
-.txt_descubrir{
-    font-family: Georgia, "Times New Roman", Times, serif;
+.txtpaso {
+    font-size: 1em;
     font-style: italic;
-    font-size: 12px;
-    width: 134px;
-    line-height: 14px;
-    margin-top: -46px;
-	margin-left: 151px;
+    color: #ADADAD;
+    margin: 27px 65px;
+    position: absolute;
+    width: 20px;
+    text-indent: 4px;
 }
 
-.txt_compartir{
-    font-family: Georgia, "Times New Roman", Times, serif;
-    font-style: italic;
-    font-size: 12px;
-    width: 134px;
-    line-height: 14px;
-    margin: -51px 51px 50px 289px;
+.paso2 .numeropaso {
+    margin-left: 28px;
 }
 
+.paso2 .txtpaso {
+    margin-left: 82px;
+}
+
+.paso3 .numeropaso {
+    margin-left: 31px;
+}
+
+.paso3 .txtpaso {
+    margin-left: 86px;
+}
 
 /*---------------------------BUTTONS---------------------------------*/
 
@@ -662,7 +750,6 @@ ul.homeNav ul.sidebarMenu{
 	width: 157px;
 	padding: 8px 0px;
 	text-align: center;
-	margin-top: 6px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	box-shadow: 1px 1px 6px #b8b8b8;
@@ -681,15 +768,10 @@ ul.homeNav ul.sidebarMenu{
     cursor: pointer;
 }
 
-.bthome{
-	float: right;
-	font-size: 24px;
-	padding: 35px 5px;
-	width: 400px;
-}
-
-.bthome a{
-	color: #fff;
+.bthome a {
+    color: white;
+    text-shadow: 0px -1px 0px #777;
+    filter: dropshadow(color=#000, offx=0, offy=-1);
 }
 
 
@@ -1163,6 +1245,18 @@ ul .electionList {
 	
 	
 /* 3 COLUMNAS HOME */	
+
+.lista_elecciones_en_home h2 {
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQlIiBzdG9wLWNvbG9yPSIjNzRhN2Q5IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzYzOTZjNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #74a7d9 4%, #6396c7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(4%,#74a7d9), color-stop(100%,#6396c7));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#74a7d9 4%,#6396c7 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#74a7d9 4%,#6396c7 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#74a7d9 4%,#6396c7 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#74a7d9 4%,#6396c7 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#6396c7',GradientType=0 );
+}
 	
 .lista_elecciones_en_home{
     width:263px;

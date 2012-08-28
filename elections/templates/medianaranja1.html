@@ -68,9 +68,9 @@
         <h2>{{cat.name}}</h2>
         {% for num,preg,ans_list in data %}
 
-
+        <input type='hidden' name='question-id-{{num}}' value='{{ preg.id }}' />
      <div class="col_left">
-        <h4>{{preg.question}}</h4>
+        <h4>{{ preg.id }} - {{preg.question}}</h4>
         {% for ans in ans_list %}
         <input type="radio" name="question-{{num}}" value="{{ans.id}}" /> {{ans.caption}}<br />
         {% endfor %}

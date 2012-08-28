@@ -32,15 +32,36 @@ class Election(models.Model):
     date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
     published = models.BooleanField(default=False)
     custom_style = models.TextField(blank=True)
-    #TODO: 
-    #y ver como deployar esto arriba
     highlighted = models.BooleanField(default=False)
+    
 
     class Meta:
         unique_together = ('owner', 'slug')
 
     def __unicode__(self):
         return u"%s" % self.name
+    
+    def set_slug(self):
+        if not self.slug and self.name and self.owner:
+            existing_elections = Election.objects.all().filter(owner= self.owner, name=self.name)
+            slug = slugify(self.name)
+            not_unique_slug = Election.objects.all().filter(owner= self.owner).filter(slug=slug).exists()
+            previous_elections = 1
+            temporary_slug = slug
+            while not_unique_slug:
+                temporary_slug = slug
+                previous_elections += 1
+                temporary_slug += str(previous_elections)
+                not_unique_slug = Election.objects.all().filter(owner= self.owner).filter(slug=temporary_slug).exists()
+            slug = temporary_slug
+            self.slug = slug
+
+    def __init__(self, *args, **kwargs):
+        super(Election, self).__init__(*args, **kwargs)
+        self.set_slug()
+        
+        
+        
 
     @models.permalink
     def get_absolute_url(self):
@@ -323,6 +344,29 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.caption
+
+class Visitor(models.Model):
+    election = models.ForeignKey('Election')
+    election_url = models.CharField(max_length=255)
+    datestamp = models.DateTimeField(auto_now=True)
+
+class VisitorAnswer(models.Model):
+    """docstring for VisitorAnswer"""
+    visitor = models.ForeignKey('Visitor')
+    answer_text = models.CharField(max_length=255)
+    question_text = models.CharField(max_length=255)
+    question_category_text = models.CharField(max_length=255)
+    answer_importance = models.IntegerField()
+    def __init__(self, *args, **kwargs):
+        if 'answer' in kwargs:
+            kwargs['answer_text'] = kwargs['answer'].caption
+            kwargs['question_text'] = kwargs['answer'].question.question
+            kwargs['question_category_text'] = kwargs['answer'].question.category.name
+            del kwargs['answer']
+        super(VisitorAnswer, self).__init__(*args, **kwargs)
+
+        
+
 
 
 @receiver(post_save, sender=Election)

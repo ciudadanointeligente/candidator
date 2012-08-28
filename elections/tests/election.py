@@ -18,6 +18,9 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, 
                             CategoryForm, ElectionLogoUpdateForm, ElectionStyleUpdateForm
 from elections.views import ElectionRedirectView
 
+import random
+import string
+
 dirname = os.path.dirname(os.path.abspath(__file__))
 
 class ElectionTagsTests(TestCase):
@@ -84,6 +87,70 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.published,False)
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
+
+    def test_create_election_without_slug(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created)
+        self.assertEqual(election.slug,'barbaz')
+
+
+    def test_create_two_elections_same_name_without_slug(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election1, created1 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion1',
+                                                           date='27 de Diciembre')
+
+        election2, created2 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion2',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created2)
+        self.assertEqual(election2.name, 'BarBaz')
+        self.assertEqual(election2.slug,'barbaz2')
+
+        election3, created3 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion3',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created3)
+        self.assertEqual(election3.name, 'BarBaz')
+        self.assertEqual(election3.slug,'barbaz3')
+
+    def test_create_two_elections_same_name_without_slug_and_one_with_another(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election1, created1 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion1',
+                                                           date='27 de Diciembre')
+
+        election2, created2 = Election.objects.get_or_create(name='BarBaz2',
+                                                           owner=user,
+                                                           description='esta es una descripcion2',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created2)
+        self.assertEqual(election2.name, 'BarBaz2')
+        self.assertEqual(election2.slug,'barbaz2')
+
+        election3, created3 = Election.objects.get_or_create(name='BarBaz',
+                                                           owner=user,
+                                                           description='esta es una descripcion3',
+                                                           date='27 de Diciembre')
+
+        self.assertTrue(created3)
+        self.assertEqual(election3.name, 'BarBaz')
+        self.assertEqual(election3.slug,'barbaz3')
+
+
+
 
     def test_edit_embeded_style_for_election(self):
         user, created = User.objects.get_or_create(username='joe')
@@ -548,17 +615,38 @@ class ElectionCreateViewTest(TestCase):
         self.assertTrue('form' in response.context)
         self.assertTrue(isinstance(response.context['form'], ElectionForm))
 
-    def test_post_election_create_with_same_slug(self):
-        election = Election.objects.create(name='BarBaz1', slug='barbaz', description='whatever', owner=self.user)
+    def test_post_election_create_with_same_name(self):
+        
+        election = Election.objects.create(name='BarBaz', description='whatever', owner=self.user)
 
-        self.client.login(username='joe', password='doe')
+        self.client.login(username=self.user.username, password='doe')
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':u'saqué la info de las paginas'}
-        response = self.client.post(reverse('election_create'), params)
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        response = self.client.post(reverse('election_create'), params, follow=True)
         f.close()
+        first_election = Election.objects.get(owner=self.user, slug="barbaz")
+        second_election = Election.objects.get(owner=self.user, slug="barbaz2")
 
         self.assertEquals(response.status_code, 200)
-        self.assertFormError(response, 'form', 'name', 'Ya tienes una eleccion con ese nombre.')
+        self.assertEquals(Election.objects.filter(owner=self.user, name="BarBaz").count(), 2)
+        self.assertEquals(first_election.name, election.name)
+        self.assertEquals(second_election.name, params["name"])
+
+
+        self.assertTemplateUsed(response,'elections/wizard/step_two.html')
+
+    def test_invalid_creation_form(self):
+        election_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(300))
+        #Haciendo que el nombre de la elección tenga más de 255 caractéres
+        self.client.login(username=self.user.username, password='doe')
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': election_name, 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        response = self.client.post(reverse('election_create'), params, follow=True)
+        f.close()
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'elections/wizard/step_one.html')
+        self.assertTrue(response.context['form'].errors.has_key('name'))
+        
 
 
     def test_post_election_create_without_login(self):
@@ -573,7 +661,7 @@ class ElectionCreateViewTest(TestCase):
         self.client.login(username='joe', password='doe')
 
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
-        params = {'name': 'BarBaz', 'slug': 'barbaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':'saque la info de un lugar'}
         response = self.client.post(reverse('election_create'), params, follow=True)
         f.seek(0)
 
@@ -936,5 +1024,25 @@ class EmbededTestTemplateView(TestCase):
         self.assertTemplateUsed(response, 'prueba.html')
         self.assertTrue('embeded_test_web' in response.context)
 
+
+class UserElectionsViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True, highlighted=False)
+        election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=False, highlighted=False)
+        self.url = reverse('user_elections',kwargs={ 'username':self.user.username })
+
+    def test_any_user_can_see_another_users_election(self):
+
+
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'elections/users_election_list.html')
+        self.assertTrue('elections' in response.context)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.context['elections'].count(), 1)
+        self.assertEqual(response.context['elections'][0], self.election1 )
+        self.assertTrue('owner' in response.context)
+        self.assertEqual(response.context['owner'], self.user)
 
 

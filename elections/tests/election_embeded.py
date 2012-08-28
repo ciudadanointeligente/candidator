@@ -112,6 +112,7 @@ class ElectionEmbededDetail(TestCase):
 
 	def test_medianaranja_to_answer_view(self):
 		answers = [self.answer1_1.pk, self.answer1_2.pk]
+		questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
 		importances = [5,3]
 		importances_by_category = [5,3]
 		factor_question1 = ( answers[0] == self.answer1_1.pk) * importances[0]
@@ -120,7 +121,9 @@ class ElectionEmbededDetail(TestCase):
 		score_category2 = factor_question2 * 100.0 / importances_by_category[1]
 		global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
 		url = reverse('medianaranja1_embeded',kwargs={'username': self.user.username,'election_slug': self.election.slug})
-		response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], 'importance-0': importances[0], 'importance-1': importances[1]})
+		response = self.client.post(url, {'question-0': answers[0], 'question-1': answers[1], \
+			'importance-0': importances[0], 'importance-1': importances[1],\
+			'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
 		expected_winner = [global_score, [score_category1, score_category1], self.candidate_one]
 		self.assertEqual(response.context['winner'], expected_winner)
 		self.assertEqual(response.status_code, 200)

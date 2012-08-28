@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from elections.models import Election, Candidate, Answer, Category, Question
+from elections.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer
 
 # MediaNaranja Views
 @login_required
@@ -47,13 +47,16 @@ def post_medianaranja1(request, username, election_slug):
 
     importances = []
     answers = []
+    questions = []
 
     for i in range(number_of_questions):
         ans_id = int(request.POST['question-'+str(i)])
+        question_id = int(request.POST['question-id-'+str(i)])
         answers.append(Answer.objects.filter(id=ans_id))
         importances.append(int(request.POST['importance-'+str(i)]))
+        questions.append(Question.objects.get(id=question_id))
 
-    return medianaranja2(request, answers, importances, candidates, categories, election)
+    return medianaranja2(request, answers, importances, questions, candidates, categories, election)
 
 def get_medianaranja1(request, username, election_slug):
     election = get_object_or_404(Election, owner__username=username, slug=election_slug)
@@ -95,10 +98,8 @@ def medianaranja1_embed(request, username, election_slug):
         context = get_medianaranja1(request, username, election_slug)
         return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
 
-def medianaranja2(request, my_answers, importances, candidates, categories, election):
-
+def medianaranja2(request, my_answers, importances, questions, candidates, categories, election):
     scores_and_candidates = []
-
     for candidate in candidates:
         score = candidate.get_score(my_answers, importances)
         global_score = score[0]
@@ -109,6 +110,17 @@ def medianaranja2(request, my_answers, importances, candidates, categories, elec
 
     winner = scores_and_candidates[0]
     other_candidates = scores_and_candidates[1:]
+    election_url=reverse("election_detail",kwargs={'username': election.owner.username, 'slug':election.slug})
+
+    visitor = Visitor(election=election, election_url=election_url)
+    visitor.save()
+    for i, importance in enumerate(importances):
+        if my_answers[i]:
+            visitoranswer = VisitorAnswer(visitor=visitor,answer=my_answers[i][0], answer_importance=importance)
+        else:
+            visitoranswer = VisitorAnswer(visitor=visitor,answer_text="",question_text=questions[i].question,\
+                question_category_text=questions[i].category.name, answer_importance=importance)
+        visitoranswer.save()
 
     context = {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}
     return context

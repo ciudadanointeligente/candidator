@@ -17,7 +17,8 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   async_delete_background, async_delete_background_category, \
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
                   ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView, \
-                  ElectionAboutView, ElectionStyleUpdateView, EmbededTemplateView
+                  ElectionAboutView, ElectionStyleUpdateView, EmbededTemplateView, \
+                  UserElectionsView
 
 
 urlpatterns = patterns('',
@@ -75,10 +76,6 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', ElectionAboutView.as_view(), name='election_about'),
     # Election detail view
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
-
-    
-
-
 
     # Root: login_required (por ahora pues no se ha definido un index)
     url(r'^$', HomeTemplateView.as_view(), name="home"),
@@ -242,6 +239,10 @@ urlpatterns = patterns('',
 
     # Solo para efectos de prueba del embeded
     url(r'^prueba_embeded$', EmbededTemplateView.as_view(), name="prueba_embeded"),
+
+
+    # Election detail view
+    url(r'^(?P<username>[-\w]+)/?$', UserElectionsView.as_view(), name='user_elections'),
 
 
 
