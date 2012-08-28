@@ -346,7 +346,7 @@ class ElectionDetailViewTest(TestCase):
     def test_detail_non_existinmeg_election_for_user_view(self):
         user = User.objects.create(username='foobar')
         user2 = User.objects.create(username='barbaz')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2, published=True)
         response = self.client.get(reverse('election_detail',
                                            kwargs={
                                                'username': user.username,
@@ -364,7 +364,7 @@ class ElectionDetailViewTest(TestCase):
 class ElectionCompareViewTest(TestCase):
     def test_compare_existing_election_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         response = self.client.get(reverse('election_compare',
                                            kwargs={
                                                'username': user.username,
@@ -391,9 +391,22 @@ class ElectionCompareViewTest(TestCase):
                                                'slug': election.slug}))
         self.assertEquals(response.status_code, 404)
 
+    def test_compare_an_election_with_an_existing_slug(self):
+        user = User.objects.create(username='foobar')
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
+        user2 = User.objects.create(username='barbaz')
+        election2 = Election.objects.create(name='elec foo', slug='elec-foo', owner=user2, published=True)
+        response = self.client.get(reverse('election_compare',
+                                           kwargs={
+                                               'username': user.username,
+                                               'slug': election.slug}))
+
+        self.assertEquals(response.status_code, 200)
+
+
     def test_compare_one_candidate_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
         response = self.client.get(reverse('election_compare_one_candidate',
@@ -416,7 +429,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_compare_two_candidates_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
         second_candidate = Candidate.objects.create(name='tar taz', election=election, photo=File(f))
@@ -432,7 +445,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_compare_one_candidate_two_times(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
         second_candidate = first_candidate
@@ -449,7 +462,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_compare_two_candidates_category_mismatch_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
         second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
@@ -464,7 +477,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_compare_two_candidates_first_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
         second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
@@ -479,7 +492,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_compare_two_candidates_second_candidate_mismatch_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
         second_candidate = Candidate.objects.create(name='tar taz', election=election)
         category = Category.objects.create(name='asdf', election=election, slug='asdf')
@@ -494,7 +507,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_404_election_compare_asynchronous_call(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
 
         response = self.client.get(reverse('election_compare_asynchronous_call',
@@ -509,7 +522,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_comparison_with_only_one_candidate_is_being_selected(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         first_candidate = Candidate.objects.create(name='bar baz', election=election, photo=File(f))
         self.personal_data = PersonalData.objects.create(election=election, label='edad')
@@ -532,7 +545,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_comparison_with_only_one_candidate_is_being_selected_and_the_candidate_does_not_have_photo(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
 
 
@@ -553,7 +566,7 @@ class ElectionCompareViewTest(TestCase):
 
     def test_comparison_of_two_candidates_with_no_category(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=True)
         first_candidate = Candidate.objects.create(name='bar baz', election=election)
         second_candidate = Candidate.objects.create(name='sec baz', election=election)
         url = reverse('election_compare_two_candidates_and_no_category',kwargs={

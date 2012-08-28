@@ -140,6 +140,9 @@ class ElectionCreateView(CreateView):
 class CompareView(DetailView):
     model = Election
 
+    def get_queryset(self):
+        return super(CompareView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+
 
     def get_context_data(self, **kwargs):
         context = super(CompareView, self).get_context_data(**kwargs)
