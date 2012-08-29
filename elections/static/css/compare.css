@@ -77,9 +77,10 @@
 	margin-top: 10px;
 }
 
-.categoriesList input{margin-right: 10px;}
-
-
+.categoriesList input {
+	margin-right: 2px;
+	margin-left: 2px;
+}
 
 .comparisonResult {
     margin-top: 30px;
@@ -167,7 +168,7 @@ h3 {
     width: 557px;
 }
 h3.categoriesTitle{
-	background-color: #A2B3BD;
+	background-color: #BEBEBE;
 	width: 100%;
 	line-height: 18px;
 }
