@@ -1,0 +1,47 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Las elecciones creadas por ' %} {{ owner.username }}
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel">
+    <div class="contenedor3">
+    	<head>
+        <h1>{% trans 'Las elecciones creadas por ' %} {{ owner.username }}</h1>
+		<hr />
+        </head>
+        
+        
+<div class="election_list">
+	<ul class="electionList" >
+        {% for election in elections.all %}
+        <table border="0">
+            <tr>
+                <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
+                <td class="listElectionDate">{{election.created_at }}</td>
+                <td class="listElectionEdit"><a href="{% url election_detail username=election.owner.username slug=election.slug%}">{% trans 'Ver' %}</a></td>
+            </tr>
+        </table>
+        {% endfor %}
+	</ul>
+</div>
+
+    <br/>
+
+    </div>
+    </div >
+    {% endblock %}
+    </div>

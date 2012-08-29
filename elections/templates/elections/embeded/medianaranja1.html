@@ -43,7 +43,7 @@
     <div class="categoria tit">
         <h2>{{cat.name}}</h2>
         {% for num,preg,ans_list in data %}
-
+        <input type='hidden' name='question-id-{{num}}' value='{{ preg.id }}' />
 
      <div class="col_left">
         <h4>{{preg.question}}</h4>

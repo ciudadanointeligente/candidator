@@ -40,7 +40,7 @@
 	}
 
 	.dropDown li span {
-		margin-left: 20%;
+		margin-left: 25%;
 		line-height: 12px;
 		display: block;
 		bottom: 100%;
@@ -152,6 +152,27 @@
 
 	html {
 		-webkit-text-size-adjust: none;
+	}
+
+	#mainNavigation {
+		font-size: 10px;
+		letter-spacing: 0;
+	}
+
+	.sideButton {
+		width: 80px;
+	}
+
+	.sideButton_txt {
+		margin-left: -6px;
+	}
+
+	.sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside {
+		width: 88px;
 	}
 
 	#main-nav a {
