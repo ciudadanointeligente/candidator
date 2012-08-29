@@ -53,43 +53,44 @@
 .profileAside {
 	float: right;
 	position: absolute;
-	width: 233px;
+	width: 190px;
 	top: 232px;
 	right: -20px;
 }
 
 .sideButton {
-	width: 220px;
+	width: 180px;
 	height: 40px;
 	margin-bottom: 10px;
 	box-shadow: 2px 2px 4px #9C9C9C;
 }
 
 .sideButton_txt {
-	text-align: left;
+	text-align: right;
 	font-family: 'AllerBold',Helvetica,Arial,sans-serif;
-	font-size: 18px;
-	line-height: 1em;
+	font-size: 14px;
+	line-height: 1.2em;
 	margin-top: -62px;
 	position: absolute;
-	color: white;
-	text-shadow: 1px 1px 0px #686868;
 	width: 80px;
-	margin-left: 10px;
-}
-
-.sideButton_txt {
-	margin-top: -62px;
+	margin-left: 76px;
 }
 
 .bt_medianaranja .sideButton_txt {
-	margin-top: -71px;
+	margin-top: -70px;
+	color: #911616;
+	text-shadow: 1px 1px 0px #FFBABA;
+}
+
+.sideButton_txt.compare {
+	color: #648900;
+	text-shadow: 1px 1px 0px #ffffff;
 }
 
 .sideButton_txt img {
 	position: absolute;
-	top: -19px;
-	left: 110px;
+	top: -16px;
+	left: -70px;
 }
 
 .bt_medianaranja .sideButton_txt img {

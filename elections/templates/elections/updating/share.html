@@ -24,14 +24,16 @@
 		<img src="{{ STATIC_URL }}img/avion.png" style="margin: -30px 0px 40px -27px;"></img>
 
 		<br />
-		<span class="link_a_tu_candideitorg_label">{% trans 'Link a tu candideit.org:' %}</span>
-		<span lang="html" class="link_a_tu_candideitorg"><a href="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</a></span>
+		<div class="tu_link">
+			<span class="link_a_tu_candideitorg_label">{% trans 'Link a tu candideit.org:' %}</span>
+			<span lang="html" class="link_a_tu_candideitorg"><a href="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}</a></span>
+		</div>
 
+		<div class="tu_embed">
+			<span class="link_a_tu_candideitorg_label">{% trans 'Inserta este código en tu página:' %}</span>
+			<textarea class="link_a_tu_candideitorg embedea_tu_candideitorg">&lt;iframe src="http://{{ request.META.HTTP_HOST }}{% url election_detail_embeded username=election.owner.username  slug=election.slug %}" style="width:860px;" height="522" frameborder="0" scrolling="no"&gt; &lt;/iframe&gt;</textarea>
+		</div>
 
-
-
-		<span class="link_a_tu_candideitorg_label">{% trans 'Inserta este código en tu página:' %}</span>
-		<textarea class="link_a_tu_candideitorg embedea_tu_candideitorg">&lt;iframe src="http://{{ request.META.HTTP_HOST }}{% url election_detail_embeded username=election.owner.username  slug=election.slug %}" style="width:860px;" height="522" frameborder="0" scrolling="no"&gt; &lt;/iframe&gt;</textarea>
 		<div class="sharing_my_election" >
 			<span class='st_facebook_vcount' displayText='Facebook' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
 			<span class='st_twitter_vcount' displayText='Tweet' st_title="{{ election.name }}" st_summary="{{ election.description }}" st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"></span>
