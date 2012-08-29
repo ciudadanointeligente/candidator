@@ -7,6 +7,8 @@
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css" />
 {% endblock extra_head %}
 
 {% block extra_js %}
@@ -58,5 +60,14 @@
 
     </div>
 </div>
+
+                 <aside class="profileAside">
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">FRENTE A FRENTE<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">ENCUENTRA TU 1/2 NARANJA<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+                </aside>
 
 {% endblock content %}
