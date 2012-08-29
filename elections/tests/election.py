@@ -317,7 +317,36 @@ class ElectionCustomStyleUpdateView(TestCase):
     def test_get_form_as_user_but_no_owner(self):
         self.client.login(username=self.user2.username, password=PASSWORD)
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, 404)  
+        self.assertEquals(response.status_code, 404)
+
+    def test_get_election_created_with_the_same_slug_but_different_users(self):
+        fiera = User.objects.create_user(username='Fiera', password='Feroz', email='joe@doe.cl')
+        election = Election.objects.create(name='elec foo', slug='foobarbar', owner=fiera)
+        user2 = User.objects.create_user(username='Doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='foobar', slug='foobarbar', owner=user2)
+
+        self.client.login(username=fiera.username, password='Feroz')
+        url = reverse('update_custom_style', kwargs={'slug': election.slug})
+        response = self.client.get(reverse('election_update',
+                                    kwargs={'slug': election.slug}))
+
+        self.assertEquals(response.status_code, 200) 
+
+    def test_post_election_created_with_the_same_slug_but_different_users(self):
+        fiera = User.objects.create_user(username='Fiera', password='Feroz', email='joe@doe.cl')
+        election = Election.objects.create(name='elec foo', slug='foobarbar', owner=fiera)
+        user2 = User.objects.create_user(username='Doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='foobar', slug='foobarbar', owner=user2)
+
+        self.client.login(username=fiera.username, password='Feroz')
+        url = reverse('update_custom_style', kwargs={'slug': election.slug})
+        data = {
+            'custom_style': 'body {background-color:red;}'
+        }
+        response = self.client.post(url, data)
+
+        self.assertEquals(response.status_code, 302)
+
 
 class ElectionDetailViewTest(TestCase):
     def test_detail_existing_election_view(self):
@@ -739,6 +768,19 @@ class ElectionUpdateViewTest(TestCase):
                                     kwargs={'slug': election2.slug}))
         self.assertEqual(response.status_code, 404)
 
+    def test_get_election_created_with_the_same_slug_but_different_users(self):
+        fiera = User.objects.create_user(username='Fiera', password='Feroz', email='joe@doe.cl')
+        election = Election.objects.create(name='elec foo', slug='foobarbar', owner=fiera)
+        user2 = User.objects.create_user(username='Doe', password='doe', email='joe@doe.cl')
+        election2 = Election.objects.create(name='foobar', slug='foobarbar', owner=user2)
+
+        self.client.login(username=fiera.username, password='Feroz')
+        response = self.client.get(reverse('election_update',
+                                    kwargs={'slug': election.slug}))
+
+        self.assertEquals(response.status_code, 200)
+
+
     def test_post_election_update_stranger_election(self):
         self.client.login(username='joe', password='doe')
 
@@ -774,6 +816,20 @@ class ElectionUpdateViewTest(TestCase):
         self.assertEquals(election.owner, self.user)
         self.assertRedirects(response, reverse('election_update',
                                                kwargs={'slug': election.slug}))
+
+
+
+
+    def test_post_election_update_does_not_update_published_status(self):
+        published_election = Election.objects.create(name='elec foo', slug='la-terrible-de-eleccion', owner=self.user, published=True)
+        self.client.login(username='joe', password='doe')
+        f = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
+        params = {'name': 'BarBaz', 'description': 'esta es una descripcion', 'logo': f,'information_source':u'me contó un pajarito'}
+        response = self.client.post(reverse('election_update', kwargs={'slug': published_election.slug}), params, follow=True)
+        f.seek(0)
+        election = Election.objects.get(id=published_election.id)
+
+        self.assertTrue(election.published)
 
 
     def test_it_contains_the_election_full_url(self):
