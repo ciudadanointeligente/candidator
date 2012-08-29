@@ -576,11 +576,6 @@ ul.homeNav ul.sidebarMenu{
     margin-bottom: 5px;
 }
 
-.nombre_eleccion span{
-	text-transform:none;
-	letter-spacing:0px;
-}
-
 .nombre_eleccion a{
 	color: #FFFFFF;
 }

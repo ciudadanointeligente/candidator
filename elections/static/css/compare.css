@@ -77,9 +77,10 @@
 	margin-top: 10px;
 }
 
-.categoriesList input{margin-right: 10px;}
-
-
+.categoriesList input {
+	margin-right: 2px;
+	margin-left: 2px;
+}
 
 .comparisonResult {
     margin-top: 30px;
