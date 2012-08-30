@@ -52,37 +52,29 @@
 
                 <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
-                	<table style="width: 100%;padding:0;">
-		                <tr>
-		                	<td style="width:50%;  border-right:1px dashed #d7d7d7;" valign="top">
-		                  		<table>
-			                  		<tr>
-			                  			<td colspan="2">
-						            		<div class="globo_left">
-												{% trans 'índices de compatibilidad' %}
-											</div>
-			                  			</td>
-			                  		</tr>
-					            	<tr>
-										<td>
-											{% for category in categories %}
-												<div class="subcategory">{{category}}</div>
-											{% endfor %}
-										</td>
+                	<div>
+		                <div class="wrap_resultados">
+                                <div class="globo_left">
+									{% trans 'índices de compatibilidad' %}
+								</div>
 
-                                        <td class="porcentaje">
-											{% for category_score in winner.1 %}
-												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
-											{% endfor %}
-										</td>
+                            <div class="categoria_resultados">
+                                {% for category in categories %}
+                                <div class="subcategory">{{category}}</div>
+                                {% endfor %}
+                            </div>
 
-									</tr>
-								</table>
-							</td>
+                            <div class="porcentaje_resultados">
+										{% for category_score in winner.1 %}
+											<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
+										{% endfor %}
+							</div>
 
-							<td  style="width:50%;" valign="top">
+						</div>
+					</div>
 
-								<table style="padding-left:8px;">
+					<div class="compartir_resultados">
+
 								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
 
 										<td colspan="2">
@@ -128,11 +120,8 @@
                                     <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-								</table>
-							</td>
 
-						</tr>
-				</table>
+				    </div>
 
             </header>
 	    </div>
