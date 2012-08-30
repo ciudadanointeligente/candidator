@@ -62,6 +62,19 @@
 		width: 47%;
 	}
 
+	/* perfiles */
+
+	.sideButton {
+        width: 95%;
+    }
+
+    	.subcategory {
+		line-height: 14px;
+		margin-bottom: 10px;
+		clear: left;
+		margin-top: 5px;
+	}
+
 }
 
 @media screen and (max-width: 650px) {
@@ -146,7 +159,98 @@
 		width: 63%;
 	}
 
+	/* media naranaja */
+
+	.globo_right {
+		display: none;
+	}
+
+	/* perfiles */
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -5px;
+	}
+
+	.profileAside2 .sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside2 {
+		width: 100px;
+	}
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -4px;
+	}
+
+	.profileAside2 .sideButton {
+        width: 80%;
+    }
+
+    .enlacesPersonales {
+		float: none;
+		margin-top: 8px;
+		text-align: left;
+		width: 80%;
+	}
+
+	.enlacesPersonales .facebook a {
+		background: url("../img/ic_fb.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.enlacesPersonales a {
+		background: url("../img/ic_arrow_right.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.tit_antecedentes {
+        width: 35%; 
+        padding-left: 5px;"
+    }
+
+    .tit_posiciones {
+        float: left; 
+        width: 60%; 
+        padding-left: 5px;"
+    }
+
+    .posiciones {
+		width: 55%;
+	}
+
+	.trayectoria .accordion h3, .posiciones .accordion h3 {
+		letter-spacing: 0;
+		font-size: 12px;
+		text-transform: none;
+	}
+
+	/* compara */
+
+	.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo {
+		float: left;
+	}
+
+	.basicProfileContainer {
+		margin-top: 10px;
+	}
+
+	.answerSpace ul {
+		width: 46%;
+	}
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		width: 90%;
+	}
+
+	.tzSelect .selectBox {
+		width: 60%;
+	}
+
+	.profileHome {
+		width: 70%;
+	}
+
 }
+
 
 @media screen and (max-width: 480px) {
 
@@ -157,22 +261,6 @@
 	#mainNavigation {
 		font-size: 10px;
 		letter-spacing: 0;
-	}
-
-	.sideButton {
-		width: 80px;
-	}
-
-	.sideButton_txt {
-		margin-left: -6px;
-	}
-
-	.sideButton_txt img {
-		display: none;
-	}
-
-	.profileAside {
-		width: 88px;
 	}
 
 	#main-nav a {
@@ -250,16 +338,95 @@
         width: 100%;
     }
 
+    /* compara */
+
 	.tzSelect .selectBox {
 		font-size: 12px;
 		line-height: 12px;
-		padding: 2px 25px 0 5px;
-		width: 65%;
+		padding: 10px 25px 0 5px;
+		width: 80%;
+		height: 60%;
 	}
 
 	.tzSelect {
 		min-width: 0px;
 	}
+
+	.dropDown {
+		width: 88%;
+	}
+
+	.basicProfileContainer {
+		margin-top: 0px;
+	}
+
+	.comparisonResult {
+        width: 100%;
+    }
+
+	/* perfil */
+
+
+	.sideButton_txt {
+		margin-left: -5px;
+	}
+
+	.sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside, .profileAside2 {
+		width: 100px;
+	}
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -4px;
+	}
+
+	.sideButton {
+        width: 80%;
+    }
+
+	.enlacesPersonales {
+		float: none;
+		margin-top: 8px;
+		text-align: left;
+		width: 80%;
+	}
+
+	.enlacesPersonales .facebook a {
+		background: url("../img/ic_fb.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.enlacesPersonales a {
+		background: url("../img/ic_arrow_right.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.personalInfo {
+		width: 55%;
+	}
+
+	.tit_antecedentes {
+        width: 35%; 
+        padding-left: 5px;"
+    }
+
+    .tit_posiciones {
+        float: left; 
+        width: 60%; 
+        padding-left: 5px;"
+    }
+
+    .posiciones {
+		width: 55%;
+	}
+
+	.trayectoria .accordion h3, .posiciones .accordion h3 {
+		letter-spacing: 0;
+		font-size: 12px;
+		text-transform: none;
+	}
+
 }
 
 
