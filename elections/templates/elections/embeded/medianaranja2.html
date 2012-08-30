@@ -52,28 +52,25 @@
 
                 <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
-                	<div>
-		                <div class="wrap_resultados">
-                                <div class="globo_left">
-									{% trans 'índices de compatibilidad' %}
-								</div>
 
-                            <div class="categoria_resultados">
-                                {% for category in categories %}
-                                <div class="subcategory">{{category}}</div>
-                                {% endfor %}
-                            </div>
+						            	<div class="globo_left">
+											{% trans 'índices de compatibilidad' %}
+										</div>
 
-                            <div class="porcentaje_resultados">
-										{% for category_score in winner.1 %}
-											<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
-										{% endfor %}
-							</div>
+			                  			<div class="categoria_porcentaje">
+											{% for category in categories %}
+												<div class="subcategory">{{category}}</div>
+											{% endfor %}
+                                        </div>
 
-						</div>
-					</div>
+                                        <div class="porcentaje">
+											{% for category_score in winner.1 %}
+												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
+											{% endfor %}
+				</div>
 
 					<div class="compartir_resultados">
+
 
 								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
 
@@ -125,7 +122,7 @@
 
             </header>
 	    </div>
-            <div class="profileImg">
+            <div class="profileImg img_medianaranja">
 
 
         {% thumbnail winner.2.photo "160x200" crop="center" as im %}

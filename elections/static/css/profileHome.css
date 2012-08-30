@@ -4,11 +4,12 @@
 .profileHome li{
 	background-color: #FFFFFF;
     float: left;
-    margin: 0 25px 0px 0;
-    min-height: 157px;
+    margin: 0 25px 10px 0;
+    /*min-height: 157px;*/
     text-align: center;
     width: 115px;
     position: relative;
+    overflow: hidden;
 }
 
 .profileHome li :hover span{
@@ -38,6 +39,7 @@
 	line-height: 12px;
 	position: absolute;
 	bottom: 0px;
+	left: 0;
 	opacity: 0.7;
 }
 
