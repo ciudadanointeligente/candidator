@@ -154,6 +154,10 @@ padding: 6px 0px 16px 0px;
     margin: 0;
 }
 
+.candidatesBasicInformation .tit h2 {
+    margin-bottom: 5px;
+}
+
 .globo_right:after {
     content: url(../img/flecha_globo.png);
     margin-top: 13px;
@@ -302,6 +306,35 @@ padding: 6px 0px 16px 0px;
         text-shadow: 1px 1px 0px white;
         font-size: 14px;
     }
+
+/* MEDIA NARANJA */
+
+.wrap_resultados {
+    width:50%;  
+    border-right:1px dashed #d7d7d7;
+}
+
+.compartir_resultados {
+    clear: both;
+    margin-top: 141px;
+}
+
+.categoria_resultados {
+    float: left;
+    clear: left;
+}
+
+.porcentaje_resultados {
+    float: left;
+    margin-left: 10px;
+}
+
+.profileImg {
+    position: absolute;
+    top: 212px;
+    margin: 0 !important;
+}
+
 
 /* FOOTER */
 #footerembed {
