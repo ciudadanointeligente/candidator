@@ -365,7 +365,17 @@ class VisitorAnswer(models.Model):
             del kwargs['answer']
         super(VisitorAnswer, self).__init__(*args, **kwargs)
 
-        
+class VisitorScore(models.Model):
+    visitor = models.ForeignKey('Visitor')
+    candidate_name = models.CharField(max_length=255)
+    score = models.IntegerField()
+
+class CategoryScore(models.Model):
+    visitor_score = models.ForeignKey('VisitorScore')
+    category_score = models.IntegerField()
+    category_name = models.CharField(max_length=255)       
+
+    
 
 
 

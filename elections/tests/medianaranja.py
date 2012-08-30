@@ -5,7 +5,7 @@ from django.test.client import Client
 from django.utils.unittest import skip
 
 # Imported models
-from elections.models import Election, Candidate, Category, Question, Answer, Visitor, VisitorAnswer
+from elections.models import Election, Candidate, Category, Question, Answer, Visitor, VisitorAnswer, VisitorScore, CategoryScore
 from django.contrib.auth.models import User
 
 class TestMediaNaranja(TestCase):
@@ -187,6 +187,7 @@ class TestMediaNaranja(TestCase):
         self.assertEqual(visitors_answers[1].question_text, answers[1].question.question)
         self.assertEqual(visitors_answers[0].question_text, answers[0].question.question)
         self.assertEqual(visitors_answers[0].question_text, answers[0].question.question)
+    
     def test_save_visitors_answers_default_values(self):
         questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
         answers = [-1, -1]
@@ -207,15 +208,46 @@ class TestMediaNaranja(TestCase):
         self.assertEqual(visitors_answers[1].question_text, self.answer1_2.question.question)
 
 
+    def test_create_visitor_score(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        categories = [answers[0][0].question.category.name, answers[1][0].question.category.name]
+        importances = [5, 3]
+        get_score1 = self.candidate1.get_score(answers, importances)
+        visitor1 = Visitor.objects.create(election = self.election, election_url = reverse("election_detail",kwargs={'username': 'joe', 'slug':'barbaz'}))
+        visitor_score = VisitorScore.objects.create(visitor=visitor1,candidate_name=self.candidate1.name,score=get_score1[0])
+        category_score1 = CategoryScore.objects.create(visitor_score=visitor_score,category_score=get_score1[1][0],category_name=categories[0])
+        category_score2 = CategoryScore.objects.create(visitor_score=visitor_score,category_score=get_score1[1][1],category_name=categories[1])
+        self.assertEqual(visitor_score.score, get_score1[0])
+        self.assertEqual(visitor_score.candidate_name, self.candidate1.name)
+        visitor_category_scores = visitor_score.categoryscore_set.all()
+        self.assertEqual(visitor_category_scores.count(), 2)
 
+    def test_save_visitor_score(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': 'joe', 'election_slug':'barbaz'})
+        response = self.client.post(url, {'question-0': answers[0][0].pk, 'question-1': answers[1][0].pk, \
+            'importance-0': importances[0], 'importance-1': importances[1], \
+            'question-id-0': answers[0][0].question.pk , 'question-id-1': answers[1][0].question.pk})
+        visitors = Visitor.objects.all()
+        me = visitors[0]
+        visitor_scores = me.visitorscore_set.all()
+        visitor_candidate1_category_scores = CategoryScore.objects.filter(visitor_score=visitor_scores.get(candidate_name=self.candidate1.name))
+        visitor_candidate2_category_scores = CategoryScore.objects.filter(visitor_score=visitor_scores.get(candidate_name=self.candidate2.name))
+        scores_candidate1 = self.candidate1.get_score(answers, importances)
+        scores_candidate2 = self.candidate2.get_score(answers, importances)
 
-
-
-
-
-
-
-        
+        self.assertEqual(visitor_scores.filter(candidate_name=self.candidate1.name).count(), 1)
+        self.assertEqual(visitor_scores.filter(candidate_name=self.candidate2.name).count(), 1)
+        self.assertEqual(visitor_scores.get(candidate_name=self.candidate1.name).candidate_name,self.candidate1.name) 
+        self.assertEqual(visitor_scores.get(candidate_name=self.candidate2.name).candidate_name,self.candidate2.name) 
+        self.assertEqual(visitor_scores.get(candidate_name=self.candidate1.name).score,scores_candidate1[0]) 
+        self.assertEqual(visitor_scores.get(candidate_name=self.candidate2.name).score,scores_candidate2[0])
+        self.assertEqual(visitor_candidate1_category_scores.get(category_name=answers[0][0].question.category.name).category_score ,scores_candidate1[1][0])
+        self.assertEqual(visitor_candidate1_category_scores.get(category_name=answers[1][0].question.category.name).category_score ,scores_candidate1[1][1])
+        self.assertEqual(visitor_candidate2_category_scores.get(category_name=answers[0][0].question.category.name).category_score ,scores_candidate2[1][0])
+        self.assertEqual(visitor_candidate2_category_scores.get(category_name=answers[1][0].question.category.name).category_score ,scores_candidate2[1][1])
+     
 
 
 
