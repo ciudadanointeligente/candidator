@@ -52,6 +52,7 @@
 
                 <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
 
+
 						            	<div class="globo_left">
 											{% trans 'índices de compatibilidad' %}
 										</div>
@@ -66,9 +67,11 @@
 											{% for category_score in winner.1 %}
 												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
 											{% endfor %}
-										</div>
+				</div>
 
-								<div class="compartir_resultado">
+					<div class="compartir_resultados">
+
+
 								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
 
 										<td colspan="2">
@@ -114,7 +117,8 @@
                                     <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-								</div>
+
+				    </div>
 
             </header>
 	    </div>

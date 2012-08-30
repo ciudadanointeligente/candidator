@@ -427,6 +427,19 @@
 		text-transform: none;
 	}
 
+	.porcentaje_resultados p {
+		margin-bottom: 5px;
+	}
+
+	.categoria_resultados .subcategory {
+		margin-bottom: 5px;
+	}
+
+	.categoria_resultados {
+		width: 40%;
+		line-height: 14px;
+	}
+
 }
 
 
