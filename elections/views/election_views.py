@@ -62,6 +62,9 @@ class ElectionStyleUpdateView(UpdateView):
     def get_template_names(self):
         return 'elections/updating/election_style_updating.html'
 
+    def get_queryset(self):
+        return super(ElectionStyleUpdateView, self).get_queryset().filter(owner=self.request.user)
+
     def get_success_url(self):
         url = reverse('update_custom_style', kwargs={'slug': self.object.slug})
         return url
@@ -84,6 +87,9 @@ class ElectionUpdateView(UpdateView):
         new_candidate_form = CandidateForm()
         context['new_candidate_form'] = new_candidate_form
         return context
+
+    def get_queryset(self):
+        return super(ElectionUpdateView, self).get_queryset().filter(owner=self.request.user)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
