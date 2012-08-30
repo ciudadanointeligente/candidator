@@ -1,0 +1,67 @@
+.tzSelect{
+
+	/* This is the container of the new select element */
+
+	height:34px;
+	display:inline-block;
+	min-width:200px;
+	position:absolute;
+
+	/* Preloading the background image for the dropdown */
+	background:url("http://demo.tutorialzine.com/2010/11/better-select-jquery-css3/img/dropdown_slice.png") no-repeat -99999px;
+}
+
+.tzSelect .selectBox{
+	background: url("../img/arrow_sprite.png") no-repeat scroll right 10px #B0D0ED;
+	border:1px solid #a7c7e6;
+	color: white;
+	cursor: pointer;
+	font-family: 'AllerRegular';
+	font-size: 14px;
+	height: 85%;
+	line-height: 30px;
+	overflow: hidden;
+	padding: 0 8px;
+	text-align: left;
+}
+
+.tzSelect .selectBox:hover,
+.tzSelect .selectBox.expanded{
+	color: #74A7D9;
+}
+
+.dropDown{
+	background-color: #F3F3F3;
+    box-shadow: 0 2px 4px #6C6C6C;
+	-moz- box-shadow: 0 2px 4px #6C6C6C;
+	-webkit- box-shadow: 0 2px 4px #6C6C6C;
+    padding: 10px;
+    position: relative;
+    z-index: 30000;
+	margin: 0 1px;
+	overflow-y: scroll;
+	max-height: 124px;
+}
+	
+
+.dropDown li{
+	 background-color: #FFFFFF;
+    height: 40px;
+    margin-bottom: 10px;
+	cursor: pointer;
+    overflow: hidden;
+}
+
+.dropDown li:hover{
+	background-color: #E0E5E9;
+}
+
+.dropDown li span{
+	bottom: 15px;
+    display: inline-block;
+    margin-left: 11px;
+    position: relative;
+}
+.tzSelect .dropDown img{
+	height: 40px;
+}

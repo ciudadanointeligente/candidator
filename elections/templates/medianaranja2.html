@@ -39,10 +39,6 @@
 
 {% block content %}
 
-<div class="papel">
-
-	<div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ></a></div>
-
 <div class="contenedor3">
 
 	{% include 'election_logo.html' %}
@@ -61,7 +57,7 @@
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:674px;px;top:0px;">
 
-                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
+                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad. {% endblocktrans %}</h2></a></div>
 
                 	<table style="margin-left:10px;padding:0;">
 		                <tr>
@@ -231,9 +227,5 @@
     	</div>
 
     </div>
-
-   
-
-</div>
 
 {% endblock content %}

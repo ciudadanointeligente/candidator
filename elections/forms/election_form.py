@@ -20,7 +20,7 @@ class ElectionForm(forms.ModelForm):
 class ElectionUpdateForm(forms.ModelForm):
     class Meta:
         model = Election
-        exclude = ('owner', 'slug')
+        exclude = ('owner', 'slug', 'published')
 
 
 class ElectionStyleUpdateForm(forms.ModelForm):

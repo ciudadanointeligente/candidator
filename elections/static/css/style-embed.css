@@ -68,18 +68,66 @@ body{
     margin: auto;
 }
 
+.contenedor2_embeded.wrap_basicInfo {
+    width: 85%;
+}
+
 .logo_eleccion img{
     height: 100%;
 }
 
 #mainNavigation {
-    background-color: #B0CFEC;
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUlIiBzdG9wLWNvbG9yPSIjYjBjZmVjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzk5YzJlMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #b0cfec 5%, #99c2e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(5%,#b0cfec), color-stop(100%,#99c2e0));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#b0cfec 5%,#99c2e0 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#b0cfec 5%,#99c2e0 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#b0cfec 5%,#99c2e0 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#b0cfec 5%,#99c2e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#99c2e0',GradientType=0 );
     font-size: 11px;
+    border: 1px solid #8FB3D1;
 }
 
 #mainNavigation li {
     padding: 2px 8px;
-    border-left: 2px dotted #D6E8F8;
+    background: url(../img/border_navlight.png) repeat-y;
+}
+
+#mainNavigation li a {
+    text-shadow: 0px -1px 0px #8CA0BE;
+    border-left: 1px solid transparent;
+}
+
+#mainNavigation li a:hover {
+    background: #99c2e0;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk5YzJlMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk1JSIgc3RvcC1jb2xvcj0iI2IwY2ZlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #99c2e0 0%, #b0cfec 95%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#99c2e0), color-stop(95%,#b0cfec), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top,  #99c2e0 0%,#b0cfec 95%,#ffffff 100%);
+    background: -o-linear-gradient(top,  #99c2e0 0%,#b0cfec 95%,#ffffff 100%);
+    background: -ms-linear-gradient(top,  #99c2e0 0%,#b0cfec 95%,#ffffff 100%);
+    background: linear-gradient(to bottom,  #99c2e0 0%,#b0cfec 95%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99c2e0', endColorstr='#ffffff',GradientType=0 );
+    border-left: 1px solid #8FB3D1;
+}
+
+
+
+.nombre_eleccion h1 {
+    background: white;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQlIiBzdG9wLWNvbG9yPSIjNzRhN2Q5IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzYzOTZjNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,white), color-stop(4%,#74A7D9), color-stop(100%,#6396C7));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#6396c7',GradientType=0 );
+    color: white;
+    display: block;
+    font-family: 'Harabara',Helvetica,Arial,sans-serif;
+    letter-spacing: 1px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #558BB7;
+    text-transform: none;
 }
 
 /* 1/2 NARANJA */
@@ -104,6 +152,10 @@ padding: 6px 0px 16px 0px;
 
 .tit h2 {
     margin: 0;
+}
+
+.candidatesBasicInformation .tit h2 {
+    margin-bottom: 5px;
 }
 
 .globo_right:after {
@@ -167,6 +219,10 @@ padding: 6px 0px 16px 0px;
         background-color: transparent;
     }
 
+    .dropDown {
+        margin-right: 7.5%;
+    }
+
     .tzSelect {
     position: relative;
     }
@@ -194,10 +250,32 @@ padding: 6px 0px 16px 0px;
         margin-right: 7%;
     }
 
-    .profileAside {
-        height: none;
-        min-height: 160px;
-        margin-top: 0;
+    .profileAside2 {
+        float: right;
+        position: absolute;
+        width: 180px;
+        top: 205px;
+        right: 0px;
+    }
+
+    .profileAside2 .sideButton_txt, .profileAside2 .sideButton_txt.compare {
+        font-size: 13px;
+    }
+
+    .profileAside2 .sideButton_txt {
+        margin-left: 50px;
+    }
+
+    .profileAside2 .sideButton_txt img {
+        left: -55px;
+    }
+
+    .contenedor1_embeded .tit h3 {
+        margin-bottom: 15px;
+    }
+
+    .papel_embeded .profileAside {
+        right: 4px;
     }
 
     .personalInfo {
@@ -212,8 +290,51 @@ padding: 6px 0px 16px 0px;
     }
 
     .enlacesPersonales {
-        margin-top: -42px;
+        margin-top: -83px;
     }
+
+    .profileHome {
+        width: 80%;
+    }
+
+    .sideButton {
+        width: 80%;
+    }
+
+    .sideButton_txt.compare {
+        color: #648900;
+        text-shadow: 1px 1px 0px white;
+        font-size: 14px;
+    }
+
+/* MEDIA NARANJA */
+
+.wrap_resultados {
+    width:50%;  
+    border-right:1px dashed #d7d7d7;
+}
+
+.compartir_resultados {
+    clear: both;
+    margin-top: 141px;
+}
+
+.categoria_resultados {
+    float: left;
+    clear: left;
+}
+
+.porcentaje_resultados {
+    float: left;
+    margin-left: 10px;
+}
+
+.profileImg {
+    position: absolute;
+    top: 212px;
+    margin: 0 !important;
+}
+
 
 /* FOOTER */
 #footerembed {

@@ -62,6 +62,9 @@ class ElectionStyleUpdateView(UpdateView):
     def get_template_names(self):
         return 'elections/updating/election_style_updating.html'
 
+    def get_queryset(self):
+        return super(ElectionStyleUpdateView, self).get_queryset().filter(owner=self.request.user)
+
     def get_success_url(self):
         url = reverse('update_custom_style', kwargs={'slug': self.object.slug})
         return url
@@ -84,6 +87,9 @@ class ElectionUpdateView(UpdateView):
         new_candidate_form = CandidateForm()
         context['new_candidate_form'] = new_candidate_form
         return context
+
+    def get_queryset(self):
+        return super(ElectionUpdateView, self).get_queryset().filter(owner=self.request.user)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -132,18 +138,16 @@ class ElectionCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.set_slug()
-        try:
-            self.object.full_clean()
-        except ValidationError:
-            from django.forms.util import ErrorList
-            form._errors["name"] = ErrorList([u"Ya tienes una eleccion con ese nombre."])
-            return super(ElectionCreateView, self).form_invalid(form)
+        self.object.full_clean()
 
         return super(ElectionCreateView, self).form_valid(form)
 
 # Election views
 class CompareView(DetailView):
     model = Election
+
+    def get_queryset(self):
+        return super(CompareView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
 
 
     def get_context_data(self, **kwargs):
@@ -285,7 +289,19 @@ class HomeTemplateView(TemplateView):
 
         return kwargs
 
+class UserElectionsView(TemplateView):
+    template_name = 'elections/users_election_list.html'
 
+    def get_context_data(self, **kwargs):
+        user = get_object_or_404(User, username=kwargs['username'])
+        user_elections = Election.objects.filter(published=True).filter(owner=user)
+        context = super(UserElectionsView, self).get_context_data(**kwargs)
+        context['elections'] = user_elections
+
+        context['owner'] = user
+
+
+        return context
 
 ##THIS IS ONLY FOR TESTING PORPOUSES
 
