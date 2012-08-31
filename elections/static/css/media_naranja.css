@@ -239,11 +239,11 @@ table{
 }
 
 .profileImg {
-	float: left;
-	height: 200px;
-	overflow: hidden;
-	width: 160px;
-	margin: -131px 0px 0px;
+    float: left;
+    height: 200px;
+    overflow: hidden;
+    width: 160px;
+    margin: -125px 0px 0px;
 }
 
 .profileImg_small {
