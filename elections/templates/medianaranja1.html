@@ -39,9 +39,7 @@
     <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_medianaranja.png" width="76" height="73" /></div>
     <div class="tit"><h3>{% trans 'TU MEDIA NARANJA POLÍTICA' %}</h3></div>
 
-    <div class="txt_intro">{% trans '¿No sabes quién te representa mejor? ¿Quién está más cerca de tus ideas? La Media Naranja te responde.
-	Responde las preguntas marcando tu opción y cuánto te importa el tema,  sabrás el porcentaje de afinidad con cada candidato.
-	La media naranja te la hace fácil.Ya no hay excusas para no elegir informados.' %}<br /><br />
+    <div class="txt_intro">{% trans 'La media naranja política es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.' %}<br /><br />
     </div>
 
     </div>
@@ -65,7 +63,7 @@
 
         <input type='hidden' name='question-id-{{num}}' value='{{ preg.id }}' />
      <div class="col_left">
-        <h4>{{ preg.id }} - {{preg.question}}</h4>
+        <h4>{{preg.question}}</h4>
         {% for ans in ans_list %}
         <input type="radio" name="question-{{num}}" value="{{ans.id}}" /> {{ans.caption}}<br />
         {% endfor %}
