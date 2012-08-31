@@ -50,7 +50,10 @@ def post_medianaranja1(request, username, election_slug):
     questions = []
 
     for i in range(number_of_questions):
-        ans_id = int(request.POST['question-'+str(i)])
+        if 'question-'+str(i) in request.POST:
+            ans_id = int(request.POST['question-'+str(i)])
+        else:
+            ans_id = -1
         question_id = int(request.POST['question-id-'+str(i)])
         answers.append(Answer.objects.filter(id=ans_id))
         importances.append(int(request.POST['importance-'+str(i)]))

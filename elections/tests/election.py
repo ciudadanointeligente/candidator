@@ -1115,3 +1115,14 @@ class UserElectionsViewTest(TestCase):
         self.assertEqual(response.context['owner'], self.user)
 
 
+
+class Municipales2012ElectionTemplateView(TestCase):
+    def test_renders_a_html_for_this_new_event(self):
+        url = reverse('municipales2012')
+        response = self.client.get(url)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'municipales2012.html')
+
+
+
