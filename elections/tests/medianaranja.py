@@ -278,10 +278,98 @@ class TestMediaNaranjaWithNoCategories(TestCase):
 
 
 class TestElectionsWithoutDefaultOptionInMediaNaranja(TestCase):
-    def test_an_election_should_have_default_option_medianaranja_field(self):
-        user, created = User.objects.get_or_create(username='fiera')
-        election, created = Election.objects.get_or_create(name='election',
-            owner=user,
-            slug='barbaz')
 
-        self.assertTrue(election.default_option)
+    def setUp(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name='election',
+                                                            owner=user,
+                                                            slug='barbaz')
+        #deleting default categories
+        for category in election.category_set.all():
+            category.delete()
+        #end of deleting default categories
+        candidate1 = Candidate.objects.create(name='BarBaz', election=election)
+        candidate2 = Candidate.objects.create(name='FooFoo', election=election)
+        category1, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=election,
+                                                            slug='foo-cat')
+        category2, created = Category.objects.get_or_create(name='FooCat2',
+                                                            election=election,
+                                                            slug='foo-cat-2')
+        question1, created = Question.objects.get_or_create(question='FooQuestion',
+                                                            category=category1)
+        question2, created = Question.objects.get_or_create(question='BarQuestion',
+                                                            category=category2)
+        answer1_1, created = Answer.objects.get_or_create(question=question1,
+                                                        caption='BarAnswer1Question1')
+        answer1_2, created = Answer.objects.get_or_create(question=question2,
+                                                        caption='BarAnswer1Question2')
+        answer2_1, created = Answer.objects.get_or_create(question=question1,
+                                                        caption='BarAnswer2uestion1')
+        answer2_2, created = Answer.objects.get_or_create(question=question2,
+                                                        caption='BarAnswer2Question2')
+
+        self.user = user
+        self.election = election
+        self.candidate1 = candidate1
+        self.candidate2 = candidate2
+        self.category1 = category1
+        self.category2 = category2
+        self.question1 = question1
+        self.question2 = question2
+        self.answer1_1 = answer1_1
+        self.answer1_2 = answer1_2
+        self.answer2_1 = answer2_1
+        self.answer2_2 = answer2_2
+
+        candidate1.associate_answer(self.answer1_1)
+        candidate1.associate_answer(self.answer1_2)
+        candidate2.associate_answer(self.answer2_1)
+        candidate2.associate_answer(self.answer2_2)
+
+
+
+    def test_an_election_should_have_default_option_medianaranja_field(self):
+
+        self.assertTrue(self.election.use_default_media_naranja_option)
+
+
+    def test_media_naranja_could_be_answered_without_one_options(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': self.election.owner.username, 'election_slug': self.election.slug })
+        data_to_be_posted = {
+                            'question-0': answers[0][0].pk, 
+                            #'question-1': -1, #THIS ANSWER IS NOT BEING PASSED AND IT WILL NOT COUNT
+                            'importance-0': importances[0], 
+                            'importance-1': importances[1], 
+                            'question-id-0': answers[0][0].question.pk , 
+                            'question-id-1': answers[1][0].question.pk
+                            }
+        response = self.client.post(url, data_to_be_posted)
+        expected_winner = [62.5 , [100, 0.0], self.candidate1]
+
+
+
+
+        self.assertEquals(response.context['winner'], expected_winner)
+
+
+    def test_media_naranja_without_any_options(self):
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': self.election.owner.username, 'election_slug': self.election.slug })
+        data_to_be_posted = {
+                            #'question-0': answers[0][0].pk, 
+                            #'question-1': -1, #THIS ANSWER IS NOT BEING PASSED AND IT WILL NOT COUNT
+                            'importance-0': importances[0], 
+                            'importance-1': importances[1], 
+                            'question-id-0': answers[0][0].question.pk , 
+                            'question-id-1': answers[1][0].question.pk
+                            }
+        response = self.client.post(url, data_to_be_posted)
+        expected_winner = [0.0 , [0.0, 0.0]]
+
+
+        self.assertEquals(response.context['winner'][0], expected_winner[0])
+        self.assertEquals(response.context['winner'][1], expected_winner[1])
