@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from elections.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer
+from elections.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer, VisitorScore, CategoryScore
 
 # MediaNaranja Views
 @login_required
@@ -99,21 +99,10 @@ def medianaranja1_embed(request, username, election_slug):
         return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
 
 def medianaranja2(request, my_answers, importances, questions, candidates, categories, election):
-    scores_and_candidates = []
-    for candidate in candidates:
-        score = candidate.get_score(my_answers, importances)
-        global_score = score[0]
-        category_scores = score[1]
-        scores_and_candidates.append([global_score,category_scores,candidate])
-    scores_and_candidates.sort()
-    scores_and_candidates.reverse()
-
-    winner = scores_and_candidates[0]
-    other_candidates = scores_and_candidates[1:]
     election_url=reverse("election_detail",kwargs={'username': election.owner.username, 'slug':election.slug})
-
     visitor = Visitor(election=election, election_url=election_url)
     visitor.save()
+    #save answers for latter analysis:
     for i, importance in enumerate(importances):
         if my_answers[i]:
             visitoranswer = VisitorAnswer(visitor=visitor,answer=my_answers[i][0], answer_importance=importance)
@@ -121,6 +110,26 @@ def medianaranja2(request, my_answers, importances, questions, candidates, categ
             visitoranswer = VisitorAnswer(visitor=visitor,answer_text="",question_text=questions[i].question,\
                 question_category_text=questions[i].category.name, answer_importance=importance)
         visitoranswer.save()
+
+    scores_and_candidates = []
+    for candidate in candidates:
+        score = candidate.get_score(my_answers, importances)
+        global_score = score[0]
+        category_scores = score[1]
+        visitor_score = VisitorScore.objects.create(visitor=visitor, candidate_name=candidate.name,score=global_score)
+        for i,category_score in enumerate(category_scores):
+            categoryscore = CategoryScore.objects.create(visitor_score=visitor_score,category_score=category_score, category_name=categories[i])
+
+        scores_and_candidates.append([global_score,category_scores,candidate])
+    scores_and_candidates.sort()
+    scores_and_candidates.reverse()
+
+    winner = scores_and_candidates[0]
+    other_candidates = scores_and_candidates[1:]
+    
+
+
+    
 
     context = {'election':election, 'categories':categories,'winner':winner,'others':other_candidates}
     return context
