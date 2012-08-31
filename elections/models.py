@@ -33,6 +33,7 @@ class Election(models.Model):
     published = models.BooleanField(default=False)
     custom_style = models.TextField(blank=True)
     highlighted = models.BooleanField(default=False)
+    use_default_media_naranja_option = models.BooleanField(default=True) #Default option "Ninguna de las anteriores" in media naranja
     
 
     class Meta:

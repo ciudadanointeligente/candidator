@@ -240,6 +240,10 @@ urlpatterns = patterns('',
     # Solo para efectos de prueba del embeded
     url(r'^prueba_embeded$', EmbededTemplateView.as_view(), name="prueba_embeded"),
 
+    #Municipales 2012
+
+    url(r'^municipales2012/?$', TemplateView.as_view(template_name="municipales2012.html"), name="municipales2012"),
+
 
     # Election detail view
     url(r'^(?P<username>[-\w]+)/?$', UserElectionsView.as_view(), name='user_elections'),

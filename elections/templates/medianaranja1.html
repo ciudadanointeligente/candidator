@@ -67,9 +67,12 @@
         {% for ans in ans_list %}
         <input type="radio" name="question-{{num}}" value="{{ans.id}}" /> {{ans.caption}}<br />
         {% endfor %}
+
+        {% if election.use_default_media_naranja_option %}
         <!-- value = -1 is meant for default answers -->
-        <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
-        {% trans 'Ninguna de las anteriores representa mi posición' %}<br />
+            <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
+            {% trans 'Ninguna de las anteriores representa mi posición' %}<br />
+        {% endif %}
      </div>
 
      <div class="col_right">
