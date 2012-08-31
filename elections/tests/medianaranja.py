@@ -275,3 +275,13 @@ class TestMediaNaranjaWithNoCategories(TestCase):
         expected_score = (0,[])
         self.assertEqual(expected_score,get_score)
 
+
+
+class TestElectionsWithoutDefaultOptionInMediaNaranja(TestCase):
+    def test_an_election_should_have_default_option_medianaranja_field(self):
+        user, created = User.objects.get_or_create(username='fiera')
+        election, created = Election.objects.get_or_create(name='election',
+            owner=user,
+            slug='barbaz')
+
+        self.assertTrue(election.default_option)
