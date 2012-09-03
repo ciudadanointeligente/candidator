@@ -359,7 +359,7 @@ class ElectionDetailViewTest(TestCase):
             })
         response = self.client.get(url)
         self.assertTemplateUsed(response, "elections/base.html")
-        self.assertTemplateUsed(response, "elections/election_detail.html")
+        self.assertTemplateUsed(response, "elections/election_detail_profiles.html")
         self.assertEquals(response.status_code, 200)
         self.assertTrue('election' in response.context)
         self.assertEquals(response.context['election'], election)
@@ -888,6 +888,8 @@ class ElectionUrlsTest(TestCase):
         expected = '/juanito/eleccion-la-florida/gracias'
         result = reverse('election_detail_admin', kwargs={'username': 'juanito', 'slug': 'eleccion-la-florida'})
         self.assertEquals(result, expected)
+
+        
 
 class PrePersonalDataViewTest(TestCase):
     def setUp(self):
