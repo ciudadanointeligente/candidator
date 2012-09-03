@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 
     #frontend embed
     # Election detail view embeded
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/embeded/?$', ElectionDetailView.as_view(template_name="elections/embeded/election_detail.html"), name='election_detail_embeded'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/embeded/?$', ElectionDetailView.as_view(template_name="elections/embeded/election_detail_profiles.html"), name='election_detail_embeded'),
     # Election candidates profiles
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/profiles/embeded/?$', ElectionDetailView.as_view(template_name='elections/embeded/election_detail_profiles.html'), name='election_detail_profiles_embeded'),
     # Media Naranja

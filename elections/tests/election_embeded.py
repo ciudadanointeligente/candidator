@@ -63,7 +63,7 @@ class ElectionEmbededDetail(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
 		self.assertTemplateNotUsed(response, "elections/election_detail.html")
-		self.assertTemplateUsed(response, "elections/embeded/base_embed.html")
+		self.assertTemplateUsed(response, "elections/embeded/election_detail_profiles.html")
 
 		self.assertTrue('election' in response.context)
 		self.assertEquals(response.context['election'], self.election)
