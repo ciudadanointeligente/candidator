@@ -75,7 +75,7 @@ urlpatterns = patterns('',
     # Election description
     url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/about/?$', ElectionAboutView.as_view(), name='election_about'),
     # Election detail view
-    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(), name='election_detail'),
+    url(r'^(?P<username>[-\w]+)/(?P<slug>[-\w]+)/$', ElectionDetailView.as_view(template_name='elections/election_detail_profiles.html'), name='election_detail'),
 
     # Root: login_required (por ahora pues no se ha definido un index)
     url(r'^$', HomeTemplateView.as_view(), name="home"),
