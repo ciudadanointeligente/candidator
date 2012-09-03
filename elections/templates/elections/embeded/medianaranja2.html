@@ -50,7 +50,7 @@
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:100%;px;top:0px;">
 
-                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{{winner.2.name}}</h2></a></div>
+                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad. {% endblocktrans %}</h2></a></div>
 
 
 						            	<div class="globo_left">
@@ -59,7 +59,7 @@
 
 			                  			<div class="categoria_porcentaje">
 											{% for category in categories %}
-												<div class="subcategory">{{category}}</div>
+												<div class="subcategory">{{ category }}</div>
 											{% endfor %}
                                         </div>
 
@@ -181,7 +181,7 @@
                                         <tr>
                                             <td>
                                                 {% for category in categories %}
-                                                    <p>&nbsp;{{category}}</p>
+                                                    <p>&nbsp;{{ category.name|slice:"20" }}{% if category.name|length > 20 %}...{% endif %}</p>
                                                 {% endfor %}
                                             </td>
                                             <td class="porcentaje">

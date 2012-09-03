@@ -73,7 +73,7 @@
 					            	<tr>
 										<td>
 											{% for category in categories %}
-												<div class="subcategory">{{category}}</div>
+												<div class="subcategory">{{ category.name|slice:"20" }}{% if category.name|length > 20 %}...{% endif %}</div>
 											{% endfor %}
 										</td>
 
