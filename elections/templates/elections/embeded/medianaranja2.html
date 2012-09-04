@@ -50,7 +50,7 @@
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:100%;px;top:0px;">
 
-                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad. {% endblocktrans %}</h2></a></div>
+                <div class="tit"><a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad. {% endblocktrans %}</h2></a></div>
 
 
 						            	<div class="globo_left">
@@ -176,12 +176,12 @@
                                     </div>
                                 </td>
                                 <td valign="top" style="width:75%;">
-                                    <h6re style=" color:#72acd9;">&nbsp;<a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
+                                    <h6re style=" color:#72acd9;">&nbsp;<a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
                                     <table>
                                         <tr>
                                             <td>
                                                 {% for category in categories %}
-                                                    <p>&nbsp;{{ category.name|slice:"20" }}{% if category.name|length > 20 %}...{% endif %}</p>
+                                                    <p>&nbsp;{{ category.name|slice:"15" }}{% if category.name|length > 15 %}...{% endif %}</p>
                                                 {% endfor %}
                                             </td>
                                             <td class="porcentaje">

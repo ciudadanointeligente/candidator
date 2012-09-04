@@ -334,6 +334,30 @@ class TestElectionsWithoutDefaultOptionInMediaNaranja(TestCase):
         self.assertTrue(self.election.use_default_media_naranja_option)
 
 
+    def test_media_naranja_get_403_if_no_csrf_token_sent(self):
+        from django.test import Client
+        csrf_client = Client(enforce_csrf_checks=True)
+
+
+        answers = [[self.answer1_1], [self.answer1_2]]
+        importances = [5, 3]
+        url = reverse("medianaranja1",kwargs={'username': self.election.owner.username, 'election_slug': self.election.slug })
+        data_to_be_posted = {
+                            'question-0': answers[0][0].pk, 
+                            #'question-1': -1, #THIS ANSWER IS NOT BEING PASSED AND IT WILL NOT COUNT
+                            'importance-0': importances[0], 
+                            'importance-1': importances[1], 
+                            'question-id-0': answers[0][0].question.pk , 
+                            'question-id-1': answers[1][0].question.pk
+                            }
+        response = csrf_client.post(url, data_to_be_posted)
+        expected_winner = [62.5 , [100, 0.0], self.candidate1]
+
+
+        self.assertEqual(response.status_code, 403)
+
+
+
     def test_media_naranja_could_be_answered_without_one_options(self):
         answers = [[self.answer1_1], [self.answer1_2]]
         importances = [5, 3]

@@ -287,13 +287,6 @@
 		margin: 0;
 	}
 
-	.col_left h4, .col_right h4 {
-		font-family: 'AllerRegular';
-		color: #666;
-		text-transform: none;
-		letter-spacing: 0;
-	}
-
 	.homeListPerfiles h5, .homeListComparar  h5 {
 		margin-left: 0;
 		text-indent: 0;

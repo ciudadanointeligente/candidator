@@ -33,19 +33,6 @@ h2{
 	margin-top: -47px;
 }
 
-h4{
-    font-family: 'AllerBold';
-    color: #757a7e;
-    font-size: 12px;
-    background-color: #e8e8e8;
-    border: 1px solid #d7d7d7;
-    text-transform: uppercase;
-    letter-spacing:1px;
-    padding: 4px 4px 2px;
-	margin-bottom: 7px;
-	margin-top: 7px;
-}
-
 img{
     border:0px solid #ffffff;
 }
@@ -61,8 +48,6 @@ table{
     border-collapse: collapse;
     width:100%;
 }
-
-
 
 .tablaEncuesta .titulo{
     font-weight:normal;
@@ -239,11 +224,12 @@ table{
 }
 
 .profileImg {
-    float: left;
     height: 200px;
     overflow: hidden;
     width: 160px;
-    margin: -125px 0px 0px;
+    position: absolute;
+    top: 47px;
+    left: 15px;
 }
 
 .profileImg_small {
@@ -259,9 +245,10 @@ table{
 }
 
 .candidatesBasicInformation {
-position: relative;
-line-height: 21px;
-margin-bottom: 20px;
+    position: relative;
+    line-height: 21px;
+    margin-bottom: 20px;
+    min-height: 180px;
 }
 
 .categoria{
@@ -270,4 +257,17 @@ margin-bottom: 20px;
 
 p{
 	margin:0px;
+}
+
+.col_left h4, .col_right h4 {
+    font-family: 'AllerRegular';
+    color: #666;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 12px;
+    background-color: #e8e8e8;
+    border: 1px solid #d7d7d7;
+    padding: 4px 4px 2px;
+    margin-bottom: 7px;
+    margin-top: 7px;
 }
