@@ -471,7 +471,6 @@ background-color:white;
     left: 50%;
     margin-left: -426px;
     overflow: hidden;
-	margin-bottom: -13px;
 	padding-top: 25px;
 }
 	
@@ -1361,4 +1360,53 @@ ul .electionList {
 	position: relative;
 }
 
+/* DESTACADOS */
+
+.item {
+    margin: 20px;
+    float: left;
+    background: #CCC;
+    width: 240px;
+    height: 270px;
+}
+
+.item.item1 {
+    width: 522px;
+    border-bottom: 7px solid #6699CC !important;
+}
+
+.item:nth-child(6n+1) {
+  border-bottom: 7px solid #CCFF00;
+}
+
+.item:nth-child(6n+2) {
+  border-bottom: 7px solid #00FF99;
+}
+
+.item:nth-child(6n+3) {
+  border-bottom: 7px solid #FF0099;
+}
+
+.item:nth-child(6n+4) {
+  border-bottom: 7px solid #FF514E;
+}
+
+.item:nth-child(6n+5) {
+  border-bottom: 7px solid #FF6600;
+}
+
+.item:nth-child(6n+6) {
+  border-bottom: 7px solid #FFCC00;
+}
+
+.tit_destacado h1 {
+    font-family: 'harabara';
+    font-size: 58px;
+    text-transform: none;
+    background: url(../img/mosaico.jpg);
+    color: white;
+    padding: 70px 20px 10px;
+    margin-top: -25px;
+    text-shadow: 0px 0px 5px #141631;
+}
 
