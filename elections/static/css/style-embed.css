@@ -188,12 +188,12 @@ padding: 6px 0px 16px 0px;
     }
 
     .profileImg.img_medianaranja {
-        margin: -206px 0px 0px;
-        position: absolute;
+        top: 202px;
     }
 
     .candidatesBasicInformation .tit h2 {
         margin: -10px 0px 0px;
+        width: 100%;
     }
 
     .compartir_resultado {
@@ -369,6 +369,32 @@ padding: 6px 0px 16px 0px;
     margin: 0 !important;
 }
 
+.otrosporcentajes_data .categoria_porcentaje p {
+    margin-bottom: 10px;
+}
+
+.otrosporcentajes_data .categoria_porcentaje {
+    width: 40%;
+    line-height: 12px;
+}
+
+.otrosporcentajes_data .porcentaje {
+    width: 57%;
+}
+
+.otrosporcentajes_data .porcentaje p {
+    margin-bottom: 13px;
+}
+
+.otrosporcentajes_data h6 a {
+    letter-spacing: 0;
+    color: #80B6E2;
+}
+
+.otrosporcentajes_data h6 a:hover {
+    text-decoration: underline;
+}
+
 /* FOOTER */
 #footerembed {
     background: -moz-linear-gradient(left, rgba(128,182,226,0.6) 0%, rgba(128,182,226,1) 51%, rgba(128,182,226,0.6) 100%); /* FF3.6+ */
@@ -389,4 +415,11 @@ padding: 6px 0px 16px 0px;
     margin: 0;
     padding: 0;
     box-shadow: 0 1px 8px 1px #cccccc;
+}
+
+#footerembed p {
+    color: white;
+    position: absolute;
+    top: 13px;
+    left: 175px;
 }

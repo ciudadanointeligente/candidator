@@ -197,12 +197,13 @@ table{
     margin-bottom: 20px;
 }
 
-.porcentaje{
-	color:#72acd9;
-	letter-spacing:1px;
-	font-weight:bold;
-	font-size:14px;
-	padding-left: 13px;
+.porcentaje {
+    color: #72ACD9;
+    letter-spacing: 0;
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 3px;
+    float: left;
 }
 
 
@@ -233,15 +234,13 @@ table{
 }
 
 .profileImg_small {
-	margin-left: -4px;
-	margin-right: 5px;
+    float: left;
 }
 
 .candidatesBasicInformation header {
-	left: 163px;
-	position: relative;
-	width: 586px;
-	left: 173px;
+    position: relative;
+    width: 100%;
+    left: 173px;
 }
 
 .candidatesBasicInformation {
@@ -249,6 +248,7 @@ table{
     line-height: 21px;
     margin-bottom: 20px;
     min-height: 180px;
+    width: 57%;
 }
 
 .categoria{
@@ -270,4 +270,41 @@ p{
     padding: 4px 4px 2px;
     margin-bottom: 7px;
     margin-top: 7px;
+}
+
+.candidatesBasicInformation .globo_left {
+    display: block;
+    margin-top: 5px;
+}
+
+.tit h2 {
+    margin: 0px;
+}
+
+.categoria_porcentaje {
+    float: left;
+    clear: left;
+}
+
+.compartir_resultados {
+    clear: both;
+    margin-top: 141px;
+}
+
+.otrosporcentajes.derecha {
+    float: right;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.otrosporcentajes.izquierda {
+    float: left;
+    width: 50%;
+    clear: left;
+    margin-top: 10px;
+}
+
+.otrosporcentajes_data {
+    float: left;
+    margin-left: 5px;
 }
