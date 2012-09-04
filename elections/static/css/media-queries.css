@@ -68,8 +68,8 @@
         width: 95%;
     }
 
-    	.subcategory {
-		line-height: 14px;
+    .subcategory {
+		line-height: 11px;
 		margin-bottom: 10px;
 		clear: left;
 		margin-top: 5px;
@@ -162,6 +162,10 @@
 	/* media naranaja */
 
 	.globo_right {
+		display: none;
+	}
+
+	.profileImg_small {
 		display: none;
 	}
 
