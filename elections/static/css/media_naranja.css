@@ -224,11 +224,12 @@ table{
 }
 
 .profileImg {
-    float: left;
     height: 200px;
     overflow: hidden;
     width: 160px;
-    margin: -125px 0px 0px;
+    position: absolute;
+    top: 47px;
+    left: 15px;
 }
 
 .profileImg_small {
@@ -244,9 +245,10 @@ table{
 }
 
 .candidatesBasicInformation {
-position: relative;
-line-height: 21px;
-margin-bottom: 20px;
+    position: relative;
+    line-height: 21px;
+    margin-bottom: 20px;
+    min-height: 180px;
 }
 
 .categoria{
