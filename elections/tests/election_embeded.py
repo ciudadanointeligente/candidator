@@ -134,6 +134,29 @@ class ElectionEmbededDetail(TestCase):
 		resolver_match = resolve(url)
 		self.assertEquals(resolver_match.func.__module__,"candidator.elections.views.medianaranja_views")
 
+	def test_medianaranja_embeded_does_not_require_csrf_token(self):
+		from django.test import Client
+		csrf_client = Client(enforce_csrf_checks=True)
+
+		answers = [self.answer1_1.pk, self.answer1_2.pk]
+		questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]
+		importances = [5,3]
+		importances_by_category = [5,3]
+		factor_question1 = ( answers[0] == self.answer1_1.pk) * importances[0]
+		factor_question2 = ( answers[1] == self.answer1_2.pk) * importances[1]
+		score_category1 = factor_question1 * 100.0 / importances_by_category[0]
+		score_category2 = factor_question2 * 100.0 / importances_by_category[1]
+		global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
+		url = reverse('medianaranja1_embeded',kwargs={'username': self.user.username,'election_slug': self.election.slug})
+		response = csrf_client.post(url, {'question-0': answers[0], 'question-1': answers[1], \
+			'importance-0': importances[0], 'importance-1': importances[1],\
+			'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]})
+
+
+		self.assertEqual(response.status_code, 200)
+
+
+
 	def test_compare_view(self):
 		url = reverse('election_compare_embeded',kwargs={'username': self.user.username,'slug': self.election.slug})
 
