@@ -1365,38 +1365,70 @@ ul .electionList {
 .item {
     margin: 20px;
     float: left;
-    background: #CCC;
     width: 240px;
     height: 270px;
 }
 
+/*PARA MUNICIPALES FCI
 .item.item1 {
     width: 522px;
     border-bottom: 7px solid #6699CC !important;
+}
+*/
+
+#contenedor_destacados a {
+    font-style: italic;
+    right: 0;
+    position: absolute;
+    bottom: 10px;
 }
 
 .item:nth-child(6n+1) {
   border-bottom: 7px solid #CCFF00;
 }
 
+.item:nth-child(6n+1) a {
+  color: #CCFF00;
+}
+
 .item:nth-child(6n+2) {
   border-bottom: 7px solid #00FF99;
+}
+
+.item:nth-child(6n+2) a {
+  color: #00FF99;
 }
 
 .item:nth-child(6n+3) {
   border-bottom: 7px solid #FF0099;
 }
 
+.item:nth-child(6n+3) a {
+  color: #FF0099;
+}
+
 .item:nth-child(6n+4) {
   border-bottom: 7px solid #FF514E;
+}
+
+.item:nth-child(6n+4) a {
+  color: #FF514E;
 }
 
 .item:nth-child(6n+5) {
   border-bottom: 7px solid #FF6600;
 }
 
+.item:nth-child(6n+5) a {
+  color: #FF6600;
+}
+
 .item:nth-child(6n+6) {
   border-bottom: 7px solid #FFCC00;
+}
+
+.item:nth-child(6n+6) a {
+  color: #FFCC00;
 }
 
 .tit_destacado h1 {
@@ -1408,5 +1440,10 @@ ul .electionList {
     padding: 70px 20px 10px;
     margin-top: -25px;
     text-shadow: 0px 0px 5px #141631;
+}
+
+.subtit_destacado {
+    font-family: 'AllerBold';
+    margin-top: 10px;
 }
 
