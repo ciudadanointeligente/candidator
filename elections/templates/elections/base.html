@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
     <![endif]-->
     <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
+    <meta property="og:image" content="{{ STATIC_URL }}img/sharing_icon.png"/>
+    <meta property="og:description" content="Para repartir bien la torta hay que saber elegir."/>
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% if election %}
     <meta name="Description" content="{{ election.description }}" />
