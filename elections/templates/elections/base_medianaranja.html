@@ -14,6 +14,8 @@
     <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
     {% if election %}
     <meta name="Description" content="{{ election.description }}" />
+    <meta property="og:image" content="{{ STATIC_URL }}img/sharing_icon.png"/>
+    <meta property="og:description" content="{{ election.name }} - ¿Cuál es tu opción?"/>
     {% endif %}
     {% block extra_head %}
     {% endblock extra_head %}
