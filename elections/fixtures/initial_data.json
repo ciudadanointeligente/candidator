@@ -9,7 +9,9 @@
       "updated_at": "2011-11-15 16:55:46",
       "slug": "cei-2012",
       "description": "Elecciones CEI 2012",
-      "logo": "photos/dummy.jpg"
+      "logo": "photos/dummy.jpg",
+      "use_default_media_naranja_option": true,
+      "highlighted": true
     }
   },
   {
