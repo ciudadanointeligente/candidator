@@ -142,7 +142,7 @@ class ElectionLoaderIntegrationTestCase(TestCase):
 
 	def test_creates_questions_and_answers_for_otra_comuna(self):
 		otra_comuna = Election.objects.get(slug=u"otra-comuna")
-		
+
 		self.assertEquals(otra_comuna.category_set.all()[0].name, u"la categoria1")
 		self.assertEquals(otra_comuna.category_set.all()[0].question_set.all()[0].question, u"la pregunta1")
 		self.assertEquals(otra_comuna.category_set.all()[0].question_set.all()[0].answer_set.all()[0].caption, u"respuesta 1")
@@ -169,6 +169,21 @@ class ElectionLoaderTestCase(TestCase):
 					"12/9/2012",
 					"12/9/2012"
 					]
+
+
+		self.line2 = [
+					"Fiera", 
+					"Algarrobo", 
+					"IND",
+					"fiera@gmail.com", 
+					"http://boljaconsejal.cl", 
+					"boris.colja.en.facebook",
+					"boris_colja_twitter", 
+					"12/9/2012",
+					"12/9/2012",
+					"12/9/2012"
+					]
+
 		self.lines = [
 			["category","la categoria1"],
 			["question","la pregunta1"],
@@ -201,6 +216,28 @@ class ElectionLoaderTestCase(TestCase):
 		self.assertEquals(candidate.election, election)
 		self.assertTrue( u"Partido" in candidate.get_personal_data)
 		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
+
+	def test_deletes_previous_personal_data(self):
+		candidate = self.loader.getCandidate(self.line)
+
+		self.assertEquals(len(candidate.get_personal_data), 1)
+		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
+
+	def test_create_only_one_personal_data_for_the_election(self):
+		candidate = self.loader.getCandidate(self.line)
+		candidate = self.loader.getCandidate(self.line2)
+
+		self.assertEquals(candidate.election.personaldata_set.count(), 1)
+		self.assertEquals(candidate.election.personaldata_set.all()[0].label, u'Partido')
+
+	def test_election_has_only_one_background_category(self):
+		candidate = self.loader.getCandidate(self.line)
+
+		self.assertEquals(candidate.election.backgroundcategory_set.count(), 1)
+		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].name, u"Antecedentes")
+		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].background_set.count(), 1)
+		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].background_set.all()[0].name, u"¿Va a la reelección?")
+
 
 
 	def test_create_questions_by_default_for_the_election(self):
