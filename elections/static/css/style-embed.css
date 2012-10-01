@@ -51,11 +51,14 @@ body{
     overflow: hidden;
     padding: 10px;
     margin-top: 6px;
+    position: relative;
 }
 
 .contenedor2_embeded{
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+    min-height: 220px;
 }
 
 .contenedor3_embeded{
@@ -188,7 +191,8 @@ padding: 6px 0px 16px 0px;
     }
 
     .profileImg.img_medianaranja {
-        top: 202px;
+        top: 37px;
+        left: 0px;
     }
 
     .candidatesBasicInformation .tit h2 {
@@ -281,7 +285,7 @@ padding: 6px 0px 16px 0px;
         float: right;
         position: absolute;
         width: 180px;
-        top: 205px;
+        top: 60px;
         right: 0px;
     }
 
@@ -303,6 +307,7 @@ padding: 6px 0px 16px 0px;
 
     .papel_embeded .profileAside {
         right: 4px;
+        top: 127px;
     }
 
     .personalInfo {
@@ -322,6 +327,7 @@ padding: 6px 0px 16px 0px;
 
     .profileHome {
         width: 80%;
+        margin-top: 25px;
     }
 
     .sideButton_txt.compare {
