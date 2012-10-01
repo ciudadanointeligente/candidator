@@ -86,6 +86,15 @@
                         </div>
                     </div>
                     <!--ends candidate basic information-->
+
+                <aside class="profileAside2">
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare_one_candidate_embeded first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">FRENTE A FRENTE<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">ENCUENTRA TU 1/2 NARANJA<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+                </aside>
     </div>
         </div>
 
@@ -152,7 +161,6 @@
                             <!-- ends accordion-->
                         </section>
                         <!--ends posiciones-->
-
 
 
         </div>

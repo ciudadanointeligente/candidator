@@ -12,6 +12,7 @@ from django.utils import simplejson as json
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.decorators.csrf import csrf_exempt
 
 from elections.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer, VisitorScore, CategoryScore
 
@@ -92,7 +93,7 @@ def medianaranja1(request, username, election_slug):
         context = get_medianaranja1(request, username, election_slug)
         return render_to_response('medianaranja1.html', context, context_instance = RequestContext(request))
 
-
+@csrf_exempt
 def medianaranja1_embed(request, username, election_slug):
     if request.method == "POST":
         context = post_medianaranja1(request, username, election_slug)
