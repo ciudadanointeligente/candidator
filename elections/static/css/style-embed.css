@@ -255,7 +255,8 @@ padding: 6px 0px 16px 0px;
     }
 
     .tzSelect {
-    position: relative;
+        position: relative;
+        width: auto !important;
     }
 
     .firstCandidatesAnswer {

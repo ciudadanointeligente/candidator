@@ -127,7 +127,7 @@
 		width: 45%;
 	}
 
-	tzSelect .selectBox {
+	.tzSelect .selectBox {
 		font-size: 12px;
 		width: 75%;
 	}
@@ -145,7 +145,7 @@
 	.dropDown {
 		box-shadow: 0 2px 4px #999;
 		padding: 8px;
-		width: 75%;
+		width: 68%;
 		font-size: 10px;
 	}
 
