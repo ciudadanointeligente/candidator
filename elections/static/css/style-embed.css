@@ -56,8 +56,9 @@ body{
 
 .contenedor2_embeded{
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
+    min-height: 220px;
 }
 
 .contenedor3_embeded{
@@ -254,7 +255,8 @@ padding: 6px 0px 16px 0px;
     }
 
     .tzSelect {
-    position: relative;
+        position: relative;
+        width: auto !important;
     }
 
     .firstCandidatesAnswer {
@@ -306,7 +308,7 @@ padding: 6px 0px 16px 0px;
 
     .papel_embeded .profileAside {
         right: 4px;
-        top: 88px;
+        top: 127px;
     }
 
     .personalInfo {
