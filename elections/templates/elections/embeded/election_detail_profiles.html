@@ -33,7 +33,7 @@
             {% if election.candidate_set.all %}
 
             {% for candidate in election.candidate_set.all %}
-            <li>
+            <li class="{% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
                 <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
                     
                     {% thumbnail candidate.photo "115x144" crop="center" as im %}

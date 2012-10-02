@@ -78,9 +78,10 @@ class Candidate(models.Model):
 
     personal_data = models.ManyToManyField('PersonalData', through='PersonalDataCandidate')
     background = models.ManyToManyField('Background', through='BackgroundCandidate')
-
+    has_answered = models.BooleanField(default=True, verbose_name=_("Has answered?"))
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
 
     def save(self, *args, **kwargs):
         if self.pk is None:
