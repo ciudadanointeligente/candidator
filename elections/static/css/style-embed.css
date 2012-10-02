@@ -48,7 +48,7 @@ body{
 
 .contenedor1_embeded{
     border: 1px solid #D7D7D7;
-    overflow: hidden;
+    overflow: visible;
     padding: 10px;
     margin-top: 6px;
     position: relative;
@@ -308,7 +308,7 @@ padding: 6px 0px 16px 0px;
 
     .papel_embeded .profileAside {
         right: 4px;
-        top: 87px;
+        top: 60px;
     }
 
     .personalInfo {
