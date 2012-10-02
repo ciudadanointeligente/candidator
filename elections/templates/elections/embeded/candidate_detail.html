@@ -24,7 +24,7 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="contenedor1_embeded">
+    <div class="contenedor1_embeded  {% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
         <div class="tit"><h3>{{ candidate.name }}
                                 {% if election.owner.username == request.user.username %}
 
