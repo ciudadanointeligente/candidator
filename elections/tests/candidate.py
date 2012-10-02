@@ -60,6 +60,7 @@ class CandidateModelTest(TestCase):
         self.assertTrue(created)
         self.assertEqual(candidate.name, 'Juan Candidato')
         self.assertEqual(candidate.slug, 'juan-candidato')
+        self.assertTrue(candidate.has_answered)
         self.assertEqual(candidate.election, self.election)
 
     def test_update_candidate(self):
@@ -372,6 +373,7 @@ class CandidateCreateViewTest(TestCase):
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CandidateForm))
+        self.assertFalse('has_answered' in request.context['form'].fields)
         self.assertTrue('election' in request.context)
         self.assertTrue(isinstance(request.context['election'], Election))
 
@@ -520,6 +522,7 @@ class CandidateUpdateViewTest(TestCase):
 
         self.assertTrue('form' in request.context)
         self.assertTrue(isinstance(request.context['form'], CandidateUpdateForm))
+        self.assertFalse('has_answered' in request.context['form'].fields)
         self.assertTrue('name' in request.context['form'].initial)
         self.assertEquals(request.context['form'].initial['name'], 'Juan Candidato')
 
