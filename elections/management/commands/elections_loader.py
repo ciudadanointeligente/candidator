@@ -3,17 +3,22 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory, Background
 import csv
+from django.core.urlresolvers import reverse
 
 class Loader(object):
 	def __init__(self,username, lines):
 		self.user = User.objects.get(username=username)
 		self.lines = lines
+		self.csvfile = open('elections_candideitorgs.csv', 'wb')
+		self.writer = csv.writer(self.csvfile, delimiter=',')
 
 	def getElection(self, line):
 		election_name = line[1].decode('utf-8').strip()
 		election, created = Election.objects.get_or_create(name=election_name, owner=self.user)
 		
 		if(created):
+			embedded_url = reverse('election_detail_embeded',kwargs={'username': election.owner.username,'slug': election.slug})
+			self.writer.writerow([election.name, embedded_url])
 			[category.delete() for category in election.category_set.all()]
 			[personal_data.delete() for personal_data in election.personaldata_set.all()]
 			[background_category.delete() for background_category in election.backgroundcategory_set.all()]
@@ -26,13 +31,27 @@ class Loader(object):
 
 	def getCandidate(self, line):
 		candidate_name = line[0].decode('utf-8').strip()
-		partido = line[2].decode('utf-8').strip()
 		election = self.getElection(line)
 		candidate, created = Candidate.objects.get_or_create(name=candidate_name, election=election)
+		partido = line[2].decode('utf-8').strip()
 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Partido", election=election)
-		background_category, created_background_category = BackgroundCategory.objects.get_or_create(name=u"Antecedentes", election=election)
-		background, created_background = Background.objects.get_or_create(name=u"¿Va a la reelección?", category=background_category)
 		candidate.add_personal_data(personal_data, partido)
+		pacto = line[3].decode('utf-8').strip()
+		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Pacto", election=election)
+		candidate.add_personal_data(personal_data, pacto)
+		reeleccion = line[4].decode('utf-8').strip()
+		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"¿Va a Reelección?", election=election)
+		candidate.add_personal_data(personal_data, reeleccion)
+		agnos = line[5].decode('utf-8').strip()
+		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Número de años que ha sido Alcalde", election=election)
+		candidate.add_personal_data(personal_data, agnos)
+		periodos = line[6].decode('utf-8').strip()
+		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Períodos en los que ha sido Alcalde", election=election)
+		candidate.add_personal_data(personal_data, periodos)
+		postulaciones_previas = line[7].decode('utf-8').strip()
+		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Elecciones en las que ha postulado para ser Alcalde", election=election)
+		candidate.add_personal_data(personal_data, postulaciones_previas)
+		
 
 		return candidate
 

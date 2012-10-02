@@ -71,35 +71,29 @@ class ElectionLoaderIntegrationTestCase(TestCase):
 					"BORIS COLJA", 
 					"Algarrobo", 
 					"IND",
-					"bcolja@gmail.com", 
-					"http://boljaconsejal.cl", 
-					"boris.colja.en.facebook",
-					"boris_colja_twitter", 
-					"12/9/2012",
-					"12/9/2012",
-					"12/9/2012"
+					"pacto wena onda amigui",
+					"SI",
+					"20",
+					"1900-1990asdasd",
+					"19028209324dsfsdf"
 					],[
 					"PRUEBA", 
 					"Algarrobo", 
 					"NO SOY IND",
-					"prueba@gmail.com", 
-					"http://boljaconsejal.cl", 
-					"boris.colja.en.facebook",
-					"boris_colja_twitter", 
-					"12/9/2012",
-					"12/9/2012",
-					"12/9/2012"
+					"pacto wena onda amigui",
+					"NO",
+					"0",
+					"", 
+					"", 
 					],[
 					"PRUEBA2", 
 					"otra comuna", 
 					"NO SOY IND",
-					"prueba2@gmail.com", 
-					"http://boljaconsejal.cl", 
-					"boris.colja.en.facebook",
-					"boris_colja_twitter", 
-					"12/9/2012",
-					"12/9/2012",
-					"12/9/2012"
+					"pacto wena onda amigui",
+					"NO",
+					"0",
+					"", 
+					"", 
 					]]
 		self.questions = [
 			["category","la categoria1"],
@@ -161,27 +155,23 @@ class ElectionLoaderTestCase(TestCase):
 					"BORIS COLJA", 
 					"Algarrobo", 
 					"IND",
-					"bcolja@gmail.com", 
-					"http://boljaconsejal.cl", 
-					"boris.colja.en.facebook",
-					"boris_colja_twitter", 
-					"12/9/2012",
-					"12/9/2012",
-					"12/9/2012"
+					"pacto wena onda amigui",
+					"SI",
+					"20",
+					"1900-1990asdasd",
+					"19028209324dsfsdf"
 					]
 
 
 		self.line2 = [
 					"Fiera", 
 					"Algarrobo", 
-					"IND",
-					"fiera@gmail.com", 
-					"http://boljaconsejal.cl", 
-					"boris.colja.en.facebook",
-					"boris_colja_twitter", 
-					"12/9/2012",
-					"12/9/2012",
-					"12/9/2012"
+					"NO SOY IND",
+					"pacto wena onda amigui",
+					"NO",
+					"0",
+					"", 
+					"", 
 					]
 
 		self.lines = [
@@ -215,28 +205,34 @@ class ElectionLoaderTestCase(TestCase):
 		self.assertEquals(candidate.name, u"BORIS COLJA")
 		self.assertEquals(candidate.election, election)
 		self.assertTrue( u"Partido" in candidate.get_personal_data)
+		self.assertTrue( u"Pacto" in candidate.get_personal_data)
+		self.assertTrue( u"¿Va a Reelección?" in candidate.get_personal_data)
+		self.assertTrue( u"Número de años que ha sido Alcalde" in candidate.get_personal_data)
+		self.assertTrue( u"Períodos en los que ha sido Alcalde" in candidate.get_personal_data)
+		self.assertTrue( u"Elecciones en las que ha postulado para ser Alcalde" in candidate.get_personal_data)
 		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
+		self.assertEquals(candidate.get_personal_data[u'Pacto'], u'pacto wena onda amigui')
+		self.assertEquals(candidate.get_personal_data[u'¿Va a Reelección?'], u'SI')
+		self.assertEquals(candidate.get_personal_data[u'Número de años que ha sido Alcalde'], u'20')
+		self.assertEquals(candidate.get_personal_data[u'Períodos en los que ha sido Alcalde'], u'1900-1990asdasd')
+		self.assertEquals(candidate.get_personal_data[u'Elecciones en las que ha postulado para ser Alcalde'], u'19028209324dsfsdf')
 
 	def test_deletes_previous_personal_data(self):
 		candidate = self.loader.getCandidate(self.line)
 
-		self.assertEquals(len(candidate.get_personal_data), 1)
+		self.assertEquals(len(candidate.get_personal_data), 6)
 		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
 
 	def test_create_only_one_personal_data_for_the_election(self):
 		candidate = self.loader.getCandidate(self.line)
 		candidate = self.loader.getCandidate(self.line2)
 
-		self.assertEquals(candidate.election.personaldata_set.count(), 1)
-		self.assertEquals(candidate.election.personaldata_set.all()[0].label, u'Partido')
+		self.assertEquals(candidate.election.personaldata_set.filter(label=u"Partido").count(), 1)
 
 	def test_election_has_only_one_background_category(self):
 		candidate = self.loader.getCandidate(self.line)
 
-		self.assertEquals(candidate.election.backgroundcategory_set.count(), 1)
-		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].name, u"Antecedentes")
-		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].background_set.count(), 1)
-		self.assertEquals(candidate.election.backgroundcategory_set.all()[0].background_set.all()[0].name, u"¿Va a la reelección?")
+		self.assertEquals(candidate.election.backgroundcategory_set.count(), 0)
 
 
 
