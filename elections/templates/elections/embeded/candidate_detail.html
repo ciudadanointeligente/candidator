@@ -51,8 +51,6 @@
                             </div>
                         
                         <section class="personalInfo">
-                       
-                            <div>
 
                                 {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
                                     <span class="profile-description">{{ personal_data_label }}:</span>
@@ -73,10 +71,10 @@
                             </div>
 
                         </section>
-                           
+
                         </div>
-                    </div>
-                    <!--ends candidate basic information-->
+        </div>
+                        <!--ends candidate basic information-->
 
                 <aside class="profileAside2">
                             <div class="enfrentalos">
@@ -87,7 +85,6 @@
                             </div>
                 </aside>
     </div>
-        </div>
 
 
     <div class="contenedor3_embeded"><h3 class="tit_antecedentes">{% trans "Antecedentes" %}:</h3><h3 class="tit_posiciones">{% trans "Posición política en" %}: </h3></div>
