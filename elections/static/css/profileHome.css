@@ -5,11 +5,10 @@
 	background-color: #FFFFFF;
     float: left;
     margin: 0 25px 10px 0;
-    /*min-height: 157px;*/
     text-align: center;
     width: 115px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .profileHome li :hover span{
@@ -48,6 +47,13 @@
 	padding-left: 15px;
 	margin-bottom: 22px;
 	margin-top: -47px;
+}
+
+.not_answered a:after {
+	content: url("../img/no_responde.png");
+	position: absolute;
+	top: 0;
+	left: -11px;
 }
 
 /*==== aside buttons ====*/

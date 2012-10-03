@@ -65,35 +65,46 @@ class QuestionsParserTestCase(TestCase):
 		self.assertEquals(second_category_questions[0].answer_set.all()[1].caption, u"respuesta 4")
 
 
+
+
 class ElectionLoaderIntegrationTestCase(TestCase):
 	def setUp(self):
 		self.candidates = [[
-					"BORIS COLJA", 
 					"Algarrobo", 
+					"BORIS COLJA", 
+					
 					"IND",
 					"pacto wena onda amigui",
 					"SI",
 					"20",
 					"1900-1990asdasd",
-					"19028209324dsfsdf"
+					"19028209324dsfsdf",
+					"http://www.facebook.com/fieraferoz",
+					"fieraferoz"
 					],[
-					"PRUEBA", 
 					"Algarrobo", 
+					"PRUEBA", 
+					
 					"NO SOY IND",
 					"pacto wena onda amigui",
 					"NO",
 					"0",
 					"", 
-					"", 
+					"",
+					"http://www.facebook.com/fieraferoz",
+					"fieraferoz"
 					],[
-					"PRUEBA2", 
 					"otra comuna", 
+					"PRUEBA2", 
+					
 					"NO SOY IND",
 					"pacto wena onda amigui",
 					"NO",
 					"0",
 					"", 
-					"", 
+					"",
+					"http://www.facebook.com/fieraferoz",
+					"fieraferoz"
 					]]
 		self.questions = [
 			["category","la categoria1"],
@@ -109,9 +120,28 @@ class ElectionLoaderIntegrationTestCase(TestCase):
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
                                                 email='fci@ciudadanointeligente.cl')
+		self.styles = "un estilo"
+		self.loader = Loader('ciudadanointeligente', self.questions, self.styles)
+		processCandidates(self.user.username, self.candidates, self.questions, self.styles)
 
-		self.loader = Loader('ciudadanointeligente', self.questions)
-		processCandidates(self.user.username, self.candidates, self.questions)
+	def test_execute_command(self):
+		command = Command()
+		command.handle(self.user.username
+			,'elections/tests/media/candidatos.csv'
+			, 'elections/tests/media/questions.csv'
+			, 'elections/tests/media/style.css')
+		reader = open('elections/tests/media/style.css', 'rb')
+		style = reader.read()
+		self.assertEquals(Election.objects.count(),5)
+
+		self.assertEquals(Election.objects.filter(name=u"COMUNA1").count(),1)
+		self.assertEquals(Election.objects.get(name=u"COMUNA1").candidate_set.count(), 2)
+		self.assertEquals(Election.objects.get(name=u"COMUNA1").category_set.count(), 2)
+		self.assertEquals(Election.objects.get(name=u"COMUNA1").category_set.all()[0].question_set.count(), 1)
+		self.assertEquals(Election.objects.get(name=u"COMUNA2").custom_style, style)
+		self.assertEquals(Election.objects.get(name=u"COMUNA1").custom_style, style)
+
+
 
 	def test_creates_two_elections_based_on_the_list_of_candidates(self):
 		algarrobo = Election.objects.get(slug=u"algarrobo")
@@ -134,6 +164,8 @@ class ElectionLoaderIntegrationTestCase(TestCase):
 		self.assertEquals(algarrobo.category_set.all()[1].question_set.all()[0].answer_set.all()[1].caption, u"respuesta 4")
 
 
+
+
 	def test_creates_questions_and_answers_for_otra_comuna(self):
 		otra_comuna = Election.objects.get(slug=u"otra-comuna")
 
@@ -152,26 +184,43 @@ class ElectionLoaderIntegrationTestCase(TestCase):
 class ElectionLoaderTestCase(TestCase):
 	def setUp(self):
 		self.line = [
-					"BORIS COLJA", 
 					"Algarrobo", 
+					"BORIS COLJA", 
 					"IND",
 					"pacto wena onda amigui",
 					"SI",
 					"20",
 					"1900-1990asdasd",
-					"19028209324dsfsdf"
+					"19028209324dsfsdf",
+					"http://www.facebook.com/boris-colja",
+					"boris"
 					]
 
 
 		self.line2 = [
-					"Fiera", 
 					"Algarrobo", 
+					"Fiera", 
 					"NO SOY IND",
 					"pacto wena onda amigui",
 					"NO",
 					"0",
 					"", 
+					"",
+					"http://www.facebook.com/fieraferoz",
+					"fieraferoz"
+					]
+
+		self.line3 = [
+					"Algarrobo", 
+					"Fieripipooo", 
+					"NO SOY IND",
+					"pacto wena onda amigui",
+					"NO",
+					"0",
 					"", 
+					"",
+					"",
+					""
 					]
 
 		self.lines = [
@@ -188,15 +237,17 @@ class ElectionLoaderTestCase(TestCase):
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
                                                 email='fci@ciudadanointeligente.cl')
-
-		self.loader = Loader('ciudadanointeligente', self.lines)
+		self.styles = u"un estilo"
+		self.loader = Loader('ciudadanointeligente', self.lines, self.styles)
 
 	def test_creates_a_new_election(self):
 		
 		
 		election = self.loader.getElection(self.line)
+
 		self.assertEquals(election.name, u"Algarrobo")
 		self.assertEquals(election.owner, self.user)
+		self.assertEquals(election.custom_style, self.styles)
 
 
 	def test_get_candidate(self):
@@ -216,6 +267,25 @@ class ElectionLoaderTestCase(TestCase):
 		self.assertEquals(candidate.get_personal_data[u'Número de años que ha sido Alcalde'], u'20')
 		self.assertEquals(candidate.get_personal_data[u'Períodos en los que ha sido Alcalde'], u'1900-1990asdasd')
 		self.assertEquals(candidate.get_personal_data[u'Elecciones en las que ha postulado para ser Alcalde'], u'19028209324dsfsdf')
+		self.assertEquals(candidate.link_set.count(), 2)
+		self.assertEquals(candidate.link_set.get(name=u"@boris").url, u"https://twitter.com/boris")
+		self.assertEquals(candidate.link_set.get(name=u"BORIS COLJA").url, u"http://www.facebook.com/boris-colja")
+		self.assertFalse(candidate.has_answered)
+		self.assertEquals(election.backgroundcategory_set.count(), 1)
+		self.assertEquals(election.backgroundcategory_set.all()[0].name, u"Otros")
+		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.count(), 1)
+		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.all()[0].name , u"Reparos al cuestionario")
+		self.assertEquals(candidate.backgroundcandidate_set.count(), 1)
+		self.assertEquals(candidate.backgroundcandidate_set.all()[0].value, u"Sin reparos")
+
+
+	def test_get_candidate_with_no_links(self):
+		election = self.loader.getElection(self.line3)
+		candidate = self.loader.getCandidate(self.line3)
+		self.assertEquals(candidate.link_set.count(), 0)
+		self.assertFalse(candidate.has_answered)
+
+
 
 	def test_deletes_previous_personal_data(self):
 		candidate = self.loader.getCandidate(self.line)
@@ -232,7 +302,7 @@ class ElectionLoaderTestCase(TestCase):
 	def test_election_has_only_one_background_category(self):
 		candidate = self.loader.getCandidate(self.line)
 
-		self.assertEquals(candidate.election.backgroundcategory_set.count(), 0)
+		self.assertEquals(candidate.election.backgroundcategory_set.count(), 1)
 
 
 

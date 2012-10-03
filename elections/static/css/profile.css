@@ -53,6 +53,13 @@ h3 {
 	margin-right: 8px;
 }
 
+.not_answered .profileImg:after {
+    content: url("../img/no_responde.svg");
+    position: absolute;
+    top: 0;
+    left: -13px;
+}
+
 .personalInfo {
     float: left;
     font-size: 12px;
