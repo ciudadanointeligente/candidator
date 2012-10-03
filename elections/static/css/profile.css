@@ -54,10 +54,10 @@ h3 {
 }
 
 .not_answered .profileImg:after {
-    content: url("../img/no_responde(perfil).png");
+    content: url("../img/no_responde.svg");
     position: absolute;
     top: 0;
-    left: -11px;
+    left: -13px;
 }
 
 .personalInfo {

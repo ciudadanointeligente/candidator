@@ -48,7 +48,7 @@ body{
 
 .contenedor1_embeded{
     border: 1px solid #D7D7D7;
-    overflow: visible;
+    overflow: auto;
     padding: 10px;
     margin-top: 6px;
     position: relative;
@@ -316,12 +316,6 @@ padding: 6px 0px 16px 0px;
         margin-top: 0;
     }
 
-    .profileImg {
-        height: 100%;
-        width: 20%;
-        margin-top: 0;
-    }
-
     .enlacesPersonales {
         margin-top: -83px;
     }
@@ -349,6 +343,20 @@ padding: 6px 0px 16px 0px;
         padding-left: 13px;"
     }
 
+.not_answered .profileImg:after {
+    content: url("../img/no_responde.png");
+    position: absolute;
+    top: 0;
+    left: -11px;
+}
+
+.profileHome .not_answered a:after {
+    content: url("../img/no_responde.png");
+    position: absolute;
+    top: 0;
+    left: -11px;
+}
+
 /* MEDIA NARANJA */
 
 .wrap_resultados {
@@ -374,6 +382,8 @@ padding: 6px 0px 16px 0px;
 .profileImg {
     top: 202px;
     margin: 0 !important;
+    width: 115px;
+    height: 144px;
 }
 
 .otrosporcentajes_data .categoria_porcentaje p {
