@@ -228,4 +228,4 @@ DEFAULT_QUESTIONS = [{
 
 #EMBEDED WEBPAGE FOR TESTING
 
-EMBEDED_TEST_WEB = 'http://localhost:8081/admin/cei-2012/embeded'
+EMBEDED_TEST_WEB = 'http://localhost:8000/admin/cei-2012/embeded'
