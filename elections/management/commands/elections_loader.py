@@ -1,7 +1,8 @@
 # coding= utf-8
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory, Background, Link
+from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
+							 Background, Link, BackgroundCandidate
 import csv
 from django.core.urlresolvers import reverse
 
@@ -19,10 +20,13 @@ class Loader(object):
 			election.custom_style = self.styles
 			election.save()
 			embedded_url = reverse('election_detail_embeded',kwargs={'username': election.owner.username,'slug': election.slug})
-			
 			[category.delete() for category in election.category_set.all()]
 			[personal_data.delete() for personal_data in election.personaldata_set.all()]
 			[background_category.delete() for background_category in election.backgroundcategory_set.all()]
+			
+			otros = BackgroundCategory.objects.create(name=u"Otros", election=election)
+			reparos = Background.objects.create(name=u"Reparos al cuestionario", category=otros)
+
 			parser = QuestionsParser(election)
 			parser.createQuestions(self.lines)
 		return election
@@ -51,6 +55,9 @@ class Loader(object):
 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Elecciones en las que ha postulado para ser Alcalde", election=election)
 		candidate.add_personal_data(personal_data, postulaciones_previas)
 
+		reparos = election.backgroundcategory_set.all()[0].background_set.all()[0]
+
+		sin_reparos = BackgroundCandidate.objects.create(candidate=candidate, background=reparos, value=u"Sin reparos")
 
 
 		facebook_address = line[8].decode('utf-8').strip()

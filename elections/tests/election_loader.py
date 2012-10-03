@@ -271,6 +271,13 @@ class ElectionLoaderTestCase(TestCase):
 		self.assertEquals(candidate.link_set.get(name=u"@boris").url, u"https://twitter.com/boris")
 		self.assertEquals(candidate.link_set.get(name=u"BORIS COLJA").url, u"http://www.facebook.com/boris-colja")
 		self.assertFalse(candidate.has_answered)
+		self.assertEquals(election.backgroundcategory_set.count(), 1)
+		self.assertEquals(election.backgroundcategory_set.all()[0].name, u"Otros")
+		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.count(), 1)
+		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.all()[0].name , u"Reparos al cuestionario")
+		self.assertEquals(candidate.backgroundcandidate_set.count(), 1)
+		self.assertEquals(candidate.backgroundcandidate_set.all()[0].value, u"Sin reparos")
+
 
 	def test_get_candidate_with_no_links(self):
 		election = self.loader.getElection(self.line3)
@@ -295,7 +302,7 @@ class ElectionLoaderTestCase(TestCase):
 	def test_election_has_only_one_background_category(self):
 		candidate = self.loader.getCandidate(self.line)
 
-		self.assertEquals(candidate.election.backgroundcategory_set.count(), 0)
+		self.assertEquals(candidate.election.backgroundcategory_set.count(), 1)
 
 
 
