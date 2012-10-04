@@ -25,7 +25,7 @@ class Loader(object):
 			[background_category.delete() for background_category in election.backgroundcategory_set.all()]
 			
 			otros = BackgroundCategory.objects.create(name=u"Otros", election=election)
-			reparos = Background.objects.create(name=u"Reparos al cuestionario", category=otros)
+			reparos = Background.objects.create(name=u"Aclaraciones al cuestionario", category=otros)
 
 			parser = QuestionsParser(election)
 			parser.createQuestions(self.lines)
@@ -57,7 +57,7 @@ class Loader(object):
 
 		reparos = election.backgroundcategory_set.all()[0].background_set.all()[0]
 
-		sin_reparos = BackgroundCandidate.objects.create(candidate=candidate, background=reparos, value=u"Sin reparos")
+		sin_reparos = BackgroundCandidate.objects.create(candidate=candidate, background=reparos, value=u"Sin aclaraciones")
 
 
 		facebook_address = line[8].decode('utf-8').strip()
