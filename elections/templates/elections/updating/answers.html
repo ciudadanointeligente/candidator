@@ -149,7 +149,7 @@
                         <li style='margin-top: 5px; margin-bottom: 0px;'>
                             <span class="bold">{{ background.name }}:</span>
                             <p>
-                            <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="255" value="{% value_for_candidate_and_background candidate background %}"/>
+                            <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="2000" value="{% value_for_candidate_and_background candidate background %}"/>
                             </p>
                             <span id="status-b-{{ background.pk}}"></span>
                         </li>
