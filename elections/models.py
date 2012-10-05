@@ -252,7 +252,7 @@ class PersonalData(models.Model):
 class PersonalDataCandidate(models.Model):
     candidate = models.ForeignKey(Candidate)
     personal_data = models.ForeignKey(PersonalData)
-    value = models.CharField(max_length=255)
+    value = models.TextField(max_length=2000)
 
     def __unicode__(self):
         return self.candidate.name + " - " + self.personal_data.label
