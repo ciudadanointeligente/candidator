@@ -309,6 +309,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     election = models.ForeignKey('Election')
     slug = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=1)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -327,6 +328,7 @@ class Category(models.Model):
     class Meta:
         unique_together = (('election', 'slug'), ('name', 'election'))
         verbose_name_plural = 'Categories'
+        ordering = ['order']
 
     def __unicode__(self):
         return u"%s" % self.name

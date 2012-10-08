@@ -23,6 +23,7 @@ class CategoryModelTest(TestCase):
         self.assertEqual(category.name, 'FooCat')
         self.assertEqual(category.slug, 'foocat')
         self.assertEqual(category.election, self.election)
+        self.assertEqual(category.order, 1)
 
     def test_create_category_with_same_name(self):
         category = Category.objects.get_or_create(name='FooCat', election=self.election)
@@ -44,6 +45,15 @@ class CategoryModelTest(TestCase):
             self.fail('The category name can be empty')
         except ValidationError:
             pass
+
+    def test_ordered_categories(self):
+        [category.delete() for category in self.election.category_set.all()]
+        category2 = Category.objects.create(name=u'seccond election', election=self.election, order=2)
+        category1 = Category.objects.create(name=u'first election', election=self.election, order=1)
+
+        categories = Category.objects.filter(election=self.election)
+        self.assertEquals(categories[0].name, u'first election')
+        self.assertEquals(categories[1].name, u'seccond election')
 
 class CategoryCreateViewTest(TestCase):
     def setUp(self):
