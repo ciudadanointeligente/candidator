@@ -52,7 +52,7 @@ class ElectionLogoUpdateForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        exclude = ('election', 'slug')
+        exclude = ('election', 'slug', 'order')
     class Media:
         js = ('js/jquery.slug.js', )
         css = { 'all': ('css/wizard-forms.css',) }
@@ -61,7 +61,7 @@ class CategoryForm(forms.ModelForm):
 class CategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = Category
-        exclude = ('election', 'slug')
+        exclude = ('election', 'slug', 'order')
 
 
 class QuestionForm(forms.ModelForm):
