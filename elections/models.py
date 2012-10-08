@@ -275,7 +275,7 @@ class Background(models.Model):
 class BackgroundCandidate(models.Model):
     candidate = models.ForeignKey('Candidate')
     background = models.ForeignKey('Background')
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=2000)
 
     def __unicode__(self):
         return u'%s: %s' % (self.candidate, self.value)
