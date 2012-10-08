@@ -27,7 +27,8 @@ class BackgroundCategoryInline(admin.TabularInline):
 
 class CategoryInline(admin.TabularInline):
     model = Category
-    extra = 1
+    sortable_field_name = 'order'
+    extra = 0
 
 
 class ElectionAdmin(admin.ModelAdmin):
