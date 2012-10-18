@@ -85,3 +85,24 @@ admin.site.register(PersonalDataCandidate)
 admin.site.register(BackgroundCandidate)
 admin.site.register(Background)
 admin.site.register(BackgroundCategory)
+
+# admin de registro de medianaranja
+class VisitorAnswerInLine(admin.StackedInline):
+    model = VisitorAnswer
+    extra = 0
+class CategoryScoreInLine(admin.StackedInline):
+    model = CategoryScore
+    extra = 0
+class VisitorScoreInLine(admin.StackedInline):
+    model = VisitorScore
+    extra = 0
+class VisitorScoreAdmin(admin.ModelAdmin):
+    model = VisitorScore
+    extra = 0
+    inlines = [CategoryScoreInLine]
+class VisitorAdmin(admin.ModelAdmin):
+    model=Visitor
+    extra=0
+    inlines = [VisitorScoreInLine]
+admin.site.register(Visitor,VisitorAdmin)
+admin.site.register(VisitorScore,VisitorScoreAdmin)

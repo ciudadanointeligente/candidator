@@ -353,7 +353,9 @@ class Visitor(models.Model):
     election = models.ForeignKey('Election')
     election_url = models.CharField(max_length=255)
     datestamp = models.DateTimeField(auto_now=True)
-
+    def __unicode__(self):
+        return str(self.datestamp) + ' - ' + self.election_url 
+        
 class VisitorAnswer(models.Model):
     """docstring for VisitorAnswer"""
     visitor = models.ForeignKey('Visitor')
