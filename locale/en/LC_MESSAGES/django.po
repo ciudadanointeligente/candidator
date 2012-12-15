@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Candideit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-15 01:40-0500\n"
+"POT-Creation-Date: 2012-12-15 02:33-0500\n"
 "PO-Revision-Date: 2012-12-15 06:38+0000\n"
 "Last-Translator: jpmckinney <james@opennorth.ca>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/candideit/"
@@ -102,6 +102,9 @@ msgstr ""
 
 #: elections/templates/medianaranja1.html:5
 #: elections/templates/medianaranja2.html:6
+#: elections/templates/elections/embeded/medianaranja1.html:5
+#: elections/templates/elections/embeded/medianaranja2.html:7
+#, python-format
 msgid "Media Naranja, %(election_name)s"
 msgstr "Soulmate, %(election_name)s"
 
@@ -242,6 +245,11 @@ msgstr "Associate candidate answers"
 #: elections/templates/elections/associate_answer.html:36
 msgid "crear"
 msgstr "create"
+
+#: elections/templates/elections/associate_answer.html:44
+#: elections/templates/elections/updating/answers.html:201
+msgid "No hay categorías"
+msgstr ""
 
 #: elections/templates/elections/background_associate.html:6
 #: elections/templates/elections/personal_data_associate.html:5
@@ -622,9 +630,6 @@ msgid "Agregar Dato Personal"
 msgstr ""
 
 #: elections/templates/elections/users_election_list.html:5
-msgid "Las elecciones creadas por "
-msgstr ""
-
 #: elections/templates/elections/users_election_list.html:23
 #, python-format
 msgid "Las elecciones creadas por %(username)s"
@@ -638,11 +643,6 @@ msgstr ""
 #, python-format
 msgid "Sobre la elección, %(election_name)s"
 msgstr ""
-
-#: elections/templates/elections/embeded/medianaranja1.html:5
-#: elections/templates/elections/embeded/medianaranja2.html:7
-msgid "Media Naranja,"
-msgstr "Soulmate,"
 
 #: elections/templates/elections/embeded/medianaranja1.html:25
 msgid ""
@@ -734,10 +734,6 @@ msgstr ""
 msgid "Agregar o quitar alternativas?"
 msgstr ""
 
-#: elections/templates/elections/updating/answers.html:201
-msgid "No hay categorías"
-msgstr ""
-
 #: elections/templates/elections/updating/answers.html:209
 #: elections/templates/elections/updating/election_style_updating.html:32
 msgid " Guardar "
@@ -821,7 +817,7 @@ msgid "INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG"
 msgstr ""
 
 #: elections/templates/elections/updating/election_basic_information.html:44
-msgid "Dirección de tu candideitorg"
+msgid "Dirección de tu candideit.org"
 msgstr ""
 
 #: elections/templates/elections/updating/election_basic_information.html:44
@@ -875,8 +871,8 @@ msgstr ""
 
 #: elections/templates/elections/updating/menu.html:9
 #: elections/templates/elections/updating/menu.html:12
-msgid "mi candideitorg"
-msgstr ""
+msgid "mi candideit.org"
+msgstr "my candideit.org"
 
 #: elections/templates/elections/updating/menu.html:12
 msgid "Editar"
@@ -1053,15 +1049,12 @@ msgid "Carga desde tu computador una imagen para el encabezado de 850 x 80 px"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_one.html:78
-msgid "siguente"
+#: elections/templates/elections/wizard/step_two.html:58
+msgid "siguiente"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_two.html:5
 msgid "¿Quienes son los candidatos?"
-msgstr ""
-
-#: elections/templates/elections/wizard/step_two.html:58
-msgid "siguiente"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_two_point_five.html:19
@@ -1361,6 +1354,9 @@ msgstr ""
 #: templates/registration/registration_form.html:71
 msgid "Crea tu cuenta"
 msgstr "Create your account"
+
+#~ msgid "Media Naranja,"
+#~ msgstr "Soulmate,"
 
 #~ msgid "Hola"
 #~ msgstr "Hello"
