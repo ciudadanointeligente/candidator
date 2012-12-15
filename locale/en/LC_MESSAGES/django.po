@@ -98,7 +98,7 @@ msgstr "Previous elections"
 
 #: elections/templates/home.html:71
 msgid "¿Quieres ver nuestro código? revisalo acá:"
-msgstr ""
+msgstr "Want to view our code? Find it at:"
 
 #: elections/templates/medianaranja1.html:5
 #: elections/templates/medianaranja2.html:6
@@ -117,7 +117,7 @@ msgstr "Soulmate, %(election_name)s"
 #: elections/templates/elections/election_detail_profiles.html:28
 #, python-format
 msgid "Creada por %(election_owner)s"
-msgstr ""
+msgstr "Created by %(election_owner)s"
 
 #: elections/templates/medianaranja1.html:40
 #: elections/templates/elections/embeded/medianaranja1.html:23
@@ -300,13 +300,13 @@ msgstr "Candideit.org"
 #: elections/templates/elections/base_medianaranja.html:54
 #, python-format
 msgid "Hola %(username)s!"
-msgstr ""
+msgstr "Hello %(username)s!"
 
 #: elections/templates/elections/base.html:60
 #: elections/templates/elections/base_medianaranja.html:60
 #: elections/templates/elections/embeded/base_embed.html:59
 msgid "PÁGINA PRINCIPAL"
-msgstr ""
+msgstr "HOME"
 
 #: elections/templates/elections/base.html:61
 #: elections/templates/elections/base_medianaranja.html:61
@@ -367,7 +367,7 @@ msgstr "MY ELECTIONS"
 #: elections/templates/elections/embeded/candidate_detail.html:24
 #, python-format
 msgid "Perfil %(candidate_name)s, %(election_name)s"
-msgstr ""
+msgstr "%(candidate_name)s profile, %(election_name)s"
 
 #: elections/templates/elections/candidate_detail.html:55
 #: elections/templates/elections/embeded/candidate_detail.html:32
@@ -408,14 +408,14 @@ msgstr "No information available."
 #: elections/templates/elections/embeded/candidate_detail.html:82
 #: elections/templates/elections/embeded/election_detail_profiles.html:63
 msgid "FRENTE A FRENTE"
-msgstr ""
+msgstr "HEAD TO HEAD"
 
 #: elections/templates/elections/candidate_detail.html:180
 #: elections/templates/elections/election_detail_profiles.html:84
 #: elections/templates/elections/embeded/candidate_detail.html:85
 #: elections/templates/elections/embeded/election_detail_profiles.html:66
 msgid "ENCUENTRA TU 1/2 NARANJA"
-msgstr ""
+msgstr "FIND YOUR SOULMATE"
 
 #: elections/templates/elections/candidate_photo_form.html:6
 msgid "cambiar foto"
@@ -498,7 +498,7 @@ msgstr "WHERE DID YOU GET THE INFORMATION?"
 #: elections/templates/elections/embeded/election_compare.html:138
 #, python-format
 msgid "Compara, %(election_name)s"
-msgstr ""
+msgstr "Compare, %(election_name)s"
 
 #: elections/templates/elections/election_compare.html:167
 #: elections/templates/elections/embeded/election_compare.html:150
@@ -565,7 +565,7 @@ msgstr "Thank you! Your quiz has been created successfully. You can now:"
 
 #: elections/templates/elections/election_detail_admin.html:22
 msgid "PUBLICAR TU"
-msgstr ""
+msgstr "PUBLISH YOUR"
 
 #: elections/templates/elections/election_detail_admin.html:24
 #, python-format
@@ -830,7 +830,7 @@ msgstr ""
 
 #: elections/templates/elections/updating/election_basic_information.html:44
 msgid "Permalink:"
-msgstr ""
+msgstr "Permalink:"
 
 #: elections/templates/elections/updating/election_basic_information.html:48
 msgid "fecha de la elección:"
@@ -936,15 +936,15 @@ msgstr "add category"
 
 #: elections/templates/elections/updating/questions.html:106
 msgid "Otros antecedentes laborales podrían ser:"
-msgstr ""
+msgstr "Other work history could be:"
 
 #: elections/templates/elections/updating/questions.html:107
 msgid "- Prácticas profesionales"
-msgstr ""
+msgstr "- Internships"
 
 #: elections/templates/elections/updating/questions.html:108
 msgid "- Experiencia técnica"
-msgstr ""
+msgstr "- Expertise"
 
 #: elections/templates/elections/updating/questions.html:117
 msgid "c. Cuestionario"
@@ -954,7 +954,7 @@ msgstr "c. Quiz"
 msgid ""
 "Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto "
 "deben ser respondidas por todos."
-msgstr ""
+msgstr "These questions will be used to compare the candidates, so they must be answered by all."
 
 #: elections/templates/elections/updating/questions.html:151
 #: elections/templates/elections/updating/questions.html:451
@@ -1204,7 +1204,7 @@ msgstr "Activation successful"
 msgid ""
 "La clave de activación usada no existe o no está activa. Por favor intentalo "
 "nuevamente."
-msgstr ""
+msgstr "The activation key used does not exist or is not active. Please try again."
 
 #: templates/registration/activate.html:26
 #: templates/registration/activation_complete.html:10
@@ -1234,11 +1234,11 @@ msgstr "Forgot your password?"
 
 #: templates/registration/login.html:35
 msgid "login"
-msgstr ""
+msgstr "login"
 
 #: templates/registration/login.html:47
 msgid "¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás..."
-msgstr ""
+msgstr "Are you new? Welcome! To register and create your election you can..."
 
 #: templates/registration/login.html:48
 msgid "comparar los candidatos..."
@@ -1250,7 +1250,7 @@ msgstr "discover who your political soulmate is..."
 
 #: templates/registration/login.html:50
 msgid "y compartir los resultados"
-msgstr ""
+msgstr "and share the results"
 
 #: templates/registration/login.html:52
 msgid "regístrate"
@@ -1337,7 +1337,7 @@ msgstr "Your email:"
 
 #: templates/registration/registration_complete.html:4
 msgid "Registro completo"
-msgstr ""
+msgstr "Registration complete"
 
 #: templates/registration/registration_complete.html:9
 msgid "Te hemos enviado un mail"
@@ -1347,11 +1347,11 @@ msgstr "We've sent you an email"
 msgid ""
 "Te hemos enviado un mail de confirmación, recuerda que tienes 7 días para "
 "activar tu cuenta."
-msgstr ""
+msgstr "We've sent you a confirmation email. Remember, you have 7 days to activate your account."
 
 #: templates/registration/registration_form.html:3
 msgid "Registro"
-msgstr ""
+msgstr "Register"
 
 #: templates/registration/registration_form.html:10
 msgid "Registro de usuarios"
@@ -1359,11 +1359,11 @@ msgstr "User registration"
 
 #: templates/registration/registration_form.html:17
 msgid "(no debe contener espacios ni caracteres especiales)"
-msgstr ""
+msgstr "(no spaces or special characters)"
 
 #: templates/registration/registration_form.html:29
 msgid "E-mail:"
-msgstr ""
+msgstr "Email:"
 
 #: templates/registration/registration_form.html:71
 msgid "Crea tu cuenta"
