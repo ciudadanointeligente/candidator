@@ -1,0 +1,34 @@
+# You may override any of the settings in settings.py in this file.
+
+TIME_ZONE = 'America/Santiago'
+
+LANGUAGE_CODE = 'es-cl'
+
+DEFAULT_PERSONAL_DATA = ['Edad', 'Estado civil', u'Profesión', u'Género']
+
+DEFAULT_BACKGROUND_CATEGORIES = {
+    u'Educación': [
+        u'Educación primaria',
+        u'Educación secundaria',
+        u'Educación superior',
+    ],
+    u'Antecedentes laborales': [
+        u'Último trabajo',
+    ],
+}
+
+DEFAULT_QUESTIONS = [
+    {
+        'Category': u'Educación',
+        'Questions': [
+            {
+                'question': u'¿Crees que Chile debe tener una educación gratuita?',
+                'answers': [u'Sí', u'No'],
+            },
+            {
+                'question': u'¿Estas de acuerdo con la desmunicipalización?',
+                'answers': [u'Sí', u'No'],
+            },
+        ],
+    },
+]

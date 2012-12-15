@@ -229,3 +229,8 @@ DEFAULT_QUESTIONS = [{
 #EMBEDED WEBPAGE FOR TESTING
 
 EMBEDED_TEST_WEB = 'http://localhost:8000/admin/cei-2012/embeded'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
