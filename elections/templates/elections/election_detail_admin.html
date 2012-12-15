@@ -22,7 +22,7 @@
             <div class="bt_cuadrado publish"><a href="{% url election_create %}">{% trans 'PUBLICAR TU' %}</a></div>
             
             <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
-            3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">{% trans 'ir' %}</a>
+            3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
             {% endblocktrans %}</p>
    
     </div> 
