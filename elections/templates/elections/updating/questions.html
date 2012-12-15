@@ -22,7 +22,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>PREGUNTAS:<span class="celeste_preguntas"> ¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!</span></h1>
+        <h1>{% trans 'PREGUNTAS:' %}<span class="celeste_preguntas"> {% trans '¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!' %}</span></h1>
 		<hr />
         </head>
 
@@ -58,7 +58,7 @@
 
 
     <div id="antecedentes_titulo" class="edit_tit">
-        <h2>b. Antecedentes</h2>
+        <h2>{% trans 'b. Antecedentes' %}</h2>
     </div>
 <div class="wrapper_preguntas">
     <ul id="lista_categorias">
@@ -86,7 +86,7 @@
                            id="id_{{ forloop.counter }}_{{ html_name }}" 
                            placeholder="agregar antecedente" />
                     {% endwith %}
-                    <a class="bt_input save_background_link" href="#" pk="{{ background_category.pk}}" >agregar
+                    <a class="bt_input save_background_link" href="#" pk="{{ background_category.pk}}" >{% trans 'agregar' %}
                     </a>
                 </p>
             </ul>
@@ -96,16 +96,16 @@
             <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
                                name="{{ backgroundcategory_form.name.html_name }}"
                                placeholder="agregar categoría" />
-            <a class="bt_input save_background_category_link" href="#" pk="{{election.pk}}">agregar categoría
+            <a class="bt_input save_background_category_link" href="#" pk="{{election.pk}}">{% trans 'agregar categoría' %}
             </a>
         </p>
     </ul>
     <br/>
     
     <aside class='guide'>
-            <div class="ejAntecedentes"> Otros antecedentes laborales podrían ser:<br />
-- Prácticas profesionales<br />
-- Experiencia técnica</div>
+            <div class="ejAntecedentes"> {% trans 'Otros antecedentes laborales podrían ser:' %}<br />
+{% trans '- Prácticas profesionales' %}<br />
+{% trans '- Experiencia técnica' %}</div>
             </aside>
 
 </div>
@@ -114,8 +114,8 @@
  
  
 
-    <h2 id="lista_preguntas_titulo">c. Cuestionario</h2>
-    <div class="ayuda">Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto deben ser respondidas por todos.</div>
+    <h2 id="lista_preguntas_titulo">{% trans 'c. Cuestionario' %}</h2>
+    <div class="ayuda">{% trans 'Estas preguntas se utilizaran para comparar a los candidatos, por lo tanto deben ser respondidas por todos.' %}</div>
 <div class="wrapper_preguntas">
 
     <ul id="lista_preguntas">
@@ -182,7 +182,7 @@
             {% with category_form.name.html_name as html_name %}
             <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
             {% endwith %}
-            <a class="bt_input save_category_link" href="#" pk="{{election.pk}}">agregar categoría
+            <a class="bt_input save_category_link" href="#" pk="{{election.pk}}">{% trans 'agregar categoría' %}
             </a>
         </p>
     </ul>
@@ -200,7 +200,7 @@
 <script type="text/javascript">
 
 function personal_data_delete(personal_data_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar este dato personal?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este dato personal?' %}");
     if(answer){
         var dir = "/"+personal_data_pk +"/personal_data/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -214,7 +214,7 @@ function personal_data_delete(personal_data_pk){
 }
 
 function background_category_delete(category_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta categoría?' %}");
     if(answer){
         var dir = "/"+category_pk +"/background_category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -228,7 +228,7 @@ function background_category_delete(category_pk){
 }
 
 function background_delete(background_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar este antecedente?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este antecedente?' %}");
     if(answer){
         var dir = "/"+background_pk +"/background/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -242,7 +242,7 @@ function background_delete(background_pk){
 }
 
 function category_delete(category_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta categoría?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta categoría?' %}");
     if(answer){
         var dir = "/"+category_pk +"/category/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -263,7 +263,7 @@ function category_delete(category_pk){
 }
 
 function question_delete(question_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta pregunta?' %}");
     if(answer){
         var dir = "/"+question_pk +"/question/async_delete/";
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -288,7 +288,7 @@ function question_delete(question_pk){
     }
 }
 function answer_delete(answer_pk){
-    var answer = confirm("¿Estas seguro que quieres eliminar esta pregunta?");
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta pregunta?' %}");
     if(answer){
         var dir = "/answer_delete/"+answer_pk;
         $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' },
@@ -329,10 +329,10 @@ function saveAnswerLink(link){
 }
 $(document).ready(function() {
 
-    var default_texts = [["li[id^=add_background_] input#id_name"   , "agregar antecedente"],
-                         ["li[id^=add_question_] input#id_question" , "agregar pregunta"],
-                         ["#add_category input"                     , "agregar categoría"],
-                         ["li#add_backgroundcategory input"         , "agregar categoría"]];
+    var default_texts = [["li[id^=add_background_] input#id_name"   , "{% trans 'agregar antecedente' %}"],
+                         ["li[id^=add_question_] input#id_question" , "{% trans 'agregar pregunta' %}"],
+                         ["#add_category input"                     , "{% trans 'agregar categoría' %}"],
+                         ["li#add_backgroundcategory input"         , "{% trans 'agregar categoría' %}"]];
                          /*
     for (var i = 0; i < default_texts.length; i++) {
         $(default_texts[i][0]).val(default_texts[i][1])
@@ -418,8 +418,8 @@ $(document).ready(function() {
                 last_id = Math.max(num, last_id)
             });
             last_id++;
-            var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar antecedente" class="add_background_name" />'
-            var content ='<li id="background_category_'+data.pk+'"><div class="categoriasAntecedentes"><h3>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_background_list_'+data.pk+'" class="backgrounds"><p id="add_background_'+data.pk+'">' + background_input  + '<a class="bt_input save_background_link" href="#" pk="'+data.pk+'" >agregar</a></p></ul></li>';
+            var background_input = '<input type="text" name="{{ background_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="{% trans 'agregar antecedente' %}" class="add_background_name" />'
+            var content ='<li id="background_category_'+data.pk+'"><div class="categoriasAntecedentes"><h3>'+data.name+'<a href="javascript:void(0);" onclick="background_category_delete('+data.pk+'); return false;"><img style="margin-top:-2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_background_list_'+data.pk+'" class="backgrounds"><p id="add_background_'+data.pk+'">' + background_input  + '<a class="bt_input save_background_link" href="#" pk="'+data.pk+'" >{% trans 'agregar' %}</a></p></ul></li>';
 
             var lista = $("ul#lista_categorias")
             lista.children().last().before(content)
@@ -448,7 +448,7 @@ $(document).ready(function() {
         function(data) {
 
             if(!('error' in data)){
-                var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">agregar</a></p><div class="answersError"></div></form></li></ul></div></li>';
+                var content = '<li id="question_'+data.pk+'"><div class="bold">'+data.question+'<a href="javascript:void(0);" onclick="question_delete('+data.pk+'); return false;"><img style="margin-top:-1px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png" /></a></div><div><ul class="list_of_answers"><li><form class="answerform" style="margin-bottom: 13px;" method="POST" action="/answer_create/'+data.pk+'.json"><div style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" /></div><p><input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" /><a href="javascript:void(0);" onclick="saveAnswerLink(this);" class="bt_input save_answer_link" pk="'+data.pk+'">{% trans 'agregar' %}</a></p><div class="answersError"></div></form></li></ul></div></li>';
 
 
                 var lista = $("ul#id_question_list_"+category_pk);
@@ -487,12 +487,12 @@ $(document).ready(function() {
                 last_id = Math.max(num, last_id)
             });
             last_id++;
-            var question_input = '<input type="text" name="{{ question_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="agregar pregunta" class="question_input"/>';
+            var question_input = '<input type="text" name="{{ question_form.name.html_name }}" id="id_' + last_id + '_{{ background_form.name.html_name }}" placeholder="{% trans 'agregar pregunta' %}" class="question_input"/>';
 
             var content = '<li id="category_'+data.pk+'"><div class="categoriasAntecedentes">' +
                     '<h3>'+data.name+'' +
                     '<a href="javascript:void(0);" onclick="category_delete('+data.pk+'); return false;">' +
-                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">agregar</a></p><div class="questionsError"></div></div></ul></li>';
+                    '<img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/></a></h3></div><ul id="id_question_list_'+data.pk+'"><div class="addQuestion"><p id="add_question_'+data.pk+'">' + question_input + '<a class="bt_input  save_question_link" href="#" pk="'+data.pk+'">{% trans 'agregar' %}</a></p><div class="questionsError"></div></div></ul></li>';
 
             var lista = $("ul#lista_preguntas")
             lista.children().last().before(content)

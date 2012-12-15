@@ -18,7 +18,7 @@
 {% endblock extra_js %}
 
 {% block title %}
-   {% trans 'Perfil' %} {{ candidate.name }}, {{ election.name }} - {{ block.super }}
+   {% blocktrans with candidate_name=candidate.name election_name=election.name %}Perfil {{ candidate_name }}, {{ election_name }}{% endblocktrans %} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}
@@ -28,7 +28,7 @@
 
     {% include 'election_logo.html' %}
 
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - Creada por {{election.owner}}</span></a>
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></a>
 {% link_to_updating_this_election request.user election %}
     <div style="float:right">
 
@@ -90,7 +90,7 @@
                             
                            
                             <section class="enlacesPersonales">
-                                <h3 style="display:none;">{% trans "Enlaces personales" %}:</h3>
+                                <h3 style="display:none;">{% trans "Enlaces personales:" %}</h3>
                                 <ul class="ulEnlacesPersonales">
                                     {% for link in candidate.link_set.all %}
                                     <li class="{{ link.css_class }}"><a target="_blank" href="{{ link.http_prefix }}">{{ link.name }}</a></li>
@@ -104,7 +104,7 @@
         </div>
 
 
-    <div class="contenedor3"><h3 style="float: left; width: 280px; padding-left: 13px;">{% trans "Antecedentes" %}:</h3><h3 style="float: left; width: 519px; padding-left: 13px;">{% trans "Posición política en" %}: </h3></div>
+    <div class="contenedor3"><h3 style="float: left; width: 280px; padding-left: 13px;">{% trans "Antecedentes:" %}</h3><h3 style="float: left; width: 519px; padding-left: 13px;">{% trans "Posición política en:" %} </h3></div>
     <div class="contenedor1">
             <div class="contenedor2">
 
@@ -174,10 +174,10 @@
 
                 <aside class="profileAside">
                             <div class="enfrentalos">
-                                <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">FRENTE A FRENTE<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                                <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
                             </div>
                             <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">ENCUENTRA TU 1/2 NARANJA<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                                <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
                             </div>
                 </aside>
 

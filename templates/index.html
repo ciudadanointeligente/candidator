@@ -9,12 +9,12 @@
 
 {% block content %}
 <ul>
-<li><a href="/admin/">Administrador</a></li>
+<li><a href="/admin/">{% trans 'Administrador' %}</a></li>
 <li></li>
-<li><a href="/accounts/register/">Registrar usuario</a></li>
-<li><a href="/elections">Elecciones</a></li>
+<li><a href="/accounts/register/">{% trans 'Registrar usuario' %}</a></li>
+<li><a href="/elections">{% trans 'Elecciones' %}</a></li>
 {% if user.is_authenticated %}
-    <li><a href="/my_elections">Mis Elecciones</a></li>
+    <li><a href="/my_elections">{% trans 'Mis Elecciones' %}</a></li>
 {% endif %}
 </ul>
 {% endblock content %}

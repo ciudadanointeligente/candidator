@@ -43,7 +43,7 @@
             <a href="http://www.ciudadanointeligente.org">
             <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
             </a>
-            <h1 style="display: none;">Candideit.org</h1>
+            <h1 style="display: none;">{% trans 'Candideit.org' %}</h1>
         </header>
         <nav id="mainNavigation">
             <div class="wrapBasic">
@@ -51,7 +51,7 @@
                 <ul class="leftNav">
                     <li>
                         {% if user.is_authenticated %}
-                        <a href="{% url my_election_list %}">{% trans "Hola" %} {{user.username}}!</a>
+                        <a href="{% url my_election_list %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -72,7 +72,7 @@
         </nav>
       </div>
 <div class="papel">
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ><p>crear una nueva elección</p></a></div>
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ><p>{% trans 'crear una nueva elección' %}</p></a></div>
 {% block content %}
 {% endblock content %}
 </div>

@@ -11,7 +11,7 @@
 <meta property="og:type" content="" />
 <meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" />
 <meta property="og:description" content="{{ election.description }}" />
-<meta property="og:site_name" content="candideit.org" />
+<meta property="og:site_name" content="{% trans 'candideit.org' %}" />
 {% endblock extra_head %}
 
 {% block content %}
