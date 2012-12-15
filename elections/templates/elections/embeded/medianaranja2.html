@@ -21,7 +21,7 @@
 {% endif %}
 <meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" />
 <meta property="og:description" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
-<meta property="og:site_name" content="candideit.org" />
+<meta property="og:site_name" content="{% trans 'candideit.org' %}" />
 {% endblock extra_head %}
 
 {% block extra_js %}

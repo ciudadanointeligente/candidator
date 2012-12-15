@@ -56,7 +56,7 @@
                     <div class="wrapBasic_embeded">
                         
                         <ul>
-                            <!-- <li> <a href="/index">PÁGINA PRINCIPAL</a> </li> -->
+                            <!-- <li> <a href="/index">{% trans 'PÁGINA PRINCIPAL' %}</a> </li> -->
                             <li> <a href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
                             <li> <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
                             <li> <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>

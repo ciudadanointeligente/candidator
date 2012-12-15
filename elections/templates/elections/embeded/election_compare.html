@@ -135,7 +135,7 @@
 {% endblock extra_js %}
 
 {% block title %}
-{% trans "Compara" %}, {{ election.name }} - {{ block.super }}
+{% blocktrans with election_name=election.name %}Compara, {{ election_name }}{% endblocktrans %} - {{ block.super }}
 {% endblock title %}
 
 {% block content %}
