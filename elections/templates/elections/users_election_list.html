@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-{% trans 'Las elecciones creadas por ' %} {{ owner.username }}
+{% blocktrans with username=owner.username %}Las elecciones creadas por {{ username }}{% endblocktrans %}
 {% endblock title %}
 
 {% block extra_head %}
