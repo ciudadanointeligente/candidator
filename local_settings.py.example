@@ -1,3 +1,4 @@
+# encoding=UTF-8
 # You may override any of the settings in settings.py in this file.
 
 TIME_ZONE = 'America/Santiago'
