@@ -18,3 +18,5 @@
 .Trashes
 media/*
 .idea/
+
+local_settings.py
