@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Candidator1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-15 01:22-0500\n"
+"POT-Creation-Date: 2012-12-16 01:43-0500\n"
 "PO-Revision-Date: 2012-07-27 13:18-0300\n"
 "Last-Translator: Luis Felipe Álvarez Burgos <falvarez@ciudadanointeligente."
 "cl>\n"
@@ -34,8 +34,18 @@ msgstr ""
 msgid "DE DONDE OBTUVISTE LA INFORMACIÓN:"
 msgstr ""
 
+#: elections/models.py:29
+msgid "por último escoge una imagen que la represente:"
+msgstr ""
+
 #: elections/models.py:32
 msgid "fecha en que ocurrirá:"
+msgstr ""
+
+#: elections/models.py:72
+#: elections/templates/elections/updating/answers.html:70
+#: templates/profiles/profile_detail.html:8
+msgid "Nombre:"
 msgstr ""
 
 #: elections/models.py:81
@@ -239,6 +249,11 @@ msgstr ""
 msgid "crear"
 msgstr ""
 
+#: elections/templates/elections/associate_answer.html:44
+#: elections/templates/elections/updating/answers.html:201
+msgid "No hay categorías"
+msgstr ""
+
 #: elections/templates/elections/background_associate.html:6
 #: elections/templates/elections/personal_data_associate.html:5
 msgid "Candidato:"
@@ -268,7 +283,8 @@ msgid "guardar"
 msgstr ""
 
 #: elections/templates/elections/background_form.html:5
-msgid "Antecedentes para"
+#, python-format
+msgid "Antecedentes para %(category_name)s"
 msgstr ""
 
 #: elections/templates/elections/base.html:21
@@ -617,9 +633,6 @@ msgid "Agregar Dato Personal"
 msgstr ""
 
 #: elections/templates/elections/users_election_list.html:5
-msgid "Las elecciones creadas por "
-msgstr ""
-
 #: elections/templates/elections/users_election_list.html:23
 #, python-format
 msgid "Las elecciones creadas por %(username)s"
@@ -675,11 +688,6 @@ msgstr ""
 msgid "Cambiar"
 msgstr ""
 
-#: elections/templates/elections/updating/answers.html:70
-#: templates/profiles/profile_detail.html:8
-msgid "Nombre:"
-msgstr ""
-
 #: elections/templates/elections/updating/answers.html:81
 msgid "Agregar o quitar datos personales"
 msgstr ""
@@ -722,10 +730,6 @@ msgstr ""
 
 #: elections/templates/elections/updating/answers.html:195
 msgid "Agregar o quitar alternativas?"
-msgstr ""
-
-#: elections/templates/elections/updating/answers.html:201
-msgid "No hay categorías"
 msgstr ""
 
 #: elections/templates/elections/updating/answers.html:209
@@ -781,6 +785,7 @@ msgid "Candidato %(num)s"
 msgstr ""
 
 #: elections/templates/elections/updating/candidates.html:50
+#: elections/templates/elections/updating/questions.html:47
 #: elections/templates/elections/updating/questions.html:89
 #: elections/templates/elections/updating/questions.html:152
 #: elections/templates/elections/updating/questions.html:422
@@ -811,7 +816,7 @@ msgid "INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG"
 msgstr ""
 
 #: elections/templates/elections/updating/election_basic_information.html:44
-msgid "Dirección de tu candideitorg"
+msgid "Dirección de tu candideit.org"
 msgstr ""
 
 #: elections/templates/elections/updating/election_basic_information.html:44
@@ -856,7 +861,7 @@ msgid "EL ESTILO DE TU CANDIDATOR"
 msgstr ""
 
 #: elections/templates/elections/updating/menu.html:4
-msgid "Editando la elección: "
+msgid "Editando la elección:"
 msgstr ""
 
 #: elections/templates/elections/updating/menu.html:9
@@ -865,7 +870,7 @@ msgstr ""
 
 #: elections/templates/elections/updating/menu.html:9
 #: elections/templates/elections/updating/menu.html:12
-msgid "mi candideitorg"
+msgid "mi candideit.org"
 msgstr ""
 
 #: elections/templates/elections/updating/menu.html:12
@@ -909,11 +914,24 @@ msgid ""
 "Candideit.org.\""
 msgstr ""
 
+#: elections/templates/elections/updating/questions.html:46
+msgid "agregar dato personal"
+msgstr ""
+
 #: elections/templates/elections/updating/questions.html:61
 msgid "b. Antecedentes"
 msgstr ""
 
+#: elections/templates/elections/updating/questions.html:87
+#: elections/templates/elections/updating/questions.html:332
+#: elections/templates/elections/updating/questions.html:421
+#: elections/templates/elections/wizard/step_four.html:47
+msgid "agregar antecedente"
+msgstr ""
+
+#: elections/templates/elections/updating/questions.html:98
 #: elections/templates/elections/updating/questions.html:99
+#: elections/templates/elections/updating/questions.html:183
 #: elections/templates/elections/updating/questions.html:185
 #: elections/templates/elections/updating/questions.html:334
 #: elections/templates/elections/updating/questions.html:335
@@ -947,6 +965,12 @@ msgstr ""
 msgid "agregar alternativa de respuesta"
 msgstr ""
 
+#: elections/templates/elections/updating/questions.html:170
+#: elections/templates/elections/updating/questions.html:333
+#: elections/templates/elections/updating/questions.html:490
+msgid "agregar pregunta"
+msgstr ""
+
 #: elections/templates/elections/updating/questions.html:172
 msgid "agregar "
 msgstr ""
@@ -971,16 +995,6 @@ msgstr ""
 #: elections/templates/elections/updating/questions.html:291
 #: elections/templates/elections/wizard/step_five.html:119
 msgid "¿Estas seguro que quieres eliminar esta pregunta?"
-msgstr ""
-
-#: elections/templates/elections/updating/questions.html:332
-#: elections/templates/elections/updating/questions.html:421
-msgid "agregar antecedente"
-msgstr ""
-
-#: elections/templates/elections/updating/questions.html:333
-#: elections/templates/elections/updating/questions.html:490
-msgid "agregar pregunta"
 msgstr ""
 
 #: elections/templates/elections/updating/share.html:5
@@ -1043,15 +1057,12 @@ msgid "Carga desde tu computador una imagen para el encabezado de 850 x 80 px"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_one.html:78
-msgid "siguente"
+#: elections/templates/elections/wizard/step_two.html:58
+msgid "siguiente"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_two.html:5
 msgid "¿Quienes son los candidatos?"
-msgstr ""
-
-#: elections/templates/elections/wizard/step_two.html:58
-msgid "siguiente"
 msgstr ""
 
 #: elections/templates/elections/wizard/step_two_point_five.html:19
