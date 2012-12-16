@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Candideit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-15 02:35-0500\n"
+"POT-Creation-Date: 2012-12-16 02:01-0500\n"
 "PO-Revision-Date: 2012-12-15 07:31+0000\n"
 "Last-Translator: jpmckinney <james@opennorth.ca>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/candideit/"
@@ -33,11 +33,21 @@ msgstr "ELECTION DESCRIPTION:"
 
 #: elections/models.py:28
 msgid "DE DONDE OBTUVISTE LA INFORMACIÓN:"
-msgstr "WHERE DID YOU GET THE INFORMATION:"
+msgstr "WHERE DID YOU GET THE INFORMATION?"
+
+#: elections/models.py:29
+msgid "por último escoge una imagen que la represente:"
+msgstr "choose an image to represent the election:"
 
 #: elections/models.py:32
 msgid "fecha en que ocurrirá:"
 msgstr "election date:"
+
+#: elections/models.py:72
+#: elections/templates/elections/updating/answers.html:70
+#: templates/profiles/profile_detail.html:8
+msgid "Nombre:"
+msgstr "Name:"
 
 #: elections/models.py:81
 msgid "Has answered?"
@@ -132,7 +142,7 @@ msgid ""
 "declarado. Son las posiciones REALES de los candidatos."
 msgstr ""
 "The political soulmate application tells you your compatibility with your "
-"electoral candidates. This is NOT a game. We only display issues and options "
+"electoral candidates. This is NOT a game. We only display questions "
 "on which the candidates have declared their position. They are the ACTUAL "
 "positions of the candidates."
 
@@ -195,6 +205,12 @@ msgstr "My political soulmate in %(election_name)s is %(candidate_name)s."
 msgid "candideit.org"
 msgstr "candideit.org"
 
+#: elections/templates/medianaranja2.html:31
+#: elections/templates/elections/base.html:104
+#: elections/templates/elections/embeded/medianaranja2.html:32
+msgid "es_LA"
+msgstr "en_US"
+
 #: elections/templates/medianaranja2.html:54
 #: elections/templates/elections/embeded/medianaranja2.html:47
 msgid "Tu media naranja política es ..."
@@ -203,7 +219,7 @@ msgstr "Your political soulmate is..."
 #: elections/templates/medianaranja2.html:60
 #: elections/templates/elections/embeded/medianaranja2.html:53
 #, python-format
-msgid "%(candidate_name)s con un %(score)s%% total de afinidad. "
+msgid "%(candidate_name)s con un %(score)s%% total de afinidad."
 msgstr "%(candidate_name)s with a total affinity of %(score)s%%."
 
 #: elections/templates/medianaranja2.html:63
@@ -227,6 +243,7 @@ msgstr "Add answer"
 #: elections/templates/elections/answer_form.html:17
 #: elections/templates/elections/background_form.html:19
 #: elections/templates/elections/category_form.html:44
+#: elections/templates/elections/updating/election_basic_information.html:83
 msgid "Guardar"
 msgstr "Save"
 
@@ -372,7 +389,7 @@ msgstr "%(candidate_name)s profile, %(election_name)s"
 #: elections/templates/elections/candidate_detail.html:55
 #: elections/templates/elections/embeded/candidate_detail.html:32
 msgid "editar respuestas"
-msgstr "edit responses"
+msgstr "edit data"
 
 #: elections/templates/elections/candidate_detail.html:75
 msgid "Información personal"
@@ -465,7 +482,7 @@ msgstr "5."
 #: elections/templates/elections/updating/answers.html:168
 #: elections/templates/elections/wizard/step_five.html:24
 msgid "Cuestionario"
-msgstr "Quiz"
+msgstr "Questionnaire"
 
 #: elections/templates/elections/category_form.html:35
 msgid "Agregar nueva categoría"
@@ -517,7 +534,7 @@ msgstr "Select a candidate"
 #: elections/templates/elections/embeded/election_compare.html:303
 #: elections/templates/elections/embeded/election_compare.html:311
 msgid "No hay respuesta"
-msgstr "No answers"
+msgstr "No answer"
 
 #: elections/templates/elections/election_compare.html:338
 #: elections/templates/elections/embeded/election_compare.html:321
@@ -561,7 +578,8 @@ msgstr "candidates"
 
 #: elections/templates/elections/election_detail_admin.html:20
 msgid "Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:"
-msgstr "Thank you! Your quiz has been created successfully. You can now:"
+msgstr ""
+"Thank you! Your questionnaire has been created successfully. You can now:"
 
 #: elections/templates/elections/election_detail_admin.html:22
 msgid "PUBLICAR TU"
@@ -654,13 +672,13 @@ msgid ""
 "Son las posiciones REALES de los candidatos."
 msgstr ""
 "The political soulmate application tells you your compatibility with your "
-"electoral candidates. This is NOT a game. We only display issues and options "
+"electoral candidates. This is NOT a game. We only display questions "
 "on which the candidates have declared their position. They are the ACTUAL "
 "positions of the candidates."
 
 #: elections/templates/elections/updating/answers.html:7
 msgid "Cuestionario de candidato"
-msgstr "Candidate quiz"
+msgstr "Candidate questionnaire"
 
 #: elections/templates/elections/updating/answers.html:24
 #: elections/templates/elections/wizard/wizard_menu.html:6
@@ -673,7 +691,7 @@ msgstr "ANSWERS:"
 
 #: elections/templates/elections/updating/answers.html:28
 msgid "COMPLETA EL PERFIL DE CADA CANDIDATO"
-msgstr "COMPLETE EACH CANDIDATE'S PROFILE"
+msgstr "COMPLETE CANDIDATE PROFILES"
 
 #: elections/templates/elections/updating/answers.html:30
 msgid ""
@@ -693,14 +711,9 @@ msgstr "PERSONAL INFORMATION"
 msgid "Cambiar"
 msgstr "Change"
 
-#: elections/templates/elections/updating/answers.html:70
-#: templates/profiles/profile_detail.html:8
-msgid "Nombre:"
-msgstr "Name:"
-
 #: elections/templates/elections/updating/answers.html:81
 msgid "Agregar o quitar datos personales"
-msgstr "Add or remove personal information"
+msgstr "Add or remove fields"
 
 #: elections/templates/elections/updating/answers.html:100
 msgid "@twitter"
@@ -732,15 +745,15 @@ msgstr "Background History"
 
 #: elections/templates/elections/updating/answers.html:141
 msgid "Agregar o quitar antecedentes"
-msgstr "Add or remove background history"
+msgstr "Add or remove sections"
 
 #: elections/templates/elections/updating/answers.html:170
 msgid "Agregar o quitar datos preguntas"
-msgstr "Add or remove quiz questions"
+msgstr "Add or remove questions"
 
 #: elections/templates/elections/updating/answers.html:195
 msgid "Agregar o quitar alternativas?"
-msgstr "Add or remove alternatives?"
+msgstr "Add or remove possible answers"
 
 #: elections/templates/elections/updating/answers.html:209
 #: elections/templates/elections/updating/election_style_updating.html:32
@@ -795,6 +808,7 @@ msgid "Candidato %(num)s"
 msgstr "Candidate %(num)s"
 
 #: elections/templates/elections/updating/candidates.html:50
+#: elections/templates/elections/updating/questions.html:47
 #: elections/templates/elections/updating/questions.html:89
 #: elections/templates/elections/updating/questions.html:152
 #: elections/templates/elections/updating/questions.html:422
@@ -822,7 +836,7 @@ msgstr "ELECTION:"
 
 #: elections/templates/elections/updating/election_basic_information.html:27
 msgid "INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG"
-msgstr "GENERAL INFORMATION ABOUT YOUR CANDIDEIT.ORG:"
+msgstr "ELECTION DESCRIPTION:"
 
 #: elections/templates/elections/updating/election_basic_information.html:44
 msgid "Dirección de tu candideit.org"
@@ -871,7 +885,7 @@ msgstr "YOUR CANDIDATOR'S STYLE"
 
 #: elections/templates/elections/updating/menu.html:4
 msgid "Editando la elección:"
-msgstr "Editing the election:"
+msgstr "Editing election:"
 
 #: elections/templates/elections/updating/menu.html:9
 msgid "Rellenar"
@@ -911,28 +925,43 @@ msgstr "QUESTIONS:"
 #: elections/templates/elections/updating/questions.html:25
 msgid ""
 "¿QUÉ INFO MOSTRARÁS EN EL PERFIL DE CADA CANDIDATO? PERSONALIZA TU PLANTILLA!"
-msgstr ""
+msgstr "CUSTOMIZE THE CANDIDATE PROFILE FORM"
 
 #: elections/templates/elections/updating/questions.html:30
 msgid "a. datos personales del candidato"
-msgstr "a. candidate's personal information"
+msgstr "a. Personal information"
 
 #: elections/templates/elections/updating/questions.html:31
 msgid ""
 "Las respuestas de cada candidato las agregarás en la sección \"Rellena mi "
 "Candideit.org.\""
 msgstr ""
+"After setting up the form, you may enter the data for each candidate in the "
+"section \"Fill in my Candideit.org\""
+
+#: elections/templates/elections/updating/questions.html:46
+msgid "agregar dato personal"
+msgstr "add field"
 
 #: elections/templates/elections/updating/questions.html:61
 msgid "b. Antecedentes"
 msgstr "b. Background History"
 
+#: elections/templates/elections/updating/questions.html:87
+#: elections/templates/elections/updating/questions.html:332
+#: elections/templates/elections/updating/questions.html:421
+#: elections/templates/elections/wizard/step_four.html:47
+msgid "agregar antecedente"
+msgstr "add field"
+
+#: elections/templates/elections/updating/questions.html:98
 #: elections/templates/elections/updating/questions.html:99
+#: elections/templates/elections/updating/questions.html:183
 #: elections/templates/elections/updating/questions.html:185
 #: elections/templates/elections/updating/questions.html:334
 #: elections/templates/elections/updating/questions.html:335
 msgid "agregar categoría"
-msgstr "add category"
+msgstr "add section"
 
 #: elections/templates/elections/updating/questions.html:106
 msgid "Otros antecedentes laborales podrían ser:"
@@ -948,7 +977,7 @@ msgstr "- Expertise"
 
 #: elections/templates/elections/updating/questions.html:117
 msgid "c. Cuestionario"
-msgstr "c. Quiz"
+msgstr "c. Questionnaire"
 
 #: elections/templates/elections/updating/questions.html:118
 msgid ""
@@ -959,7 +988,13 @@ msgstr "All candidates must answer the following questions."
 #: elections/templates/elections/updating/questions.html:151
 #: elections/templates/elections/updating/questions.html:451
 msgid "agregar alternativa de respuesta"
-msgstr "add answer"
+msgstr "add possible answer"
+
+#: elections/templates/elections/updating/questions.html:170
+#: elections/templates/elections/updating/questions.html:333
+#: elections/templates/elections/updating/questions.html:490
+msgid "agregar pregunta"
+msgstr "add question"
 
 #: elections/templates/elections/updating/questions.html:172
 msgid "agregar "
@@ -987,16 +1022,6 @@ msgstr "Are you sure you want to delete this background history?"
 msgid "¿Estas seguro que quieres eliminar esta pregunta?"
 msgstr "Are you sure you want to delete this question?"
 
-#: elections/templates/elections/updating/questions.html:332
-#: elections/templates/elections/updating/questions.html:421
-msgid "agregar antecedente"
-msgstr "add background history"
-
-#: elections/templates/elections/updating/questions.html:333
-#: elections/templates/elections/updating/questions.html:490
-msgid "agregar pregunta"
-msgstr "add answer"
-
 #: elections/templates/elections/updating/share.html:5
 #: elections/templates/elections/updating/share.html:20
 msgid "Comparte tu elección"
@@ -1016,7 +1041,7 @@ msgstr "Insert this code on your site:"
 
 #: elections/templates/elections/wizard/step_five.html:5
 msgid "Cuestionario de preguntas"
-msgstr "Quiz questions"
+msgstr "Questionnaire questions"
 
 #: elections/templates/elections/wizard/step_five.html:43
 msgid "Agrega tus preguntas y asígnales una categoría..."
@@ -1042,7 +1067,7 @@ msgstr "To begin, complete the following..."
 
 #: elections/templates/elections/wizard/step_one.html:46
 msgid "¿Cuándo ocurrirá?"
-msgstr "When will it occur?"
+msgstr "Election date:"
 
 #: elections/templates/elections/wizard/step_one.html:51
 msgid "Selecciona la plantilla de tu elección"
@@ -1154,7 +1179,7 @@ msgstr "Election"
 #: elections/templatetags/election_tags.py:22
 #: elections/tests/candidate_answer.py:62
 msgid "Aún no hay respuesta"
-msgstr "Still no answers"
+msgstr "No answer yet"
 
 #: templates/404.html:4
 msgid "404"
@@ -1204,7 +1229,8 @@ msgstr "Activation successful"
 msgid ""
 "La clave de activación usada no existe o no está activa. Por favor intentalo "
 "nuevamente."
-msgstr "The activation key used does not exist or is not active. Please try again."
+msgstr ""
+"The activation key used does not exist or is not active. Please try again."
 
 #: templates/registration/activate.html:26
 #: templates/registration/activation_complete.html:10
@@ -1347,7 +1373,9 @@ msgstr "We've sent you an email"
 msgid ""
 "Te hemos enviado un mail de confirmación, recuerda que tienes 7 días para "
 "activar tu cuenta."
-msgstr "We've sent you a confirmation email. Remember, you have 7 days to activate your account."
+msgstr ""
+"We've sent you a confirmation email. Remember, you have 7 days to activate "
+"your account."
 
 #: templates/registration/registration_form.html:3
 msgid "Registro"
