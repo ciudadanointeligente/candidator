@@ -43,7 +43,7 @@
         {% endfor %}
         <li id="add_personal_data">
             <p style='float: left;'>
-            <input name="add_personal_data_input" id="add_personal_data_input" placeholder="agregar dato personal"/>
+            <input name="add_personal_data_input" id="add_personal_data_input" placeholder="{% trans 'agregar dato personal' %}"/>
             </p><aside><a class="bt_input save_personal_data_link" href="#" pk="{{election.pk}}">agregar</a></aside>
         </li>
 
@@ -84,7 +84,7 @@
                            name="{{ html_name }}" 
                            class="add_background_name"
                            id="id_{{ forloop.counter }}_{{ html_name }}" 
-                           placeholder="agregar antecedente" />
+                           placeholder="{% trans 'agregar antecedente' %}" />
                     {% endwith %}
                     <a class="bt_input save_background_link" href="#" pk="{{ background_category.pk}}" >{% trans 'agregar' %}
                     </a>
@@ -95,7 +95,7 @@
         <p id="add_backgroundcategory">
             <input type="text" id="id_{{ backgroundcategory_form.name.html_name }}" 
                                name="{{ backgroundcategory_form.name.html_name }}"
-                               placeholder="agregar categoría" />
+                               placeholder="{% trans 'agregar categoría' %}" />
             <a class="bt_input save_background_category_link" href="#" pk="{{election.pk}}">{% trans 'agregar categoría' %}
             </a>
         </p>
@@ -167,7 +167,7 @@
                 <div class= "addQuestion">
                 <p id="add_question_{{ category.pk }}">
                     {% with question_form.question.html_name as html_name %}
-                    <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="agregar pregunta" class="question_input"/>
+                    <input type="text" name="html_name" id="id_{{ forloop.counter }}_{{html_name}}" placeholder="{% trans 'agregar pregunta' %}" class="question_input"/>
                     {% endwith %}
                     <a class="bt_input save_question_link" href="#" pk="{{category.pk}}">{% trans 'agregar ' %}
                     </a>
@@ -180,7 +180,7 @@
         {% endfor %}
         <p id="add_category">
             {% with category_form.name.html_name as html_name %}
-            <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="agregar categoría" />
+            <input type="text" name="{{ html_name }}" id="id_{{html_name}}" placeholder="{% trans 'agregar categoría' %}" />
             {% endwith %}
             <a class="bt_input save_category_link" href="#" pk="{{election.pk}}">{% trans 'agregar categoría' %}
             </a>
