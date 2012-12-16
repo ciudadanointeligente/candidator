@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Candidator1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-16 01:43-0500\n"
+"POT-Creation-Date: 2012-12-16 02:14-0500\n"
 "PO-Revision-Date: 2012-07-27 13:18-0300\n"
 "Last-Translator: Luis Felipe Álvarez Burgos <falvarez@ciudadanointeligente."
 "cl>\n"
@@ -198,6 +198,12 @@ msgstr ""
 msgid "candideit.org"
 msgstr ""
 
+#: elections/templates/medianaranja2.html:31
+#: elections/templates/elections/base.html:104
+#: elections/templates/elections/embeded/medianaranja2.html:32
+msgid "es_LA"
+msgstr ""
+
 #: elections/templates/medianaranja2.html:54
 #: elections/templates/elections/embeded/medianaranja2.html:47
 msgid "Tu media naranja política es ..."
@@ -206,7 +212,7 @@ msgstr ""
 #: elections/templates/medianaranja2.html:60
 #: elections/templates/elections/embeded/medianaranja2.html:53
 #, python-format
-msgid "%(candidate_name)s con un %(score)s%% total de afinidad. "
+msgid "%(candidate_name)s con un %(score)s%% total de afinidad."
 msgstr ""
 
 #: elections/templates/medianaranja2.html:63
@@ -230,6 +236,7 @@ msgstr ""
 #: elections/templates/elections/answer_form.html:17
 #: elections/templates/elections/background_form.html:19
 #: elections/templates/elections/category_form.html:44
+#: elections/templates/elections/updating/election_basic_information.html:83
 msgid "Guardar"
 msgstr ""
 
@@ -1152,6 +1159,10 @@ msgstr ""
 #: elections/templatetags/election_tags.py:22
 #: elections/tests/candidate_answer.py:62
 msgid "Aún no hay respuesta"
+msgstr ""
+
+#: elections/templatetags/election_tags.py:31
+msgid "Editar Elección"
 msgstr ""
 
 #: templates/404.html:4
