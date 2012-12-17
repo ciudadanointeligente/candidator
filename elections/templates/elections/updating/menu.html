@@ -17,8 +17,6 @@
                         	<a href="{% url election_update_data slug=election.slug %}">{% trans 'Preguntas' %}</a></div>
                         <div class="menuedit {% if section == 'new_candidate' %}section_selected{% endif %}">
                             <a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Candidatos' %}</a></div>
-                        <div class="menuedit {% if section == 'new_candidate' %}section_selected{% endif %}">
-                            <a href="{% url candidate_create_alone election_slug=election.slug %}">{% trans 'Candidatos' %}</a></div>
                         <div class="menuedit {% if section == 'custom_style' %}section_selected{% endif %}">
                             <a href="{% url update_custom_style slug=election.slug %}">{% trans 'Estilo' %}</a></div>
 
