@@ -1,6 +1,6 @@
 {% extends "elections/base_edits.html" %}
 {% load i18n %}
-    {% block title %}Registro{% endblock title %}
+    {% block title %}{% trans 'Registro' %}{% endblock title %}
 {% block content %}
 
 
@@ -14,7 +14,7 @@
     <table>
     <tr>
         <div class="usuario">
-            <span class="blue_edit">{% trans 'Usuario' %}:</span><span>{{ form.username }}</span><div class="instrucciones">(no debe contener espacios ni caracteres especiales)</div>
+            <span class="blue_edit">{% trans 'Usuario:' %}</span><span>{{ form.username }}</span><div class="instrucciones">{% trans '(no debe contener espacios ni caracteres especiales)' %}</div>
             {% if form.username.errors %}
                     <ul>
                     {% for error in form.username.errors %}
@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <div class="email">
-            <span class="blue_edit">E-mail:</span><span>{{ form.email }}</span>
+            <span class="blue_edit">{% trans 'E-mail:' %}</span><span>{{ form.email }}</span>
             {% if form.email.errors %}
                     <ul>
                     {% for error in form.email.errors %}
@@ -68,7 +68,7 @@
     </tr>
     </table>
 
-    <input type="submit" class="bt" value="Crea tu cuenta" />
+    <input type="submit" class="bt" value="{% trans 'Crea tu cuenta' %}" />
     </form>
 </div>    
 </div>

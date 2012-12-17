@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load election_tags %}
 {% block title %}
-{% trans 'Media Naranja,' %} {{ election.name }} - {{ block.super }} 
+{% blocktrans with election_name=election.name %}Media Naranja, {{ election_name }}{% endblocktrans %} - {{ block.super }} 
 {% endblock title %}
 
 {% block extra_head %}

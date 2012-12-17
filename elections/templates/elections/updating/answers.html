@@ -67,7 +67,7 @@
             
             <div class="personaldataEdit">
                 <ul>                    
-                    <span class="bold">{% trans 'Nombre' %}:</span><span class="candidate_name">{{ candidate.name }}</span>
+                    <span class="bold">{% trans 'Nombre:' %}</span><span class="candidate_name">{{ candidate.name }}</span>
 
                     {% for personal_data in election.personaldata_set.all %}
                     <li>

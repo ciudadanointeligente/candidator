@@ -16,14 +16,14 @@
              	</div>
             </div>
 
-<p class="destacado-home">Candideit.org es tu aliado para repartir la torta. Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.</p>
+<p class="destacado-home">{% trans 'Candideit.org es tu aliado para repartir la torta. Si tienes una elección, y quienes compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.' %}</p>
             <br />
             <br />
 
     <div class="pasos">
-        <div class="paso1"><span class="numeropaso">#1</span><span class="txtpaso">CREAR ELECCIÓN</span></div>
-        <div class="paso2"><span class="numeropaso">#2</span><span class="txtpaso">CREAR CANDIDATOS</span></div>
-        <div class="paso3"><span class="numeropaso">#3</span><span class="txtpaso">LLENAR RESPUESTAS</span></div>
+        <div class="paso1"><span class="numeropaso">#1</span><span class="txtpaso">{% trans 'CREAR ELECCIÓN' %}</span></div>
+        <div class="paso2"><span class="numeropaso">#2</span><span class="txtpaso">{% trans 'CREAR CANDIDATOS' %}</span></div>
+        <div class="paso3"><span class="numeropaso">#3</span><span class="txtpaso">{% trans 'LLENAR RESPUESTAS' %}</span></div>
         <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
     </div> 
 
@@ -38,7 +38,7 @@
            <ul>
                 {% for highlighted_election in highlighted_elections %}
                 <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
-                <li><span class="bold">{{ forloop.counter }} </span>{{ highlighted_election }} <span class="goeditAzul"><a href="{{ highlighted_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ highlighted_election.get_absolute_url }}"> ver</a></span></li>
+                <li><span class="bold">{{ forloop.counter }} </span>{{ highlighted_election }} <span class="goeditAzul"><a href="{{ highlighted_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ highlighted_election.get_absolute_url }}"> {% trans 'ver' %}</a></span></li>
                 </div>
                 {% endfor %}
             </ul>
@@ -48,7 +48,7 @@
             <ul>
                 {% for last_election in last_elections %}
                 <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
-                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ last_election.get_absolute_url }}"> ver</a></span></li>
+                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ last_election.get_absolute_url }}"> {% trans 'ver' %}</a></span></li>
                 </div>
                 {% endfor %}
             </ul>
@@ -68,7 +68,7 @@
 <div class="papel">
 	<div class="contenedor3">
     
-    <div class="github goeditAzul">¿Quieres ver nuestro código? revisalo acá: <a href="http://www.github.com/ciudadanointeligente/candidator">http://www.github.com/ciudadanointeligente/candidator</a></div>
+    <div class="github goeditAzul">{% trans '¿Quieres ver nuestro código? revisalo acá:' %} <a href="http://www.github.com/ciudadanointeligente/candidator">http://www.github.com/ciudadanointeligente/candidator</a></div>
 
 <hr />
 

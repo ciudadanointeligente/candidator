@@ -1,5 +1,6 @@
-Acuerdate de activar tu cuenta o esta expirará después de {{expiration_days}} días.
+{% load i18n %}
+{% blocktrans %}Acuerdate de activar tu cuenta o esta expirará después de {{expiration_days}} días.{% endblocktrans %}
 
-Para activar tu cuenta haz click en el siguiente link o copia y pega la dirección en tu navegador
+{% blocktrans %}Para activar tu cuenta haz click en el siguiente link o copia y pega la dirección en tu navegador{% endblocktrans %}
 
 http://{{ site.domain }}{% url registration_activate activation_key %}

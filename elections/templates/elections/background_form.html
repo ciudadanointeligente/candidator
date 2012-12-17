@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans 'Antecedentes para' %} {{ background_category.name }}</h2>
+<h2>{% blocktrans with category_name=background_category.name %}Antecedentes para {{ category_name }}{% endblocktrans %}</h2>
 <ul>
 {% for background in background_category.background_set.all %}
     <li>{{ background.name }}</li>
