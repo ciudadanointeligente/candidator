@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-{% trans 'Las elecciones creadas por ' %} {{ owner.username }}
+{% blocktrans with username=owner.username %}Las elecciones creadas por {{ username }}{% endblocktrans %}
 {% endblock title %}
 
 {% block extra_head %}
@@ -20,7 +20,7 @@
     <div class="papel">
     <div class="contenedor3">
     	<head>
-        <h1>{% trans 'Las elecciones creadas por ' %} {{ owner.username }}</h1>
+        <h1>{% blocktrans with username=block.username %}Las elecciones creadas por {{ username }}{% endblocktrans %}</h1>
 		<hr />
         </head>
         

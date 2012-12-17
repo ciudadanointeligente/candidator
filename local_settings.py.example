@@ -1,34 +1,33 @@
 # encoding=UTF-8
 # You may override any of the settings in settings.py in this file.
 
-TIME_ZONE = 'America/Santiago'
+TIME_ZONE = 'America/New_York'
 
-LANGUAGE_CODE = 'es-cl'
+LANGUAGE_CODE = 'en'
 
-DEFAULT_PERSONAL_DATA = ['Edad', 'Estado civil', u'Profesión', u'Género']
+DEFAULT_PERSONAL_DATA = [
+    u'Age',
+    u'Gender',
+    u'Marital status',
+    u'Profession',
+]
 
 DEFAULT_BACKGROUND_CATEGORIES = {
-    u'Educación': [
-        u'Educación primaria',
-        u'Educación secundaria',
-        u'Educación superior',
+    u'Education': [
+        u'Post-secondary education',
     ],
-    u'Antecedentes laborales': [
-        u'Último trabajo',
+    u'Employment': [
+        u'Last job',
     ],
 }
 
 DEFAULT_QUESTIONS = [
     {
-        'Category': u'Educación',
+        'Category': u'Metaphysical',
         'Questions': [
             {
-                'question': u'¿Crees que Chile debe tener una educación gratuita?',
-                'answers': [u'Sí', u'No'],
-            },
-            {
-                'question': u'¿Estas de acuerdo con la desmunicipalización?',
-                'answers': [u'Sí', u'No'],
+                'question': u'Is the glass half-empty or half-full?',
+                'answers': [u'Half-empty', u'Half-full'],
             },
         ],
     },

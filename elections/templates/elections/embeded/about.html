@@ -4,7 +4,7 @@
 {% load election_tags %}
 
 {% block title %}
-{% trans 'Sobre la elección' %}, {{ election.name }} - {{ block.super }}
+{% blocktrans with election_name=election.name %}Sobre la elección, {{ election_name }}{% endblocktrans %} - {{ block.super }}
 {% endblock title %}
 
 {% block extra_js %}

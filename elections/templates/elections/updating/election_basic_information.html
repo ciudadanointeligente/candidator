@@ -24,7 +24,7 @@
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
-        <h1>ELECCIÓN:<span class="celeste"> INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG</span></h1>
+        <h1>{% trans 'ELECCIÓN:' %}<span class="celeste"> {% trans 'INFORMACIÓN GENERAL DE TU CANDIDEIT.ORG' %}</span></h1>
 		<hr />
         </head>
 
@@ -41,11 +41,11 @@
             </p>
             
             <aside class='guide'>
-            <div class="permalink" alt="{% trans 'Dirección de tu candideitorg' %}" >Permalink:<div class="slug">{{ election_url }}</div></div>
+            <div class="permalink" alt="{% trans 'Dirección de tu candideit.org' %}" >{% trans 'Permalink:' %}<div class="slug">{{ election_url }}</div></div>
 			</aside>
             
             <p class="fieldWrapper">
-                <label for="id_date" class="blue_edit">fecha de la elección:</label>
+                <label for="id_date" class="blue_edit">{% trans 'fecha de la elección:' %}</label>
                 {{ form.date }}
                 {{ form.date.errors }}
                 
@@ -77,7 +77,7 @@
             </p>
 
             <p class="fieldWrapper">
-                <label for="id_source" class="blue_edit">¿DE DÓNDE SACASTE LA INFORMACIÓN?</label><br />
+                <label for="id_source" class="blue_edit">{% trans '¿DE DÓNDE SACASTE LA INFORMACIÓN?' %}</label><br />
                 {{ form.information_source }}
                 {{ form.information_source.errors }}
             </p><span><a class="bt" href="javascript: void(0);" onclick="document.forms['newelection'].submit();return false;">Guardar
