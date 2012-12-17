@@ -28,7 +28,7 @@
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+    js.src = "//connect.facebook.net/{% trans 'es_LA' %}/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
@@ -57,7 +57,7 @@
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header style="width:674px;px;top:0px;">
 
-                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad. {% endblocktrans %}</h2></a></div>
+                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad.{% endblocktrans %}</h2></a></div>
 
                                 <div class="globo_left">
 										{% trans 'índices de compatibilidad' %}

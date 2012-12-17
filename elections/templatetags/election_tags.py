@@ -28,5 +28,5 @@ def link_to_updating_this_election(user, election):
     is_the_owner = not (user is None) and (election.owner.username == user.username)
     
     if is_the_owner:
-        return '<span class="goedit"><a href="'+reverse('election_update',kwargs={"slug":election.slug})+'">Editar Elección</a></span>'
+        return '<span class="goedit"><a href="'+reverse('election_update',kwargs={"slug":election.slug})+'">'+_(u"Editar Elección")+'</a></span>'
     return ''
