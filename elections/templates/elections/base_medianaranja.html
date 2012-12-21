@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load settingsvars_tags %}
 <!doctype html>
 <html>
 <head>
@@ -83,7 +84,7 @@
     var uvOptions = {};
     (function() {
     var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/{% uservoice_client_key %}.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
     })();
   var _gaq = _gaq || [];

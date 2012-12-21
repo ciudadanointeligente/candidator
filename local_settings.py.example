@@ -32,3 +32,5 @@ DEFAULT_QUESTIONS = [
         ],
     },
 ]
+
+USERVOICE_CLIENT_KEY = 'THECLIENTKEY'
