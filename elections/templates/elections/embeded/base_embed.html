@@ -1,4 +1,4 @@
-{% load i18n %}{% load election_tags %}<!doctype html>
+{% load i18n %}{% load election_tags %}{% load settingsvars_tags %}<!doctype html>
 <html>
 <head>
     <!--[if lt IE 9]>
@@ -81,7 +81,7 @@
 <script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
 <script type="text/javascript">
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-29858310-1']);
+  _gaq.push(['_setAccount', {% ga_account_id %}]);
   _gaq.push(['_trackPageview']);
 
   (function() {

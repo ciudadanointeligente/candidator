@@ -13,3 +13,4 @@ from personal_data import *
 from question import *
 from election_embeded import *
 from election_loader import *
+from settings_variables import *
