@@ -1,4 +1,4 @@
-{% load i18n %}<!doctype html>
+{% load i18n %}{% load settingsvars_tags %}<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -83,11 +83,11 @@
     var uvOptions = {};
     (function() {
     var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/5M7s1fetVuJpCZzITw9g.js';
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/{% uservoice_client_key %}.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
     })();
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-29858310-1']);
+  _gaq.push(['_setAccount', {% ga_account_id %}]);
   _gaq.push(['_trackPageview']);
 
   (function() {
