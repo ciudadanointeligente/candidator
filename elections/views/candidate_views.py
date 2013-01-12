@@ -13,6 +13,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST, require_GET
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.utils.translation import ugettext_lazy as _
+
 
 # Import forms
 from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm, CandidatePhotoForm
@@ -20,6 +22,8 @@ from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkFor
 # Import models
 from elections.models import Election, Candidate, PersonalData, Link
 
+# Import exceptions
+from elections.exceptions import NoCandidateError
 
 # Candidate views
 class CandidateDetailView(DetailView):
@@ -94,6 +98,7 @@ class CandidateCreateView(CreateView):
         return super(CandidateCreateView, self).form_valid(form)
 
 
+
 class CandidateDataUpdateView(UpdateView):
     model = Candidate
     form_class = CandidateForm
@@ -102,7 +107,11 @@ class CandidateDataUpdateView(UpdateView):
     @method_decorator(login_required)
     @method_decorator(require_GET)
     def dispatch(self, request, *args, **kwargs):
-        return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
+        try:
+            return super(CandidateDataUpdateView, self).dispatch(request, *args, **kwargs)
+        except NoCandidateError:
+            return redirect("candidate_create_alone", election_slug=self.kwargs['election_slug'])
+
 
     def get_queryset(self):
         try:
@@ -111,10 +120,15 @@ class CandidateDataUpdateView(UpdateView):
             return Election.objects.none()
 
         if 'slug' not in self.kwargs:
-            self.kwargs['slug'] = election.candidate_set.all()[0].slug
+            candidates = election.candidate_set.all()
+            if not candidates:
+                raise NoCandidateError(_(u"There are no candidates"),[_(u"There are no candidates")])
+            self.kwargs['slug'] = candidates[0].slug
 
         return self.model.objects.filter(election=election,
                                           slug=self.kwargs['slug'])
+
+
 
     def get_context_data(self, **kwargs):
         context = super(CandidateDataUpdateView, self).get_context_data(**kwargs)
