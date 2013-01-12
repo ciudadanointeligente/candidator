@@ -901,6 +901,7 @@ class MultipleCandidateDataUpdate(TestCase):
         self.second_candidate, created = Candidate.objects.get_or_create(name='Segundo Candidato',
             slug='segundo-candidato',
             election=self.election)
+
         self.url = reverse('multiple_candidate_data_update', kwargs={'election_slug': self.election.slug})
 
     def test_get_right_after_filling_their_names_and_showing_a_success_text(self):
@@ -926,6 +927,31 @@ class MultipleCandidateDataUpdate(TestCase):
         self.assertEqual(response.context['election'], self.election)
         self.assertEqual(response.context['candidate'], self.first_candidate)
 
+
+#This correspond to bug 191
+class MultipleCandidateDataUpdateWith0Candidates(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='asd@asd.cl')
+        self.election, created = Election.objects.get_or_create(name='NoCandidatesBarBaz',
+            owner=self.user,
+            slug='nocandidatesbarbaz',
+            description='this election has no candidates')
+
+        self.url = reverse('multiple_candidate_data_update', kwargs={'election_slug': self.election.slug})
+
+    def test_redirect_to_add_new_users_when_candidate_list_is_empty(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_show_create_new_candidate_html_is_shown(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        response = self.client.get(self.url, follow=True)
+
+
+        self.assertTemplateUsed(response, 'elections/updating/candidates.html')
 
 
 class CandidateUpdatePhotoViewTest(TestCase):
