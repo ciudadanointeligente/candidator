@@ -119,3 +119,54 @@ Testing
    ```
    python manage.py test_coverage elections
    ```
+
+Translation and internationalization
+====================================
+
+
+## Getting started
+
+If you run ```python manage.py runserver``` and ```open http://127.0.0.1:8000/``` you should see the Spanish version in your browser.
+
+Create a `local_settings.py` file, and edit settings as appropriate:
+
+```sh
+cp local_settings.py.example local_settings.py
+```
+
+## Creating a new translation
+
+The following commands assume your locale code is `en`. Replace it as appropriate with the [ISO 639-1 code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) for your locale. The locale code you choose below must match the `LANGUAGE_CODE` in `local_settings.py`.
+
+### Manually
+
+First, create or update the `django.po` file for your locale:
+
+```sh
+django-admin.py makemessages -l en
+```
+
+You will find the file in `locale/en/LC_MESSAGES`. You can now edit the `.po` file by hand or with a variety of editors.
+
+### Transifex
+
+You may prefer to use [Transifex](https://www.transifex.com/) to translate the `.po` file:
+
+* Go to Candideit's [Transifex page](https://www.transifex.com/projects/p/candideit/resource/django-po/)
+* Click "Add new translation"
+* Select your language and click "Translate online"
+
+Once your translations are done, notify a Candideit maintainer, and they can pull your translations into the project.
+
+## Important reminders
+
+* Keep the same case: translate "NOMBRE DE LA ELECCIÓN:" as "ELECTION NAME:" not "Election name:"
+* Keep all punctuation: translate "NOMBRE DE LA ELECCIÓN:" as "ELECTION NAME:" not "ELECTION NAME"
+
+## Using your translations
+
+To use your translation, you need to compile the `.po` file to a `.mo` file:
+
+```sh
+python manage.py compilemessages
+```
