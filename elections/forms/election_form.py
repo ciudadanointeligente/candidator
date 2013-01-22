@@ -11,7 +11,7 @@ from elections.models import Category, Election, PersonalData,\
 class ElectionForm(forms.ModelForm):
     class Meta:
         model = Election
-        exclude = ('owner', 'slug')
+        exclude = ('owner', 'slug', 'published')
     class Media:
         js = ('js/jquery.slug.js', )
         css = { 'all': ('css/wizard-forms.css',) }
@@ -75,6 +75,7 @@ class QuestionForm(forms.ModelForm):
 
         choices = [(choice[0], choice[1]) for choice in self.fields['category'].choices]
         empty_choice = choices.pop(0)
+        #needs internationalization
         choices.append((empty_choice[0], u'-- Nueva categoría --'))
         self.fields['category'].choices = choices
         self.fields['category'].initial = 0

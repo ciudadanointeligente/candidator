@@ -84,7 +84,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.slug, 'barbaz')
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
-        self.assertEqual(election.published,False)
+        self.assertEqual(election.published,True)
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
 
@@ -383,7 +383,7 @@ class ElectionDetailViewTest(TestCase):
         self.assertEquals(response.status_code, 404)
     def test_detail_non_published_election_for_user_view(self):
         user = User.objects.create(username='foobar')
-        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user)
+        election = Election.objects.create(name='elec foo', slug='elec-foo', owner=user, published=False)
         response = self.client.get(reverse('election_detail',
                                            kwargs={
                                                'username': user.username,
@@ -713,6 +713,7 @@ class ElectionCreateViewTest(TestCase):
         election = qs.get()
         self.assertEquals(election.name, 'BarBaz')
         self.assertEquals(election.slug, 'barbaz')
+        self.assertTrue(election.published)
         self.assertEquals(election.description, 'esta es una descripcion')
         self.assertEquals(f.read(), election.logo.file.read())
 
@@ -909,7 +910,7 @@ class PrePersonalDataViewTest(TestCase):
 class SharingYourElectionButton(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user)
+        self.election = Election.objects.create(name='elec foo', slug='eleccion-la-florida', owner=self.user, published=False)
 
     def test_share_my_election(self):
         self.client.login(username='joe', password='doe')
@@ -1022,6 +1023,10 @@ class ElectionRedirectViewTest(TestCase):
 
 
 class HomeTemplateView(TestCase):
+    def setUp(self):
+        #Deleting CEI election 
+        Election.objects.all()[0].delete() 
+
     def test_it_brings_the_last_five_create_elections(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
         election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True)
@@ -1040,12 +1045,12 @@ class HomeTemplateView(TestCase):
         
     def test_it_brings_the_last_created_and_published_elections(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
-        election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True)
-        election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=True)
-        election3 = Election.objects.create(owner=self.user, name='Election', slug='election3')
-        election4 = Election.objects.create(owner=self.user, name='Election', slug='election4')
-        election5 = Election.objects.create(owner=self.user, name='Election', slug='election5')
-        election6 = Election.objects.create(owner=self.user, name='Election', slug='election6')
+        election1 = Election.objects.create(owner=self.user, name='Election', slug='election1')
+        election2 = Election.objects.create(owner=self.user, name='Election', slug='election2')
+        election3 = Election.objects.create(owner=self.user, name='Election', slug='election3', published=False)
+        election4 = Election.objects.create(owner=self.user, name='Election', slug='election4', published=False)
+        election5 = Election.objects.create(owner=self.user, name='Election', slug='election5', published=False)
+        election6 = Election.objects.create(owner=self.user, name='Election', slug='election6', published=False)
         self.url = reverse('home')
         response = self.client.get(self.url)
         self.assertTrue('last_elections' in response.context)
@@ -1099,6 +1104,7 @@ class EmbededTestTemplateView(TestCase):
 class UserElectionsViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        Election.objects.all().delete()
         self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=True, highlighted=False)
         election2 = Election.objects.create(owner=self.user, name='Election', slug='election2', published=False, highlighted=False)
         self.url = reverse('user_elections',kwargs={ 'username':self.user.username })
@@ -1110,7 +1116,6 @@ class UserElectionsViewTest(TestCase):
         self.assertTemplateUsed(response, 'elections/users_election_list.html')
         self.assertTrue('elections' in response.context)
         self.assertEqual(response.status_code, 200)
-
         self.assertEqual(response.context['elections'].count(), 1)
         self.assertEqual(response.context['elections'][0], self.election1 )
         self.assertTrue('owner' in response.context)

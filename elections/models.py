@@ -30,7 +30,7 @@ class Election(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
-    published = models.BooleanField(default=False)
+    published = models.BooleanField(default=True)
     custom_style = models.TextField(blank=True)
     highlighted = models.BooleanField(default=False)
     use_default_media_naranja_option = models.BooleanField(default=True) #Default option "Ninguna de las anteriores" in media naranja
