@@ -314,6 +314,13 @@ class EmbededTemplateView(TemplateView):
 class TogglePublishView(UpdateView):
     model = Election
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            http_response = HttpResponse('Unauthorized', {}, {})
+            http_response.status_code = 401
+            return http_response
+        return super(TogglePublishView, self).dispatch(request, *args, **kwargs)
+
     def get_template_names(self):
         return []
 

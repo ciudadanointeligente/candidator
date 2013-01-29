@@ -1149,3 +1149,9 @@ class TogglePublish(TestCase):
         election1 = Election.objects.get( id=self.election1.id )
         self.assertFalse(election1.published)
 
+    def test_not_logged_to_publish(self):
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 401)
+
+
