@@ -1139,4 +1139,13 @@ class TogglePublish(TestCase):
         election1 = Election.objects.get( id=self.election1.id )
         self.assertTrue(election1.published)
 
+    def test_to_unpublish_election(self):
+        self.election1.published = True
+        self.election1.save()
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 200)
+        election1 = Election.objects.get( id=self.election1.id )
+        self.assertFalse(election1.published)
 

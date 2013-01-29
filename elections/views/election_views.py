@@ -319,6 +319,6 @@ class TogglePublishView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         election = self.get_object()
-        election.published = True
+        election.published = not election.published
         election.save()
         return HttpResponse('')
