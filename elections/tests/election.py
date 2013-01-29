@@ -1126,5 +1126,17 @@ class Municipales2012ElectionTemplateView(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'municipales2012.html')
 
+class TogglePublish(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=False, highlighted=False)
+
+    def test_to_publish_election(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 200)
+        election1 = Election.objects.get( id=self.election1.id )
+        self.assertTrue(election1.published)
 
 

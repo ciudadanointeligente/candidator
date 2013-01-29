@@ -310,3 +310,15 @@ class EmbededTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {'embeded_test_web':settings.EMBEDED_TEST_WEB}
+
+class TogglePublishView(UpdateView):
+    model = Election
+
+    def get_template_names(self):
+        return []
+
+    def post(self, request, *args, **kwargs):
+        election = self.get_object()
+        election.published = True
+        election.save()
+        return HttpResponse('')
