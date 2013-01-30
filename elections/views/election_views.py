@@ -313,6 +313,7 @@ class EmbededTemplateView(TemplateView):
 
 class TogglePublishView(UpdateView):
     model = Election
+    http_method_names = ['post']
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
@@ -326,6 +327,10 @@ class TogglePublishView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         election = self.get_object()
+        if election.owner != request.user:
+            http_response = HttpResponse('Forbidden', {}, {})
+            http_response.status_code = 403
+            return http_response
         election.published = not election.published
         election.save()
         return HttpResponse('')

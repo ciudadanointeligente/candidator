@@ -1129,6 +1129,7 @@ class Municipales2012ElectionTemplateView(TestCase):
 class TogglePublish(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.user2 = User.objects.create_user(username='maria', password=PASSWORD, email='maria@example.net')
         self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=False, highlighted=False)
 
     def test_to_publish_election(self):
@@ -1152,6 +1153,23 @@ class TogglePublish(TestCase):
     def test_not_logged_to_publish(self):
         url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
         response = self.client.post(url)
+        self.assertEquals(response.status_code, 401)
+
+    def test_not_owner_to_publish(self):
+        self.client.login(username=self.user2.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 403)
+
+    def test_get_to_publish(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 405)
+
+    def test_get_to_publish_if_not_logged(self):
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.get(url)
         self.assertEquals(response.status_code, 401)
 
 
