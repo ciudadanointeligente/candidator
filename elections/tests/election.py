@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
+from django.utils import simplejson as json
 from django.utils.translation import ugettext as _
 
 from elections.models import Election, Candidate, Category, PersonalData, \
@@ -1137,6 +1138,10 @@ class TogglePublish(TestCase):
         url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
         response = self.client.post(url)
         self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['Content-Type'], 'application/json')
+        data = json.loads(response.content)
+        self.assertEquals(data['id'], self.election1.id)
+        self.assertTrue(data['published'])
         election1 = Election.objects.get( id=self.election1.id )
         self.assertTrue(election1.published)
 
@@ -1147,6 +1152,10 @@ class TogglePublish(TestCase):
         url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
         response = self.client.post(url)
         self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['Content-Type'], 'application/json')
+        data = json.loads(response.content)
+        self.assertEquals(data['id'], self.election1.id)
+        self.assertFalse(data['published'])
         election1 = Election.objects.get( id=self.election1.id )
         self.assertFalse(election1.published)
 

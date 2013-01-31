@@ -333,4 +333,7 @@ class TogglePublishView(UpdateView):
             return http_response
         election.published = not election.published
         election.save()
-        return HttpResponse('')
+        response_data = {}
+        response_data['published'] = election.published
+        response_data['id'] = election.id
+        return HttpResponse(json.dumps(response_data), content_type='application/json')
