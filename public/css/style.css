@@ -1089,6 +1089,11 @@ background: #DEDEDE;; /* set desired hover color */
 	font-family: 'AllerItalic';
 }
 
+.listElectionTogglePublish a{
+    color: #80b6e2;
+    font-family: 'AllerItalic';
+}
+
 .listElectionDate {
     width:200px;
 	height: 20px;

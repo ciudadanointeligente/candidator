@@ -310,3 +310,30 @@ class EmbededTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {'embeded_test_web':settings.EMBEDED_TEST_WEB}
+
+class TogglePublishView(UpdateView):
+    model = Election
+    http_method_names = ['post']
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            http_response = HttpResponse('Unauthorized', {}, {})
+            http_response.status_code = 401
+            return http_response
+        return super(TogglePublishView, self).dispatch(request, *args, **kwargs)
+
+    def get_template_names(self):
+        return []
+
+    def post(self, request, *args, **kwargs):
+        election = self.get_object()
+        if election.owner != request.user:
+            http_response = HttpResponse('Forbidden', {}, {})
+            http_response.status_code = 403
+            return http_response
+        election.published = not election.published
+        election.save()
+        response_data = {}
+        response_data['published'] = election.published
+        response_data['id'] = election.id
+        return HttpResponse(json.dumps(response_data), content_type='application/json')
