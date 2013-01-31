@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from elections.forms.election_form import AnswerForm
 from django.template import Template, Context
+from django.utils import simplejson as json
 from django.utils.translation import ugettext as _
 
 from elections.models import Election, Candidate, Category, PersonalData, \
@@ -1126,5 +1127,58 @@ class Municipales2012ElectionTemplateView(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'municipales2012.html')
 
+class TogglePublish(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@example.net')
+        self.user2 = User.objects.create_user(username='maria', password=PASSWORD, email='maria@example.net')
+        self.election1 = Election.objects.create(owner=self.user, name='Election', slug='election1', published=False, highlighted=False)
+
+    def test_to_publish_election(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['Content-Type'], 'application/json')
+        data = json.loads(response.content)
+        self.assertEquals(data['id'], self.election1.id)
+        self.assertTrue(data['published'])
+        election1 = Election.objects.get( id=self.election1.id )
+        self.assertTrue(election1.published)
+
+    def test_to_unpublish_election(self):
+        self.election1.published = True
+        self.election1.save()
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response['Content-Type'], 'application/json')
+        data = json.loads(response.content)
+        self.assertEquals(data['id'], self.election1.id)
+        self.assertFalse(data['published'])
+        election1 = Election.objects.get( id=self.election1.id )
+        self.assertFalse(election1.published)
+
+    def test_not_logged_to_publish(self):
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 401)
+
+    def test_not_owner_to_publish(self):
+        self.client.login(username=self.user2.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.post(url)
+        self.assertEquals(response.status_code, 403)
+
+    def test_get_to_publish(self):
+        self.client.login(username=self.user.username, password=PASSWORD)
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 405)
+
+    def test_get_to_publish_if_not_logged(self):
+        url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 401)
 
 
