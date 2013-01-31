@@ -18,7 +18,7 @@ from views import associate_answer_to_candidate, ElectionCreateView,\
                   PrePersonalDataView, AnswerDeleteAjaxView, ElectionLogoUpdateView, \
                   ElectionShareView, ElectionRedirectView, HomeTemplateView, CompareView, \
                   ElectionAboutView, ElectionStyleUpdateView, EmbededTemplateView, \
-                  UserElectionsView
+                  UserElectionsView, TogglePublishView
 
 
 urlpatterns = patterns('',
@@ -137,6 +137,10 @@ urlpatterns = patterns('',
     url(r'^election/(?P<slug>[-\w]+)/questions/?', ElectionUpdateDataView.as_view(), name='election_update_data'),
     
     url(r'^election/(?P<pk>\d+)/update_election_photo', ElectionLogoUpdateView.as_view(), name="update_election_photo"),
+
+    # Toggle publish election
+    url(r'^elections/toggle_publish/(?P<pk>[-\d]+)/?$', TogglePublishView.as_view() , name = 'toggle_publish' ),
+
     # Media Naranja
     url(r'^(?P<username>[a-zA-Z0-9-]+)/(?P<election_slug>[a-zA-Z0-9-]+)/medianaranja$', 'candidator.elections.views.medianaranja1',name='medianaranja1'),
     
@@ -247,7 +251,6 @@ urlpatterns = patterns('',
 
     # Election detail view
     url(r'^(?P<username>[-\w]+)/?$', UserElectionsView.as_view(), name='user_elections'),
-
 
 
 )
