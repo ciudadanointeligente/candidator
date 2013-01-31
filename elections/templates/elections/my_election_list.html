@@ -28,11 +28,11 @@
 	<ul class="electionList" >
                     {% for election in user.election_set.all %}
         <table border="0">
-            <tr>
+            <tr electionId='{{election.pk}}'>
                 <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
                 <td class="listElectionDate">{{election.created_at }}</td>
                 <td class="listElectionEdit"><a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'editar' %}</a></td>
-                <td class="listElectionEdit"><a href="javascript:togglePublish({{election.pk}});">
+                <td class="listElectionTogglePublish"><a href="javascript:togglePublish({{election.pk}});">
                     {% if election.published %}
                         {% trans 'publicado' %}
                     {% else %}
@@ -55,7 +55,13 @@
         var togglePublish = function(id){
         var url = '/elections/toggle_publish/' + id
         $.post(url, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, function(data) {
-            console.log(data)
+            var published_label_text;
+            if (data.published) {
+                published_label_text = '{% trans "publicado" %}'
+            } else {
+                published_label_text = '{% trans "despublicado" %}'
+            }
+            $('[electionId='+data.id+'] .listElectionTogglePublish a').text(published_label_text)
         });
     }
     </script>
