@@ -16,6 +16,13 @@ class QuestionsParserTestCase(TestCase):
 			["question","la pregunta2"],
 			["answer","respuesta 3"],
 			["answer","respuesta 4"],
+			["answer","respuesta 4"],
+			["background history category","Background category 1"],
+			["background history","background history record 1"],
+			["background history","background history record 2"],
+			["background history category","Background category 2"],
+			["background history","background history record 3"],
+			["background history","rbackground history record 4"],
 		]
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
@@ -63,6 +70,19 @@ class QuestionsParserTestCase(TestCase):
 		self.assertEquals(second_category_questions[0].answer_set.count(), 2)
 		self.assertEquals(second_category_questions[0].answer_set.all()[0].caption, u"respuesta 3")
 		self.assertEquals(second_category_questions[0].answer_set.all()[1].caption, u"respuesta 4")
+
+
+	def test_create_background_category(self):
+		parser = QuestionsParser(self.election)
+		parser.createQuestions(self.lines)
+		election_after_questions_created = Election.objects.get(pk=self.election.pk)
+
+		self.assertEquals(election_after_questions_created.backgroundcategory_set.count(), 2)
+		self.assertEquals(election_after_questions_created.backgroundcategory_set.all()[0].name, u"Background category 1")
+		self.assertEquals(election_after_questions_created.backgroundcategory_set.all()[1].name, u"Background category 2")
+
+
+
 
 
 
