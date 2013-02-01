@@ -23,6 +23,8 @@ class QuestionsParserTestCase(TestCase):
 			["background history category","Background category 2"],
 			["background history","background history record 3"],
 			["background history","background history record 4"],
+			["personal data","Party"],
+			["personal data","Age"],
 		]
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
@@ -96,6 +98,15 @@ class QuestionsParserTestCase(TestCase):
 		self.assertEquals(second_background_category.background_set.count(), 2)
 		self.assertEquals(second_background_category.background_set.all()[0].name, u"background history record 3")
 		self.assertEquals(second_background_category.background_set.all()[1].name, u"background history record 4")
+
+	def test_create_personal_data(self):
+		parser = QuestionsParser(self.election)
+		parser.createQuestions(self.lines)
+		election_after_questions_created = Election.objects.get(pk=self.election.pk)
+
+		self.assertEquals(election_after_questions_created.personaldata_set.count(), 2)
+		self.assertEquals(election_after_questions_created.personaldata_set.all()[0].label, u"Party")
+		self.assertEquals(election_after_questions_created.personaldata_set.all()[1].label, u"Age")
 
 
 

@@ -77,6 +77,7 @@ class QuestionsParser(object):
 	def __init__(self, election):
 		self.election = election
 		self.election.backgroundcategory_set.all().delete()
+		self.election.personaldata_set.all().delete()
 
 	def createQuestions(self, lines):
 		for line in lines:
@@ -95,6 +96,9 @@ class QuestionsParser(object):
 			if line[0]=="background history":
 				background_history_name = line[1].decode('utf-8').strip()
 				self.background_history = Background.objects.create(name=background_history_name, category=self.background_category)
+			if line[0]=="personal data":
+				personal_data_label = line[1].decode('utf-8').strip()
+				self.personal_data = PersonalData.objects.create(label=personal_data_label, election=self.election)
 
 
 class Command(BaseCommand):
