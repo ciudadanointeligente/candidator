@@ -2,70 +2,9 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
-							 Background, Link, BackgroundCandidate
+							 Background, Link, BackgroundCandidate, PersonalDataCandidate
 import csv
 from django.core.urlresolvers import reverse
-
-# class Loader(object):
-# 	def __init__(self,username, lines, styles):
-# 		self.user = User.objects.get(username=username)
-# 		self.lines = lines
-# 		self.styles = styles
-
-# 	def getElection(self, line):
-# 		election_name = line[0].decode('utf-8').strip()
-# 		election, created = Election.objects.get_or_create(name=election_name, owner=self.user)
-		
-# 		if(created):
-# 			election.custom_style = self.styles
-# 			election.save()
-# 			embedded_url = reverse('election_detail_embeded',kwargs={'username': election.owner.username,'slug': election.slug})
-
-# 			parser = QuestionsParser(election)
-# 			parser.createQuestions(self.lines)
-# 		return election
-
-
-# 	def getCandidate(self, line):
-# 		candidate_name = line[1].decode('utf-8').strip()
-# 		election = self.getElection(line)
-# 		candidate, created = Candidate.objects.get_or_create(name=candidate_name, election=election, has_answered=False)
-# 		partido = line[2].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Partido", election=election)
-# 		candidate.add_personal_data(personal_data, partido)
-# 		pacto = line[3].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Pacto", election=election)
-# 		candidate.add_personal_data(personal_data, pacto)
-# 		reeleccion = line[4].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"¿Va a reelección?", election=election)
-# 		candidate.add_personal_data(personal_data, reeleccion)
-# 		agnos = line[5].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Número de años que ha sido alcalde", election=election)
-# 		candidate.add_personal_data(personal_data, agnos)
-# 		periodos = line[6].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Períodos como alcalde", election=election)
-# 		candidate.add_personal_data(personal_data, periodos)
-# 		postulaciones_previas = line[7].decode('utf-8').strip()
-# 		personal_data, created_personal_data = PersonalData.objects.get_or_create(label=u"Elecciones anteriores", election=election)
-# 		candidate.add_personal_data(personal_data, postulaciones_previas)
-
-# 		reparos = election.backgroundcategory_set.all()[0].background_set.all()[0]
-
-# 		sin_reparos = BackgroundCandidate.objects.create(candidate=candidate, background=reparos, value=u"Sin aclaraciones")
-
-
-# 		facebook_address = line[8].decode('utf-8').strip()
-# 		if facebook_address:
-# 			facebook = Link.objects.create(name=candidate.name, url=facebook_address, candidate=candidate)
-
-
-# 		twitter_username = line[9].decode('utf-8').strip()
-# 		if twitter_username:
-# 			twitter = Link.objects.create(name=u'@'+twitter_username, url=u"https://twitter.com/"+twitter_username, candidate=candidate)
-		
-
-# 		return candidate
-
 
 class QuestionsParser(object):
 	def __init__(self, election):
@@ -95,10 +34,11 @@ class QuestionsParser(object):
 				self.personal_data = PersonalData.objects.create(label=personal_data_label, election=self.election)
 
 class AnswersLoader(object):
-	def __init__(self,username, lines, styles):
-		self.username = username
-		self.lines = lines
+	def __init__(self,username, candidates, questions, styles):
+		self.user = User.objects.get(username=username)
+		self.lines = candidates
 		self.styles = styles
+		self.questions = questions
 		self.get_definitions()
 
 	def get_definitions(self):
@@ -110,22 +50,80 @@ class AnswersLoader(object):
 				definition = {"label":line1[i], "type":line0[i]}
 				self.definitions[i] = definition
 
-# class Command(BaseCommand):
-# 	args = '<username> <candidates csv file> <questions csv file> <css file for custom>'
-# 	def handle(self, *args, **options):
-# 		username = args[0]
-# 		reader = open(args[3], 'rb')
-# 		style = reader.read()
-# 		lines_for_election_loader = csv.reader(open(args[1], 'rb'), delimiter=',')
-# 		lines_for_question_loader = []
-# 		questions_reader = csv.reader(open(args[2], 'rb'), delimiter=',')
-# 		for question_line in questions_reader:
-# 			lines_for_question_loader.append(question_line)
-# 		processCandidates(username, lines_for_election_loader, lines_for_question_loader,style)
-		
+
+	def get_election(self, line, questions):
+		election_name = line[0].decode('utf-8').strip()
+		election, created = Election.objects.get_or_create(name=election_name, owner=self.user)
+
+		if(created):
+		 	election.custom_style = self.styles
+		 	election.save()
+		 	parser = QuestionsParser(election)
+			parser.createQuestions(questions)
+		return election
+
+	def assign_values(self, election, candidate, line):
+		for i in range(2,len(line)):
+			value = line[i].decode('utf-8').strip()
+			label = self.definitions[i]["label"]
+			the_type = self.definitions[i]["type"]
+
+			if(the_type == "personal data"):
+				try:
+					personal_data = PersonalData.objects.get(election=election, label=label)
+					PersonalDataCandidate.objects.create(candidate=candidate, personal_data=personal_data, value=value)
+				except :
+					print "personal data non existent "+label +"| value "+ value
+			if (the_type == "background history"):
+				try:
+
+					category_name = label.split(" - ")[0]
+					label = label.split(" - ")[1]
+					category = BackgroundCategory.objects.get(name=category_name, election=election)
+					background = Background.objects.get(name=label, category=category)
+					BackgroundCandidate.objects.create(candidate=candidate, background=background, value=value)
+				except :
+					print "background non existent "+label +"| value "+ value
+
+			if (the_type == "link"):
+				try:
+					if (label == "twitter"):
+						Link.objects.create(name=u'@'+value, url=u"https://twitter.com/"+value, candidate=candidate)
+					if (label == "facebook"):
+						Link.objects.create(name=candidate.name, url=value, candidate=candidate)
+				except:
+					print "link non existent "+label +"| value "+ value
 
 
-# def processCandidates(username, lines_for_election_loader, lines_for_question_loader, styles):
-# 	loader = Loader(username, lines_for_question_loader, styles)
-# 	for candidate_line in lines_for_election_loader:
-# 		candidate = loader.getCandidate(candidate_line)
+	def get_candidate(self, line, election):
+		candidate = Candidate.objects.create(name=line[1].decode('utf-8').strip(), election=election)
+		return candidate
+
+	def process(self):
+		amount_of_lines = len(self.lines)
+
+		for i in range(2, amount_of_lines):
+			line = self.lines[i]
+			election = self.get_election(line, self.questions)
+			candidate = self.get_candidate(line, election)
+			self.assign_values(election, candidate, line)
+
+
+
+
+class Command(BaseCommand):
+	args = '<username> <candidates csv file> <questions csv file> <css file for custom>'
+	def handle(self, *args, **options):
+		username = args[0]
+		reader = open(args[3], 'rb')
+		style = reader.read()
+		lines_for_candidates_loader = csv.reader(open(args[1], 'rb'), delimiter=',')
+		candidates =[]
+		for line in lines_for_candidates_loader:
+			candidates.append(line)
+		questions_reader = csv.reader(open(args[2], 'rb'), delimiter=',')
+		questions = []
+		for line in questions_reader:
+			questions.append(line)
+		loader = AnswersLoader(username, candidates, questions, style)
+		loader.process()

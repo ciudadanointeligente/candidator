@@ -114,286 +114,159 @@ class CandidateLoaderTestCase(TestCase):
 	def setUp(self):
 		#The first line of the csv file defines how the rest of the file is
 		#going to be read
-		self.line0 = ["", "", "personal data", "background history"] #this line defines the type of the following elements
+
+		self.questions_lines = [
+				["category","la categoria1"],
+				["question","la pregunta1"],
+				["answer","respuesta 1"],
+				["answer","respuesta 2"],
+				["category","la categoria2"],
+				["question","la pregunta2"],
+				["answer","respuesta 3"],
+				["answer","respuesta 4"],
+				["answer","respuesta 5"],
+				["background history category","Background category 1"],
+				["background history","background history record 1"],
+				["background history","background history record 2"],
+				["background history category","Background category 2"],
+				["background history","background history record 3"],
+				["background history","background history record 4"],
+				["background history","first job"],
+				["personal data","Party"],
+				["personal data","Age"],
+			]
+		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link"] #this line defines the type of the following elements
 		self.line1 = [
 						"election", 
 						"candidate", 
-						"age", #this is a personal data object
-						"first job"] #this is a background record
-		self.lines = [self.line0, self.line1]
+						"Party", #this is a personal data object
+						"Age", #this is a personal data object
+						"Background category 2 - first job",
+						"twitter",
+						"facebook"
+						] #this is a background record
+		
 		#the rest of the lines are going to be interpreted as answers
-		self.line1 = ["Algarrobo", "Fiera Feroz", "2 años", "Seguradad en FCI"]
+		self.line2 = ["Algarrobo", "Fiera Feroz", "Partido Feroz", "2 años", "Seguradad en FCI","fieraferoz","http://facebook.com/fieraferoz"]
+		self.line3 = ["Algarrobo", "Mickey", "Partido Ratón", "2 semanas", "Ratón inteligente en FCI", "ratoninteligente", "http://facebook.com/ratoninteligente"]
 
+		self.lines = [self.line0, self.line1, self.line2, self.line3]
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
                                                 email='fci@ciudadanointeligente.cl')
 		self.styles = u"un estilo"
 
 
-		self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.styles)
+		self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.questions_lines, self.styles)
+		Election.objects.all().delete()
 
 	def test_get_definitions_from_first_line(self):
 		expected_definitions = {
-			2 : {"label":"age","type":"personal data"},
-			3 : {"label":"first job","type":"background history"}
+			2 : {"label":"Party","type":"personal data"},
+			3 : {"label":"Age","type":"personal data"},
+			4 : {"label":"Background category 2 - first job","type":"background history"},
+			5 : {"label":"twitter","type":"link"},
+			6 : {"label":"facebook","type":"link"},
 		}
 
 		self.assertEquals(self.loader.definitions, expected_definitions)
 
 
-# class ElectionLoaderIntegrationTestCase(TestCase):
-# 	def setUp(self):
+	def test_creates_one_election(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_election = Election.objects.all()[0]
+		self.assertEquals(the_election.name, u"Algarrobo")
+		self.assertEquals(the_election.custom_style, self.styles)
 
-# 		self.candidates = [[
-# 					"Algarrobo", 
-# 					"BORIS COLJA", 
-					
-# 					"IND",
-# 					"pacto wena onda amigui",
-# 					"SI",
-# 					"20",
-# 					"1900-1990asdasd",
-# 					"19028209324dsfsdf",
-# 					"http://www.facebook.com/fieraferoz",
-# 					"fieraferoz"
-# 					],[
-# 					"Algarrobo", 
-# 					"PRUEBA", 
-					
-# 					"NO SOY IND",
-# 					"pacto wena onda amigui",
-# 					"NO",
-# 					"0",
-# 					"", 
-# 					"",
-# 					"http://www.facebook.com/fieraferoz",
-# 					"fieraferoz"
-# 					],[
-# 					"otra comuna", 
-# 					"PRUEBA2", 
-					
-# 					"NO SOY IND",
-# 					"pacto wena onda amigui",
-# 					"NO",
-# 					"0",
-# 					"", 
-# 					"",
-# 					"http://www.facebook.com/fieraferoz",
-# 					"fieraferoz"
-# 					]]
-# 		self.questions = [
-# 			["category","la categoria1"],
-# 			["question","la pregunta1"],
-# 			["answer","respuesta 1"],
-# 			["answer","respuesta 2"],
-# 			["category","la categoria2"],
-# 			["question","la pregunta2"],
-# 			["answer","respuesta 3"],
-# 			["answer","respuesta 4"],
-# 		]
+	def test_create_only_one_election_with_the_same_name(self):
+		the_election_1 = self.loader.get_election(self.line2, self.questions_lines)
+		the_election_2 = self.loader.get_election(self.line3, self.questions_lines)
+		self.assertEquals(Election.objects.filter(owner=self.user).count(), 1)
 
-# 		self.user = User.objects.create_user(username='ciudadanointeligente',
-#                                                 password='fci',
-#                                                 email='fci@ciudadanointeligente.cl')
-# 		self.styles = "un estilo"
-# 		self.loader = Loader('ciudadanointeligente', self.questions, self.styles)
-# 		processCandidates(self.user.username, self.candidates, self.questions, self.styles)
+	def test_processes_the_questions(self):
+		the_election_1 = self.loader.get_election(self.line2, self.questions_lines)
+		self.assertEquals(the_election_1.personaldata_set.count(), 2)
+		self.assertEquals(the_election_1.personaldata_set.all()[0].label, u"Party")
+		self.assertEquals(the_election_1.personaldata_set.all()[1].label, u"Age")
 
-# 	def test_execute_command(self):
-# 		command = Command()
-# 		command.handle(self.user.username
-# 			,'elections/tests/media/candidatos.csv'
-# 			, 'elections/tests/media/questions.csv'
-# 			, 'elections/tests/media/style.css')
-# 		reader = open('elections/tests/media/style.css', 'rb')
-# 		style = reader.read()
-# 		self.assertEquals(Election.objects.count(),5)
-
-# 		self.assertEquals(Election.objects.filter(name=u"COMUNA1").count(),1)
-# 		self.assertEquals(Election.objects.get(name=u"COMUNA1").candidate_set.count(), 2)
-# 		self.assertEquals(Election.objects.get(name=u"COMUNA1").category_set.count(), 2)
-# 		self.assertEquals(Election.objects.get(name=u"COMUNA1").category_set.all()[0].question_set.count(), 1)
-# 		self.assertEquals(Election.objects.get(name=u"COMUNA2").custom_style, style)
-# 		self.assertEquals(Election.objects.get(name=u"COMUNA1").custom_style, style)
-
-
-
-# 	def test_creates_two_elections_based_on_the_list_of_candidates(self):
-# 		algarrobo = Election.objects.get(slug=u"algarrobo")
-# 		otra_comuna = Election.objects.get(slug=u"otra-comuna")
-
-# 		self.assertEquals(algarrobo.category_set.count(), 2)
-# 		self.assertEquals(otra_comuna.category_set.count(), 2)
-
-
-# 	def test_creates_questions_and_answers(self):
-# 		algarrobo = Election.objects.get(slug=u"algarrobo")
-
-# 		self.assertEquals(algarrobo.category_set.all()[0].name, u"la categoria1")
-# 		self.assertEquals(algarrobo.category_set.all()[0].question_set.all()[0].question, u"la pregunta1")
-# 		self.assertEquals(algarrobo.category_set.all()[0].question_set.all()[0].answer_set.all()[0].caption, u"respuesta 1")
-# 		self.assertEquals(algarrobo.category_set.all()[0].question_set.all()[0].answer_set.all()[1].caption, u"respuesta 2")
-# 		self.assertEquals(algarrobo.category_set.all()[1].name, u"la categoria2")
-# 		self.assertEquals(algarrobo.category_set.all()[1].question_set.all()[0].question, u"la pregunta2")
-# 		self.assertEquals(algarrobo.category_set.all()[1].question_set.all()[0].answer_set.all()[0].caption, u"respuesta 3")
-# 		self.assertEquals(algarrobo.category_set.all()[1].question_set.all()[0].answer_set.all()[1].caption, u"respuesta 4")
-
-
-
-
-# 	def test_creates_questions_and_answers_for_otra_comuna(self):
-# 		otra_comuna = Election.objects.get(slug=u"otra-comuna")
-
-# 		self.assertEquals(otra_comuna.category_set.all()[0].name, u"la categoria1")
-# 		self.assertEquals(otra_comuna.category_set.all()[0].question_set.all()[0].question, u"la pregunta1")
-# 		self.assertEquals(otra_comuna.category_set.all()[0].question_set.all()[0].answer_set.all()[0].caption, u"respuesta 1")
-# 		self.assertEquals(otra_comuna.category_set.all()[0].question_set.all()[0].answer_set.all()[1].caption, u"respuesta 2")
-# 		self.assertEquals(otra_comuna.category_set.all()[1].name, u"la categoria2")
-# 		self.assertEquals(otra_comuna.category_set.all()[1].question_set.all()[0].question, u"la pregunta2")
-# 		self.assertEquals(otra_comuna.category_set.all()[1].question_set.all()[0].answer_set.all()[0].caption, u"respuesta 3")
-# 		self.assertEquals(otra_comuna.category_set.all()[1].question_set.all()[0].answer_set.all()[1].caption, u"respuesta 4")
-
-
-
-# class ElectionLoaderTestCase(TestCase):
-# 	def setUp(self):
-# 		self.line = [
-# 					"Algarrobo", 
-# 					"BORIS COLJA", 
-# 					"IND",
-# 					"pacto wena onda amigui",
-# 					"SI",
-# 					"20",
-# 					"1900-1990asdasd",
-# 					"19028209324dsfsdf",
-# 					"http://www.facebook.com/boris-colja",
-# 					"boris"
-# 					]
-
-
-# 		self.line2 = [
-# 					"Algarrobo", 
-# 					"Fiera", 
-# 					"NO SOY IND",
-# 					"pacto wena onda amigui",
-# 					"NO",
-# 					"0",
-# 					"", 
-# 					"",
-# 					"http://www.facebook.com/fieraferoz",
-# 					"fieraferoz"
-# 					]
-
-# 		self.line3 = [
-# 					"Algarrobo", 
-# 					"Fieripipooo", 
-# 					"NO SOY IND",
-# 					"pacto wena onda amigui",
-# 					"NO",
-# 					"0",
-# 					"", 
-# 					"",
-# 					"",
-# 					""
-# 					]
-
-# 		self.lines = [
-# 			["category","la categoria1"],
-# 			["question","la pregunta1"],
-# 			["answer","respuesta 1"],
-# 			["answer","respuesta 2"],
-# 			["category","la categoria2"],
-# 			["question","la pregunta2"],
-# 			["answer","respuesta 3"],
-# 			["answer","respuesta 4"],
-# 		]
-
-# 		self.user = User.objects.create_user(username='ciudadanointeligente',
-#                                                 password='fci',
-#                                                 email='fci@ciudadanointeligente.cl')
-# 		self.styles = u"un estilo"
-# 		self.loader = Loader('ciudadanointeligente', self.lines, self.styles)
-
-# 	def test_creates_a_new_election(self):
+	def test_only_assigns_style_to_newly_created_elections(self):
+		the_election_1 = self.loader.get_election(self.line2, self.questions_lines)
 		
-		
-# 		election = self.loader.getElection(self.line)
+		the_same_election_with_a_new_candidate = self.loader.get_election(self.line3, self.questions_lines)
+		self.assertEquals(the_same_election_with_a_new_candidate.custom_style, self.styles)
 
-# 		self.assertEquals(election.name, u"Algarrobo")
-# 		self.assertEquals(election.owner, self.user)
-# 		self.assertEquals(election.custom_style, self.styles)
+	def test_get_candidate(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
 
+		self.assertEquals(the_candidate.name, u"Fiera Feroz")
 
-# 	def test_get_candidate(self):
-# 		election = self.loader.getElection(self.line)
-# 		candidate = self.loader.getCandidate(self.line)
-# 		self.assertEquals(candidate.name, u"BORIS COLJA")
-# 		self.assertEquals(candidate.election, election)
-# 		self.assertTrue( u"Partido" in candidate.get_personal_data)
-# 		self.assertTrue( u"Pacto" in candidate.get_personal_data)
-# 		self.assertTrue( u"¿Va a reelección?" in candidate.get_personal_data)
-# 		self.assertTrue( u"Número de años que ha sido alcalde" in candidate.get_personal_data)
-# 		self.assertTrue( u"Períodos como alcalde" in candidate.get_personal_data)
-# 		self.assertTrue( u"Elecciones anteriores" in candidate.get_personal_data)
-# 		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
-# 		self.assertEquals(candidate.get_personal_data[u'Pacto'], u'pacto wena onda amigui')
-# 		self.assertEquals(candidate.get_personal_data[u'¿Va a reelección?'], u'SI')
-# 		self.assertEquals(candidate.get_personal_data[u'Número de años que ha sido alcalde'], u'20')
-# 		self.assertEquals(candidate.get_personal_data[u'Períodos como alcalde'], u'1900-1990asdasd')
-# 		self.assertEquals(candidate.get_personal_data[u'Elecciones anteriores'], u'19028209324dsfsdf')
-# 		self.assertEquals(candidate.link_set.count(), 2)
-# 		self.assertEquals(candidate.link_set.get(name=u"@boris").url, u"https://twitter.com/boris")
-# 		self.assertEquals(candidate.link_set.get(name=u"BORIS COLJA").url, u"http://www.facebook.com/boris-colja")
-# 		self.assertFalse(candidate.has_answered)
-# 		self.assertEquals(election.backgroundcategory_set.count(), 1)
-# 		self.assertEquals(election.backgroundcategory_set.all()[0].name, u"Otros")
-# 		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.count(), 1)
-# 		self.assertEquals(election.backgroundcategory_set.all()[0].background_set.all()[0].name , u"Aclaraciones al cuestionario")
-# 		self.assertEquals(candidate.backgroundcandidate_set.count(), 1)
-# 		self.assertEquals(candidate.backgroundcandidate_set.all()[0].value, u"Sin aclaraciones")
+	def test_it_create_two_candidates(self):
+		self.loader.process()
+		the_election = Election.objects.all()[0]
+		self.assertEquals(the_election.candidate_set.count(), 2)
+		self.assertEquals(the_election.candidate_set.all()[0].name, u"Fiera Feroz")
 
+	def test_it_creates_the_questions(self):
+		self.loader.process()
+		the_election = Election.objects.all()[0]
+		self.assertEquals(the_election.personaldata_set.count(), 2)
+		self.assertEquals(the_election.personaldata_set.all()[0].label, u"Party")
+		self.assertEquals(the_election.personaldata_set.all()[1].label, u"Age")
+		#I'm being lazy and assuming that the questionparser is executed
 
-# 	def test_get_candidate_with_no_links(self):
-# 		election = self.loader.getElection(self.line3)
-# 		candidate = self.loader.getCandidate(self.line3)
-# 		self.assertEquals(candidate.link_set.count(), 0)
-# 		self.assertFalse(candidate.has_answered)
+	def test_it_assingns_personal_data(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
+		self.loader.assign_values(the_election, the_candidate, self.line2)
+
+		self.assertEquals(the_election.personaldata_set.all()[0].personaldatacandidate_set.all()[0].value, u"Partido Feroz")
+		self.assertEquals(the_election.personaldata_set.all()[1].personaldatacandidate_set.all()[0].value, u"2 años")
+
+	def test_it_assigns_links(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
+		self.loader.assign_values(the_election, the_candidate, self.line2)
+		self.assertEquals(the_candidate.link_set.count(), 2)
 
 
+	def test_it_assigns_twitter(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
+		self.loader.assign_values(the_election, the_candidate, self.line2)
 
-# 	def test_deletes_previous_personal_data(self):
-# 		candidate = self.loader.getCandidate(self.line)
+		self.assertEquals(the_candidate.link_set.all()[0].url, u"https://twitter.com/fieraferoz")
+		self.assertEquals(the_candidate.link_set.all()[0].name, u"@fieraferoz")
 
-# 		self.assertEquals(len(candidate.get_personal_data), 6)
-# 		self.assertEquals(candidate.get_personal_data[u'Partido'], u'IND')
+	def test_it_assigns_facebook(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
+		self.loader.assign_values(the_election, the_candidate, self.line2)
 
-# 	def test_create_only_one_personal_data_for_the_election(self):
-# 		candidate = self.loader.getCandidate(self.line)
-# 		candidate = self.loader.getCandidate(self.line2)
-
-# 		self.assertEquals(candidate.election.personaldata_set.filter(label=u"Partido").count(), 1)
-
-# 	def test_election_has_only_one_background_category(self):
-# 		candidate = self.loader.getCandidate(self.line)
-
-# 		self.assertEquals(candidate.election.backgroundcategory_set.count(), 1)
+		self.assertEquals(the_candidate.link_set.all()[1].url, u"http://facebook.com/fieraferoz")
+		self.assertEquals(the_candidate.link_set.all()[1].name, u"Fiera Feroz")
 
 
+	def test_it_assigns_background_value(self):
+		the_election = self.loader.get_election(self.line2, self.questions_lines)
+		the_candidate = self.loader.get_candidate(self.line2, the_election)
+		self.loader.assign_values(the_election, the_candidate, self.line2)
 
-# 	def test_create_questions_by_default_for_the_election(self):
-# 		election = self.loader.getElection(self.line)
-		
+		the_background = the_candidate.backgroundcandidate_set.count()
+		self.assertEquals(the_candidate.backgroundcandidate_set.count(), 1)
+		self.assertEquals(the_candidate.backgroundcandidate_set.all()[0].value, u"Seguradad en FCI")
 
 
-# 		first_category_questions = election.category_set.all()[0].question_set.all()
-# 		second_category_questions = election.category_set.all()[1].question_set.all()
+	def test_it_assigns_backgrounds_and_personal_data(self):
+		self.loader.process()
 
-# 		self.assertEquals(election.category_set.count(), 2 )
+		the_election = Election.objects.all()[0]
+		self.assertEquals(the_election.personaldata_set.all()[0].personaldatacandidate_set.all()[0].value, u"Partido Feroz")
+		self.assertEquals(the_election.personaldata_set.all()[1].personaldatacandidate_set.all()[0].value, u"2 años")
 
-# 		self.assertEquals(first_category_questions[0].answer_set.count(), 2)
-# 		self.assertEquals(first_category_questions[0].answer_set.all()[0].caption, u"respuesta 1")
-# 		self.assertEquals(first_category_questions[0].answer_set.all()[1].caption, u"respuesta 2")
+		the_candidate = Candidate.objects.get(name="Fiera Feroz")
+		the_background = the_candidate.backgroundcandidate_set.count()
+		self.assertEquals(the_candidate.backgroundcandidate_set.count(), 1)
+		self.assertEquals(the_candidate.backgroundcandidate_set.all()[0].value, u"Seguradad en FCI")
 
-# 		self.assertEquals(second_category_questions[0].answer_set.count(), 2)
-# 		self.assertEquals(second_category_questions[0].answer_set.all()[0].caption, u"respuesta 3")
-# 		self.assertEquals(second_category_questions[0].answer_set.all()[1].caption, u"respuesta 4")
+
