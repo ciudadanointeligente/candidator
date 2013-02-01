@@ -22,12 +22,12 @@ class QuestionsParserTestCase(TestCase):
 			["background history","background history record 2"],
 			["background history category","Background category 2"],
 			["background history","background history record 3"],
-			["background history","rbackground history record 4"],
+			["background history","background history record 4"],
 		]
 		self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
                                                 email='fci@ciudadanointeligente.cl')
-		self.election = Election.objects.create(owner=self.user, name="Elección para molestar a Marcel")
+		self.election = Election.objects.create(owner=self.user, name="Elección para molestar a la Fiera")
 		self.election.category_set.all().delete()
 
 	def test_create_categories(self):
@@ -79,6 +79,23 @@ class QuestionsParserTestCase(TestCase):
 		self.assertEquals(election_after_questions_created.backgroundcategory_set.count(), 2)
 		self.assertEquals(election_after_questions_created.backgroundcategory_set.all()[0].name, u"Background category 1")
 		self.assertEquals(election_after_questions_created.backgroundcategory_set.all()[1].name, u"Background category 2")
+
+
+	def test_create_background(self):
+		parser = QuestionsParser(self.election)
+		parser.createQuestions(self.lines)
+		election_after_questions_created = Election.objects.get(pk=self.election.pk)
+
+		first_background_category = election_after_questions_created.backgroundcategory_set.all()[0]
+		second_background_category = election_after_questions_created.backgroundcategory_set.all()[1]
+
+
+		self.assertEquals(first_background_category.background_set.count(), 2)
+		self.assertEquals(first_background_category.background_set.all()[0].name, u"background history record 1")
+		self.assertEquals(first_background_category.background_set.all()[1].name, u"background history record 2")
+		self.assertEquals(second_background_category.background_set.count(), 2)
+		self.assertEquals(second_background_category.background_set.all()[0].name, u"background history record 3")
+		self.assertEquals(second_background_category.background_set.all()[1].name, u"background history record 4")
 
 
 

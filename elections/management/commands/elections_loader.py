@@ -92,6 +92,9 @@ class QuestionsParser(object):
 			if line[0]=="background history category":
 				background_category_name = line[1].decode('utf-8').strip()
 				self.background_category = BackgroundCategory.objects.create(name=background_category_name, election=self.election)
+			if line[0]=="background history":
+				background_history_name = line[1].decode('utf-8').strip()
+				self.background_history = Background.objects.create(name=background_history_name, category=self.background_category)
 
 
 class Command(BaseCommand):
