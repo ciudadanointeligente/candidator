@@ -76,6 +76,7 @@ class Loader(object):
 class QuestionsParser(object):
 	def __init__(self, election):
 		self.election = election
+		self.election.backgroundcategory_set.all().delete()
 
 	def createQuestions(self, lines):
 		for line in lines:
@@ -88,6 +89,9 @@ class QuestionsParser(object):
 			if line[0]=="answer":
 				answer = line[1].decode('utf-8').strip()
 				self.answer = Answer.objects.create(caption=answer, question=self.question)
+			if line[0]=="background history category":
+				background_category_name = line[1].decode('utf-8').strip()
+				self.background_category = BackgroundCategory.objects.create(name=background_category_name, election=self.election)
 
 
 class Command(BaseCommand):
