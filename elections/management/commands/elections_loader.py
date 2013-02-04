@@ -58,6 +58,7 @@ class AnswersLoader(object):
 		if(created):
 		 	election.custom_style = self.styles
 		 	election.save()
+		 	election.category_set.all().delete()
 		 	parser = QuestionsParser(election)
 			parser.createQuestions(questions)
 		return election
