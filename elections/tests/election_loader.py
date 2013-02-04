@@ -4,6 +4,8 @@
 from django.test import TestCase
 from elections.management.commands.elections_loader import *
 from django.contrib.auth.models import User
+from django.conf import settings
+
 
 class QuestionsParserTestCase(TestCase):
 	def setUp(self):
@@ -31,6 +33,9 @@ class QuestionsParserTestCase(TestCase):
                                                 email='fci@ciudadanointeligente.cl')
 		self.election = Election.objects.create(owner=self.user, name="Elección para molestar a la Fiera")
 		self.election.category_set.all().delete()
+
+
+
 
 	def test_create_categories(self):
 		parser = QuestionsParser(self.election)
@@ -108,6 +113,59 @@ class QuestionsParserTestCase(TestCase):
 		self.assertEquals(election_after_questions_created.personaldata_set.all()[0].label, u"Party")
 		self.assertEquals(election_after_questions_created.personaldata_set.all()[1].label, u"Age")
 
+class QuestionsConflictingWithDefaultQuestions(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username='ciudadanointeligente',
+                                                password='fci',
+                                                email='fci@ciudadanointeligente.cl')
+		settings.DEFAULT_QUESTIONS = [{
+		    'Category':u'Educación',
+		    'Questions':[
+		        {
+		            'question':u'¿Crees que Chile debe tener una educación gratuita?',
+		            'answers':[u'Sí',u'No']
+		        },
+		        {
+		            'question':u'¿Estas de acuerdo con la desmunicipalización?',
+		            'answers':[u'Sí',u'No']
+		        }
+		    ]
+		}]
+		self.question_lines = [
+			["category","Educación"],
+			["question","¿Crees que Chile debe tener una educación gratuita?"],
+			["answer","Sí"],
+			["answer","No"],
+			["question","¿Estas de acuerdo con la desmunicipalización?"],
+			["answer","Sí"],
+			["answer","No"],
+		]
+		self.line0 = ["", "",] #this line defines the type of the following elements
+		self.line1 = [
+						"election", 
+						"candidate"
+						] #this is a background record
+		
+		#the rest of the lines are going to be interpreted as answers
+		self.line2 = ["Algarrobo", "Fiera Feroz"]
+		self.line3 = ["Algarrobo", "Mickey"]
+
+		self.lines = [self.line0, self.line1, self.line2, self.line3]
+		self.styles = u"un estilo"
+
+	def test_it_does_not_conflict_with_any_preexisting_category(self):
+		
+		self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.question_lines, self.styles)
+		self.loader.process()
+
+		new_election = Election.objects.create(owner=self.user, name="Una elección nueva")
+		parser = QuestionsParser(new_election)
+		parser.createQuestions(self.lines)
+		election_after_questions_created = Election.objects.get(pk=new_election.pk)
+		
+
+		self.assertEquals(election_after_questions_created.category_set.count(), 1 )
+		self.assertEquals(election_after_questions_created.category_set.all()[0].name, u"Educación")
 
 
 class CandidateLoaderTestCase(TestCase):
@@ -159,6 +217,9 @@ class CandidateLoaderTestCase(TestCase):
 
 		self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.questions_lines, self.styles)
 		Election.objects.all().delete()
+
+
+	
 
 	def test_get_definitions_from_first_line(self):
 		expected_definitions = {
@@ -268,5 +329,8 @@ class CandidateLoaderTestCase(TestCase):
 		the_background = the_candidate.backgroundcandidate_set.count()
 		self.assertEquals(the_candidate.backgroundcandidate_set.count(), 1)
 		self.assertEquals(the_candidate.backgroundcandidate_set.all()[0].value, u"Seguradad en FCI")
+
+
+
 
 
