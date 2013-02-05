@@ -209,9 +209,15 @@ class BackgroundCandidateCreateViewTest(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, '{"value": "%s"}' % params['value'])
-
-        expected = { self.background_category.name : { self.background.name: 'Bar'}}
-        self.assertEquals(self.candidate.get_background, expected)
+        
+        expected_dict = {
+        1: {'name': self.background_category.name,
+            'backgrounds': {
+                1: {'name': self.background.name, 'value': 'Bar'},
+                }
+            },
+        }
+        self.assertEquals(self.candidate.get_background, expected_dict)
 
 
 class AsyncCreateBackgroundViewTest(TestCase):
