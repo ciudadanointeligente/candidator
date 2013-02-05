@@ -186,11 +186,20 @@ class Candidate(models.Model):
     @property
     def get_background(self):
         backgrounds = {}
+        category_counter = 0
         for backgroundcategory in self.election.backgroundcategory_set.all():
-            backgrounds[backgroundcategory.name] = {}
+            category_counter = category_counter + 1
+            backgrounds[category_counter] = {'name':backgroundcategory.name, 'backgrounds':None}
+            temporary_backgrounds = {}
+            backgrounds_counter = 0
             for background in backgroundcategory.background_set.all():
+                backgrounds_counter = backgrounds_counter + 1
                 what_the_candidate_answered = self.get_answer_for_background(background)
-                backgrounds[backgroundcategory.name][background.name] = what_the_candidate_answered
+                temporary_backgrounds[backgrounds_counter] = {
+                                                    'name':background.name, 
+                                                    'value':what_the_candidate_answered
+                                                    }
+            backgrounds[category_counter]['backgrounds'] = temporary_backgrounds
         return backgrounds
         
         

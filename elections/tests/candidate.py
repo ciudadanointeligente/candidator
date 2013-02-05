@@ -116,6 +116,16 @@ class CandidateModelTest(TestCase):
         self.assertTrue('foo' in personal_data_set)
         self.assertTrue(personal_data_set['foo'] is None)
 
+    def test_get_repeated_backgrounds(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category = BackgroundCategory.objects.create(election=self.election,
+                                                                    name='FooBar')
+        background_category2 = BackgroundCategory.objects.create(election=self.election,
+                                                                    name='FooBar')
+        backgrounds = candidate.get_background
+        self.assertEqual(len(backgrounds), 2)
+
     def test_get_background(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
@@ -141,8 +151,19 @@ class CandidateModelTest(TestCase):
                                                                                   background=background3,
                                                                                   value="BarFoo3")
 
-        expected_dict = {'FooBar' : {'foo': 'BarFoo', 'foo2': 'BarFoo2'},
-                         'FooBar2' : {'foo3': 'BarFoo3'}}
+        expected_dict = {
+        1: {'name':'FooBar',
+            'backgrounds': {
+                1: {'name': 'foo', 'value': 'BarFoo'}, 
+                2: {'name':'foo2', 'value': 'BarFoo2'}
+                }
+            },
+        2: {'name': 'FooBar2',
+            'backgrounds': {
+                1: {'name':'foo3', 'value':'BarFoo3'}
+                }
+            }
+        }
         self.assertEqual(candidate.get_background, expected_dict)
         
     def test_get_what_the_candidate_answered_when_has_been_answered(self):
@@ -173,10 +194,21 @@ class CandidateModelTest(TestCase):
                                                                     name='FooBar2')
         background3, created = Background.objects.get_or_create(category=background_category2,
                                                                 name='foo3')
-                                                                
-        expected_dict = {'FooBar': {'foo': None, 'foo2': None},
-                         'FooBar2': {'foo3': None}}
-                         
+                                                                                 
+        expected_dict = {
+        1: {'name':'FooBar',
+            'backgrounds': {
+                1: {'name': 'foo', 'value': None}, 
+                2: {'name':'foo2', 'value': None}
+                }
+            },
+        2: {'name': 'FooBar2',
+            'backgrounds': {
+                1: {'name':'foo3', 'value':None}
+                }
+            }
+        }
+
         self.assertEqual(candidate.get_background, expected_dict)
         
         
@@ -219,16 +251,38 @@ class CandidateModelTest(TestCase):
                                                                 name='foo2')
 
         candidate.add_background(background, 'BarFoo')
-        expected = {'FooBar' : {'foo': 'BarFoo', 'foo2': None}}
-        self.assertEqual(candidate.get_background, expected)
+
+        expected_dict = {
+        1: {'name':'FooBar',
+            'backgrounds': {
+                1: {'name': 'foo', 'value': 'BarFoo'}, 
+                2: {'name':'foo2', 'value': None}
+                }
+            },
+        }
+        self.assertEqual(candidate.get_background, expected_dict)
 
         candidate.add_background(background, 'BarFoo2')
-        expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2': None}}
-        self.assertEqual(candidate.get_background, expected)
+        expected_dict = {
+        1: {'name':'FooBar',
+            'backgrounds': {
+                1: {'name': 'foo', 'value': 'BarFoo2'}, 
+                2: {'name':'foo2', 'value': None}
+                }
+            }
+        }
+        self.assertEqual(candidate.get_background, expected_dict)
 
         candidate.add_background(background2, 'BarFoo3')
-        expected = {'FooBar' : {'foo': 'BarFoo2', 'foo2':'BarFoo3'}}
-        self.assertEqual(candidate.get_background, expected)
+        expected_dict = {
+        1: {'name':'FooBar',
+            'backgrounds': {
+                1: {'name': 'foo', 'value': 'BarFoo2'}, 
+                2: {'name':'foo2', 'value': 'BarFoo3'}
+                }
+            },
+        }
+        self.assertEqual(candidate.get_background, expected_dict)
 
     def test_get_questions_by_category(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
