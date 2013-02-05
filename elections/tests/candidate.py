@@ -116,6 +116,15 @@ class CandidateModelTest(TestCase):
         self.assertTrue('foo' in personal_data_set)
         self.assertTrue(personal_data_set['foo'] is None)
 
+    def test_get_repeated_backgrounds(self):
+        candidate = Candidate.objects.create(name='Juan Candidato',
+                                            election=self.election)
+        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election,
+                                                                    name='FooBar')
+        self.assertEqual(len(candidate.get_background), 2)
+
     def test_get_background(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
