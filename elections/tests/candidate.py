@@ -119,11 +119,12 @@ class CandidateModelTest(TestCase):
     def test_get_repeated_backgrounds(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
                                             election=self.election)
-        background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
+        background_category = BackgroundCategory.objects.create(election=self.election,
                                                                     name='FooBar')
-        background_category2, created = BackgroundCategory.objects.get_or_create(election=self.election,
+        background_category2 = BackgroundCategory.objects.create(election=self.election,
                                                                     name='FooBar')
-        self.assertEqual(len(candidate.get_background), 2)
+        backgrounds = candidate.get_background
+        self.assertEqual(len(backgrounds), 2)
 
     def test_get_background(self):
         candidate = Candidate.objects.create(name='Juan Candidato',
