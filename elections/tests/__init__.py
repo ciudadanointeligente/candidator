@@ -1,6 +1,7 @@
 from tests import *
 
 from answer import *
+from api import *
 from background import *
 from background_category import *
 from candidate import *
