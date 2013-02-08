@@ -3,9 +3,11 @@ from django.views.generic.simple import direct_to_template, redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from tastypie.api import Api
+
+
 admin.autodiscover()
 
-from elections.views import ElectionDetailView
 
 urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -22,7 +24,13 @@ urlpatterns = patterns('',
 
     url(r'^report/', include('report_objects.urls')),
 
+    (r'^api/', include('elections.api_urls')),
+
     url(r'^', include('elections.urls')),
+
+
+
+    
 
     # url(r'^index/?$', direct_to_template, {'template': 'index.html'}), # DESCOMENTAR CUANDO SE DEFINA UN INDEX
 
