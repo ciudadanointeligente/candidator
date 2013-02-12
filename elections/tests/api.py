@@ -27,6 +27,7 @@ class ApiTestCase(ResourceTestCase):
                                                             owner=self.user,
                                                             slug='barbaz',
                                                             published=True)
+        self.election.category_set.all().delete()
 
         self.category1 = Category.objects.create(name=u"Pets and phisicians", election=self.election, slug="pets")
         self.category2 = Category.objects.create(name=u"language problemas ", election=self.election, slug="language")
@@ -116,4 +117,11 @@ class ApiTestCase(ResourceTestCase):
         self.assertTrue(election.has_key("categories"))
         self.assertEquals(len(election["categories"]), 2)
 
-        
+        category = election["categories"][0]
+
+        self.assertEquals(category['name'], u"Pets and phisicians")
+        self.assertTrue(category.has_key('questions'))
+
+        self.assertEquals(len(category["questions"]), 2)
+        self.assertEquals(category["questions"][0]["question"], u"¿Cuál es el nombre de la ferocidad?")
+        self.assertEquals(category["questions"][1]["question"], u"¿Which one is your favourite colour?")
