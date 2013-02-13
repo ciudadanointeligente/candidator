@@ -103,7 +103,7 @@
 
                                     <div class="accordionContent">
                                         {% for background_index, background in background_category.backgrounds.items %}
-                                        <span class="profile-description">{{ background.name }}: </span>{% if background.value %}{{ background.value }}{% endif %}<br>
+                                        <div class="profile-description">{{ background.name }}: </div>{% if background.value %}{{ background.value }}{% endif %}<br>
                                         {% endfor %}
                                     </div>
                                     {% endfor %}
