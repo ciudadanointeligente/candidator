@@ -98,12 +98,12 @@
                             <div class="brdotted">
                                 <div class="accordion">
 				{% if candidate.get_background.items %}
-                                    {% for background_category, background_items in candidate.get_background.items %}
-                                    <h3>{{ background_category }}: </h3>
+                                    {% for category_index, background_category in candidate.get_background.items %}
+                                    <h3>{{ background_category.name }}: </h3>
 
                                     <div class="accordionContent">
-                                        {% for background_label, background_value in background_items.items %}
-                                        <span class="profile-description">{{ background_label }}: </span>{% if background_value %}{{ background_value }}{% endif %}<br>
+                                        {% for background_index, background in background_category.backgrounds.items %}
+                                        <span class="profile-description">{{ background.name }}: </span>{% if background.value %}{{ background.value }}{% endif %}<br>
                                         {% endfor %}
                                     </div>
                                     {% endfor %}
