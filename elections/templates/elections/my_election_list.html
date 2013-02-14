@@ -45,6 +45,26 @@
 	</ul>
 </div>
 
+        <head>
+        <br/>
+        <h1>{% trans 'Mi Api Key' %}</h1>
+        <div class="listElectionEdit">
+            <a href="http://en.wikipedia.org/wiki/Application_programming_interface_key">(¿Qué es una API key?)</a>
+        </div>
+        <hr />
+        </head>
+
+<div class="election_list">
+    <ul class="electionList" >
+        <table border="0">
+            <tr>
+                <td class="listElectionName">{{user.username}}</td>
+                <!-- ApiKey.objects.get(user = usuarios[2]) -->
+                <td>{{user.api_key.key}}</td>
+            </tr>
+        </table>
+    </ul>
+</div>
     <br/>
 
     </div>
