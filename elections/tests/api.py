@@ -25,6 +25,9 @@ class ApiTestCase(ResourceTestCase):
                                                             slug='barbaz',
                                                             published=True)
         self.election.category_set.all().delete()
+        self.election.personaldata_set.all().delete()
+        self.personal_data1 = PersonalData.objects.create(label=u"Age", election=self.election)
+        self.personal_data2 = PersonalData.objects.create(label=u"Profession", election=self.election)
 
         self.category1 = Category.objects.create(name=u"Pets and phisicians", election=self.election, slug="pets")
         self.category2 = Category.objects.create(name=u"language problemas ", election=self.election, slug="language")
@@ -45,12 +48,16 @@ class ApiTestCase(ResourceTestCase):
         self.candidate = Candidate.objects.create(
                                                             name='Bar Baz',
                                                             election=self.election)
+
+        self.age1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data1, candidate=self.candidate, value=u"2")
+        self.profession1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data2, candidate=self.candidate, value=u"Perro")
         self.candidate2 = Candidate.objects.create(
                                                             name='Fieri',
                                                             election=self.election)
         self.candidate3  = Candidate.objects.create(
                                                             name='Ratón 1',
                                                             election=self.election2)
+        self.candidate3.personal_data.all().delete()
 
 
         self.api_client = TestApiClient()
@@ -140,3 +147,14 @@ class ApiTestCase(ResourceTestCase):
         self.assertEquals(question["possible_answers"][0]["caption"],u"Fiera")
         self.assertEquals(question["possible_answers"][1]["caption"],u"Ratón inteligente pero barza")
 
+    def test_candidate_detail_shows_personal_data(self):
+        url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
+        resp = self.api_client.get(url, data=self.data)
+        candidate = self.deserialize(resp)
+
+        self.assertTrue("personal_data" in candidate)
+        self.assertFalse("resource_uri" in candidate["personal_data"][0])
+        self.assertEqual(candidate["personal_data"][0]["label"], "Age")
+        self.assertEqual(candidate["personal_data"][1]["label"], "Profession")
+        self.assertEqual(candidate["personal_data"][0]["value"], "2")
+        self.assertEqual(candidate["personal_data"][1]["value"], "Perro")
