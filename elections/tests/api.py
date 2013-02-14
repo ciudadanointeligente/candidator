@@ -6,7 +6,6 @@ from tastypie.models import ApiKey
 from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
                              Question
-#from tastypie.models import create_api_key
 from tastypie.test import ResourceTestCase, TestApiClient
 from django.core.urlresolvers import reverse
 
@@ -18,11 +17,9 @@ class ApiTestCase(ResourceTestCase):
                                                 password='joe',
                                                 email='doe@joe.cl')
         Election.objects.filter(owner=self.user).delete()
-        self.user_api_key = ApiKey.objects.create(user=self.user)
         self.not_user = User.objects.create_user(username='joe',
                                                 password='joe',
                                                 email='doe@joe.cl')
-        self.not_user_api_key = ApiKey.objects.create(user=self.not_user)
         self.election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=self.user,
                                                             slug='barbaz',
@@ -39,7 +36,8 @@ class ApiTestCase(ResourceTestCase):
                                                             owner=self.not_user,
                                                             slug='barbaz2',
                                                             published=True)
-        self.candidate = Candidate.objects.create(name='Bar Baz',
+        self.candidate = Candidate.objects.create(
+                                                            name='Bar Baz',
                                                             election=self.election)
         self.candidate2 = Candidate.objects.create(
                                                             name='Fieri',
@@ -50,11 +48,10 @@ class ApiTestCase(ResourceTestCase):
 
 
         self.api_client = TestApiClient()
-        self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user_api_key.key} 
+        self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
 
     def test_get_all_my_elections(self):
-
         url = '/api/v1/election/'
         resp = self.api_client.get(url,data = self.data)
         self.assertValidJSONResponse(resp)
@@ -89,8 +86,6 @@ class ApiTestCase(ResourceTestCase):
         self.assertValidJSONResponse(resp)
         candidates = self.deserialize(resp)['objects']
         self.assertEqual(len(candidates), 2)
-
-
 
 
     def test_get_candidates_per_election(self):
