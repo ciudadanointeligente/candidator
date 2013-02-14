@@ -5,7 +5,7 @@ from django.db import models
 from tastypie.models import ApiKey
 from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
-                             Question
+                             Question, Answer
 from tastypie.test import ResourceTestCase, TestApiClient
 from django.core.urlresolvers import reverse
 
@@ -29,8 +29,14 @@ class ApiTestCase(ResourceTestCase):
         self.category1 = Category.objects.create(name=u"Pets and phisicians", election=self.election, slug="pets")
         self.category2 = Category.objects.create(name=u"language problemas ", election=self.election, slug="language")
         self.question1 = Question.objects.create(category=self.category1, question=u"¿Cuál es el nombre de la ferocidad?")
+        self.answer1 = Answer.objects.create(caption=u"Fiera", question=self.question1)
+        self.answer2 = Answer.objects.create(caption=u"Ratón inteligente pero barza", question=self.question1)
         self.question2 = Question.objects.create(category=self.category1, question=u"¿Which one is your favourite colour?")
-        self.question3 = Question.objects.create(category=self.category2, question=u"¿Why don't you speak proper english?")
+        self.answer3 = Answer.objects.create(caption=u"apple", question=self.question2)
+        self.answer4 = Answer.objects.create(caption=u"orange", question=self.question2)
+        self.question3 = Question.objects.create(category=self.category2, question=u"¿!¿Why don't you speak proper english?!?")
+        self.answer5 = Answer.objects.create(caption=u"Hablo inglés perfectamente", question=self.question3)
+        self.answer6 = Answer.objects.create(caption=u"I don't speak any english", question=self.question3)
 
         self.election2, created = Election.objects.get_or_create(name='BarBaz2',
                                                             owner=self.not_user,
@@ -120,3 +126,17 @@ class ApiTestCase(ResourceTestCase):
         self.assertEquals(len(category["questions"]), 2)
         self.assertEquals(category["questions"][0]["question"], u"¿Cuál es el nombre de la ferocidad?")
         self.assertEquals(category["questions"][1]["question"], u"¿Which one is your favourite colour?")
+
+
+
+    def test_a_question_has_possible_answers(self):
+        url = '/api/v1/election/{0}/'.format(self.election.id)
+        resp = self.api_client.get(url, data=self.data)
+        election = self.deserialize(resp)
+
+        question = election["categories"][0]["questions"][0]
+        self.assertTrue(question.has_key("possible_answers"))
+        self.assertEquals(len(question["possible_answers"]), 2)
+        self.assertEquals(question["possible_answers"][0]["caption"],u"Fiera")
+        self.assertEquals(question["possible_answers"][1]["caption"],u"Ratón inteligente pero barza")
+
