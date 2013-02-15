@@ -15,11 +15,8 @@ class CandidateResource(ModelResource):
 		resource_name = 'candidate'
 		authentication = ApiKeyAuthentication()
 
-	def obj_create(self, bundle, request=None, **kwargs):
-		return super(CandidateResource, self).obj_create(bundle, request, user=request.user)
-
-	def apply_authorization_limits(self, request, object_list):
-		return object_list.filter(election__owner=request.user)
+	def authorized_read_list(self, object_list, bundle):
+		return object_list.filter(election__owner=bundle.request.user)
 
 	def dehydrate(self, bundle):
 		for pdata in bundle.data['personal_data']:
@@ -58,11 +55,5 @@ class ElectionResource(ModelResource):
 		excludes = ['custom_style']
 		authentication = ApiKeyAuthentication()
 
-	def obj_create(self, bundle, request=None, **kwargs):
-		return super(ElectionResource, self).obj_create(bundle, request, user=request.user)
-
-	def apply_authorization_limits(self, request, object_list):
-		return object_list.filter(owner=request.user)
-
-
-
+	def authorized_read_list(self, object_list, bundle):
+		return object_list.filter(owner=bundle.request.user)
