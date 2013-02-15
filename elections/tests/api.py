@@ -100,7 +100,6 @@ class ApiTestCase(ResourceTestCase):
         candidates = self.deserialize(resp)['objects']
         self.assertEqual(len(candidates), 2)
 
-
     def test_get_candidates_per_election(self):
         url = '/api/v1/election/{0}/'.format(self.election.id)
         resp = self.api_client.get(url, data=self.data)
@@ -109,12 +108,9 @@ class ApiTestCase(ResourceTestCase):
         election = self.deserialize(resp)
         candidates = election['candidates']
         self.assertEqual(len(candidates), 2)
-        candidate = candidates[0]
-        self.assertTrue(candidate.has_key("id"))
-        self.assertTrue(candidate.has_key("name"))
-        self.assertTrue(candidate.has_key("slug"))
-        self.assertTrue(candidate.has_key("photo"))
-        self.assertTrue(candidate.has_key("has_answered"))
+
+        self.assertEqual(candidates[0], "/api/v1/candidate/{0}/".format(self.candidate.id))
+        self.assertEqual(candidates[1], "/api/v1/candidate/{0}/".format(self.candidate2.id))
 
 
     def test_an_election_shows_questions(self):

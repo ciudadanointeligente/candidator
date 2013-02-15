@@ -45,7 +45,7 @@ class CategoryResource(ModelResource):
 		authentication = ApiKeyAuthentication()
 
 class ElectionResource(ModelResource):
-	candidates = fields.ToManyField(CandidateResource, 'candidate_set', null=True, full=True)
+	candidates = fields.ToManyField(CandidateResource, 'candidate_set', null=True, full=False)
 	categories = fields.ToManyField(CategoryResource, 'category_set', full=True)
 
 	class Meta:
