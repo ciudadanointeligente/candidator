@@ -122,10 +122,18 @@
         {% for category in election.category_set.all %}
         <li id="category_{{ category.pk }}">
             <div class= "categoriasAntecedentes"><h3>
-                {{ category.name }}
-                <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
-                    <img style="margin-top: -2px; float: right;" src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/>
+	      <input type="text" class="update" id="input_category_{{category.pk}}" style="margin-left:4px;" value="{{ category.name }}" disabled/>
+	      <div style="margin-top: -2px; float: right;">
+		<a id="edit_category_{{category.pk}}" href="javascript:void(0);" onclick="category_go_edit({{ category.pk }}); return false;">
+		<img src="{{ STATIC_URL }}img/goedit.png"/>
+		</a>
+	      <a id="ok_category_{{category.pk}}" href="javascript:void(0);" onclick="category_commit_rename({{ category.pk }}); return false;" hidden>
+                    <img src="{{ STATIC_URL }}img/ok.png"/>
                 </a>
+	      <a href="javascript:void(0);" onclick="category_delete({{category.pk}}); return false;">
+                    <img src="{{ STATIC_URL }}img/bt_eliminar(fondo).png"/>
+                </a>
+		</div>
             </h3></div>
             <ul id="id_question_list_{{ category.pk }}">
                 {% for question in category.question_set.all %}
@@ -260,6 +268,29 @@ function category_delete(category_pk){
     else {
         return false;
     }
+}
+
+function category_go_edit(category_pk) {
+    $('#input_category_' + category_pk).removeAttr('disabled');
+    $('#edit_category_' + category_pk).hide();
+    $('#ok_category_' + category_pk).show();
+}
+
+function category_go_readonly(category_pk) {
+    $('#input_category_' + category_pk).attr('disabled','disabled');
+    $('#ok_category_' + category_pk).hide();
+    $('#edit_category_' + category_pk).show();
+}
+
+function category_commit_rename(category_pk){
+    
+    var new_name = $('#input_category_' + category_pk).val();
+    var dir = "/"+category_pk +"/category/async_rename/";
+    
+    $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}' , 'new_name': new_name },
+           function(json){
+               category_go_readonly(category_pk);
+           });        
 }
 
 function question_delete(question_pk){

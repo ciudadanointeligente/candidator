@@ -216,6 +216,9 @@ urlpatterns = patterns('',
     # Delete category view in wizzard
     url(r'^(?P<category_pk>[0-9]+)/category/async_delete/?$', 'candidator.elections.views.async_delete_category' , name='async_delete_category'),
 
+    # Rename category view in wizzard
+    url(r'^(?P<category_pk>[0-9]+)/category/async_rename/?$', 'candidator.elections.views.async_rename_category' , name='async_rename_category'),
+
     # Create BackgroundCandidate
     url(r'^(?P<candidate_pk>[0-9]+)/(?P<background_pk>[0-9]+)/background_associate' , background_candidate_create, name='background_candidate_create'),
 

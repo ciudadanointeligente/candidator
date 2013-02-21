@@ -403,6 +403,34 @@ p textarea{
 	width:445px;
 }
 
+
+input[type="text"].update {
+    padding-left: 5px;
+    display: inline-block;
+    width: 350px;
+}
+
+input[type="text"].update:enabled {
+    font-family: 'AllerRegular';
+    font-size: 12px;
+    text-transform: none;
+    color: #999999;
+    background-color: #f2f2f2;
+    letter-spacing: normal;
+    border: 1px solid #dedede;
+    border-radius: 1px;
+}
+
+input[type="text"].update:disabled {
+    font-family: inherit;
+    font-size: inherit;
+    text-transform: inherit;
+    color: inherit;
+    background-color: inherit;
+    letter-spacing: inherit;
+    border: 0px;
+}
+
 .ejAntecedentes{
 	margin-left: 13px;
 	margin-top: -295px;

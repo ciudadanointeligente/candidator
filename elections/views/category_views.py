@@ -103,3 +103,19 @@ def async_create_category(request, election_pk):
     category.save()
     return HttpResponse(json.dumps({"pk": category.pk, "name": category.name}),
                         content_type='application/json')
+
+@login_required
+@require_POST
+def async_rename_category(request, category_pk):
+    category = get_object_or_404(Category, pk = category_pk, election__owner = request.user)
+    category.name = request.POST.get('new_name',None)
+    try:
+        category.full_clean()
+    except ValidationError, e:
+        errors = {'errors': e.messages}
+        return HttpResponse(json.dumps(errors),status=412)
+
+    category.save()
+    json_dictionary = {"result":"OK"}
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+
