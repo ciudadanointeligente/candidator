@@ -1,5 +1,6 @@
 # myapp/api.py
 from tastypie.authentication import ApiKeyAuthentication
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
 from elections.models import Election, Candidate, Category, Question, Answer, PersonalData, PersonalDataCandidate
 from tastypie import fields
@@ -51,6 +52,7 @@ class ElectionResource(ModelResource):
 	class Meta:
 		queryset = Election.objects.all()
 		resource_name = 'election'
+		filtering = {"slug": ALL_WITH_RELATIONS, "name": ALL_WITH_RELATIONS }
 		
 		excludes = ['custom_style']
 		authentication = ApiKeyAuthentication()
