@@ -59,3 +59,10 @@ class ElectionResource(ModelResource):
 
 	def authorized_read_list(self, object_list, bundle):
 		return object_list.filter(owner=bundle.request.user)
+
+	def dehydrate(self, bundle):
+		candidates_list = []
+		for i, candidate in enumerate(bundle.obj.candidate_set.all()):
+			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i]})
+		bundle.data['candidates'] = candidates_list
+		return bundle
