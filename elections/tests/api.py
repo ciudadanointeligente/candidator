@@ -7,7 +7,9 @@ from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
                              Question, Answer
 from tastypie.test import ResourceTestCase, TestApiClient
+from django.core import serializers
 from django.core.urlresolvers import reverse
+from django.utils.unittest import skip
 
 class ApiTestCase(ResourceTestCase):
     
@@ -58,8 +60,10 @@ class ApiTestCase(ResourceTestCase):
                                                             name='Ratón 1',
                                                             election=self.election2)
         self.candidate3.personal_data.all().delete()
-
-
+        self.election3, created = Election.objects.get_or_create(name='BarBaz3',
+                                                            owner=self.user,
+                                                            slug='barbaz3',
+                                                            published=True)
         self.api_client = TestApiClient()
         self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
@@ -69,7 +73,7 @@ class ApiTestCase(ResourceTestCase):
         resp = self.api_client.get(url,data = self.data)
         self.assertValidJSONResponse(resp)
         elections = self.deserialize(resp)['objects']
-        self.assertEqual(len(elections), 1) #Only my elections
+        self.assertEqual(len(elections), 2) #Only my elections
         self.assertTrue(elections[0].has_key("name"))
         self.assertEqual(elections[0]["id"], self.election.id) #I make sure this is the election
         self.assertTrue(elections[0].has_key("id"))
@@ -81,6 +85,27 @@ class ApiTestCase(ResourceTestCase):
         self.assertFalse(elections[0].has_key("custom_style"))
         self.assertTrue(elections[0].has_key("candidates"))
 
+    def test_get_filter_elections(self):
+        url = '/api/v1/election/'
+        filter_key = 'slug'
+        filter_value = 'barbaz'
+        self.data[filter_key] = filter_value
+        resp = self.api_client.get(url,data = self.data)
+        self.assertValidJSONResponse(resp)
+        elections = self.deserialize(resp)['objects']
+        self.assertEqual(len(elections), 1)
+
+    def test_get_elections_including_candidate_basic_data(self):
+        url = '/api/v1/election/'
+        filter_key = 'slug'
+        filter_value = 'barbaz'
+        self.data[filter_key] = filter_value
+        resp = self.api_client.get(url, data=self.data)
+
+        self.assertValidJSONResponse(resp)
+        elections = self.deserialize(resp)['objects']
+        self.assertEqual(type(elections[0]['candidates'][0]), dict)
+        self.assertTrue(elections[0]['candidates'][0].has_key('name'))
 
     def test_get_including_unpublished_elections(self):
         self.election.published = False
@@ -89,9 +114,8 @@ class ApiTestCase(ResourceTestCase):
         resp = self.api_client.get(url,data = self.data)
         self.assertValidJSONResponse(resp)
         elections = self.deserialize(resp)['objects']
-        self.assertEqual(len(elections), 1) #Only my elections
+        self.assertEqual(len(elections), 2) #Only my elections
         self.assertFalse(elections[0]['published'])
-
 
     def test_get_candidates_from_elections_owned_by_user(self):
         url = '/api/v1/candidate/'
@@ -109,9 +133,10 @@ class ApiTestCase(ResourceTestCase):
         candidates = election['candidates']
         self.assertEqual(len(candidates), 2)
 
-        self.assertEqual(candidates[0], "/api/v1/candidate/{0}/".format(self.candidate.id))
-        self.assertEqual(candidates[1], "/api/v1/candidate/{0}/".format(self.candidate2.id))
-
+        self.assertEqual(candidates[0]['name'], self.candidate.name)
+        self.assertEqual(candidates[0]['resource_uri'], "/api/v1/candidate/{0}/".format(self.candidate.id))
+        self.assertEqual(candidates[1]['name'], self.candidate2.name)
+        self.assertEqual(candidates[1]['resource_uri'], "/api/v1/candidate/{0}/".format(self.candidate2.id))
 
     def test_an_election_shows_questions(self):
         url = '/api/v1/election/{0}/'.format(self.election.id)
@@ -129,8 +154,6 @@ class ApiTestCase(ResourceTestCase):
         self.assertEquals(len(category["questions"]), 2)
         self.assertEquals(category["questions"][0]["question"], u"¿Cuál es el nombre de la ferocidad?")
         self.assertEquals(category["questions"][1]["question"], u"¿Which one is your favourite colour?")
-
-
 
     def test_a_question_has_possible_answers(self):
         url = '/api/v1/election/{0}/'.format(self.election.id)
