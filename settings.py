@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'registration',
     # Tastypie, RESTful APIs for Django:
     'tastypie',
+    'markdown_deux',
 )
 
 # A sample logging configuration. The only tangible logging

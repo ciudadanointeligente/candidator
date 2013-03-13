@@ -21,4 +21,5 @@ wsgiref==0.1.2
 #pil==1.1.7
 django-tastypie==0.9.11
 -e git+https://github.com/toastdriven/django-tastypie.git#egg=django-tastypie
+django-markdown-deux==1.0.4
 
