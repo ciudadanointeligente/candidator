@@ -2,6 +2,8 @@
 {% load i18n %}
 {% load thumbnail %}
 {% load election_tags %}
+{% load markdown_deux_tags %}
+
 
 {% block title %}
 {% blocktrans with election_name=election.name %}Sobre la elección, {{ election_name }}{% endblocktrans %} - {{ block.super }}
@@ -23,7 +25,7 @@
         {% endif %}
 <br /><br />
         {% if election.information_source %}
-        <span class="blue_edit">{% trans '¿DE DÓNDE SE SACÓ LA INFORMACIÓN?' %}</span>&nbsp;<p>{{ election.information_source }}</p>
+        <span class="blue_edit">{% trans '¿DE DÓNDE SE SACÓ LA INFORMACIÓN?' %}</span>&nbsp;<p>{{ election.information_source|markdown }}</p>
         {% endif %}
 
 </div>
