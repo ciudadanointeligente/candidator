@@ -123,6 +123,7 @@
             </header>
 	    </div>
             <div class="profileImg img_medianaranja">
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=winner.2.slug %}">
 
 
         {% thumbnail winner.2.photo "160x200" crop="center" as im %}
@@ -135,6 +136,7 @@
             <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ winner.2.name }}" width="160" height="200"/>
             {% endif %}
         {% endthumbnail %}
+    </a>
             </div>
 
 
@@ -154,6 +156,7 @@
         <div class="otrosporcentajes {% if forloop.counter0|divisibleby:"2" %}izquierda{% else %}derecha{% endif %}">
 
                 <div class="profileImg_small">
+                    <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">
                     {% thumbnail data_candidate.2.photo "80x100" crop="center" as im %}
                         <img src="{{ im.url }}" alt="{{ data_candidate.2.name }}" style="margin: {{ im|margin:"80x100" }}"
                              width="80" height="100"/>
@@ -164,6 +167,7 @@
                         <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ data_candidate.2.name }}" width="80" height="100"/>
                         {% endif %}
                     {% endthumbnail %}
+                </a>
                 </div>
                 
                 <div class="otrosporcentajes_data">

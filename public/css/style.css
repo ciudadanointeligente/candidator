@@ -1090,6 +1090,7 @@ background: #DEDEDE;; /* set desired hover color */
 }
 
 .listElectionTogglePublish a{
+    padding-left: 40px;
     color: #80b6e2;
     font-family: 'AllerItalic';
 }
