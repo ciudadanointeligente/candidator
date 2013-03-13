@@ -45,7 +45,7 @@
 <br />
         
         {% if election.description %}
-        &nbsp;<p>{{ election.description }}</span>
+        &nbsp;<p>{{ election.description|markdown }}</span>
         {% endif %}
 <br /><br />
         {% if election.information_source %}
