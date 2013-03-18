@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load candidate_tags %}
 {% load election_tags %}
-{% load thumbnail %}
+
 
 
 {% block extra_head %}
@@ -29,34 +29,27 @@
     <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}</h3></div>
 
         <!--        ProfileHome   -->
-        <ul class="profileHome">
-            {% if election.candidate_set.all %}
+        {% if election.candidate_set.all  %}
+       
 
-            {% for candidate in election.candidate_set.all %}
-            <li class="{% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
-                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
-                    
-                    {% thumbnail candidate.photo "115x144" crop="center" as im %}
-                        <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
-                    {% empty %}
-                        {% if candidate.photo %}
-                        <img src="{{ candidate.photo.url }}" alt="" width="115" height="144">
-                        {% else %}
-                        <img src="{{ STATIC_URL }}img/default-user.gif" alt="" width="115" height="144">
-                        {% endif %}
-                    {% endthumbnail %}
-                   
-                    <span>{{ candidate.name }}</span>
-                </a>
-            </li>
-            {% endfor %}{# election.candidate_set.all #}
+                {% if election.candidate_set.count <= 8 %}<!-- si son menos de 8 -->
+                <h1>son muy pocos </h1>
+
+                  {% include "elections/list_candidates_standard_snippet.html" with candidates=election.candidate_set.all %}
+
+                {% else %}
+               <h1>  son muchos</h1>
+
+                  {% include "elections/list_candidates_large_snippet.html" with candidates=election.candidate_set.all %}
+
+                {% endif %}
 
             {% else %}
-            <br>
-            <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
-            <br>
-            {% endif %}
-        </ul>
+        
+                <br>
+                    <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
+                <br>
+         {% endif %}
 
         <aside class="profileAside">
                             <div class="enfrentalos">
