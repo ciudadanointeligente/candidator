@@ -21,7 +21,7 @@
 .profileHome li img{
 	clear: both;
     float: left;
-    height: 144px;
+/*    height: 144px;*/
 }
 
 .profileHome li a {
@@ -54,6 +54,34 @@
 	position: absolute;
 	top: 0;
 	left: -11px;
+}
+
+ul.large-list li img {
+	height: 36px; 
+	width: 36px;
+}
+
+ul.large-list li span {
+	left: 36px;
+	height: 24px;
+	width: 110px;
+	overflow: hidden;
+	background-color: rgb(240, 240, 240);
+	color: #000;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	line-height: 24px;
+}
+
+ul.large-list li {
+	width: 170px;
+}
+
+/*==== buscador_candidatos ====*/
+
+.buscador_candidatos {
+	float: right;
 }
 
 /*==== aside buttons ====*/
