@@ -76,6 +76,7 @@
 
 
                                 {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
+                                    {% if personal_data_value and not election.should_display_empty_personal_data %}
                                     <span class="profile-description">{{ personal_data_label }}:</span>
                                     {% if personal_data_value %}
                                         <span> {{ personal_data_value }}</span>
@@ -83,6 +84,7 @@
                                         <span></span>
                                     {% endif %}
                                     <br>
+                                    {% endif %}
                                 {% endfor %}
 
 
