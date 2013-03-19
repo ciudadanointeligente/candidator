@@ -40,7 +40,11 @@
     z-index: 30000;
 	margin: 0 1px;
 	overflow-y: scroll;
-	max-height: 124px;
+	max-height: 160px;
+}
+
+.comparisonBox .dropDown {
+	max-height: 170px;
 }
 	
 

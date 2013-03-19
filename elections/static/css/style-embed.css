@@ -58,7 +58,7 @@ body{
     width: 100%;
     overflow: visible;
     position: relative;
-    min-height: 220px;
+    min-height: 250px;
 }
 
 .contenedor3_embeded{
@@ -212,6 +212,7 @@ padding: 6px 0px 16px 0px;
 
     .firstCandidate {
         width: 48%;
+        margin-right: 2%;
     }
 
     .secondCandidate {
@@ -230,9 +231,9 @@ padding: 6px 0px 16px 0px;
         width: 98%;
     }
 
-    .questionInComparison {
+/*    .questionInComparison {
         width: 97%;
-    }
+    }*/
 
     .answerSpace ul {
         width: 46%;
@@ -250,13 +251,10 @@ padding: 6px 0px 16px 0px;
         background-color: transparent;
     }
 
-    .dropDown {
-        margin-right: 7.5%;
-    }
-
     .tzSelect {
         position: relative;
         width: auto !important;
+        display: block;
     }
 
     .firstCandidatesAnswer {
@@ -276,10 +274,8 @@ padding: 6px 0px 16px 0px;
 
     .comparisonBox {
         width: 98%;
-    }
-
-    .tzSelect .selectBox {
-        margin-right: 7%;
+        padding-right: 2%;
+        min-height: 170px;
     }
 
     .profileAside2 {
@@ -295,11 +291,11 @@ padding: 6px 0px 16px 0px;
     }
 
     .profileAside2 .sideButton_txt {
-        margin-left: 50px;
+        margin-left: 80px;
     }
 
     .profileAside2 .sideButton_txt img {
-        left: -55px;
+        left: -75px;
     }
 
     .contenedor1_embeded .tit h3 {

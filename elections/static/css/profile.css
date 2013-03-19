@@ -256,6 +256,58 @@ div.profile-description{
     border-left: 1px solid #C95555;
     border-bottom: 1px solid #C95555;
 }
+
+.sideButton.bt_perfiles {
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #ff21b5 3%, #ff0099 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#ff21b5), color-stop(100%,#ff0099));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#ff21b5 3%,#ff0099 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#ff21b5 3%,#ff0099 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#ff21b5 3%,#ff0099 100%);
+    background: linear-gradient(to bottom, #ffffff 0%,#ff21b5 3%,#ff0099 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ff0099',GradientType=0 );
+    border: 1px solid #BF007B;
+    padding: 17px 0 13px;
+    position: relative;
+}
+
+.sideButton.bt_perfiles:before {
+    content: ' ';
+    position: absolute;
+    margin-top: -18px;
+    width: 50px;
+    height: 50px;
+    -webkit-transform: rotate(45deg);
+    -webkit-transform-origin: 0 0;
+    -moz-transform: rotate(45deg);
+    -moz-transform-origin: 0 0;
+    -o-transform: rotate(45deg);
+    -o-transform-origin: 0 0;
+    -ms-transform: rotate(45deg);
+    -ms-transform-origin: 0 0;
+    transform: rotate(45deg);
+    transform-origin: 0 0;
+    background: #ffffff;
+    background: -moz-linear-gradient(-45deg, #ffffff 0%, #ff21b5 5%, #ff0099 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(5%,#ff21b5), color-stop(100%,#ff0099));
+    background: -webkit-linear-gradient(-45deg, #ffffff 0%,#ff21b5 5%,#ff0099 100%);
+    background: -o-linear-gradient(-45deg, #ffffff 0%,#ff21b5 5%,#ff0099 100%);
+    background: -ms-linear-gradient(-45deg, #ffffff 0%,#ff21b5 5%,#ff0099 100%);
+    background: linear-gradient(135deg, #ffffff 0%,#ff21b5 5%,#ff0099 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ff0099',GradientType=1 );
+    border-left: 1px solid #BF007B;
+    border-bottom: 1px solid #BF007B;
+}
+
+.sideButton_txt.bt_perfiles {
+    color: rgb(129, 0, 96);
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.68);
+}
+
+.wrap_bt_perfiles .sideButton_txt img {
+    top: 0px;
+    left: -80px;
+}
 /*==== TRAYECTORIA Y POSICIONES===*/
 
 .trayectoriaYPosiciones{
