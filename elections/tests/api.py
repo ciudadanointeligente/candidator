@@ -10,6 +10,7 @@ from tastypie.test import ResourceTestCase, TestApiClient
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.utils.unittest import skip
+from django.contrib.sites.models import Site
 
 class ApiTestCase(ResourceTestCase):
     
@@ -84,6 +85,12 @@ class ApiTestCase(ResourceTestCase):
         self.assertTrue(elections[0].has_key("published"))
         self.assertFalse(elections[0].has_key("custom_style"))
         self.assertTrue(elections[0].has_key("candidates"))
+        current_site = Site.objects.get_current()
+        self.assertTrue(elections[0].has_key("url"))
+        self.assertEquals(elections[0]["url"], "http://"+current_site.domain+self.election.get_absolute_url())
+        self.assertTrue(elections[0].has_key("embedded_url"))
+        embeded_url = reverse('election_detail_embeded',kwargs={'username': self.user.username,'slug': self.election.slug})
+        self.assertEquals(elections[0]["embedded_url"], "http://"+current_site.domain+embeded_url)
 
     def test_get_filter_elections(self):
         url = '/api/v1/election/'
