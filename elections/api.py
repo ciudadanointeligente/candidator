@@ -4,6 +4,8 @@ from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
 from elections.models import Election, Candidate, Category, Question, Answer, PersonalData, PersonalDataCandidate
 from tastypie import fields
+from django.contrib.sites.models import Site
+from django.core.urlresolvers import reverse
 
 class PersonalDataResource(ModelResource):
 	class Meta:
@@ -49,6 +51,7 @@ class ElectionResource(ModelResource):
 	candidates = fields.ToManyField(CandidateResource, 'candidate_set', null=True, full=False)
 	categories = fields.ToManyField(CategoryResource, 'category_set', full=True)
 
+
 	class Meta:
 		queryset = Election.objects.all()
 		resource_name = 'election'
@@ -65,4 +68,8 @@ class ElectionResource(ModelResource):
 		for i, candidate in enumerate(bundle.obj.candidate_set.all()):
 			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i]})
 		bundle.data['candidates'] = candidates_list
+		current_site = Site.objects.get_current()
+		bundle.data['url'] = "http://"+current_site.domain+bundle.obj.get_absolute_url()
+		embeded_url = reverse('election_detail_embeded',kwargs={'username': bundle.obj.owner.username,'slug': bundle.obj.slug})
+		bundle.data['embedded_url'] = "http://"+current_site.domain+embeded_url
 		return bundle
