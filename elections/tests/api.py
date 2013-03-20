@@ -118,6 +118,7 @@ class ApiTestCase(ResourceTestCase):
         elections = self.deserialize(resp)['objects']
         self.assertEqual(type(elections[0]['candidates'][0]), dict)
         self.assertTrue(elections[0]['candidates'][0].has_key('name'))
+        self.assertTrue(elections[0]['candidates'][0].has_key('id'))
 
     def test_get_including_unpublished_elections(self):
         self.election.published = False
@@ -182,7 +183,6 @@ class ApiTestCase(ResourceTestCase):
         url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
         resp = self.api_client.get(url, data=self.data)
         candidate = self.deserialize(resp)
-
         self.assertTrue("personal_data" in candidate)
         self.assertFalse("resource_uri" in candidate["personal_data"][0])
         self.assertEqual(candidate["personal_data"][0]["label"], "Age")
