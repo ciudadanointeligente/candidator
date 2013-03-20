@@ -5,7 +5,7 @@ from django.db import models
 from tastypie.models import ApiKey
 from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
-                             Question, Answer
+                             Question, Answer, Link
 from tastypie.test import ResourceTestCase, TestApiClient
 from django.core import serializers
 from django.core.urlresolvers import reverse
@@ -65,6 +65,10 @@ class ApiTestCase(ResourceTestCase):
                                                             owner=self.user,
                                                             slug='barbaz3',
                                                             published=True)
+        self.ferocious_link, created = Link.objects.get_or_create(
+                                                    name='@fiera',
+                                                    url='http://www.twitter.com/fiera',
+                                                    candidate=self.candidate2)
         self.api_client = TestApiClient()
         self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
@@ -102,6 +106,7 @@ class ApiTestCase(ResourceTestCase):
         elections = self.deserialize(resp)['objects']
         self.assertEqual(len(elections), 1)
 
+
     def test_get_elections_including_candidate_basic_data(self):
         url = '/api/v1/election/'
         filter_key = 'slug'
@@ -113,6 +118,7 @@ class ApiTestCase(ResourceTestCase):
         elections = self.deserialize(resp)['objects']
         self.assertEqual(type(elections[0]['candidates'][0]), dict)
         self.assertTrue(elections[0]['candidates'][0].has_key('name'))
+        self.assertTrue(elections[0]['candidates'][0].has_key('id'))
 
     def test_get_including_unpublished_elections(self):
         self.election.published = False
@@ -177,10 +183,22 @@ class ApiTestCase(ResourceTestCase):
         url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
         resp = self.api_client.get(url, data=self.data)
         candidate = self.deserialize(resp)
-
         self.assertTrue("personal_data" in candidate)
         self.assertFalse("resource_uri" in candidate["personal_data"][0])
         self.assertEqual(candidate["personal_data"][0]["label"], "Age")
         self.assertEqual(candidate["personal_data"][1]["label"], "Profession")
         self.assertEqual(candidate["personal_data"][0]["value"], "2")
         self.assertEqual(candidate["personal_data"][1]["value"], "Perro")
+
+
+    def test_get_the_most_ferocious_twitter(self):
+        url = '/api/v1/candidate/{0}/'.format(self.candidate2.id)
+        resp = self.api_client.get(url, data=self.data)
+        candidate = self.deserialize(resp)
+
+        self.assertTrue("links" in candidate)
+        self.assertEquals(candidate["links"].__len__(), 1)#ONLY THE FEROCIOUS TWITTER
+        self.assertEquals(candidate["links"][0]["name"], self.ferocious_link.name)
+        self.assertEquals(candidate["links"][0]["url"], self.ferocious_link.url)
+
+
