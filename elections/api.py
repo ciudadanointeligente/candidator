@@ -2,7 +2,7 @@
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
-from elections.models import Election, Candidate, Category, Question, Answer, PersonalData, PersonalDataCandidate
+from elections.models import Election, Candidate, Category, Question, Answer, PersonalData, PersonalDataCandidate, Link
 from tastypie import fields
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -11,8 +11,14 @@ class PersonalDataResource(ModelResource):
 	class Meta:
 		queryset = PersonalData.objects.all()
 
+class LinkResource(ModelResource):
+	class Meta:
+		queryset = Link.objects.all()
+
 class CandidateResource(ModelResource):
 	personal_data = fields.ManyToManyField(PersonalDataResource, 'personal_data', null=True, full=True)
+	links = fields.ToManyField(LinkResource, 'link_set', full=True)
+
 	class Meta:
 		queryset = Candidate.objects.all()
 		resource_name = 'candidate'
