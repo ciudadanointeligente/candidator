@@ -94,15 +94,11 @@
                             <div class="brdotted">
                                 <div class="accordion">
 				{% if candidate.get_background.items %}
-                                    {% for category_index, background_category in candidate.get_background.items %}
-                                    <h3>{{ background_category.name }}: </h3>
-
-                                    <div class="accordionContent">
-                                        {% for background_index, background in background_category.backgrounds.items %}
-                                        <div class="profile-description">{{ background.name }}: </div>{% if background.value %}{{ background.value }}{% endif %}<br>
-                                        {% endfor %}
-                                    </div>
-                                    {% endfor %}
+                                {% if election.should_display_empty_personal_data %}
+                                {% include "elections/backgrounds_showing_all.html" with backgrounds=candidate.get_background.items %}
+                                {% else %}
+                                {% include "elections/backgrounds_showing_populated.html" with backgrounds=candidate.get_background.items %}
+                                {% endif %}  
 				{% else %}
                                     <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
 				{% endif %}
