@@ -133,6 +133,21 @@ body{
     text-transform: none;
 }
 
+.informacion_sobre_eleccion {
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    background: rgba(0, 81, 142, 0.4);
+    padding: 4px 7px 2px;
+    border-radius: 10px;
+    font-family: 'AllerBold';
+    text-shadow: -1px -1px 1px rgb(0, 76, 134);
+}
+
+.informacion_sobre_eleccion:hover {
+    background: rgba(0, 81, 142, 0.55);
+}
+
 /* 1/2 NARANJA */
 
 .col_left {

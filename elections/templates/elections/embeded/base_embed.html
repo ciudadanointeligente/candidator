@@ -49,7 +49,7 @@
 
 
                 <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> {% if election.date %} - {{ election.date }}
-                {% endif %}</span></a>
+                {% endif %}</span></a><a class="informacion_sobre_eleccion" href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">i</a>
                 </h1>
                 </div>
                 <nav id="mainNavigation">
