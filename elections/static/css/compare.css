@@ -16,7 +16,7 @@
 
 }
 .comparisonBox {
-    display: block;
+	display: inline-block;
 }
 
 /*.candidatesLists {

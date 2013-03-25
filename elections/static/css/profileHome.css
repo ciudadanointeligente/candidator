@@ -133,7 +133,7 @@ ul.large-list li {
 
 .sideButton a:hover{text-decoration: none;}
 
-.enfrentalos:hover, .bt_medianaranja:hover, .wrap_bt_perfiles:hover {
+.enfrentalos:hover, .bt_medianaranja:hover {
 	-moz-transform: translateX(-5px);
 	-webkit-transform: translateX(-5px);
 	-o-transform: translateX(-5px);

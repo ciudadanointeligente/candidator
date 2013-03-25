@@ -23,10 +23,10 @@
 {% block content %}
 
 <div class="contenedor1_embeded">
-    <div class="contenedor2_embeded">
-
-                <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_profiles.png" width="97" height="56" /></div>
+                    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_profiles.png" width="97" height="56" /></div>
     <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}<div class="buscador_candidatos"><input></input></div></h3></div>
+
+    <div class="contenedor2_embeded">
 
 
         <!--        ProfileHome   -->
@@ -50,6 +50,8 @@
                 <br>
          {% endif %}
 
+    </div>
+
         <aside class="profileAside">
                             <div class="enfrentalos">
                                 <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
@@ -58,8 +60,6 @@
                                 <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
                             </div>
         </aside>
-
-    </div>
 </div>
 
 
