@@ -1,0 +1,7 @@
+{% for personal_data_label, personal_data_value in personal_datas %}
+    {% if personal_data_value %}
+        <span class="profile-description">{{ personal_data_label }}:</span>
+        <span> {{ personal_data_value }}</span>
+        <br>
+    {% endif %}
+{% endfor %}

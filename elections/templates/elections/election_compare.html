@@ -192,6 +192,7 @@
                         <div class="basicProfileContainer">
 
                 {% if first_candidate %}
+                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=first_candidate.slug %}">
                     {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
                         <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
@@ -203,6 +204,7 @@
                         {% endif %}
 
                     {% endthumbnail %}
+                </a>
                 {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}
@@ -256,17 +258,19 @@
                         <div class="basicProfileContainer">
 
                 {% if second_candidate %}
+                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=second_candidate.slug %}">
                     {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
                         <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
 
-			{% if second_candidate.photo %}
-                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
-			{% else %}
-                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
-			{% endif %}
+        			{% if second_candidate.photo %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
+        			{% else %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
+        			{% endif %}
 
                     {% endthumbnail %}
+                </a>
                 {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}

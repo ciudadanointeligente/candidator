@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from tastypie.models import create_api_key
 
 # Create your models here.
 
@@ -20,4 +21,5 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance, name=instance.username)
 
+models.signals.post_save.connect(create_api_key, sender=User)
 post_save.connect(create_user_profile, sender=User)

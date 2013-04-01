@@ -144,6 +144,28 @@
 <div class="contenedor1_embeded">
     <div class="contenedor2_embeded">
 
+        <div class="categories">
+            <h6 class="categoriesTitle">{% trans "Temas" %}</h6>
+            <ul class="categoriesList">
+                {% if election.category_set.all %}
+                {% for category in election.category_set.all %}
+                <li>
+                    <input type="radio" name="category"
+            {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %}
+                    {% else %}
+                        {% if forloop.first %}checked="checked"{% endif %}
+                    {% endif %}
+                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
+                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
+                {% endif %}
+            </ul>
+        </div>
+
 
         <article class="wrapW">
 
@@ -175,6 +197,7 @@
                         <div class="basicProfileContainer">
 
                 {% if first_candidate %}
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=first_candidate.slug %}">
                     {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
                         <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
@@ -186,6 +209,8 @@
                         {% endif %}
 
                     {% endthumbnail %}
+                </a>
+
                 {% else %}
                             <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}
@@ -239,17 +264,19 @@
                         <div class="basicProfileContainer">
 
                 {% if second_candidate %}
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=second_candidate.slug %}">
                     {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
                         <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
                     {% empty %}
 
-			{% if second_candidate.photo %}
-                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
-			{% else %}
-                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
-			{% endif %}
+        			{% if second_candidate.photo %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
+        			{% else %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
+        			{% endif %}
 
                     {% endthumbnail %}
+                </a>
                 {% else %}
                             <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
                 {% endif %}
@@ -283,6 +310,24 @@
                     </div>
                 </div><!-- /candidatesLists-->
             </header>
+
+    </article>
+</div>
+
+                <aside class="profileAside2">
+                            <div class="wrap_bt_perfiles">
+                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+                </aside>
+
+<div class="contenedor3_embeded">
+    <article>
 
 	    {% if selected_category %}
             <section id ="result" class="comparisonResult" >
@@ -323,27 +368,7 @@
             </section>
             {% endif %}
         </div>
-        <aside class="categories">
-            <h3 class="categoriesTitle">{% trans "Temas" %}</h3>
-            <ul class="categoriesList">
-                {% if election.category_set.all %}
-                {% for category in election.category_set.all %}
-                <li>
-                    <input type="radio" name="category"
-            {% if selected_category %}
-                        {% if selected_category == category %}checked="checked"{% endif %}
-                    {% else %}
-                        {% if forloop.first %}checked="checked"{% endif %}
-                    {% endif %}
-                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
-                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
-                </li>
-                {% endfor %}
-                {% else %}
-                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
-                {% endif %}
-            </ul>
-        </aside>
+
    </article>
 
 		</div>

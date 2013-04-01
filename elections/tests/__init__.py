@@ -1,6 +1,7 @@
 from tests import *
 
 from answer import *
+from api import *
 from background import *
 from background_category import *
 from candidate import *
@@ -14,3 +15,4 @@ from question import *
 from election_embeded import *
 from election_loader import *
 from settings_variables import *
+from user import *

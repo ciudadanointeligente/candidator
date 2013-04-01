@@ -99,7 +99,7 @@ class PersonalDataCreateView(TestCase):
 
 
 class PersonalDataCandidateModelTest(TestCase):
-    def test_personal_data_candidate_create(self):
+    def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
         self.election, created = Election.objects.get_or_create(name='BarBaz',
                                                             owner=self.user,
@@ -109,6 +109,7 @@ class PersonalDataCandidateModelTest(TestCase):
         self.candidate = Candidate.objects.create(name='Juan Candidato',
                                                             election=self.election)
 
+    def test_personal_data_candidate_create(self):
         personal_data_candidate, created = PersonalDataCandidate.objects.get_or_create(candidate=self.candidate,
                                                                                        personal_data=self.personal_data,
                                                                                        value='new_value')
@@ -116,6 +117,9 @@ class PersonalDataCandidateModelTest(TestCase):
         self.assertEqual(personal_data_candidate.candidate, self.candidate)
         self.assertEqual(personal_data_candidate.personal_data, self.personal_data)
         self.assertEqual(personal_data_candidate.value, 'new_value')
+
+
+
 
 
 class PersonalDataCandidateCreateViewTest(TestCase):
