@@ -89,17 +89,6 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
 
-    def test_create_election_with_dependent_displaying_personal_data(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                           owner=user,
-                                                           slug='barbaz',
-                                                           description='esta es una descripcion',
-                                                           date='27 de Diciembre')
-
-
-        self.assertTrue(election.should_display_empty_personal_data)
-
     def test_create_election_without_slug(self):
         user, created = User.objects.get_or_create(username='joe')
         election, created = Election.objects.get_or_create(name='BarBaz',

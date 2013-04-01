@@ -53,11 +53,15 @@
                         
                         <section class="personalInfo">
 
-                                {% if election.should_display_empty_personal_data %}
-                                {% include "elections/personal_data_list_showing_all.html" with personal_datas=candidate.get_personal_data.items %}
-                                {% else %}
-                                {% include "elections/personal_data_list_showing_populated.html" with personal_datas=candidate.get_personal_data.items %}
-                                {% endif %}
+                                {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
+                                    <span class="profile-description">{{ personal_data_label }}:</span>
+                                    {% if personal_data_value %}
+                                        <span> {{ personal_data_value }}</span>
+                                    {% else %}
+                                        <span></span>
+                                    {% endif %}
+                                    <br>
+                                {% endfor %}
 
                             <div class="enlacesPersonales">
                                 <ul class="ulEnlacesPersonales">
@@ -94,11 +98,15 @@
                             <div class="brdotted">
                                 <div class="accordion">
 				{% if candidate.get_background.items %}
-                                {% if election.should_display_empty_personal_data %}
-                                {% include "elections/backgrounds_showing_all.html" with backgrounds=candidate.get_background.items %}
-                                {% else %}
-                                {% include "elections/backgrounds_showing_populated.html" with backgrounds=candidate.get_background.items %}
-                                {% endif %}  
+                                    {% for background_category, background_items in candidate.get_background.items %}
+                                    <h3>{{ background_category }}: </h3>
+
+                                    <div class="accordionContent">
+                                        {% for background_label, background_value in background_items.items %}
+                                        <span class="profile-description">{{ background_label }}: </span>{% if background_value %}{{ background_value }}{% endif %}<br>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
 				{% else %}
                                     <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
 				{% endif %}
