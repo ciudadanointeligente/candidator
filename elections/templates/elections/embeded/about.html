@@ -9,13 +9,6 @@
 {% blocktrans with election_name=election.name %}Sobre la elección, {{ election_name }}{% endblocktrans %} - {{ block.super }}
 {% endblock title %}
 
-{% block extra_head %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
-{% endblock extra_head %}
-
 {% block extra_js %}
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
@@ -25,9 +18,7 @@
 {% block content %}
         
         
-<div class="contenedor1_embeded">
-
-	<div class="contenedor2_embeded">
+<div class="contenedor3_embeded">
         
         {% if election.description %}
         &nbsp;<p>{{ election.description|markdown }}</span>
@@ -36,21 +27,6 @@
         {% if election.information_source %}
         <span class="blue_edit">{% trans '¿DE DÓNDE SE SACÓ LA INFORMACIÓN?' %}</span>&nbsp;<p>{{ election.information_source|markdown }}</p>
         {% endif %}
-
-    </div>
-
-                <aside class="profileAside2">
-                            <div class="wrap_bt_perfiles">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="enfrentalos">
-                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
-                            </div>
-                </aside>
-
 
 </div>
 
