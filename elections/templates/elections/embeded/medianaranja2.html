@@ -71,6 +71,49 @@
 
 					<div class="compartir_resultados">
 
+
+								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
+
+										<td colspan="2">
+											<div class="globo_left">
+												¿estás de acuerdo con tu resultado?
+											</div>
+										</td>
+
+
+										<td>&nbsp;
+
+										</td>
+										<td>&nbsp;
+
+										</td>
+
+									<tr>
+										<td>
+											<input type="checkbox" value="si">Si
+										</td>
+										<td>&nbsp;
+
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="checkbox" value="no">No
+										</td>
+										<td>&nbsp;
+
+										</td>
+									</tr>
+									<tr>
+										<td>&nbsp;
+
+										</td>
+										<td>
+											<input type="button" value="comparte">
+										</td>
+									</tr>
+								-->
+
                                     <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
                                     <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
@@ -99,20 +142,9 @@
 
 			</div>
         </div>
-                <aside class="profileAside2">
-                            <div class="wrap_bt_perfiles">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="enfrentalos">
-                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
-                            </div>
-                </aside>
     </div>
     <div class="contenedor1_embeded">
-    	<div class="contenedor3_embeded">
+    	<div class="contenedor2_embeded">
             
                      <div class="globo_left">
                     {% trans 'compatibilidad con otros candidatos' %}

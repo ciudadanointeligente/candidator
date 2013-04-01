@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load candidate_tags %}
 {% load election_tags %}
-
+{% load thumbnail %}
 
 
 {% block extra_head %}
@@ -23,39 +23,42 @@
 {% block content %}
 
 <div class="contenedor1_embeded">
-                    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_profiles.png" width="97" height="56" /></div>
-    <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}<!-- <div class="buscador_candidatos"><input></input></div> --></h3></div>
-
     <div class="contenedor2_embeded">
 
+                <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_profiles.png" width="97" height="56" /></div>
+    <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}</h3></div>
 
         <!--        ProfileHome   -->
-        {% if election.candidate_set.all  %}
-       
+        <ul class="profileHome">
+            {% if election.candidate_set.all %}
 
-                {% if election.candidate_set.count <= 8 %}<!-- si son menos de 8 -->
-
-                  {% include "elections/list_candidates_standard_snippet.html" with candidates=election.candidate_set.all %}
-
-                {% else %}
-
-                  {% include "elections/list_candidates_large_snippet.html" with candidates=election.candidate_set.all %}
-
-                {% endif %}
+            {% for candidate in election.candidate_set.all %}
+            <li class="{% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                    
+                    {% thumbnail candidate.photo "115x144" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
+                    {% empty %}
+                        {% if candidate.photo %}
+                        <img src="{{ candidate.photo.url }}" alt="" width="115" height="144">
+                        {% else %}
+                        <img src="{{ STATIC_URL }}img/default-user.gif" alt="" width="115" height="144">
+                        {% endif %}
+                    {% endthumbnail %}
+                   
+                    <span>{{ candidate.name }}</span>
+                </a>
+            </li>
+            {% endfor %}{# election.candidate_set.all #}
 
             {% else %}
-        
-                <br>
-                    <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
-                <br>
-         {% endif %}
-
-    </div>
+            <br>
+            <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
+            <br>
+            {% endif %}
+        </ul>
 
         <aside class="profileAside">
-                            <div class="wrap_bt_perfiles">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
-                            </div>
                             <div class="enfrentalos">
                                 <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
                             </div>
@@ -63,6 +66,8 @@
                                 <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
                             </div>
         </aside>
+
+    </div>
 </div>
 
 
