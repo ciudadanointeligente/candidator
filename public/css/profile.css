@@ -21,10 +21,6 @@ h3 {
 
 /*-----------candidatesBasicInformation---------*/
 
-.contenedor2.wrap_basicInfo {
-    width: 660px;
-}
-
 .candidatesBasicInformation {
     position: relative;
     line-height: 21px;
@@ -32,6 +28,7 @@ h3 {
 }
 
 .candidatesBasicInformation header{
+    left: 163px;
 	position: relative;
 	left: 173px;
 }
@@ -53,38 +50,30 @@ h3 {
 	margin-right: 8px;
 }
 
-.not_answered .profileImg:after {
-    content: url("../img/no_responde.svg");
-    position: absolute;
-    top: 0;
-    left: -13px;
-}
-
 .personalInfo {
     float: left;
-    font-size: 12px;
-    margin-left: 13px;
-    width: 45%;
-    margin-top: 8px;
-    color: #666;
-    line-height: 21px;
+	font-size: 12px;
+	margin-left: 13px;
+	width: 330px;
+	margin-top: 8px;
+	color: #666;
+	line-height: 21px;
     min-height: 80px;
 }
 
-div.profile-description{
+span.profile-description{
     font-family: 'AllerBold';
 
 }
-
-.enlacesPersonales {
+.enlacesPersonales{
     float: right;
     font-family: 'AllerItalic';
     font-size: 12px;
     letter-spacing: 0;
-    margin-top: 10px;
+    margin-top: -85px;
     padding-right: 10px;
     text-align: right;
-    width: 25%;
+    width: 266px;
 }
 
 .enlacesPersonales a{
@@ -104,6 +93,68 @@ div.profile-description{
 
 .twitter{}
 .facebook{}
+
+
+/*==== aside buttons ====*/
+
+.profileAside{
+    border-left: 1px dashed #D7D7D7;
+    display: block;
+    float: right;
+    height: 200px;
+    padding: 0 0 0 10px;
+    position: relative;
+    width: 63px;
+	margin-top: -28px;
+}
+
+.sideButton{
+    border: 1px solid #E2E3E4;
+    border-radius: 5px 5px 5px 5px;
+    display: block;
+    font-family: 'AllerBold',Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-variant: small-caps;
+    height: 50px;
+    line-height: 10px;
+    margin-bottom: 7px;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    text-transform: lowercase;
+    vertical-align: bottom;
+    width: 50px;
+}
+
+.sideButton a{
+     bottom: 1px;
+    cursor: pointer;
+    display: block;
+    height: 15px;
+    left: 1px;
+    padding: 35px 5px 0;
+    position: absolute;
+    text-align: center;
+    width: 50px;
+    color: #747B7E;
+}
+
+.sideButton a:hover{text-decoration: none;}
+
+.sideButton.medianaranja a{
+    bottom: 7px;
+}
+
+.compare{background: url("../img/bt_compare.gif") no-repeat scroll 0 0 transparent;}
+.medianaranja{background: url("../img/bt_orange.gif") no-repeat scroll -4px -1px transparent;}
+.share{background:url("../img/bt_share.gif") no-repeat scroll -4px -1px transparent;}
+
+.compare:hover{background-position: 0 -63px;}
+.medianaranja:hover{background-position: -4px -65px;}
+.share:hover{background-position: -4px -65px;}
+
+
+
 
 /*==== TRAYECTORIA Y POSICIONES===*/
 
@@ -149,7 +200,7 @@ div.profile-description{
 
 .posiciones{
     margin-left: 10px;
-    width: 520px;
+    width: 523px;
 }
 
 .brdotted{}
@@ -157,25 +208,19 @@ div.profile-description{
 .trayectoriaYPosiciones span.profile-description{}
 
 /*==== Accordions ====*/
-
-.trayectoria .accordion h3 {
-    color: white;
-    background-color: #AFCEEA;
-    border: 1px solid #A7C7E6;
-    text-transform: none;
-    font-family: 'AllerRegular';
-    letter-spacing: 0;
+.trayectoria  .accordion h3{
+    color:#ffffff;
+    background-color:#afceea;
+    border:1px solid #a7c7e6;
 }
 
 .posiciones .accordion h3 {
-    color: #666;
-    background-color: #E8E8E8;
-    border: 1px solid #E6E6E6;
+	color:#757a7e;
+    background-color:#e8e8e8;
+    border:1px solid #d7d7d7;
     background: url("../img/arrow_sprite2.png") no-repeat scroll right 3px #EDEFF0;
-    font-family: 'AllerRegular';
-    letter-spacing: 0;
-    text-transform: none;
 }
+	
 	
 .answer{}
 

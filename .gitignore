@@ -20,4 +20,3 @@ media/*
 .idea/
 
 local_settings.py
-.coverage
