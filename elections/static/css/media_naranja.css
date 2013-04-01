@@ -33,6 +33,19 @@ h2{
 	margin-top: -47px;
 }
 
+h4{
+    font-family: 'AllerBold';
+    color: #757a7e;
+    font-size: 12px;
+    background-color: #e8e8e8;
+    border: 1px solid #d7d7d7;
+    text-transform: uppercase;
+    letter-spacing:1px;
+    padding: 4px 4px 2px;
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
 img{
     border:0px solid #ffffff;
 }
@@ -48,6 +61,8 @@ table{
     border-collapse: collapse;
     width:100%;
 }
+
+
 
 .tablaEncuesta .titulo{
     font-weight:normal;
@@ -197,13 +212,12 @@ table{
     margin-bottom: 20px;
 }
 
-.porcentaje {
-    color: #72ACD9;
-    letter-spacing: 0;
-    font-weight: bold;
-    font-size: 14px;
-    padding-left: 3px;
-    float: left;
+.porcentaje{
+	color:#72acd9;
+	letter-spacing:1px;
+	font-weight:bold;
+	font-size:14px;
+	padding-left: 13px;
 }
 
 
@@ -225,30 +239,29 @@ table{
 }
 
 .profileImg {
-    height: 200px;
-    overflow: hidden;
-    width: 160px;
-    position: absolute;
-    top: 47px;
-    left: 15px;
+	float: left;
+	height: 200px;
+	overflow: hidden;
+	width: 160px;
+	margin: -131px 0px 0px;
 }
 
 .profileImg_small {
-    float: left;
+	margin-left: -4px;
+	margin-right: 5px;
 }
 
 .candidatesBasicInformation header {
-    position: relative;
-    width: 100%;
-    left: 173px;
+	left: 163px;
+	position: relative;
+	width: 586px;
+	left: 173px;
 }
 
 .candidatesBasicInformation {
-    position: relative;
-    line-height: 21px;
-    margin-bottom: 20px;
-    min-height: 180px;
-    width: 57%;
+position: relative;
+line-height: 21px;
+margin-bottom: 20px;
 }
 
 .categoria{
@@ -257,54 +270,4 @@ table{
 
 p{
 	margin:0px;
-}
-
-.col_left h4, .col_right h4 {
-    font-family: 'AllerRegular';
-    color: #666;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 12px;
-    background-color: #e8e8e8;
-    border: 1px solid #d7d7d7;
-    padding: 4px 4px 2px;
-    margin-bottom: 7px;
-    margin-top: 7px;
-}
-
-.candidatesBasicInformation .globo_left {
-    display: block;
-    margin-top: 5px;
-}
-
-.tit h2 {
-    margin: 0px;
-}
-
-.categoria_porcentaje {
-    float: left;
-    clear: left;
-}
-
-.compartir_resultados {
-    clear: both;
-    margin-top: 141px;
-}
-
-.otrosporcentajes.derecha {
-    float: right;
-    width: 50%;
-    margin-top: 10px;
-}
-
-.otrosporcentajes.izquierda {
-    float: left;
-    width: 50%;
-    clear: left;
-    margin-top: 10px;
-}
-
-.otrosporcentajes_data {
-    float: left;
-    margin-left: 5px;
 }
