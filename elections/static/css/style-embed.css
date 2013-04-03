@@ -580,6 +580,13 @@ padding: 6px 0px 16px 0px;
     left: -11px;
 }
 
+.profileHome.large-list .not_answered a:after {
+    content: url("../img/no_responde_small.jpg");
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
 /* MEDIA NARANJA */
 
 .wrap_resultados {
