@@ -119,33 +119,13 @@
 	background-size: 60%;
 	}
 
-	.leftContent {
-		width: 65%;
-	}
-
-	.firstCandidate, .secondCandidate {
-		width: 45%;
-	}
-
 	.tzSelect .selectBox {
 		font-size: 12px;
-		width: 75%;
-	}
-
-	.categories {
-	width: 30%;
-	}
-
-	.tzSelect .selectBox {
-		font-size: 12px;
-		width: 67%;
-		padding-right: 25px;
 	}
 
 	.dropDown {
 		box-shadow: 0 2px 4px #999;
 		padding: 8px;
-		width: 68%;
 		font-size: 10px;
 	}
 
@@ -170,6 +150,22 @@
 	}
 
 	/* perfiles */
+
+	.profileAside .sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside .sideButton {
+        width: 80%;
+    }
+
+	.sideButton_txt {
+		margin-left: -5px;
+	}
+
+	.profileAside, .profileAside2 {
+		width: 100px;
+	}
 
 	.profileAside2 .sideButton_txt {
 		margin-left: -5px;
@@ -229,6 +225,10 @@
 
 	/* compara */
 
+	.firstCandidate img.candidateComparedImage, .secondCandidate img.candidateComparedImage {
+		display: none;
+	}
+
 	.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo {
 		float: left;
 	}
@@ -245,12 +245,8 @@
 		width: 90%;
 	}
 
-	.tzSelect .selectBox {
-		width: 60%;
-	}
-
 	.profileHome {
-		width: 70%;
+		width: 100%;
 	}
 
 }
@@ -363,26 +359,9 @@
 
 	/* perfil */
 
-
-	.sideButton_txt {
-		margin-left: -5px;
-	}
-
-	.sideButton_txt img {
-		display: none;
-	}
-
-	.profileAside, .profileAside2 {
-		width: 100px;
-	}
-
 	.profileAside2 .sideButton_txt {
 		margin-left: -4px;
 	}
-
-	.sideButton {
-        width: 80%;
-    }
 
 	.enlacesPersonales {
 		float: none;
