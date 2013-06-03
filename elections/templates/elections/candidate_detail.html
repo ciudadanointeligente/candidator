@@ -73,19 +73,11 @@
 
                             <section class="personalInfo">
                                 <h3 style="display:none;">{% trans "Información personal" %}</h3>
-
-
-                                {% for personal_data_label, personal_data_value in candidate.get_personal_data.items %}
-                                    <span class="profile-description">{{ personal_data_label }}:</span>
-                                    {% if personal_data_value %}
-                                        <span> {{ personal_data_value }}</span>
-                                    {% else %}
-                                        <span></span>
-                                    {% endif %}
-                                    <br>
-                                {% endfor %}
-
-
+                                {% if election.should_display_empty_personal_data %}
+                                {% include "elections/personal_data_list_showing_all.html" with personal_datas=candidate.get_personal_data.items %}
+                                {% else %}
+                                {% include "elections/personal_data_list_showing_populated.html" with personal_datas=candidate.get_personal_data.items %}
+                                {% endif %}
                             </section>
                             
                            
@@ -114,15 +106,11 @@
                             <div class="brdotted">
                                 <div class="accordion">
 				{% if candidate.get_background.items %}
-                                    {% for category_index, background_category in candidate.get_background.items %}
-                                    <h3>{{ background_category.name }}: </h3>
-
-                                    <div class="accordionContent">
-                                        {% for background_index, background in background_category.backgrounds.items %}
-                                        <span class="profile-description">{{ background.name }}: </span>{% if background.value %}{{ background.value }}{% endif %}<br>
-                                        {% endfor %}
-                                    </div>
-                                    {% endfor %}
+                               {% if election.should_display_empty_personal_data %}
+                                {% include "elections/backgrounds_showing_all.html" with backgrounds=candidate.get_background.items %}
+                                {% else %}
+                                {% include "elections/backgrounds_showing_populated.html" with backgrounds=candidate.get_background.items %}
+                                {% endif %}     
 				{% else %}
                                     <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
 				{% endif %}
