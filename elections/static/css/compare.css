@@ -16,12 +16,13 @@
 
 }
 .comparisonBox {
-    display: block;
+	display: inline-block;
 }
-.candidatesLists {
+
+/*.candidatesLists {
 	overflow:hidden;
 
-}
+}*/
 
 .candidatesLists select{
 	 width: 275px;
@@ -46,19 +47,19 @@
     float: left;
 }
 
-.basicProfileContainer{
+/*.basicProfileContainer{
 	margin-top: 40px;
-}
+}*/
 
 .firstCandidate img.candidateComparedImage, .secondCandidate img.candidateComparedImage{ 
 	height: 129px;
     margin-top: 6px;
-    width: 100px;
+    width: 40%;
 }
 .firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo{ 
 	font-size: 11px;
     padding: 5px;
-    width: 160px;
+    width: 55%;
 
 }
 .firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo{
@@ -97,7 +98,7 @@
 	color: white;
 	margin-bottom: 4px;
 	padding: 1px 4px;
-	width: 557px;
+/*	width: 557px;*/
 	clear: both;
 	margin-top: 8px;
 }
