@@ -127,6 +127,18 @@
         hide_selected_candidate('second');
     });
 
+    $(document).ready(function () {
+        $(".hoverli").hover(
+      function () {
+         $('ul.categoriesList').slideDown('medium');
+      }, 
+      function () {
+         $('ul.categoriesList').slideUp('medium');
+      }
+    );
+
+    });
+
 
     </script>
     <script type="text/javascript">var switchTo5x=true;</script>
@@ -144,7 +156,7 @@
 <div class="contenedor1_embeded">
     <div class="contenedor2_embeded">
 
-        <div class="categories">
+<!--         <div class="categories">
             <h6 class="categoriesTitle">{% trans "Temas" %}</h6>
             <ul class="categoriesList">
                 {% if election.category_set.all %}
@@ -164,6 +176,35 @@
                 <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
                 {% endif %}
             </ul>
+        </div> -->
+
+        <div class="categories">
+            <div id="categories-button">
+<!--                     <h6 class="categoriesTitle">{% trans "Temas" %}</h6> -->
+                    <ul class="categoriesHover">
+                        <li class="hoverli">
+                            <h6 class="menu_class">Elige el tema para comparar</h6>
+                            <ul class="categoriesList">
+                                {% if election.category_set.all %}
+                                {% for category in election.category_set.all %}
+                                <li>
+                                    <input type="radio" name="category"
+                            {% if selected_category %}
+                                        {% if selected_category == category %}checked="checked"{% endif %}
+                                    {% else %}
+                                        {% if forloop.first %}checked="checked"{% endif %}
+                                    {% endif %}
+                                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
+                                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
+                                </li>
+                                {% endfor %}
+                                {% else %}
+                                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+            </div>
         </div>
 
 

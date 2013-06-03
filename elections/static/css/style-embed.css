@@ -434,7 +434,7 @@ padding: 6px 0px 16px 0px;
     }
 
     .secondCandidate {
-        width: 48%;
+        width: 50%;
     }
 
     .candidatesLists select {
@@ -464,9 +464,46 @@ padding: 6px 0px 16px 0px;
 
     .categories {
         width: 100%;
-        border: 1px dashed #D7D7D7;
-        padding: 0px 8px 8px;
-        margin-bottom: 10px;
+    }
+
+    #categories-button {
+        width: 100%;
+        padding: 10px 0px;
+        cursor: pointer;
+    }
+
+    .menu_class {
+        border: 1px solid rgb(51, 86, 148);
+        background: rgb(160,192,232);
+        background: -moz-linear-gradient(top,  rgba(160,192,232,1) 0%, rgba(54,115,165,1) 7%, rgba(46,111,166,1) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(160,192,232,1)), color-stop(7%,rgba(54,115,165,1)), color-stop(100%,rgba(46,111,166,1)));
+        background: -webkit-linear-gradient(top,  rgba(160,192,232,1) 0%,rgba(54,115,165,1) 7%,rgba(46,111,166,1) 100%);
+        background: -o-linear-gradient(top,  rgba(160,192,232,1) 0%,rgba(54,115,165,1) 7%,rgba(46,111,166,1) 100%);
+        background: -ms-linear-gradient(top,  rgba(160,192,232,1) 0%,rgba(54,115,165,1) 7%,rgba(46,111,166,1) 100%);
+        background: linear-gradient(to bottom,  rgba(160,192,232,1) 0%,rgba(54,115,165,1) 7%,rgba(46,111,166,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0c0e8', endColorstr='#2e6fa6',GradientType=0 );
+        color: #fff;
+        padding: 5px;
+        position: relative;
+        box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .menu_class:after {
+        top: 37%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .menu_class:after {
+        border-color: rgba(255, 255, 255, 0);
+        border-top-color: rgb(255, 255, 255);
+        border-width: 6px;
+        left: 90%;
+        margin-left: 35px;
     }
 
     .dropDown li {
@@ -483,9 +520,33 @@ padding: 6px 0px 16px 0px;
      padding-right: 2.8%;
     }
 
-    .categoriesList li {
+/*    .categoriesList li {
         float: left;
         margin-right: 10px;
+    }*/
+
+    .categoriesList {
+        display:none;
+    }
+
+    .categoriesList li {
+        background-color: rgb(235, 235, 235);
+        padding: 5px;
+        margin: 0px;
+        border: 1px solid #ddd; 
+    }
+
+    .categoriesList li a {
+        color:#FFFFFF; 
+        text-decoration:none; 
+        padding:10px; 
+        display:block;
+    }
+
+    .categoriesList li a:hover {
+        padding:10px;
+        font-weight:bold;
+        color: #F00880;
     }
 
 /* PERFILES */
@@ -544,7 +605,7 @@ padding: 6px 0px 16px 0px;
     }
 
     .profileHome {
-        width: 80%;
+        width: 100%;
         margin-top: 25px;
     }
 
@@ -581,7 +642,7 @@ padding: 6px 0px 16px 0px;
 }
 
 .profileHome.large-list .not_answered a:after {
-    content: url("../img/no_responde_small.jpg");
+    content: url("../img/no_responde_small.png");
     position: absolute;
     top: 0px;
     left: 0px;

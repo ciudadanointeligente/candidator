@@ -56,13 +56,13 @@
 }
 
 ul.large-list li img {
-	height: 36px; 
-	width: 36px;
+	height: 45px; 
+	width: 45px;
 }
 
 ul.large-list li span {
-	left: 36px;
-	height: 24px;
+	left: 45px;
+	height: 33px;
 	width: 110px;
 	overflow: hidden;
 	background-color: rgb(240, 240, 240);
@@ -74,7 +74,7 @@ ul.large-list li span {
 }
 
 ul.large-list li {
-	width: 150px;
+	width: 160px;
 }
 
 /*==== buscador_candidatos ====*/
