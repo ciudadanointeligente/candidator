@@ -52,13 +52,14 @@ body{
     padding: 10px;
     margin-top: 6px;
     position: relative;
+    min-height: 250px;
 }
 
 .contenedor2_embeded{
     width: 70%;
     overflow: visible;
     position: relative;
-    min-height: 150px;
+    min-height: 230px;
 }
 
 .contenedor3_embeded{
