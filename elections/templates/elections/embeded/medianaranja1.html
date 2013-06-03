@@ -16,16 +16,26 @@
 {% block content %}
 
 <div class="contenedor1_embeded">
+    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_medianaranja.png" width="76" height="73" /></div>
+    <div class="tit"><h3>{% trans 'TU MEDIA NARANJA POLÍTICA' %}</h3></div>
     <div class="contenedor2_embeded">
 
 
-    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_medianaranja.png" width="76" height="73" /></div>
-    <div class="tit"><h3>{% trans 'TU MEDIA NARANJA POLÍTICA' %}</h3></div>
-
-    <div class="txt_intro">{% trans 'La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección. Esto NO es un juego. Los temas y opciones que ponemos a disposición son sólo aquellas que los candidatos han declarado. Son las posiciones REALES de los candidatos.' %}<br /><br />
-    </div>
+    <div class="txt_intro">{% trans 'La media naranja es una aplicación en la que podrás conocer tu cercanía con los candidatos de tu elección.' %}</div>
 
     </div>
+        <aside class="profileAside2">
+                            <div class="wrap_bt_perfiles">
+                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+        </aside>    
+
 </div><!--contenedor1-->
 
 
