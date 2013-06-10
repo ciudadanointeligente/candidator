@@ -425,6 +425,13 @@ padding: 6px 0px 16px 0px;
 
 /* COMPARA */
 
+    h6.grande {
+        text-transform: none;
+        font-size: 24px;
+        letter-spacing: 0;
+        margin-bottom: 10px;
+    }
+
     .candidatesLists select {
         width: 100%;
     }
@@ -447,12 +454,8 @@ padding: 6px 0px 16px 0px;
     }
 
     .comparisonResult {
-        width: 98%;
+        width: 100%;
     }
-
-/*    .questionInComparison {
-        width: 97%;
-    }*/
 
     .answerSpace ul {
         width: 46%;
@@ -463,14 +466,49 @@ padding: 6px 0px 16px 0px;
         border-right: none;
     }
 
-    .categories {
-        width: 100%;
+    .temas {
+        background: rgb(231, 231, 231);
+        padding: 12px;
+        margin-top: 20px;
+        min-height: 35px;
     }
 
-    #categories-button {
+    .selector-temas {
         width: 100%;
-        padding: 10px 0px;
-        cursor: pointer;
+        float: none;
+    }
+
+    .selector-temas h6.grande {
+        font-size: 16px;
+        float: left;
+    }
+
+    .categories {
+        float: left;
+        margin: 9px;
+    }
+
+    .answered {
+        background-color: rgb(255, 255, 255);
+        border: none;
+    }
+
+    .answerSpace img {
+        position: absolute;
+        height: 25px;
+    }
+
+    .answerSpace li {
+        padding: 5px 35px;
+    }
+
+    .answerSpace ul {
+        width: 49%;
+    }
+
+    .firstCandidatesAnswer {
+        padding-right: 0;
+        border-right: none;
     }
 
     .menu_class {
@@ -515,10 +553,6 @@ padding: 6px 0px 16px 0px;
         position: relative;
         width: auto !important;
         display: block;
-    }
-
-    .firstCandidatesAnswer {
-     padding-right: 2.8%;
     }
 
 /*    .categoriesList li {
