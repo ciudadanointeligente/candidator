@@ -2,6 +2,7 @@ Candideit.org
 ============
 
 [![Build Status](https://travis-ci.org/ciudadanointeligente/candidator.png?branch=master)](https://travis-ci.org/ciudadanointeligente/candidator)
+[![Coverage Status](https://coveralls.io/repos/ciudadanointeligente/candidator/badge.png?branch=master)](https://coveralls.io/r/ciudadanointeligente/candidator?branch=master)
 
 Candideit.org is a simple application that aims to provide comparable information about the positions of candidates to any election.
 
