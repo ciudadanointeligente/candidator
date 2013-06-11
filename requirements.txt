@@ -8,7 +8,7 @@ django-debug-toolbar==0.8.5
 django-extensions==0.7.1
 django-grappelli==2.3.5
 django-profiles==0.2
--e hg+http://bitbucket.org/ubernostrum/django-registration/@434:1086c6ad3a47#egg=django-registration
+-e hg+http://bitbucket.org/ubernostrum/django-registration/@1086c6a#egg=django-registration
 django-social-auth==0.6.0
 docutils==0.8.1
 httplib2==0.7.4
