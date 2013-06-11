@@ -18,5 +18,6 @@
 .Trashes
 media/*
 .idea/
+.coverage
 
 local_settings.py
