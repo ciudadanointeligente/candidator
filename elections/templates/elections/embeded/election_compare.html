@@ -18,6 +18,9 @@
 
     <script type="text/javascript">
     function get_checked_radio_button_value(){
+        var selected_category_slug = $(".categories").val()
+        return selected_category_slug
+        console.log(selected_element)
         var radio_buttons = document.getElementsByName("category")
         for(i=0;i<radio_buttons.length;i++){
            if(radio_buttons[i].checked) return radio_buttons[i].value
@@ -155,57 +158,7 @@
 
 <div class="contenedor1_embeded">
     <div class="contenedor2_embeded">
-
-<!--         <div class="categories">
-            <h6 class="categoriesTitle">{% trans "Temas" %}</h6>
-            <ul class="categoriesList">
-                {% if election.category_set.all %}
-                {% for category in election.category_set.all %}
-                <li>
-                    <input type="radio" name="category"
-            {% if selected_category %}
-                        {% if selected_category == category %}checked="checked"{% endif %}
-                    {% else %}
-                        {% if forloop.first %}checked="checked"{% endif %}
-                    {% endif %}
-                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
-                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
-                </li>
-                {% endfor %}
-                {% else %}
-                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
-                {% endif %}
-            </ul>
-        </div> -->
-
-        <div class="categories">
-            <div id="categories-button">
-<!--                     <h6 class="categoriesTitle">{% trans "Temas" %}</h6> -->
-                    <ul class="categoriesHover">
-                        <li class="hoverli">
-                            <h6 class="menu_class">Elige el tema para comparar</h6>
-                            <ul class="categoriesList">
-                                {% if election.category_set.all %}
-                                {% for category in election.category_set.all %}
-                                <li>
-                                    <input type="radio" name="category"
-                            {% if selected_category %}
-                                        {% if selected_category == category %}checked="checked"{% endif %}
-                                    {% else %}
-                                        {% if forloop.first %}checked="checked"{% endif %}
-                                    {% endif %}
-                                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
-                                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
-                                </li>
-                                {% endfor %}
-                                {% else %}
-                                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                    </ul>
-            </div>
-        </div>
+            <h6 class="grande">{% trans "Selecciona candidatos y compáralos" %}</h6>
 
 
         <article class="wrapW">
@@ -368,14 +321,24 @@
                 </aside>
 
 <div class="contenedor3_embeded">
-    <article>
+
+
+    <article class="temas">
+
+    <div class="selector-temas">
+            <h6 class="grande">{% trans "Los estas comparando en:" %}</h6>
+            <select class="categories" name="categories" onchange="get_comparation_data_in_radio_button(this)">
+                                {% for category in election.category_set.all %}
+                                <option value="{{category.slug}}" {% if selected_category == category %}selected{% endif %}>{{ category.name }}</option>
+                                {% endfor %}
+            </select>
+    </div>
 
 	    {% if selected_category %}
-            <section id ="result" class="comparisonResult" >
+            <div id ="result" class="comparisonResult" >
 
                 {% if first_candidate and second_candidate %}
 
-                <h1>{{ selected_category.name }}</h1>
 
                     {% for answer in answers %}
 
@@ -384,6 +347,7 @@
                        <div class="answerSpace">
 
                             <ul class="firstCandidatesAnswer">
+                                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="30" height="30"/>
                                 <li class=" answerInComparison answered">
                                     {% if answer.1 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
@@ -393,7 +357,9 @@
                             </ul>
 
                             <ul class="secondCandidatesAnswer">
-                                <li class=" answerInComparison answered"> {% if answer.2 == "no answer" %}
+                                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="30" height="30"/>
+                                <li class=" answerInComparison answered"> 
+                                    {% if answer.2 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
                                     {% else %}
                                        {{ answer.2 }}</li>
@@ -406,7 +372,7 @@
                 {% else %}
                     <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
                 {% endif %}
-            </section>
+            </div>
             {% endif %}
         </div>
 
