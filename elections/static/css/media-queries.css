@@ -357,6 +357,10 @@
         width: 100%;
     }
 
+   	.categories {
+		margin: 0px 0px 10px;
+	}
+
 	/* perfil */
 
 	.profileAside2 .sideButton_txt {
