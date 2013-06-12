@@ -1375,13 +1375,6 @@ ul .electionList {
     height: 270px;
 }
 
-/*PARA MUNICIPALES FCI
-.item.item1 {
-    width: 522px;
-    border-bottom: 7px solid #6699CC !important;
-}
-*/
-
 #contenedor_destacados a {
     font-style: italic;
     right: 0;
@@ -1451,5 +1444,15 @@ ul .electionList {
 .subtit_destacado {
     font-family: 'AllerBold';
     margin-top: 10px;
+}
+
+/* PERFILES */
+
+.posiciones .profile-description {
+	font-family: 'AllerBold';
+}
+
+.posiciones .answerContainer {
+	color: rgb(145, 145, 145);
 }
 
