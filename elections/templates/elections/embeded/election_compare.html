@@ -347,7 +347,9 @@
                        <div class="answerSpace">
 
                             <ul class="firstCandidatesAnswer">
+                                {% if first_candidate.photo %}
                                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
                                 <li class=" answerInComparison answered">
                                     {% if answer.1 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
@@ -357,7 +359,9 @@
                             </ul>
 
                             <ul class="secondCandidatesAnswer">
+                                {% if second_candidate.photo %}
                                 <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
                                 <li class=" answerInComparison answered"> 
                                     {% if answer.2 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
