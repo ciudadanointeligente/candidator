@@ -18,9 +18,8 @@
 
     <script type="text/javascript">
     function get_checked_radio_button_value(){
-        var selected_category_slug = $(".categories").val()
+        var selected_category_slug = $(":radio[name=category]:checked").val()
         return selected_category_slug
-        console.log(selected_element)
         var radio_buttons = document.getElementsByName("category")
         for(i=0;i<radio_buttons.length;i++){
            if(radio_buttons[i].checked) return radio_buttons[i].value
@@ -112,7 +111,7 @@
         if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
             var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
             final_direction += first_select.value + "/" + second_select.value + "/" + current_radio_button.value + "/embeded";
-            window.location     = final_direction
+            window.location = final_direction
         }
     }
     function hide_selected_candidate(position){
@@ -155,9 +154,44 @@
 
 {% block content %}
 
+            <div class="menu-aside-small">
+                    <div class="bt-perfiles-small">
+                        <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small bt_perfiles">{% trans 'REVISA LOS PERFILES' %}</div></a>
+                    </div>
+                    <div class="bt-frente-small">
+                        <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small compare">{% trans 'FRENTE A FRENTE' %}</div></a>
+                    </div>
+                    <div class="bt-medianaranja-small">
+                        <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="aside-small medianaranja">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}</div></a>
+                    </div>
+            </div>
 
 <div class="contenedor1_embeded">
+
+        <div class="categories">
+            <h6 class="grande">{% trans "Los estas comparando en:" %}</h6>
+            <ul class="categoriesList">
+                {% if election.category_set.all %}
+                {% for category in election.category_set.all %}
+                <li>
+                    <input type="radio" name="category"
+            {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %}
+                    {% else %}
+                        {% if forloop.first %}checked="checked"{% endif %}
+                    {% endif %}
+                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
+                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
+                {% endif %}
+            </ul>
+        </div>
+
     <div class="contenedor2_embeded">
+
             <h6 class="grande">{% trans "Selecciona candidatos y compáralos" %}</h6>
 
 
@@ -308,31 +342,19 @@
     </article>
 </div>
 
-                <aside class="profileAside2">
-                            <div class="wrap_bt_perfiles">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="enfrentalos">
-                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
-                            </div>
-                            <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
-                            </div>
-                </aside>
-
 <div class="contenedor3_embeded">
 
 
-    <article class="temas">
-
-    <div class="selector-temas">
+<!--     <article class="temas">
+ -->
+<!--     <div class="selector-temas">
             <h6 class="grande">{% trans "Los estas comparando en:" %}</h6>
             <select class="categories" name="categories" onchange="get_comparation_data_in_radio_button(this)">
                                 {% for category in election.category_set.all %}
                                 <option value="{{category.slug}}" {% if selected_category == category %}selected{% endif %}>{{ category.name }}</option>
                                 {% endfor %}
             </select>
-    </div>
+    </div> -->
 
 	    {% if selected_category %}
             <div id ="result" class="comparisonResult" >
@@ -347,7 +369,9 @@
                        <div class="answerSpace">
 
                             <ul class="firstCandidatesAnswer">
+                                {% if first_candidate.photo %}
                                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
                                 <li class=" answerInComparison answered">
                                     {% if answer.1 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
@@ -357,7 +381,9 @@
                             </ul>
 
                             <ul class="secondCandidatesAnswer">
+                                {% if second_candidate.photo %}
                                 <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
                                 <li class=" answerInComparison answered"> 
                                     {% if answer.2 == "no answer" %}
                                        {% trans 'No hay respuesta' %}</li>
@@ -370,13 +396,15 @@
                     {% endfor %}
 
                 {% else %}
+
+
                     <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
                 {% endif %}
             </div>
             {% endif %}
         </div>
 
-   </article>
+<!--    </article> -->
 
 		</div>
 	</div>
