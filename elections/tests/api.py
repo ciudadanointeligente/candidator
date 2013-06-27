@@ -5,7 +5,8 @@ from django.db import models
 from tastypie.models import ApiKey
 from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
-                             Question, Answer, Link
+                             Question, Answer, Link, BackgroundCandidate
+from elections.api import BackgroundResource
 from tastypie.test import ResourceTestCase, TestApiClient
 from django.core import serializers
 from django.core.urlresolvers import reverse
@@ -51,6 +52,7 @@ class ApiTestCase(ResourceTestCase):
         self.candidate = Candidate.objects.create(
                                                             name='Bar Baz',
                                                             election=self.election)
+        self.candidate.associate_answer(self.answer2)
 
         self.age1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data1, candidate=self.candidate, value=u"2")
         self.profession1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data2, candidate=self.candidate, value=u"Perro")
@@ -190,6 +192,27 @@ class ApiTestCase(ResourceTestCase):
         self.assertEqual(candidate["personal_data"][0]["value"], "2")
         self.assertEqual(candidate["personal_data"][1]["value"], "Perro")
 
+    def test_candidate_detail_show_category(self):
+        url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
+        resp = self.api_client.get(url, data=self.data)
+        candidate = self.deserialize(resp)
+
+
+        self.assertTrue("categories" in candidate)
+        self.assertEquals(len(candidate["categories"]),2)
+        self.assertTrue("id" in candidate["categories"][0])
+        self.assertTrue("name" in candidate["categories"][0])
+        self.assertTrue("questions" in candidate["categories"][0])
+        self.assertTrue("id" in candidate["categories"][0]["questions"][0])
+        self.assertTrue("question" in candidate["categories"][0]["questions"][0])
+        self.assertEquals(len(candidate["categories"][0]["questions"]),2)
+        self.assertTrue("answer" in candidate["categories"][0]["questions"][0])
+        self.assertTrue("id" in candidate["categories"][0]["questions"][0]["answer"])
+        self.assertEquals(candidate["categories"][0]["questions"][0]["answer"]["id"], self.answer2.id)
+        self.assertTrue("caption" in candidate["categories"][0]["questions"][0]["answer"])
+        # self.assertFalse(True)
+        self.assertTrue(candidate["categories"][0]["questions"][1]["answer"] is None)
+
 
     def test_get_the_most_ferocious_twitter(self):
         url = '/api/v1/candidate/{0}/'.format(self.candidate2.id)
@@ -201,4 +224,25 @@ class ApiTestCase(ResourceTestCase):
         self.assertEquals(candidate["links"][0]["name"], self.ferocious_link.name)
         self.assertEquals(candidate["links"][0]["url"], self.ferocious_link.url)
 
+    def test_candidate_detail_shows_personal_data_extends(self):
+        background_category = BackgroundCategory.objects.create(
+            name = 'categoria',
+            election = self.candidate.election
+            )
+        backgrounds = Background.objects.create(
+            name = 'background name',
+            category = background_category
+            )
+        candidate_background = BackgroundCandidate.objects.create(
+            candidate = self.candidate,
+            background = backgrounds,
+            value = 'candidate background value'
+            )
 
+
+        url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
+        resp = self.api_client.get(url, data=self.data)
+        candidate = self.deserialize(resp)
+        self.assertTrue("backgrounds" in candidate)
+        self.assertEquals(candidate["backgrounds"][0]["name"],"background name")
+        self.assertEquals(candidate["backgrounds"][0]["value"],"candidate background value")
