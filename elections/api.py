@@ -2,7 +2,8 @@
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
-from elections.models import Election, Candidate, Category, Question, Answer, PersonalData, PersonalDataCandidate, Link
+from elections.models import Election, Candidate, Category, Question, Answer, \
+							PersonalData, PersonalDataCandidate, Link, Background, BackgroundCandidate
 from tastypie import fields
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -15,9 +16,14 @@ class LinkResource(ModelResource):
 	class Meta:
 		queryset = Link.objects.all()
 
+class BackgroundResource(ModelResource):
+	class Meta:
+		queryset = Background.objects.all()
+
 class CandidateResource(ModelResource):
 	personal_data = fields.ManyToManyField(PersonalDataResource, 'personal_data', null=True, full=True)
 	links = fields.ToManyField(LinkResource, 'link_set', full=True)
+	backgrounds = fields.ManyToManyField(BackgroundResource, 'background', full=True)
 
 	class Meta:
 		queryset = Candidate.objects.all()
@@ -28,10 +34,44 @@ class CandidateResource(ModelResource):
 		return object_list.filter(election__owner=bundle.request.user)
 
 	def dehydrate(self, bundle):
+		candidate = bundle.obj
+		categories = bundle.obj.election.category_set.all()
+		bundle.data["categories"] = []
+		
+		for category in categories:
+			questions_array = []
+			for question in category.question_set.all():
+				answers = Answer.objects.filter(question=question).filter(candidate=candidate)
+				the_answer = None
+				if len(answers)==1:
+					the_answer = {
+						"id":answers[0].id,
+						"caption":answers[0].caption
+					}
+				questions_array.append({
+						"id": question.id,
+						"answer": the_answer,
+						"question": question.question
+					})
+			
+			category_dict = {
+				"id":category.id,
+				"name":category.name,
+				"questions":questions_array
+			}
+
+			bundle.data["categories"].append(category_dict)
+
+
 		for pdata in bundle.data['personal_data']:
 			personal_data_candidate = PersonalDataCandidate.objects.get(candidate=bundle.obj, personal_data=pdata.obj)
 			pdata.data['value'] = personal_data_candidate.value
 			del pdata.data['resource_uri']
+		
+		for data in bundle.data['backgrounds']:
+			background_candidate = BackgroundCandidate.objects.get(candidate=bundle.obj, background=data.obj)
+			data.data['value'] = background_candidate.value
+
 		return bundle
 
 class AnswerResource(ModelResource):
