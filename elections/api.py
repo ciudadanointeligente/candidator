@@ -112,7 +112,7 @@ class ElectionResource(ModelResource):
 	def dehydrate(self, bundle):
 		candidates_list = []
 		for i, candidate in enumerate(bundle.obj.candidate_set.all()):
-			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i], 'id':candidate.id})
+			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i], 'id':candidate.id, 'image':candidate.photo})
 		bundle.data['candidates'] = candidates_list
 		current_site = Site.objects.get_current()
 		bundle.data['url'] = "http://"+current_site.domain+bundle.obj.get_absolute_url()
