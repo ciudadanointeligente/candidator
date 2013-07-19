@@ -198,27 +198,6 @@ class ApiTestCase(ResourceTestCase):
         self.assertEqual(candidate["personal_data"][0]["value"], "2")
         self.assertEqual(candidate["personal_data"][1]["value"], "Perro")
 
-    # def test_candidate_detail_show_category(self):
-    #     url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
-    #     resp = self.api_client.get(url, data=self.data)
-        # candidate = self.deserialize(resp)
-
-        # self.assertTrue("categories" in candidate)
-        # self.assertEquals(len(candidate["categories"]),2)
-        # self.assertTrue("id" in candidate["categories"][0])
-        # self.assertTrue("name" in candidate["categories"][0])
-        # self.assertTrue("questions" in candidate["categories"][0])
-        # self.assertTrue("id" in candidate["categories"][0]["questions"][0])
-        # self.assertTrue("question" in candidate["categories"][0]["questions"][0])
-        # self.assertEquals(len(candidate["categories"][0]["questions"]),2)
-        # self.assertTrue("answer" in candidate["categories"][0]["questions"][0])
-        # self.assertTrue("id" in candidate["categories"][0]["questions"][0]["answer"])
-        # self.assertEquals(candidate["categories"][0]["questions"][0]["answer"]["id"], self.answer2.id)
-        # self.assertTrue("caption" in candidate["categories"][0]["questions"][0]["answer"])
-        # # self.assertFalse(True)
-        # self.assertTrue(candidate["categories"][0]["questions"][1]["answer"] is None)
-
-
     def test_get_the_most_ferocious_twitter(self):
         url = '/api/v1/candidate/{0}/'.format(self.candidate2.id)
         resp = self.api_client.get(url, data=self.data)
@@ -243,7 +222,6 @@ class ApiTestCase(ResourceTestCase):
             background = backgrounds,
             value = 'candidate background value'
             )
-
 
         url = '/api/v1/candidate/{0}/'.format(self.candidate.id)
         resp = self.api_client.get(url, data=self.data)
