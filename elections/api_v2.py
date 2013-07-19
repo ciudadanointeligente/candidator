@@ -16,6 +16,7 @@ class ElectionV2Resource(ModelResource):
 class PersonalDataV2Resource(ModelResource):
     class Meta:
         queryset = PersonalData.objects.all()
+        resource_name = 'personal_data'
 
 class LinkV2Resource(ModelResource):
     class Meta:

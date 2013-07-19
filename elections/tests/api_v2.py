@@ -207,8 +207,18 @@ class ApiV2TestCase(ResourceTestCase):
         personal_data_candidate = self.deserialize(response)['objects']
         # print personal_data_candidate[0]
         self.assertTrue(personal_data_candidate[0].has_key('candidate'))
+        self.assertTrue(personal_data_candidate[0]['candidate'])
         self.assertTrue(personal_data_candidate[0].has_key('personal_data'))
+        self.assertTrue(personal_data_candidate[0]['personal_data'])
         self.assertTrue(personal_data_candidate[0].has_key('value'))
+
+    def test_get_personal_data(self):
+        response = self.api_client.get(
+            '/api/v2/personal_data/', 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
 
 
     def test_get_backgrounds_candidate(self):
