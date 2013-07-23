@@ -4,7 +4,8 @@ from tastypie.api import Api
 from elections.api import ElectionResource, CandidateResource
 from elections.api_v2 import ElectionV2Resource, CategoryV2Resource, QuestionV2Resource,\
 							AnswerV2Resource, CandidateV2Resource, PersonalDataCandidateV2Resource,\
-							BackgroundsCandidateV2Resource, PersonalDataV2Resource
+							BackgroundsCandidateV2Resource, PersonalDataV2Resource, BackgroundCategoryV2Resource,\
+							BackgroundV2Resource
 
 v1_api = Api(api_name='v1')
 v1_api.register(ElectionResource())
@@ -19,6 +20,8 @@ v2_api.register(CandidateV2Resource())
 v2_api.register(PersonalDataCandidateV2Resource())
 v2_api.register(BackgroundsCandidateV2Resource())
 v2_api.register(PersonalDataV2Resource())
+v2_api.register(BackgroundCategoryV2Resource())
+v2_api.register(BackgroundV2Resource())
 
 urlpatterns = patterns('',
     (r'^', include(v1_api.urls),),

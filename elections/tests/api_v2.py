@@ -54,7 +54,7 @@ class ApiV2TestCase(ResourceTestCase):
 
         self.candidate2 = Candidate.objects.create(
             name = u"Candidate 02",
-            election = self.election2
+            election = self.election
             )
 
         self.category1 = Category.objects.create(
@@ -134,7 +134,17 @@ class ApiV2TestCase(ResourceTestCase):
         elections = self.deserialize(response)['objects']
         self.assertEquals(len(elections),1)
         the_election = elections[0]
+        # print the_election["background"]
         self.assertEquals(the_election['id'],self.election.id)
+        self.assertTrue(the_election.has_key('candidates'))
+        self.assertTrue(isinstance(the_election["candidates"][0], unicode))
+        self.assertTrue(the_election.has_key('categories'))
+        self.assertTrue(isinstance(the_election["categories"][0], unicode))
+        self.assertTrue(the_election.has_key('background_categories'))
+        self.assertTrue(isinstance(the_election["background_categories"][0], unicode))
+        self.assertTrue(the_election.has_key('personal_data'))
+        self.assertTrue(isinstance(the_election["personal_data"][0], unicode))
+        
 
     #categories
     def test_get_categories_valid_json(self):
@@ -159,10 +169,8 @@ class ApiV2TestCase(ResourceTestCase):
         the_category2 = categories[1]
         self.assertEquals(the_category2['id'],self.category2.id)
         self.assertEquals(the_category2['name'],self.category2.name)
-
         self.assertTrue(the_category.has_key("questions"))
-        self.assertTrue(the_category["questions"][0].has_key("resource_uri"))
-        self.assertEqual(the_category["questions"][0]["resource_uri"], "/api/v2/question/{0}/".format(self.question_category_1.id))
+        self.assertTrue(isinstance(the_category["questions"][0], unicode))
 
     def test_get_all_questions(self):
         response = self.api_client.get(
@@ -220,6 +228,13 @@ class ApiV2TestCase(ResourceTestCase):
 
         self.assertHttpOK(response)
 
+    def test_get_background(self):
+        response = self.api_client.get(
+            '/api/v2/background/', 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
 
     def test_get_backgrounds_candidate(self):
         response = self.api_client.get(
@@ -264,3 +279,17 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertTrue(the_candidate.has_key('backgrounds_candidate'))
         self.assertTrue(isinstance(the_candidate["backgrounds_candidate"][0], unicode))
         # self.assertTrue(the_candidate["personal_data"][0].has_key('label'))
+
+    def test_get_background_category(self):
+        response = self.api_client.get(
+            '/api/v2/background_category/', 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
+        background_category = self.deserialize(response)['objects']
+        the_background_category = background_category[0]
+        
+        self.assertTrue(the_background_category.has_key('name'))
+        self.assertTrue(the_background_category.has_key('background'))
+        self.assertTrue(isinstance(the_background_category["background"][0], unicode))        

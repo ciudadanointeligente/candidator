@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 from tastypie.resources import ModelResource
-from elections.models import Election, Category, Question, Answer, Candidate, PersonalData, PersonalDataCandidate, Link, Background, BackgroundCandidate
+from elections.models import Election, Category, Question, Answer, Candidate, PersonalData,\
+                            PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie import fields
 
 class ElectionV2Resource(ModelResource):
+    candidates = fields.ToManyField('candidator.elections.api_v2.CandidateV2Resource', 'candidate_set', null=True)
+    categories = fields.ToManyField('candidator.elections.api_v2.CategoryV2Resource', 'category_set', null=True)
+    background_categories = fields.ToManyField('candidator.elections.api_v2.BackgroundCategoryV2Resource', 'backgroundcategory_set', null=True)
+    personal_data = fields.ToManyField('candidator.elections.api_v2.PersonalDataV2Resource', 'personaldata_set', null=True)
+    
     class Meta:
         queryset = Election.objects.all()
         resource_name = 'election'
@@ -25,6 +31,7 @@ class LinkV2Resource(ModelResource):
 class BackgroundV2Resource(ModelResource):
     class Meta:
         queryset = Background.objects.all()
+        resource_name = 'background'
 
 class PersonalDataCandidateV2Resource(ModelResource):
     candidate = fields.ToOneField('candidator.elections.api_v2.CandidateV2Resource','candidate')
@@ -51,7 +58,6 @@ class CandidateV2Resource(ModelResource):
         resource_name = 'candidate'
         authentication = ApiKeyAuthentication()
 
-
 class AnswerV2Resource(ModelResource):
     candidates = fields.ToManyField(CandidateV2Resource, 'candidate_set', null=True)
 
@@ -61,7 +67,7 @@ class AnswerV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class QuestionV2Resource(ModelResource):
-    answers = fields.ToManyField(AnswerV2Resource, 'answer_set', null=True, full=True)
+    answers = fields.ToManyField(AnswerV2Resource, 'answer_set', null=True)
 
     class Meta:
         queryset = Question.objects.all()
@@ -69,10 +75,17 @@ class QuestionV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class CategoryV2Resource(ModelResource):
-    questions = fields.ToManyField(QuestionV2Resource, 'question_set', null=True, full=True)
+    questions = fields.ToManyField(QuestionV2Resource, 'question_set', null=True)
 
     class Meta:
         queryset = Category.objects.all()
         resource_name = 'category'
         authentication = ApiKeyAuthentication()
 
+class BackgroundCategoryV2Resource(ModelResource):
+    background = fields.ToManyField('candidator.elections.api_v2.BackgroundV2Resource', 'background_set', null=True)
+
+    class Meta:
+        queryset = BackgroundCategory.objects.all()
+        resource_name = 'background_category'
+        authentication = ApiKeyAuthentication()

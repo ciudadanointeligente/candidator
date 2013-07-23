@@ -23,7 +23,7 @@ class BackgroundResource(ModelResource):
 class CandidateResource(ModelResource):
 	personal_data = fields.ManyToManyField(PersonalDataResource, 'personal_data', null=True, full=True)
 	links = fields.ToManyField(LinkResource, 'link_set', full=True)
-	backgrounds = fields.ManyToManyField(BackgroundResource, 'background', full=True)
+	background = fields.ManyToManyField(BackgroundResource, 'background', full=True)
 
 	class Meta:
 		queryset = Candidate.objects.all()
