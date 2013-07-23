@@ -109,6 +109,11 @@ class ApiV2TestCase(ResourceTestCase):
             value = u"Primary High School Musical"
             )
 
+        self.link_twitter = Link.objects.create(
+            name = u"Twitter",
+            url = u"https://www.twitter.com/#el_twitter",
+            candidate = self.candidate)
+
         self.api_client = TestApiClient()
         #self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
@@ -278,7 +283,8 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertFalse(the_candidate.has_key('backgrounds'))
         self.assertTrue(the_candidate.has_key('backgrounds_candidate'))
         self.assertTrue(isinstance(the_candidate["backgrounds_candidate"][0], unicode))
-        # self.assertTrue(the_candidate["personal_data"][0].has_key('label'))
+        self.assertTrue(the_candidate.has_key('links'))
+        self.assertTrue(isinstance(the_candidate["links"][0], unicode))
 
     def test_get_background_category(self):
         response = self.api_client.get(
@@ -292,4 +298,17 @@ class ApiV2TestCase(ResourceTestCase):
         
         self.assertTrue(the_background_category.has_key('name'))
         self.assertTrue(the_background_category.has_key('background'))
-        self.assertTrue(isinstance(the_background_category["background"][0], unicode))        
+        self.assertTrue(isinstance(the_background_category["background"][0], unicode))
+
+    def test_get_links(self):
+        response = self.api_client.get(
+            '/api/v2/link/', 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
+        link = self.deserialize(response)['objects']
+        # print link
+        the_link = link[0]
+        self.assertTrue(the_link.has_key('name'))
+        self.assertTrue(the_link.has_key('url'))

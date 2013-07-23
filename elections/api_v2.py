@@ -23,15 +23,19 @@ class PersonalDataV2Resource(ModelResource):
     class Meta:
         queryset = PersonalData.objects.all()
         resource_name = 'personal_data'
+        authentication = ApiKeyAuthentication()
 
 class LinkV2Resource(ModelResource):
     class Meta:
         queryset = Link.objects.all()
+        resource_name = 'link'
+        authentication = ApiKeyAuthentication()
 
 class BackgroundV2Resource(ModelResource):
     class Meta:
         queryset = Background.objects.all()
         resource_name = 'background'
+        authentication = ApiKeyAuthentication()
 
 class PersonalDataCandidateV2Resource(ModelResource):
     candidate = fields.ToOneField('candidator.elections.api_v2.CandidateV2Resource','candidate')
@@ -49,7 +53,7 @@ class BackgroundsCandidateV2Resource(ModelResource):
 
 class CandidateV2Resource(ModelResource):
     # personal_data = fields.ManyToManyField(PersonalDataV2Resource, 'personal_data', null=True, full=True)
-    links = fields.ToManyField(LinkV2Resource, 'link_set', full=True)
+    links = fields.ToManyField(LinkV2Resource, 'link_set', null=True)
     personal_data_candidate = fields.ToManyField('candidator.elections.api_v2.PersonalDataCandidateV2Resource','personaldatacandidate_set', null=True)
     backgrounds_candidate = fields.ToManyField('candidator.elections.api_v2.BackgroundsCandidateV2Resource','backgroundcandidate_set', null=True)
 
