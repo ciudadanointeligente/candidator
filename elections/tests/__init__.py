@@ -16,3 +16,4 @@ from election_embeded import *
 from election_loader import *
 from settings_variables import *
 from user import *
+from api_v2 import *
