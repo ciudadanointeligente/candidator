@@ -68,7 +68,7 @@ class CandidateResource(ModelResource):
 			pdata.data['value'] = personal_data_candidate.value
 			del pdata.data['resource_uri']
 		
-		for data in bundle.data['backgrounds']:
+		for data in bundle.data['background']:
 			background_candidate = BackgroundCandidate.objects.get(candidate=bundle.obj, background=data.obj)
 			data.data['value'] = background_candidate.value
 
