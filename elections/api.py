@@ -23,7 +23,7 @@ class BackgroundResource(ModelResource):
 class CandidateResource(ModelResource):
 	personal_data = fields.ManyToManyField(PersonalDataResource, 'personal_data', null=True, full=True)
 	links = fields.ToManyField(LinkResource, 'link_set', full=True)
-	backgrounds = fields.ManyToManyField(BackgroundResource, 'background', full=True)
+	background = fields.ManyToManyField(BackgroundResource, 'background', full=True)
 
 	class Meta:
 		queryset = Candidate.objects.all()
@@ -68,7 +68,7 @@ class CandidateResource(ModelResource):
 			pdata.data['value'] = personal_data_candidate.value
 			del pdata.data['resource_uri']
 		
-		for data in bundle.data['backgrounds']:
+		for data in bundle.data['background']:
 			background_candidate = BackgroundCandidate.objects.get(candidate=bundle.obj, background=data.obj)
 			data.data['value'] = background_candidate.value
 
@@ -112,7 +112,7 @@ class ElectionResource(ModelResource):
 	def dehydrate(self, bundle):
 		candidates_list = []
 		for i, candidate in enumerate(bundle.obj.candidate_set.all()):
-			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i], 'id':candidate.id})
+			candidates_list.append({'name':candidate.name, 'resource_uri':bundle.data['candidates'][i], 'id':candidate.id, 'image':candidate.photo})
 		bundle.data['candidates'] = candidates_list
 		current_site = Site.objects.get_current()
 		bundle.data['url'] = "http://"+current_site.domain+bundle.obj.get_absolute_url()
