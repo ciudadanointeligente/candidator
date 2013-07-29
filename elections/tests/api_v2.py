@@ -114,6 +114,8 @@ class ApiV2TestCase(ResourceTestCase):
             url = u"https://www.twitter.com/#el_twitter",
             candidate = self.candidate)
 
+        self.candidate.associate_answer(self.answer_for_question_1)
+
         self.api_client = TestApiClient()
         #self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
@@ -190,6 +192,9 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertTrue(the_question.has_key('question'))
         self.assertTrue(the_question.has_key('resource_uri'))
         self.assertEqual(the_question["resource_uri"], "/api/v2/question/{0}/".format(self.question_category_1.id))
+        self.assertTrue(the_question.has_key('category'))
+        self.assertTrue(isinstance(the_question["category"], unicode))
+        self.assertEquals(the_question["category"], "/api/v2/category/{0}/".format(self.question_category_1.category.id))
 
     def test_get_all_answers(self):
         self.candidate.associate_answer(self.answer_for_question_1)
@@ -209,6 +214,9 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertTrue(the_answer.has_key('candidates'))
         self.assertEquals(len(the_answer["candidates"]), 1)
         self.assertTrue(isinstance(the_answer["candidates"][0], unicode))
+        self.assertTrue(the_answer.has_key('question'))
+        self.assertTrue(isinstance(the_answer["question"], unicode))
+        self.assertEquals(the_answer["question"], "/api/v2/question/{0}/".format(self.answer_for_question_1.question.id))
 
     def test_get_personal_data_candidate(self):
         response = self.api_client.get(
@@ -285,6 +293,8 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertTrue(isinstance(the_candidate["backgrounds_candidate"][0], unicode))
         self.assertTrue(the_candidate.has_key('links'))
         self.assertTrue(isinstance(the_candidate["links"][0], unicode))
+        self.assertTrue(the_candidate.has_key('answers'))
+        self.assertTrue(isinstance(the_candidate["answers"][0], unicode))
 
     def test_get_background_category(self):
         response = self.api_client.get(
