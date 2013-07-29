@@ -56,6 +56,7 @@ class CandidateV2Resource(ModelResource):
     links = fields.ToManyField(LinkV2Resource, 'link_set', null=True)
     personal_data_candidate = fields.ToManyField('candidator.elections.api_v2.PersonalDataCandidateV2Resource','personaldatacandidate_set', null=True)
     backgrounds_candidate = fields.ToManyField('candidator.elections.api_v2.BackgroundsCandidateV2Resource','backgroundcandidate_set', null=True)
+    answers = fields.ToManyField('candidator.elections.api_v2.AnswerV2Resource','answers', null=True)
 
     class Meta:
         queryset = Candidate.objects.all()
@@ -63,6 +64,7 @@ class CandidateV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class AnswerV2Resource(ModelResource):
+    question = fields.ToOneField('candidator.elections.api_v2.QuestionV2Resource', 'question')
     candidates = fields.ToManyField(CandidateV2Resource, 'candidate_set', null=True)
 
     class Meta:
@@ -71,6 +73,7 @@ class AnswerV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class QuestionV2Resource(ModelResource):
+    category = fields.ToOneField('candidator.elections.api_v2.CategoryV2Resource', 'category', null=True)
     answers = fields.ToManyField(AnswerV2Resource, 'answer_set', null=True)
 
     class Meta:
