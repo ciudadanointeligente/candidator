@@ -19,5 +19,5 @@ python-openid==2.2.5
 sorl-thumbnail==11.09.1
 wsgiref==0.1.2
 pillow==2.0.0
--e git+https://github.com/toastdriven/django-tastypie.git#egg=django-tastypie
+django-tastypie==0.9.15
 django-markdown-deux==1.0.4
