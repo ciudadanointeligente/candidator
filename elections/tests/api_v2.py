@@ -248,6 +248,22 @@ class ApiV2TestCase(ResourceTestCase):
             authentication=self.get_credentials())
 
         self.assertHttpOK(response)
+        background = self.deserialize(response)['objects']
+        self.assertIn('background_category', background[0])
+
+    def test_get_first_background(self):
+        response = self.api_client.get(
+            '/api/v2/background/{0}/'.format(self.background_school.id), 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
+        background = self.deserialize(response)
+        expected_resource_uri = "/api/v2/background_category/{0}/".format(
+            self.background_school.category.id
+            )
+        self.assertEquals(background["background_category"],expected_resource_uri)
+
 
     def test_get_backgrounds_candidate(self):
         response = self.api_client.get(
@@ -259,6 +275,7 @@ class ApiV2TestCase(ResourceTestCase):
         backgrounds_candidate = self.deserialize(response)['objects']
         # print(backgrounds_candidate)
         self.assertTrue(backgrounds_candidate[0].has_key('value'))
+        self.assertIn('background', backgrounds_candidate[0])
 
     def test_backgrounds_candidate_detail(self):
         response = self.api_client.get(
@@ -269,6 +286,7 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertHttpOK(response)
         the_background_candidate = self.deserialize(response)
         self.assertEqual(the_background_candidate['value'], self.background_candidate.value)
+        self.assertIn("background",the_background_candidate)
 
 
     # @skip('alguna razon')
@@ -322,3 +340,54 @@ class ApiV2TestCase(ResourceTestCase):
         the_link = link[0]
         self.assertTrue(the_link.has_key('name'))
         self.assertTrue(the_link.has_key('url'))
+
+    def test_answer_filtering(self):
+        filter_data = {
+            'question': self.question_category_1.id
+        }
+
+        response = self.api_client.get(
+            '/api/v2/answer/', 
+            format='json', 
+            authentication=self.get_credentials(),
+            data=filter_data)
+        
+        self.assertHttpOK(response)
+        answer = self.deserialize(response)['objects']
+        self.assertEquals(len(answer), 1)
+        self.assertEquals( answer[0]['id'] , self.answer_for_question_1.id )
+
+    # @skip('ignore')
+    def test_answer_filtering_two_param(self):
+        filter_data = {
+            # 'question': self.question_category_1.id,
+            'candidate__id': self.candidate.id
+        }
+
+        response = self.api_client.get(
+            '/api/v2/answer/', 
+            format='json', 
+            authentication=self.get_credentials(),
+            data=filter_data)
+        # print response
+
+        self.assertHttpOK(response)
+        answer = self.deserialize(response)['objects']
+
+        # self.assertEquals(len(answer), 1)
+        self.assertEquals( answer[0]['id'] , self.answer_for_question_1.id )
+
+    def test_filter_candidate(self):
+        filter_data = {
+            'id' : self.candidate.id
+        }
+
+        response = self.api_client.get(
+            '/api/v2/candidate/', 
+            format='json', 
+            authentication=self.get_credentials(),
+            data=filter_data)
+        self.assertHttpOK(response)
+        candidate = self.deserialize(response)['objects']
+        self.assertEquals( len(candidate), 1)
+        self.assertEquals( candidate[0]['id'], self.candidate.id )
