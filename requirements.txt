@@ -20,3 +20,4 @@ wsgiref==0.1.2
 pillow==2.0.0
 django-tastypie==0.9.15
 django-markdown-deux==1.0.4
+pyaml==13.07.1
