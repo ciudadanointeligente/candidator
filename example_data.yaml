@@ -1,0 +1,153 @@
+- fields: {created_at: !!timestamp '2011-11-10 16:33:51', custom_style: '', date: '',
+    description: Elecciones CEI 2012, highlighted: true, information_source: '', logo: photos/dummy.jpg,
+    name: cei 2012, owner: 1, published: false, should_display_empty_personal_data: true,
+    slug: cei-2012, updated_at: !!timestamp '2011-11-15 16:55:46', use_default_media_naranja_option: true}
+  model: elections.election
+  pk: 1
+- fields:
+    answers: [8]
+    created_at: 2011-11-10 16:34:30
+    election: 1
+    has_answered: true
+    name: Juanito Perez
+    photo: photos/dummy.jpg
+    slug: juanito-perez
+    updated_at: 2011-11-15 17:06:36
+  model: elections.candidate
+  pk: 1
+- fields:
+    answers: []
+    created_at: 2011-11-10 16:35:03
+    election: 1
+    has_answered: true
+    name: Candidato Tester
+    photo: photos/dummy.jpg
+    slug: candidato-tester
+    updated_at: 2011-11-10 16:35:03
+  model: elections.candidate
+  pk: 2
+- fields:
+    answers: []
+    created_at: 2011-11-10 16:44:56
+    election: 1
+    has_answered: true
+    name: Foo Bar
+    photo: photos/dummy.jpg
+    slug: foo-bar
+    updated_at: 2011-11-10 16:44:56
+  model: elections.candidate
+  pk: 3
+- fields: {election: 1, label: Nacimiento}
+  model: elections.personaldata
+  pk: 1
+- fields: {election: 1, label: Profesion}
+  model: elections.personaldata
+  pk: 2
+- fields: {election: 1, label: "Profesi\xF3n"}
+  model: elections.personaldata
+  pk: 3
+- fields: {election: 1, label: "G\xE9nero"}
+  model: elections.personaldata
+  pk: 4
+- fields: {candidate: 1, personal_data: 1, value: 13/13/13}
+  model: elections.personaldatacandidate
+  pk: 1
+- fields: {candidate: 1, personal_data: 2, value: Estudiante}
+  model: elections.personaldatacandidate
+  pk: 2
+- fields: {election: 1, name: Tendencia Politica}
+  model: elections.backgroundcategory
+  pk: 1
+- fields: {election: 1, name: Educacion}
+  model: elections.backgroundcategory
+  pk: 2
+- fields: {category: 1, name: Partido politico actual}
+  model: elections.background
+  pk: 1
+- fields: {category: 2, name: Secundaria}
+  model: elections.background
+  pk: 2
+- fields: {category: 2, name: Universitaria}
+  model: elections.background
+  pk: 3
+- fields: {category: 2, name: "\xDAltimo trabajo"}
+  model: elections.background
+  pk: 4
+- fields: {background: 1, candidate: 1, value: CCC}
+  model: elections.backgroundcandidate
+  pk: 1
+- fields: {background: 2, candidate: 1, value: Colegio a}
+  model: elections.backgroundcandidate
+  pk: 2
+- fields: {background: 3, candidate: 1, value: Universidad B}
+  model: elections.backgroundcandidate
+  pk: 3
+- fields: {election: 1, name: Politicas Publicas, order: 1, slug: politicas-publicas}
+  model: elections.category
+  pk: 1
+- fields: {election: 1, name: Politicas Monetarias, order: 1, slug: politicas-monetarias}
+  model: elections.category
+  pk: 2
+- fields: {category: 1, question: 'Esta de a cuerdo con los paros?'}
+  model: elections.question
+  pk: 1
+- fields: {category: 1, question: 'Le gusta ir a las marchas?'}
+  model: elections.question
+  pk: 2
+- fields: {category: 2, question: 'Quiere gastar su plata carreteando?'}
+  model: elections.question
+  pk: 3
+- fields: {category: 2, question: 'Quiere robarse la plata del CEI?'}
+  model: elections.question
+  pk: 4
+- fields: {caption: Si, question: 4}
+  model: elections.answer
+  pk: 1
+- fields: {caption: 'No', question: 4}
+  model: elections.answer
+  pk: 2
+- fields: {caption: Si, question: 3}
+  model: elections.answer
+  pk: 3
+- fields: {caption: 'No', question: 3}
+  model: elections.answer
+  pk: 4
+- fields: {caption: A veces, question: 3}
+  model: elections.answer
+  pk: 5
+- fields: {caption: Nunca, question: 2}
+  model: elections.answer
+  pk: 6
+- fields: {caption: Siempre, question: 2}
+  model: elections.answer
+  pk: 7
+- fields: {caption: De vez en cuando, question: 2}
+  model: elections.answer
+  pk: 8
+- fields: {caption: Puro perder clases, question: 1}
+  model: elections.answer
+  pk: 9
+- fields: {caption: 'Si, la llevan', question: 1}
+  model: elections.answer
+  pk: 10
+- fields:
+    date_joined: 2013-08-23 13:12:42.967417
+    email: admin@admin.cl
+    first_name: ''
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: 2013-08-23 13:13:17.956957
+    last_name: ''
+    password: sha1$0e99d$d39fffb9f95042cd8b208d38e2acdefd307ba583
+    user_permissions: []
+    username: admin
+  model: auth.user
+  pk: 1
+- fields: {created: !!timestamp '2013-08-23 13:12:43', key: a, user: 1}
+  model: tastypie.apikey
+  pk: 1
+- fields: {candidate: 3, name: twitter, url: 'http://www.twitter.com'}
+  model: elections.link
+  pk: 1
