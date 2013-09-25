@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from elections.models import Election, Category, Question, Answer, Candidate, PersonalData,\
                             PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory
 from tastypie.authentication import ApiKeyAuthentication
@@ -32,6 +32,8 @@ class LinkV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class BackgroundV2Resource(ModelResource):
+    background_category = fields.ToOneField('candidator.elections.api_v2.BackgroundCategoryV2Resource','category')
+
     class Meta:
         queryset = Background.objects.all()
         resource_name = 'background'
@@ -47,6 +49,8 @@ class PersonalDataCandidateV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
 
 class BackgroundsCandidateV2Resource(ModelResource):
+    background = fields.ToOneField('candidator.elections.api_v2.BackgroundV2Resource','background')
+
     class Meta:
         resource_name = 'backgrounds_candidate'
         queryset = BackgroundCandidate.objects.all()
@@ -62,6 +66,9 @@ class CandidateV2Resource(ModelResource):
         queryset = Candidate.objects.all()
         resource_name = 'candidate'
         authentication = ApiKeyAuthentication()
+        filtering = {
+            'id' : ALL
+        }
 
 class AnswerV2Resource(ModelResource):
     question = fields.ToOneField('candidator.elections.api_v2.QuestionV2Resource', 'question')
@@ -71,6 +78,10 @@ class AnswerV2Resource(ModelResource):
         queryset = Answer.objects.all()
         resource_name = 'answer'
         authentication = ApiKeyAuthentication()
+        filtering = {
+            'question' : ALL,
+            'candidate' : ALL
+        }
 
 class QuestionV2Resource(ModelResource):
     category = fields.ToOneField('candidator.elections.api_v2.CategoryV2Resource', 'category', null=True)
