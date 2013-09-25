@@ -568,14 +568,21 @@ padding: 6px 0px 16px 0px;
         float: none;
     }
 
-    .selector-temas h6.grande {
+    .categories h6.grande {
         font-size: 16px;
-        float: left;
     }
 
     .categories {
-        float: left;
-        margin: 9px;
+        float: right;
+        width: 26%;
+        margin-top: 44px;
+        padding-left: 1.5%;
+        border-left: 1px dashed #Dddddd;
+    }
+
+    h3.categoriesTitle {
+        width: auto;
+        line-height: 20px;
     }
 
     .answered {
@@ -650,15 +657,13 @@ padding: 6px 0px 16px 0px;
         margin-right: 10px;
     }*/
 
-    .categoriesList {
+/*    .categoriesList {
         display:none;
-    }
+    }*/
 
     .categoriesList li {
-        background-color: rgb(235, 235, 235);
-        padding: 5px;
+        padding: 5px 0px;
         margin: 0px;
-        border: 1px solid #ddd; 
     }
 
     .categoriesList li a {
