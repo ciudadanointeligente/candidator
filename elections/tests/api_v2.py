@@ -77,11 +77,19 @@ class ApiV2TestCase(ResourceTestCase):
 
         self.answer_for_question_1 = Answer.objects.create(
             question = self.question_category_1,
-            caption = u"Answer for question 1")
+            caption = u"Si")
+
+        self.answer_for_question_3 = Answer.objects.create(
+            question = self.question_category_1,
+            caption = u"No")
 
         self.answer_for_question_2 = Answer.objects.create(
             question = self.question_category_2,
-            caption = u"Answer for question 2")
+            caption = u"Talvez")
+
+        self.answer_for_question_4 = Answer.objects.create(
+            question = self.question_category_2,
+            caption = u"Quizás")
 
         self.age = PersonalDataCandidate.objects.create(
             personal_data = self.personal_data1, 
@@ -206,7 +214,7 @@ class ApiV2TestCase(ResourceTestCase):
 
         answers = self.deserialize(response)['objects']
         
-        self.assertEquals(len(answers),2)
+        self.assertEquals(len(answers),Answer.objects.count())
         the_answer = answers[0]
         self.assertTrue(the_answer.has_key('caption'))
         self.assertTrue(the_answer.has_key('resource_uri'))
@@ -354,7 +362,7 @@ class ApiV2TestCase(ResourceTestCase):
         
         self.assertHttpOK(response)
         answer = self.deserialize(response)['objects']
-        self.assertEquals(len(answer), 1)
+        self.assertEquals(len(answer), Answer.objects.filter(question=self.question_category_1).count())
         self.assertEquals( answer[0]['id'] , self.answer_for_question_1.id )
 
     # @skip('ignore')
@@ -391,3 +399,5 @@ class ApiV2TestCase(ResourceTestCase):
         candidate = self.deserialize(response)['objects']
         self.assertEquals( len(candidate), 1)
         self.assertEquals( candidate[0]['id'], self.candidate.id )
+
+    #def test_media_naranja_post(self):
