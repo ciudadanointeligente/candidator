@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS, Resource
 from elections.models import Election, Category, Question, Answer, Candidate, PersonalData,\
                             PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie import fields
+from tastypie.serializers import Serializer
 
 class ElectionV2Resource(ModelResource):
     candidates = fields.ToManyField('candidator.elections.api_v2.CandidateV2Resource', 'candidate_set', null=True)
@@ -107,3 +108,73 @@ class BackgroundCategoryV2Resource(ModelResource):
         queryset = BackgroundCategory.objects.all()
         resource_name = 'background_category'
         authentication = ApiKeyAuthentication()
+
+from candidator.elections.views import strip_elements_from_dictionary, medianaranja2
+
+class MediaNaranjaResource(Resource):
+    class Meta:
+        resource_name = 'medianaranja'
+        object_class = dict
+        always_return_data = True
+        serializer = Serializer(formats=['jsonp', 'json'])
+
+    def obj_create(self,bundle,**kwargs):
+        election = Election.objects.get(id=bundle.data["election-id"])
+
+        elements = strip_elements_from_dictionary(bundle.data["data"],election)
+        result = medianaranja2(elements["answers"], elements['importances'], elements['questions'], elements['candidates'], elements['categories'], election)
+        bundle.obj = result
+        bundle.data = result
+        return bundle
+
+    def detail_uri_kwargs(self, bundle):
+        return {}
+
+    def serialize(self, request, data, format, options=None):
+        winner = data.data["winner"]
+        others = data.data["others"]
+        data.data["winner"] = {
+                'global_score':winner[0], 
+                'category_score':winner[1], 
+                'candidate':winner[2].id
+                }
+        categories = data.data["categories"]
+        counter = 0
+        scores = []
+        for score  in data.data["winner"]["category_score"]:
+            category_dict = {
+             "category":categories[counter].name,
+             "score":score
+            }
+            scores.append(category_dict)
+            counter += 1
+        data.data["winner"]["category_score"] = scores
+
+        others_counter = 0
+        for other in others:
+            others_dict = {
+                'global_score':other[0], 
+                'category_score':other[1], 
+                'candidate':other[2].id
+            }
+            score_counter = 0
+            scores = []
+            for score in others_dict["category_score"]:
+                category_dict = {
+                 "category":categories[score_counter].name,
+                 "score":score
+                }
+                scores.append(category_dict)
+
+                score_counter += 1
+
+            others_dict["category_score"] = scores
+
+
+
+            data.data["others"][others_counter] = others_dict
+            others_counter += 1
+
+        serialized = super(MediaNaranjaResource, self).serialize(request, data, format, options)
+
+        return serialized
