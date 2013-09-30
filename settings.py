@@ -107,7 +107,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -234,8 +234,6 @@ GOOGLE_ANALYTICS_ACCOUNT_ID = "GOOGLE ANALYTICS ACCOUNT ID"
 
 
 #EMBEDED WEBPAGE FOR TESTING
-
-EMBEDED_TEST_WEB = 'http://localhost:8000/admin/cei-2012/embeded'
 
 try:
     from local_settings import *

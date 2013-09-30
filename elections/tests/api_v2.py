@@ -69,19 +69,27 @@ class ApiV2TestCase(ResourceTestCase):
 
         self.question_category_1 = Question.objects.create(
             category = self.category1,
-            question = u"Question 1 for category 01")
+            question = u"Te gusta the beatles?")
 
         self.question_category_2 = Question.objects.create(
             category = self.category2,
-            question = u"Question 1 for category 02")
+            question = u"Comerías limón con ají?")
 
         self.answer_for_question_1 = Answer.objects.create(
             question = self.question_category_1,
-            caption = u"Answer for question 1")
+            caption = u"Si")
+
+        self.answer_for_question_3 = Answer.objects.create(
+            question = self.question_category_1,
+            caption = u"No")
 
         self.answer_for_question_2 = Answer.objects.create(
             question = self.question_category_2,
-            caption = u"Answer for question 2")
+            caption = u"Talvez")
+
+        self.answer_for_question_4 = Answer.objects.create(
+            question = self.question_category_2,
+            caption = u"Quizás")
 
         self.age = PersonalDataCandidate.objects.create(
             personal_data = self.personal_data1, 
@@ -115,6 +123,7 @@ class ApiV2TestCase(ResourceTestCase):
             candidate = self.candidate)
 
         self.candidate.associate_answer(self.answer_for_question_1)
+        self.candidate.associate_answer(self.answer_for_question_2)
 
         self.api_client = TestApiClient()
         #self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
@@ -206,7 +215,7 @@ class ApiV2TestCase(ResourceTestCase):
 
         answers = self.deserialize(response)['objects']
         
-        self.assertEquals(len(answers),2)
+        self.assertEquals(len(answers),Answer.objects.count())
         the_answer = answers[0]
         self.assertTrue(the_answer.has_key('caption'))
         self.assertTrue(the_answer.has_key('resource_uri'))
@@ -354,7 +363,7 @@ class ApiV2TestCase(ResourceTestCase):
         
         self.assertHttpOK(response)
         answer = self.deserialize(response)['objects']
-        self.assertEquals(len(answer), 1)
+        self.assertEquals(len(answer), Answer.objects.filter(question=self.question_category_1).count())
         self.assertEquals( answer[0]['id'] , self.answer_for_question_1.id )
 
     # @skip('ignore')
@@ -391,3 +400,126 @@ class ApiV2TestCase(ResourceTestCase):
         candidate = self.deserialize(response)['objects']
         self.assertEquals( len(candidate), 1)
         self.assertEquals( candidate[0]['id'], self.candidate.id )
+
+    #@skip('')
+    def test_media_naranja_post(self):
+        answers = [self.answer_for_question_1.pk, self.answer_for_question_2.pk]
+        questions_ids = [self.question_category_1.id, self.question_category_2.id]
+        importances = [5, 3]
+        importances_by_category = [5, 3]
+        factor_question1 = (answers[0] == self.answer_for_question_1.pk) * importances[0]
+        factor_question2 = (answers[1] == self.answer_for_question_2.pk) * importances[1]
+        score_category1 = factor_question1 * 100.0 / importances_by_category[0]
+        score_category2 = factor_question2 * 100.0 / importances_by_category[1]
+        global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
+        response = self.api_client.post('/api/v2/medianaranja/', 
+            format='json', 
+            authentication=self.get_credentials(),
+            data = {
+                'data' : {
+                    'question-0': answers[0], 'question-1': answers[1], \
+                    'importance-0': importances[0], 'importance-1': importances[1],\
+                    'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]
+                    },\
+                'election-id' : self.election.id
+            }
+        )
+        expected_winner = {
+                'global_score':global_score, 
+                'category_score':[
+                    {
+                    'category':self.question_category_1.category.name,
+                    'score': score_category1
+                    },
+                    {
+                    'category':self.question_category_2.category.name,
+                    'score': score_category2
+                    },
+                ],
+                'candidate':self.candidate.id
+                }
+        expected_others = [
+                {
+                'global_score':0.0, 
+                'category_score':[
+                    {
+                    'category':self.question_category_1.category.name,
+                    'score': 0.0
+                    },
+                    {
+                    'category':self.question_category_2.category.name,
+                    'score': 0.0
+                    },
+                ],
+                'candidate':self.candidate2.id
+                }
+        ]
+        #de nuevo
+        self.assertHttpCreated(response)
+        self.assertValidJSON(response.content)
+
+        candidates = self.deserialize(response)
+        self.assertIn('winner', candidates)
+        self.assertEquals(candidates['winner'],expected_winner)
+        self.assertEquals(candidates['others'],expected_others)
+
+    def test_media_naranja_post_jsonp(self):
+        answers = [self.answer_for_question_1.pk, self.answer_for_question_2.pk]
+        questions_ids = [self.question_category_1.id, self.question_category_2.id]
+        importances = [5, 3]
+        importances_by_category = [5, 3]
+        factor_question1 = (answers[0] == self.answer_for_question_1.pk) * importances[0]
+        factor_question2 = (answers[1] == self.answer_for_question_2.pk) * importances[1]
+        score_category1 = factor_question1 * 100.0 / importances_by_category[0]
+        score_category2 = factor_question2 * 100.0 / importances_by_category[1]
+        global_score = (factor_question1 + factor_question2) * 100.0 / sum(importances_by_category)
+        response = self.api_client.post('/api/v2/medianaranja/?callback=callback', 
+            format='json', 
+            authentication=self.get_credentials(),
+            data = {
+                
+                'data' : {
+                    'question-0': answers[0], 'question-1': answers[1], \
+                    'importance-0': importances[0], 'importance-1': importances[1],\
+                    'question-id-0': questions_ids[0], 'question-id-1': questions_ids[1]
+                    },\
+                'election-id' : self.election.id
+            }
+        )
+        expected_winner = {
+                'global_score':global_score, 
+                'category_score':[
+                    {
+                    'category':self.question_category_1.category.name,
+                    'score': score_category1
+                    },
+                    {
+                    'category':self.question_category_2.category.name,
+                    'score': score_category2
+                    },
+                ],
+                'candidate':self.candidate.id
+                }
+        expected_others = [
+                {
+                'global_score':0.0, 
+                'category_score':[
+                    {
+                    'category':self.question_category_1.category.name,
+                    'score': 0.0
+                    },
+                    {
+                    'category':self.question_category_2.category.name,
+                    'score': 0.0
+                    },
+                ],
+                'candidate':self.candidate2.id
+                }
+        ]
+
+        print response.content
+        self.assertTrue(response.content.startswith("callback("))
+        content = response.content
+
+        content = content.strip("callback(")
+        
