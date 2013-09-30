@@ -32,13 +32,8 @@ def associate_answer_to_candidate(request, candidate_slug, election_slug):
             'elections/associate_answer.html', {'candidate': candidate, 'categories': election.category_set},
             context_instance=RequestContext(request))
 
-def post_medianaranja1(request, username, election_slug):
-    user_list = User.objects.filter(username=username)
-    if user_list.count() == 0:
-        raise Http404
 
-    election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
-
+def strip_elements_from_dictionary(dictionary, election):
     candidates = election.candidate_set.all()
     categories = election.category_set.all()
 
@@ -51,16 +46,33 @@ def post_medianaranja1(request, username, election_slug):
     questions = []
 
     for i in range(number_of_questions):
-        if 'question-'+str(i) in request.POST:
-            ans_id = int(request.POST['question-'+str(i)])
+        if 'question-'+str(i) in dictionary:
+            ans_id = int(dictionary['question-'+str(i)])
         else:
             ans_id = -1
-        question_id = int(request.POST['question-id-'+str(i)])
+        question_id = int(dictionary['question-id-'+str(i)])
         answers.append(Answer.objects.filter(id=ans_id))
-        importances.append(int(request.POST['importance-'+str(i)]))
+        importances.append(int(dictionary['importance-'+str(i)]))
         questions.append(Question.objects.get(id=question_id))
 
-    return medianaranja2(request, answers, importances, questions, candidates, categories, election)
+    return {
+        'answers': answers, 
+        'importances' : importances, 
+        'questions' : questions, 
+        'candidates' : candidates, 
+        'categories' : categories
+    }
+
+def post_medianaranja1(request, username, election_slug):
+    user_list = User.objects.filter(username=username)
+    if user_list.count() == 0:
+        raise Http404
+
+    election = Election.objects.get(slug=election_slug, owner=User.objects.get(username=user_list[0]))
+
+    elements = strip_elements_from_dictionary(request.POST, election)
+
+    return medianaranja2(elements["answers"], elements['importances'], elements['questions'], elements['candidates'], elements['categories'], election)
 
 def get_medianaranja1(request, username, election_slug):
     election = get_object_or_404(Election, owner__username=username, slug=election_slug)
@@ -102,7 +114,7 @@ def medianaranja1_embed(request, username, election_slug):
         context = get_medianaranja1(request, username, election_slug)
         return render_to_response('elections/embeded/medianaranja1.html', context, context_instance = RequestContext(request))
 
-def medianaranja2(request, my_answers, importances, questions, candidates, categories, election):
+def medianaranja2(my_answers, importances, questions, candidates, categories, election):
     election_url=reverse("election_detail",kwargs={'username': election.owner.username, 'slug':election.slug})
     visitor = Visitor(election=election, election_url=election_url)
     visitor.save()
