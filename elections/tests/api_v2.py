@@ -517,7 +517,6 @@ class ApiV2TestCase(ResourceTestCase):
                 }
         ]
 
-        print response.content
         self.assertTrue(response.content.startswith("callback("))
         content = response.content
 
