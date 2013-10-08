@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS, Resource
 from elections.models import Election, Category, Question, Answer, Candidate, PersonalData,\
-                            PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory
+                            PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory,\
+                            InformationSource
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie import fields
 from tastypie.serializers import Serializer
@@ -87,6 +88,7 @@ class AnswerV2Resource(ModelResource):
 class QuestionV2Resource(ModelResource):
     category = fields.ToOneField('candidator.elections.api_v2.CategoryV2Resource', 'category', null=True)
     answers = fields.ToManyField(AnswerV2Resource, 'answer_set', null=True)
+    information_sources = fields.ToManyField('candidator.elections.api_v2.InformationSourceResource', 'informationsource_set', null=True)
 
     class Meta:
         queryset = Question.objects.all()
@@ -178,3 +180,13 @@ class MediaNaranjaResource(Resource):
         serialized = super(MediaNaranjaResource, self).serialize(request, data, format, options)
 
         return serialized
+
+class InformationSourceResource(ModelResource):
+    candidate = fields.ToOneField('candidator.elections.api_v2.CandidateV2Resource','candidate')
+    question = fields.ToOneField('candidator.elections.api_v2.QuestionV2Resource', 'question')
+
+
+    class Meta:
+        queryset = InformationSource.objects.all()
+        resource_name = 'information_source'
+        authentication = ApiKeyAuthentication()
