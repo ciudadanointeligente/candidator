@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
-							 Background, Link, BackgroundCandidate, PersonalDataCandidate
+							 Background, Link, BackgroundCandidate, PersonalDataCandidate, InformationSource
 import csv
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -104,6 +104,9 @@ class AnswersLoader(object):
 				try:
 					answer = Answer.objects.get(Q(question__category__election=election) & Q(question=question) & Q(caption=answer_caption))
 					candidate.associate_answer(answer)
+					if pre_processed_answer:
+						information_source_content = pre_processed_answer[0][:-1]
+						InformationSource.objects.create(question=answer.question, candidate=candidate, content=information_source_content)
 				except Answer.DoesNotExist, exception:
 					if answer_caption:
 						print u"The answer '%(answer)s' for question '%(question)s' and candidate %(candidate)s is not defined in the questions csv"%{
