@@ -5,6 +5,7 @@ from elections.models import Election, Candidate, PersonalData, Category, Questi
 							 Background, Link, BackgroundCandidate, PersonalDataCandidate
 import csv
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 class QuestionsParser(object):
 	def __init__(self, election):
@@ -94,6 +95,27 @@ class AnswersLoader(object):
 						Link.objects.create(name=candidate.name, url=value, candidate=candidate)
 				except:
 					print "link non existent "+label +"| value "+ value
+
+
+			if (the_type == "answer"):
+				pre_processed_answer = value.split("<")
+				answer_caption = pre_processed_answer.pop(0)
+				question = Question.objects.get(question=label)
+				try:
+					answer = Answer.objects.get(Q(question__category__election=election) & Q(question=question) & Q(caption=answer_caption))
+					candidate.associate_answer(answer)
+				except Answer.DoesNotExist, exception:
+					if answer_caption:
+						print u"The answer '%(answer)s' for question '%(question)s' and candidate %(candidate)s is not defined in the questions csv"%{
+						'answer':answer_caption,
+						'question':question.question,
+						'candidate':candidate.name
+						}
+				except Answer.MultipleObjectsReturned, exception:
+					print u"The answer '%(answer)s' for question '%(question)s' is defined twice in the questions csv"%{
+						'answer':answer_caption,
+						'question':question.question
+						}
 
 
 	def get_candidate(self, line, election):
