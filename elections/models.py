@@ -418,3 +418,9 @@ def create_default_questions(sender, instance, created, **kwargs):
                 question = Question.objects.create(question=default_question['question'],category=category)
                 for default_answer in default_question['answers']:
                     Answer.objects.create(question=question, caption=default_answer)
+
+
+class InformationSource(models.Model):
+    question = models.ForeignKey(Question)
+    candidate = models.ForeignKey(Candidate)
+    content = models.TextField()
