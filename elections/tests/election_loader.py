@@ -5,6 +5,7 @@ from django.test import TestCase
 from elections.management.commands.elections_loader import *
 from django.contrib.auth.models import User
 from django.conf import settings
+from elections.models import InformationSource
 
 
 class QuestionsParserTestCase(TestCase):
@@ -387,8 +388,8 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 		"Seguradad en FCI",
 		"fieraferoz",
 		"http://facebook.com/fieraferoz", 
-		"respuesta 1<elmostrador 25 de diciembre|http://elmostrador.cl><elmostrador 25 de diciembre|http://elmostrador.cl>",
-		"respuesta 3<elmostrador 25 de diciembre|http://elmostrador.cl><elmostrador 25 de diciembre|http://elmostrador.cl>"]
+		"respuesta 1<elmostrador 25 de diciembre en http://elmostrador.cl>",
+		"respuesta 3<elmostrador 25 de diciembre en http://elmostrador.cl>"]
 		self.line3 = [
 		"Algarrobo", 
 		"Mickey", 
@@ -424,3 +425,12 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 		self.assertFalse(mickey.answers.filter(question__question="la pregunta2").exists())
 		self.assertFalse(fiera.answers.filter(question__question="la pregunta3").exists())
 		self.assertFalse(mickey.answers.filter(question__question="la pregunta3").exists())
+
+
+	def test_it_creates_an_information_source_for_that_answer(self):
+		self.loader.process()
+		fiera = Candidate.objects.get(name="Fiera Feroz")
+		question = Question.objects.get(question='la pregunta1')
+		self.assertTrue(InformationSource.objects.filter(Q(question=question) & Q(candidate=fiera)).exists())
+		information_source = InformationSource.objects.get(Q(question=question) & Q(candidate=fiera))
+		self.assertEquals(information_source.content, u'elmostrador 25 de diciembre en http://elmostrador.cl')
