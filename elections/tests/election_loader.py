@@ -193,7 +193,7 @@ class CandidateLoaderTestCase(TestCase):
 				["personal data","Party"],
 				["personal data","Age"],
 			]
-		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link"] #this line defines the type of the following elements
+		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link", "answer", "answer"] #this line defines the type of the following elements
 		self.line1 = [
 						"election", 
 						"candidate", 
@@ -201,7 +201,9 @@ class CandidateLoaderTestCase(TestCase):
 						"Age", #this is a personal data object
 						"Background category 2 - first job",
 						"twitter",
-						"facebook"
+						"facebook",
+						"la pregunta1",
+						"la pregunta2"
 						] #this is a background record
 		
 		#the rest of the lines are going to be interpreted as answers
@@ -228,6 +230,8 @@ class CandidateLoaderTestCase(TestCase):
 			4 : {"label":"Background category 2 - first job","type":"background history"},
 			5 : {"label":"twitter","type":"link"},
 			6 : {"label":"facebook","type":"link"},
+			7 : {"label":"la pregunta1","type":"answer"},
+			8 : {"label":"la pregunta2","type":"answer"},
 		}
 
 		self.assertEquals(self.loader.definitions, expected_definitions)
@@ -332,5 +336,91 @@ class CandidateLoaderTestCase(TestCase):
 
 
 
+class AssociateAnswersWithCandidatesTestCase(TestCase):
+	def setUp(self):
+		#The first line of the csv file defines how the rest of the file is
+		#going to be read
+
+		self.questions_lines = [
+				["category","la categoria1"],
+				["question","la pregunta1"],
+				["answer","respuesta 1"],
+				["answer","respuesta 2"],
+				["category","la categoria2"],
+				["question","la pregunta2"],
+				["answer","respuesta 3"],
+				["answer","respuesta 4"],
+				["answer","respuesta 5"],
+				["question","la pregunta3"],
+				["answer","respuesta 6"],
+				["answer","respuesta 6"],
+				["background history category","Background category 1"],
+				["background history","background history record 1"],
+				["background history","background history record 2"],
+				["background history category","Background category 2"],
+				["background history","background history record 3"],
+				["background history","background history record 4"],
+				["background history","first job"],
+				["personal data","Party"],
+				["personal data","Age"],
+			]
+		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link", "answer", "answer", "answer"] #this line defines the type of the following elements
+		self.line1 = [
+						"election", 
+						"candidate", 
+						"Party", #this is a personal data object
+						"Age", #this is a personal data object
+						"Background category 2 - first job",
+						"twitter",
+						"facebook",
+						"la pregunta1",
+						"la pregunta2",
+						"la pregunta3"
+						] #this is a background record
+		
+		#the rest of the lines are going to be interpreted as answers
+		self.line2 = [
+		"Algarrobo", 
+		"Fiera Feroz", 
+		"Partido Feroz", 
+		"2 años", 
+		"Seguradad en FCI",
+		"fieraferoz",
+		"http://facebook.com/fieraferoz", 
+		"respuesta 1<elmostrador 25 de diciembre|http://elmostrador.cl><elmostrador 25 de diciembre|http://elmostrador.cl>",
+		"respuesta 3<elmostrador 25 de diciembre|http://elmostrador.cl><elmostrador 25 de diciembre|http://elmostrador.cl>"]
+		self.line3 = [
+		"Algarrobo", 
+		"Mickey", 
+		"Partido Ratón", 
+		"2 semanas", 
+		"Ratón inteligente en FCI", 
+		"ratoninteligente", 
+		"http://facebook.com/ratoninteligente", 
+		"respuesta 2  ",
+		"asdf",
+		"respuesta 6"]
+
+		self.lines = [self.line0, self.line1, self.line2, self.line3]
+		self.user = User.objects.create_user(username='ciudadanointeligente',
+                                                password='fci',
+                                                email='fci@ciudadanointeligente.cl')
+		self.styles = u"un estilo"
 
 
+		self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.questions_lines, self.styles)
+		Election.objects.all().delete()
+
+
+	def test_it_associates_an_answer_to_the_questions(self):
+		self.loader.process()
+		fiera = Candidate.objects.get(name="Fiera Feroz")
+		mickey = Candidate.objects.get(name="Mickey")
+		self.assertEquals(fiera.answers.count(), 2)
+		self.assertEquals(mickey.answers.count(), 1)
+		self.assertTrue(fiera.answers.filter(caption="respuesta 1").exists())
+		self.assertTrue(fiera.answers.filter(caption="respuesta 3").exists())
+		self.assertTrue(mickey.answers.filter(caption="respuesta 2").exists())
+		self.assertFalse(mickey.answers.filter(question__question="la pregunta2").exists())
+		self.assertFalse(fiera.answers.filter(question__question="la pregunta3").exists())
+		self.assertFalse(mickey.answers.filter(question__question="la pregunta3").exists())
