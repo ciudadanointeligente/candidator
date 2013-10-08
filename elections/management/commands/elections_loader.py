@@ -2,9 +2,10 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
-							 Background, Link, BackgroundCandidate, PersonalDataCandidate
+							 Background, Link, BackgroundCandidate, PersonalDataCandidate, InformationSource
 import csv
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 class QuestionsParser(object):
 	def __init__(self, election):
@@ -94,6 +95,30 @@ class AnswersLoader(object):
 						Link.objects.create(name=candidate.name, url=value, candidate=candidate)
 				except:
 					print "link non existent "+label +"| value "+ value
+
+
+			if (the_type == "answer"):
+				pre_processed_answer = value.split("<")
+				answer_caption = pre_processed_answer.pop(0)
+				question = Question.objects.get(question=label)
+				try:
+					answer = Answer.objects.get(Q(question__category__election=election) & Q(question=question) & Q(caption=answer_caption))
+					candidate.associate_answer(answer)
+					if pre_processed_answer:
+						information_source_content = pre_processed_answer[0][:-1]
+						InformationSource.objects.create(question=answer.question, candidate=candidate, content=information_source_content)
+				except Answer.DoesNotExist, exception:
+					if answer_caption:
+						print u"The answer '%(answer)s' for question '%(question)s' and candidate %(candidate)s is not defined in the questions csv"%{
+						'answer':answer_caption,
+						'question':question.question,
+						'candidate':candidate.name
+						}
+				except Answer.MultipleObjectsReturned, exception:
+					print u"The answer '%(answer)s' for question '%(question)s' is defined twice in the questions csv"%{
+						'answer':answer_caption,
+						'question':question.question
+						}
 
 
 	def get_candidate(self, line, election):
