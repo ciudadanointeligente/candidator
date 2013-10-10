@@ -89,10 +89,15 @@ class AnswersLoader(object):
 
 			if (the_type == "link"):
 				try:
-					if (label == "twitter"):
-						Link.objects.create(name=u'@'+value, url=u"https://twitter.com/"+value, candidate=candidate)
-					if (label == "facebook"):
-						Link.objects.create(name=candidate.name, url=value, candidate=candidate)
+					if label in ["twitter","facebook"]:
+						if (label == "twitter"):
+							Link.objects.create(name=u'@'+value, url=u"https://twitter.com/"+value, candidate=candidate)
+						if (label == "facebook"):
+							Link.objects.create(name=candidate.name, url=value, candidate=candidate)
+					else:
+						if value:
+							Link.objects.create(name=label, url=value, candidate=candidate)
+
 				except:
 					print "link non existent "+label +"| value "+ value
 
