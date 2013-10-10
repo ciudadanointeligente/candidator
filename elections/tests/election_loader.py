@@ -365,13 +365,14 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 				["personal data","Party"],
 				["personal data","Age"],
 			]
-		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link", "answer", "answer", "answer"] #this line defines the type of the following elements
+		self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link", "link", "answer", "answer", "answer"] #this line defines the type of the following elements
 		self.line1 = [
 						"election", 
 						"candidate", 
 						"Party", #this is a personal data object
 						"Age", #this is a personal data object
 						"Background category 2 - first job",
+						"Link Personal",
 						"twitter",
 						"facebook",
 						"la pregunta1",
@@ -386,6 +387,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 		"Partido Feroz", 
 		"2 años", 
 		"Seguradad en FCI",
+		"http://fieraferoz.com",
 		"fieraferoz",
 		"http://facebook.com/fieraferoz", 
 		"respuesta 1<elmostrador 25 de diciembre en http://elmostrador.cl>",
@@ -396,6 +398,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 		"Partido Ratón", 
 		"2 semanas", 
 		"Ratón inteligente en FCI", 
+		"",
 		"ratoninteligente", 
 		"http://facebook.com/ratoninteligente", 
 		"respuesta 2  ",
@@ -434,3 +437,14 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 		self.assertTrue(InformationSource.objects.filter(Q(question=question) & Q(candidate=fiera)).exists())
 		information_source = InformationSource.objects.get(Q(question=question) & Q(candidate=fiera))
 		self.assertEquals(information_source.content, u'elmostrador 25 de diciembre en http://elmostrador.cl')
+
+
+	def test_it_creates_any_link_for_a_candidate(self):
+		self.loader.process()
+		fiera = Candidate.objects.get(name="Fiera Feroz")
+		self.assertTrue(Link.objects.filter(candidate=fiera).filter(name="Link Personal").filter(url="http://fieraferoz.com").exists())
+
+	def test_it_does_not_create_a_link_if_value_is_empty(self):
+		self.loader.process()
+		mickey = Candidate.objects.get(name="Mickey")
+		self.assertFalse(Link.objects.filter(candidate=mickey).filter(name="Link Personal").exists())
