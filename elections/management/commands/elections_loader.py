@@ -105,7 +105,9 @@ class AnswersLoader(object):
 			if (the_type == "answer"):
 				pre_processed_answer = value.split("<")
 				answer_caption = pre_processed_answer.pop(0)
-				question = Question.objects.get(question=label)
+				#here there is a bug
+				question = Question.objects.get(Q(question=label) & Q(category__election=election))
+				#yes here above this
 				try:
 					answer = Answer.objects.get(Q(question__category__election=election) & Q(question=question) & Q(caption=answer_caption))
 					candidate.associate_answer(answer)
