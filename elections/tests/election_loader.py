@@ -365,7 +365,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
                 ["personal data","Party"],
                 ["personal data","Age"],
             ]
-        self.line0 = ["", "", "personal data", "personal data", "background history", "link", "link", "link", "answer", "answer", "answer"] #this line defines the type of the following elements
+        self.line0 = ["", "", "Personal Datá", "personal data", "background history", "Link", "link", "link", "Answer", "answer", "answer"] #this line defines the type of the following elements
         self.line1 = [
                         "election", 
                         "candidate", 
@@ -401,7 +401,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
         "",
         "ratoninteligente", 
         "http://facebook.com/ratoninteligente", 
-        "respuesta 2  ",
+        "Respuestá 2  ",
         "asdf",
         "respuesta 6"]
 
