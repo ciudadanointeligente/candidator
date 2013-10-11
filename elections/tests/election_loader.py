@@ -401,7 +401,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
         "",
         "ratoninteligente", 
         "http://facebook.com/ratoninteligente", 
-        "Respuestá 2  ",
+        "Respuesta 2  ",
         "asdf",
         "respuesta 6"]
 
