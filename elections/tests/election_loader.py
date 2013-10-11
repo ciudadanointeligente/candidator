@@ -463,4 +463,4 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 
         self.loader.process()
         created_election = Election.objects.get(name="Algarrobo")
-        self.assertTrue(Question.objects.filter(category__election=created).exists())
+        self.assertTrue(Question.objects.filter(category__election=created_election).exists())
