@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from elections.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
-                             Question, Answer, Link, BackgroundCandidate
+                             Question, Answer, Link, BackgroundCandidate, InformationSource
 from elections.api import BackgroundResource
 from tastypie.test import ResourceTestCase, TestApiClient
 from django.core import serializers
@@ -125,6 +125,7 @@ class ApiV2TestCase(ResourceTestCase):
         self.candidate.associate_answer(self.answer_for_question_1)
         self.candidate.associate_answer(self.answer_for_question_2)
 
+        
         self.api_client = TestApiClient()
         #self.data = {'format': 'json', 'username': self.user.username, 'api_key':self.user.api_key.key}
 
@@ -323,6 +324,8 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertTrue(the_candidate.has_key('answers'))
         self.assertTrue(isinstance(the_candidate["answers"][0], unicode))
 
+
+
     def test_get_background_category(self):
         response = self.api_client.get(
             '/api/v2/background_category/', 
@@ -517,9 +520,40 @@ class ApiV2TestCase(ResourceTestCase):
                 }
         ]
 
-        print response.content
         self.assertTrue(response.content.startswith("callback("))
         content = response.content
 
         content = content.strip("callback(")
+
+    def test_get_information_source(self):
+        information_source = InformationSource.objects.create(
+            candidate=self.candidate,
+            question=self.question_category_1,
+            content=u"Tomé esta información desde una página web")
+
+        response = self.api_client.get(
+            '/api/v2/information_source/', 
+            format='json', 
+            authentication=self.get_credentials())
+
+        self.assertHttpOK(response)
+        information_source_dict = self.deserialize(response)['objects'][0]
+        self.assertEquals(information_source_dict['candidate'], '/api/v2/candidate/{0}/'.format(self.candidate.id))
+        self.assertEquals(information_source_dict['question'], '/api/v2/question/{0}/'.format(self.question_category_1.id))
+        self.assertEquals(information_source_dict['content'], information_source.content)
+
+
+        response_question = self.api_client.get(
+            information_source_dict['question'], 
+            format='json', 
+            authentication=self.get_credentials())
+
+
+        self.assertHttpOK(response_question)
+        question_dict = self.deserialize(response_question)
+
+        self.assertIn('information_sources', question_dict)
+        self.assertEquals(len(question_dict['information_sources']), 1)
+        self.assertEquals(question_dict['information_sources'][0], '/api/v2/information_source/{0}/'.format(information_source.id))
+
         
