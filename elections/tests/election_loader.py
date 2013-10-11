@@ -391,7 +391,7 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
         "fieraferoz",
         "http://facebook.com/fieraferoz", 
         "respuesta 1<elmostrador 25 de diciembre en http://elmostrador.cl>",
-        "respuesta 3<elmostrador 25 de diciembre en http://elmostrador.cl>"]
+        "respuesta 3 <elmostrador 25 de diciembre en http://elmostrador.cl>"]
         self.line3 = [
         "Algarrobo", 
         "Mickey", 
@@ -462,6 +462,5 @@ class AssociateAnswersWithCandidatesTestCase(TestCase):
 
 
         self.loader.process()
-        print Election.objects.all()
         created_election = Election.objects.get(name="Algarrobo")
         self.assertTrue(Question.objects.filter(category__election=created).exists())

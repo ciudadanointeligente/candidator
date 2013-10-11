@@ -105,6 +105,7 @@ class AnswersLoader(object):
 			if (the_type == "answer"):
 				pre_processed_answer = value.split("<")
 				answer_caption = pre_processed_answer.pop(0)
+				answer_caption = answer_caption.strip()
 				#here there is a bug
 				question = Question.objects.get(Q(question=label) & Q(category__election=election))
 				#yes here above this
