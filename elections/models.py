@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from django.db.models.signals import  post_save
 from django.dispatch.dispatcher import receiver
+from unidecode import unidecode
 
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)(/.*|/?)")
@@ -46,7 +47,7 @@ class Election(models.Model):
     def set_slug(self):
         if not self.slug and self.name and self.owner:
             existing_elections = Election.objects.all().filter(owner= self.owner, name=self.name)
-            slug = slugify(self.name)
+            slug = slugify(unidecode(unicode(self.name)))
             not_unique_slug = Election.objects.all().filter(owner= self.owner).filter(slug=slug).exists()
             previous_elections = 1
             temporary_slug = slug
@@ -86,7 +87,7 @@ class Candidate(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
-            self.slug = slug = slugify(self.name)
+            self.slug = slug = slugify(unidecode(unicode(self.name)))
             counter = 1
             while True:
                 try:

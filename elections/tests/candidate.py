@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from django.conf import settings
 from django.test import TestCase
@@ -62,6 +63,16 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.slug, 'juan-candidato')
         self.assertTrue(candidate.has_answered)
         self.assertEqual(candidate.election, self.election)
+
+
+    def test_create_candidate_with_a_non_utf8_name(self):
+        candidate = Candidate.objects.create(name=u'مرشح واحد',
+                                                election=self.election)
+        self.assertTrue(candidate)
+        self.assertEqual(candidate.name, u'مرشح واحد')
+        self.assertTrue(candidate.slug)
+
+
 
     def test_update_candidate(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
@@ -1011,8 +1022,8 @@ class MultipleCandidateDataUpdateWith0Candidates(TestCase):
 class CandidateUpdatePhotoViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
-        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
-        self.candidate = Candidate.objects.create(name='candidate', election=self.election)
+        self.election = Election.objects.create(name=u'election', slug='election', owner=self.user)
+        self.candidate = Candidate.objects.create(name=u'candidate', election=self.election)
         self.file = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         self.url = reverse('update_candidate_photo', kwargs={'pk': self.candidate.pk})
 

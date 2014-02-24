@@ -89,6 +89,15 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
 
+    def test_create_an_election_with_utf8(self):
+        user, created = User.objects.get_or_create(username='joe')
+        election, created = Election.objects.get_or_create(name=u'البرلمان المغربي',
+                                                           owner=user,
+                                                           description=u'هذا هو وصف',
+                                                           date='27 de Diciembre')
+        self.assertTrue(created)
+        self.assertTrue(election.slug)
+
     def test_create_election_with_dependent_displaying_personal_data(self):
         user, created = User.objects.get_or_create(username='joe')
         election, created = Election.objects.get_or_create(name='BarBaz',
