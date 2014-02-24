@@ -354,7 +354,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    caption = models.CharField(max_length=255)
+    caption = models.CharField(max_length=2000)
     question = models.ForeignKey('Question')
 
     def __unicode__(self):

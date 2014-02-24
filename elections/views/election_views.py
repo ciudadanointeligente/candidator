@@ -14,6 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView, ListView, TemplateView, RedirectView
 from django.contrib.sites.models import Site
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 
 
 # Import forms
@@ -103,7 +104,7 @@ class ElectionDetailView(DetailView):
 
     def get_queryset(self):
 
-        return super(ElectionDetailView, self).get_queryset().filter(owner__username=self.kwargs['username']).filter(published=True)
+        return super(ElectionDetailView, self).get_queryset().filter(Q(owner__username=self.kwargs['username']) & Q(published=True))
 
 class ElectionShareView(DetailView):
     model = Election
