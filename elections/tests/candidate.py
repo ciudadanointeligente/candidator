@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from django.conf import settings
 from django.test import TestCase
@@ -62,6 +63,16 @@ class CandidateModelTest(TestCase):
         self.assertEqual(candidate.slug, 'juan-candidato')
         self.assertTrue(candidate.has_answered)
         self.assertEqual(candidate.election, self.election)
+
+
+    def test_create_candidate_with_a_non_utf8_name(self):
+        candidate = Candidate.objects.create(name=u'مرشح واحد',
+                                                election=self.election)
+        self.assertTrue(candidate)
+        self.assertEqual(candidate.name, u'مرشح واحد')
+        self.assertTrue(candidate.slug)
+
+
 
     def test_update_candidate(self):
         candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
