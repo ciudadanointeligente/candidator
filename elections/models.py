@@ -47,7 +47,7 @@ class Election(models.Model):
     def set_slug(self):
         if not self.slug and self.name and self.owner:
             existing_elections = Election.objects.all().filter(owner= self.owner, name=self.name)
-            slug = slugify(self.name)
+            slug = slugify(unidecode(unicode(self.name)))
             not_unique_slug = Election.objects.all().filter(owner= self.owner).filter(slug=slug).exists()
             previous_elections = 1
             temporary_slug = slug
