@@ -1022,8 +1022,8 @@ class MultipleCandidateDataUpdateWith0Candidates(TestCase):
 class CandidateUpdatePhotoViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password=PASSWORD, email='joe@exmaple.net')
-        self.election = Election.objects.create(name='election', slug='election', owner=self.user)
-        self.candidate = Candidate.objects.create(name='candidate', election=self.election)
+        self.election = Election.objects.create(name=u'election', slug='election', owner=self.user)
+        self.candidate = Candidate.objects.create(name=u'candidate', election=self.election)
         self.file = open(os.path.join(dirname, 'media/dummy.jpg'), 'rb')
         self.url = reverse('update_candidate_photo', kwargs={'pk': self.candidate.pk})
 

@@ -32,7 +32,7 @@ class QuestionsParserTestCase(TestCase):
         self.user = User.objects.create_user(username='ciudadanointeligente',
                                                 password='fci',
                                                 email='fci@ciudadanointeligente.cl')
-        self.election = Election.objects.create(owner=self.user, name="Elección para molestar a la Fiera")
+        self.election = Election.objects.create(owner=self.user, name=u"Elección para molestar a la Fiera")
         self.election.category_set.all().delete()
 
 
@@ -159,7 +159,7 @@ class QuestionsConflictingWithDefaultQuestions(TestCase):
         self.loader = AnswersLoader('ciudadanointeligente', self.lines, self.question_lines, self.styles)
         self.loader.process()
 
-        new_election = Election.objects.create(owner=self.user, name="Una elección nueva")
+        new_election = Election.objects.create(owner=self.user, name=u"Una elección nueva")
         parser = QuestionsParser(new_election)
         parser.createQuestions(self.lines)
         election_after_questions_created = Election.objects.get(pk=new_election.pk)
