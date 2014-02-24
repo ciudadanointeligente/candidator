@@ -57,18 +57,18 @@ class ApiTestCase(ResourceTestCase):
         self.age1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data1, candidate=self.candidate, value=u"2")
         self.profession1 = PersonalDataCandidate.objects.create(personal_data=self.personal_data2, candidate=self.candidate, value=u"Perro")
         self.candidate2 = Candidate.objects.create(
-                                                            name='Fieri',
+                                                            name=u'Fieri',
                                                             election=self.election)
         self.candidate3  = Candidate.objects.create(
-                                                            name='Ratón 1',
+                                                            name=u'Ratón 1',
                                                             election=self.election2)
         self.candidate3.personal_data.all().delete()
-        self.election3, created = Election.objects.get_or_create(name='BarBaz3',
+        self.election3, created = Election.objects.get_or_create(name=u'BarBaz3',
                                                             owner=self.user,
                                                             slug='barbaz3',
                                                             published=True)
         self.ferocious_link, created = Link.objects.get_or_create(
-                                                    name='@fiera',
+                                                    name=u'@fiera',
                                                     url='http://www.twitter.com/fiera',
                                                     candidate=self.candidate2)
         self.api_client = TestApiClient()
