@@ -31,7 +31,7 @@
             <tr electionId='{{election.pk}}'>
                 <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
                 <td class="listElectionDate">{{election.created_at }}</td>
-                <td class="listElectionEdit"><a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'editar' %}</a></td>
+                <td class="listElectionEdit"><a href="{% url "multiple_candidate_data_update" election_slug=election.slug%}">{% trans 'editar' %}</a></td>
                 <td class="listElectionTogglePublish"><a href="javascript:togglePublish({{election.pk}});">
                     {% if election.published %}
                         {% trans 'publicado' %}

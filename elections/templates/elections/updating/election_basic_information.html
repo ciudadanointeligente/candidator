@@ -20,7 +20,7 @@
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->
-    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url election_update slug=election.slug%}">{% trans 'Información general de la elección' %}</a></span>
+    <span class="breadcrumbs goedit anchor"><a href="{% url "my_election_list" %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url "election_update" slug=election.slug%}">{% trans 'Información general de la elección' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
@@ -106,7 +106,7 @@
     <script type="text/javascript">
         
         $(document).ready(function() {
-            $('#form-election-logo').load('{% url update_election_photo pk=election.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
+            $('#form-election-logo').load('{% url "update_election_photo" pk=election.pk %}').dialog({autoOpen: false, width: 500, height: 150, modal: true});
             $('.electionLogo').click(function(event){$('#form-election-logo').dialog('open');});
 
 
@@ -116,7 +116,7 @@
         });
         function getCandidateList(){
             $.post(
-                    '{% url candidate_list_json election_slug=election.slug username=election.owner.username %}',
+                    '{% url "candidate_list_json" election_slug=election.slug username=election.owner.username %}',
                     {
                         'csrfmiddlewaretoken': '{{ csrf_token }}'
                     },
@@ -145,7 +145,7 @@
     function deleteCandidate(id){
         var answer = confirm("¿Estas seguro que quieres eliminar este candidato ?");
         if(answer){
-            var dir = "{% url async_delete_candidate %}";
+            var dir = "{% url "async_delete_candidate" %}";
             $.post(dir, {
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'candidate_pk':id

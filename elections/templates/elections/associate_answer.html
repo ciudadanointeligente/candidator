@@ -15,7 +15,7 @@
 {% endblock extra_head %}
 
 {% block content %}
-<h1><a href="{% url election_detail_admin username=candidate.election.owner slug=candidate.election.slug %}">{{ candidate.election.name }}</a></h1>
+<h1><a href="{% url "election_detail_admin" username=candidate.election.owner slug=candidate.election.slug %}">{{ candidate.election.name }}</a></h1>
 <h1>{{ candidate.name }}</h1>
 {% for category in categories.all %}
     <h2>{{ category.name }}</h2>
@@ -30,7 +30,7 @@
 
             {% endfor %}
                 <li>
-                    <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}">
+                    <form class="answerform" method="POST" action="{% url  "answer_create_ajax" question_pk=question.pk %}">
                         {% csrf_token %}
                         <input type="text" name="caption" />
                         <input type="submit" value="{% trans 'crear' %}" />
@@ -59,7 +59,7 @@ $(".answer").live('click', function(e){
     answerId = answerId.substr(answerId.indexOf('-')+1);
     console.log(answerId);
     var $answerEl = $(this);
-    $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+    $.post('{% url "associate_answer_candidate"  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
     {
         'csrfmiddlewaretoken': '{{ csrf_token }}',
         'answer': answerId

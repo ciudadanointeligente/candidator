@@ -1,0 +1,36 @@
+{% extends "elections/base_edits.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{%block title %}
+{% if not account %}
+	{% trans 'Error en la activación' %}
+{% else %}
+	{% trans 'Activación exitosa' %}
+{% endif %}
+{% endblock title %}
+
+
+{% block content %}
+{% if not account %}
+	<div class="fondo_formulario">
+		<div class="forms_content">
+			<h1>{% trans 'Error en la activación' %}</h1><hr /><br />
+	    	<div class="instrucciones">{% trans 'La clave de activación usada no existe o no está activa. Por favor intentalo nuevamente.' %}</div>
+		</div>
+	</div>
+{% else %}
+	<div class="fondo_formulario">
+		<div class="forms_content">
+			<h1>{% trans 'Activación exitosa' %}</h1><hr /><br />
+	    	<div class="instrucciones">{% trans 'Tu cuenta ha sido activada ahora puedes...' %}</div>
+	    	<div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login"><a href="/">{% trans 'crear tu primera elección' %}</a></div>
+		</div>
+	</div>
+{% endif %}
+{% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}

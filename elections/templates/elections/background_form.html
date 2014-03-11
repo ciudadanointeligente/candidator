@@ -19,6 +19,6 @@
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
 
-<a href="{% url background_category_create election_slug=background_category.election.slug %}">volver</a>
+<a href="{% url "background_category_create" election_slug=background_category.election.slug %}">volver</a>
 
 {% endblock %}

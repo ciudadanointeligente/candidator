@@ -1,0 +1,65 @@
+{% extends "elections/base_edits.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% block title %}Login {% endblock title %}
+{% block content %}
+
+<div class="fondo_formulario">
+    <div class="forms_content">
+        <div class="logo"><img src="{{ STATIC_URL }}img/logo.png" /></div>
+
+
+    {% if form.errors %}
+    <p>{% trans 'Tu username y password no concuerdan por favor intentalo de nuevo.' %}</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+    
+    
+    <table>
+    <tr>
+        <div class="usuario">
+            <span class="blue_edit">{% trans 'Usuario:' %}</span><span>{{ form.username }}</span>
+        </div>
+    </tr>
+    <tr>
+        <div class="clave">
+        <span class="blue_edit">{{ form.password.label_tag }}:</span><span>{{ form.password }}</span>
+        </div>
+        
+    </tr>
+    </table>
+    <a href="{% url 'django.contrib.auth.views.password_reset' %}">{% trans '¿Olvidaste tu contraseña?' %}</a>
+    <input type="submit" class="bt" value="{% trans 'login' %}" />
+
+
+    <input type="hidden" name="next" value="{{ next }}" />
+    
+    </form>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+
+        <div class="instrucciones">{% trans '¿Eres nuevo? ¡bienvenido! al registrarte y crear tu elección podrás...' %}</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparar.png" /></div><div class="txt_login">{% trans 'comparar los candidatos...' %}</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_naranja.png" /></div><div class="txt_login">{% trans 'descubrir quien es tu media naranja política...' %}</div>
+        <div class="img_login"><img src="{{ STATIC_URL }}img/login_comparte.png" /></div><div class="txt_login">{% trans 'y compartir los resultados' %}</div>
+
+        <a href="{% url 'registration_register' %}" class="bt" id="boton">{% trans 'regístrate' %}</a>
+       
+    <br>
+    <br>
+
+    
+    </div>    
+</div>
+    
+{% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+{% endblock extra_head %}

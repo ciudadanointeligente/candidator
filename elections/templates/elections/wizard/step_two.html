@@ -111,7 +111,7 @@
         function candidate_delete(candidate_pk){
             var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este candidato ?' %}");
             if(answer){
-                var dir = "{% url async_delete_candidate %}";
+                var dir = "{% url "async_delete_candidate" %}";
                 $.post(dir, {
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
                             'candidate_pk':candidate_pk
@@ -129,13 +129,13 @@
 
         function save_candidate(election_slug){
             var candidate = document.getElementById("id_name").value
-            var new_location = "{% url multiple_candidate_data_update_first_time election_slug=election.slug %}";
+            var new_location = "{% url "multiple_candidate_data_update_first_time" election_slug=election.slug %}";
             if(document.getElementById("id_name").value == ""){
                 window.location = new_location;
             }
             else{
                 /* @FIX */
-                var dir = "{% url async_create_candidate election_slug=election.slug %}";
+                var dir = "{% url "async_create_candidate" election_slug=election.slug %}";
                 $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', 'name': candidate},
                 function(json){
                     window.location = new_location;

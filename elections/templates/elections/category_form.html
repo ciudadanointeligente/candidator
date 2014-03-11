@@ -7,13 +7,13 @@
 
     <div class="numero_off uno">{% trans '1.' %}</div>
     <div class="numero_off dos">
-        <a href="{% url candidate_create election_slug=election.slug %}">{% trans '2.' %}</a>
+        <a href="{% url "candidate_create" election_slug=election.slug %}">{% trans '2.' %}</a>
     </div>
     <div class="numero_off tres">
-        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans '3.' %}</a>
+        <a href="{% url "personal_data_create" election_slug=election.slug %}">{% trans '3.' %}</a>
     </div>
     <div class="numero_off cuatro">
-        <a href="{% url background_category_create election_slug=election.slug %}">{% trans '4.' %}</a>
+        <a href="{% url "background_category_create" election_slug=election.slug %}">{% trans '4.' %}</a>
     </div>
     <div class="numero_on cinco">{% trans '5.' %}</div>
 
@@ -46,7 +46,7 @@
 <div id="link_next">
 </div>
 
-<!-- <a href="{% url election_detail slug=election.slug username=election.owner %}">finalizar</a> -->
+<!-- <a href="{% url "election_detail" slug=election.slug username=election.owner %}">finalizar</a> -->
 {% endblock %}
 
 {% block extra_js %}
@@ -54,7 +54,7 @@
 <script type="text/javascript">
     $(function(){
         if($("#lista_categorias li").size() > 0){
-            $("#link_next").append('<a href="{% url election_detail_admin slug=election.slug username=election.owner %}">{% trans 'Finalizar' %}</a>');
+            $("#link_next").append('<a href="{% url "election_detail_admin" slug=election.slug username=election.owner %}">{% trans 'Finalizar' %}</a>');
         }
     })
     $("#id_name").slug({

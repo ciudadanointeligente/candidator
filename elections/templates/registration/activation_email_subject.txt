@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktrans with site_name=site.name %}Activación de tu cuenta en {{ site_name }}{% endblocktrans %}

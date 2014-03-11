@@ -1,0 +1,31 @@
+{% extends "elections/base_edits.html" %}
+{% load i18n %}
+{% load settingsvars_tags %}
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+
+{% block content %}
+<ul>
+<li><a href="/admin/">{% trans 'Administrador' %}</a></li>
+<li></li>
+<li><a href="/accounts/register/">{% trans 'Registrar usuario' %}</a></li>
+<li><a href="/elections">{% trans 'Elecciones' %}</a></li>
+{% if user.is_authenticated %}
+    <li><a href="/my_elections">{% trans 'Mis Elecciones' %}</a></li>
+{% endif %}
+</ul>
+{% endblock content %}
+
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/{% uservoice_client_key %}.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
+</body>
+</html>

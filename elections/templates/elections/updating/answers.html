@@ -21,7 +21,7 @@
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->
-    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'Respuestas' %}</a></span>
+    <span class="breadcrumbs goedit anchor"><a href="{% url "my_election_list" %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url "multiple_candidate_data_update" election_slug=election.slug%}">{% trans 'Respuestas' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
@@ -41,7 +41,7 @@
                 {% if my_candidate == candidate %}
                     <li class="tab_selected">{{ my_candidate.name }}</li>
                 {% else %}
-                    <li class="tab"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
+                    <li class="tab"><a href="{% url "candidate_data_update" election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -78,7 +78,7 @@
                     </li>
                     {% endfor %}
                 </ul>
-                <span class="goedit anchor" ><a href="{% url election_update_data slug=election.slug %}#personal_data_titulo">{% trans 'Agregar o quitar datos personales' %}</a></span>
+                <span class="goedit anchor" ><a href="{% url "election_update_data" slug=election.slug %}#personal_data_titulo">{% trans 'Agregar o quitar datos personales' %}</a></span>
             </div>
 
            <div class="linksEdit">
@@ -138,7 +138,7 @@
             <div class="backgroundEdit">
                 <div class="edit_tit"><h2>{% trans 'Antecedentes' %}</h2></div>
                 <span class="goedit anchor" >
-                    <a href="{% url election_update_data slug=election.slug %}#antecedentes_titulo">{% trans 'Agregar o quitar antecedentes' %}</a>
+                    <a href="{% url "election_update_data" slug=election.slug %}#antecedentes_titulo">{% trans 'Agregar o quitar antecedentes' %}</a>
                 </span>
                 <ul>
                 {% for background_category in election.backgroundcategory_set.all %}
@@ -167,7 +167,7 @@
 
         <div class="edit_tit"><h2>{% trans 'Cuestionario' %}</h2></div>
         <span class="goedit anchor" >
-            <a href="{% url election_update_data slug=election.slug %}#lista_preguntas_titulo">{% trans 'Agregar o quitar datos preguntas' %}</a>
+            <a href="{% url "election_update_data" slug=election.slug %}#lista_preguntas_titulo">{% trans 'Agregar o quitar datos preguntas' %}</a>
         </span>
         {% for category in election.category_set.all %}
             <div class="blue_edit">{{ category.name }}</div>
@@ -192,7 +192,7 @@
                         
                     </ul>
                     <span class="goedit anchor" >
-                            <a href="{% url election_update_data slug=election.slug %}#question_{{ question.pk }}">{% trans 'Agregar o quitar alternativas?' %}</a>
+                            <a href="{% url "election_update_data" slug=election.slug %}#question_{{ question.pk }}">{% trans 'Agregar o quitar alternativas?' %}</a>
                         </span>
                 </li>
             {% endfor %}
@@ -202,7 +202,7 @@
         {% endfor %}
 
 
-        {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
+        {# <a href="{% url "election_detail_admin" username=election.owner slug=election.slug %}">volver</a> #}
 
 	
     	</div>
@@ -334,7 +334,7 @@
                 answerId = answerId.substr(answerId.indexOf('-')+1);
                 console.log(answerId);
                 var $answerEl = $(element);
-                $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+                $.post('{% url "associate_answer_candidate"  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
                 {
                     'csrfmiddlewaretoken': '{{ csrf_token }}',
                     'answer': answerId
@@ -353,7 +353,7 @@
             answerId = answerId.substr(answerId.indexOf('-')+1);
             console.log(answerId);
             var $answerEl = $(this);
-            $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+            $.post('{% url "associate_answer_candidate"  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
             {
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                 'answer': answerId
@@ -364,7 +364,7 @@
             },
             'json');
         });
-        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 130, modal: true});
+        $('#form-candidate-photo').load('{% url "update_candidate_photo" pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 130, modal: true});
         $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
 
         </script>

@@ -29,17 +29,17 @@
     
       <ul class="homeNav">
                 <li class="homeLi homeListMedianaranja">
-                    <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">
+                    <a href="{% url "medianaranja1_embeded" election_slug=election.slug username=election.owner.username %}">
                         <h5>{% trans 'Media' %} <br/>{% trans 'Naranja' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListPerfiles">
-                    <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">
+                    <a href="{% url "election_detail_profiles_embeded" slug=election.slug username=election.owner.username %}">
                         <h5> {% trans 'Perfil de Candidatos' %}</h5>
                     </a>
                 </li>
                 <li class="homeLi homeListComparar">
-                    <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">
+                    <a href="{% url "election_compare_embeded" username=election.owner.username slug=election.slug %}">
                         <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
                     </a>
                 </li>

@@ -18,7 +18,7 @@
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->
-<span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url update_custom_style slug=election.slug %}">{% trans 'Estilo' %}</a></span>
+<span class="breadcrumbs goedit anchor"><a href="{% url "my_election_list" %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url "update_custom_style" slug=election.slug %}">{% trans 'Estilo' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
         <head>
@@ -26,7 +26,7 @@
         <hr />
         </head>
 
-        <form id="customStyle" method="POST" enctype="multipart/form-data" action="{% url update_custom_style slug=election.slug %}">{% csrf_token %}
+        <form id="customStyle" method="POST" enctype="multipart/form-data" action="{% url "update_custom_style" slug=election.slug %}">{% csrf_token %}
         {{ form.non_field_errors }}
     <textarea placeholder="{{ form.custom_style.label}}" id="id_custom_style" rows="10" cols="40" name="custom_style">{{ form.custom_style.value }}</textarea>
     <div id="saveStyle" class="bt">{% trans ' Guardar ' %}</div>

@@ -31,9 +31,9 @@
             {% trans '1. Ver tu candideit.org en:' %} <input id="election-url" type="text" value="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"> <a class="menuedit_tit" href="{{ election.get_absolute_url }}">Ver</a>
             </p>
             
-            <p>{% trans '2. Modificar las preguntas que te creamos ' %}<a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">{% trans '"Preguntas"' %}</a></p>
-            <p>{% trans '3. Responder preguntas y completar el perfil de cada candidato' %}<a class="menuedit_tit" href="{% url multiple_candidate_data_update election_slug=election.slug %}">{% trans '"Respuestas"' %}</a></p>
-            <p>{% trans '4. Modificar la información general de tu candideit.org' %}<a class="menuedit_tit" href="{% url election_update slug=election.slug %}">{% trans '"Información general"' %}</a></p>
+            <p>{% trans '2. Modificar las preguntas que te creamos ' %}<a class="menuedit_tit" href="{% url "election_update_data" slug=election.slug %}">{% trans '"Preguntas"' %}</a></p>
+            <p>{% trans '3. Responder preguntas y completar el perfil de cada candidato' %}<a class="menuedit_tit" href="{% url "multiple_candidate_data_update" election_slug=election.slug %}">{% trans '"Respuestas"' %}</a></p>
+            <p>{% trans '4. Modificar la información general de tu candideit.org' %}<a class="menuedit_tit" href="{% url "election_update" slug=election.slug %}">{% trans '"Información general"' %}</a></p>
             <p>{% trans '5. Compartir tu candideit.org' %}</p>
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" data-text="{% trans 'Visita mi candideit.org en' %} http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" data-via="ciudadanoi" data-lang="es" data-count="none" data-hashtags="candideit.org">{% trans 'Twittear' %}</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter");</script>

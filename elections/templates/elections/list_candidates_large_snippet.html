@@ -2,7 +2,7 @@
  <ul class="profileHome large-list">
  {% for candidate in candidates %}
             <li class="{% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
-                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                <a href="{% url "candidate_detail_embeded" username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
                     
                     {% thumbnail candidate.photo "36x36" crop="center" as im %}
                         <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"36x36" }};">

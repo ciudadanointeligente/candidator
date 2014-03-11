@@ -18,13 +18,13 @@
 <div class="contenedor1_embeded">
             <div class="menu-aside-small">
                             <div class="bt-perfiles-small">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small bt_perfiles">{% trans 'REVISA LOS PERFILES' %}</div></a>
+                                <a href="{% url "election_detail_embeded" username=election.owner.username slug=election.slug %}"><div class="aside-small bt_perfiles">{% trans 'REVISA LOS PERFILES' %}</div></a>
                             </div>
                             <div class="bt-frente-small">
-                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small compare">{% trans 'FRENTE A FRENTE' %}</div></a>
+                                <a href="{% url "election_compare_embeded" username=election.owner.username slug=election.slug %}"><div class="aside-small compare">{% trans 'FRENTE A FRENTE' %}</div></a>
                             </div>
                             <div class="bt-medianaranja-small">
-                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="aside-small medianaranja">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}</div></a>
+                                <a href="{% url "medianaranja1_embeded" election_slug=election.slug username=election.owner.username %}"><div class="aside-small medianaranja">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}</div></a>
                             </div>
             </div>
 

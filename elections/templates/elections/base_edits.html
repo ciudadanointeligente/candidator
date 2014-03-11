@@ -49,17 +49,17 @@
                 <ul class="leftNav">
                     <li>
                         {% if user.is_authenticated %}
-                        <a href="{% url 'my_election_list' %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
+                        <a href="{% url "my_election_list" %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
                         {% endif %}
                     </li>
                 </ul>
                 <ul>
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url 'election_create' %}">{% trans 'NUEVA ELECCIÓN' %}</a> </li>
-                        <li> <a href="{% url 'my_election_list' %}">{% trans 'MIS ELECCIONES' %}</a> </li>
-                        <li> <a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'LOGOUT' %}</a> </li>
+                        <li> <a href="{% url "election_create" %}">{% trans 'NUEVA ELECCIÓN' %}</a> </li>
+                        <li> <a href="{% url "my_election_list" %}">{% trans 'MIS ELECCIONES' %}</a> </li>
+                        <li> <a href="{% url "django.contrib.auth.views.logout" %}">{% trans 'LOGOUT' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url 'django.contrib.auth.views.login' %}">{% trans 'LOGIN' %}</a> </li>
+                        <li> <a href="{% url "django.contrib.auth.views.login" %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>

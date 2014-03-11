@@ -1,0 +1,18 @@
+{% extends "elections/base_edits.html" %}
+{% load url from future %}
+{% load i18n %}
+    {% block title %}{% trans 'Registro completo' %}{% endblock title %}
+{% block content %}
+
+<div class="fondo_formulario">
+	<div class="forms_content">
+		<h1>{% trans 'Te hemos enviado un mail' %}</h1><hr /><br />
+    	<div class="instrucciones">{% trans 'Te hemos enviado un mail de confirmación, recuerda que tienes 7 días para activar tu cuenta.' %}</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}

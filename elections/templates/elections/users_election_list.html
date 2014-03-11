@@ -32,7 +32,7 @@
             <tr>
                 <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
                 <td class="listElectionDate">{{election.created_at }}</td>
-                <td class="listElectionEdit"><a href="{% url election_detail username=election.owner.username slug=election.slug%}">{% trans 'Ver' %}</a></td>
+                <td class="listElectionEdit"><a href="{% url "election_detail" username=election.owner.username slug=election.slug%}">{% trans 'Ver' %}</a></td>
             </tr>
         </table>
         {% endfor %}

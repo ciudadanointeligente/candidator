@@ -27,7 +27,7 @@
 $("#guardar").click(function(e){
     var value = $("#id_value").val();
     console.log(value);
-    $.post('{% url background_candidate_create candidate_pk=candidate.pk background_pk=background.pk %}',
+    $.post('{% url "background_candidate_create" candidate_pk=candidate.pk background_pk=background.pk %}',
     {
         'csrfmiddlewaretoken': '{{ csrf_token }}',
         'value': value

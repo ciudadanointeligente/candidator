@@ -18,7 +18,7 @@
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->
-    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url candidate_create_alone election_slug=election.slug%}">{% trans 'Candidatos' %}</a></span>
+    <span class="breadcrumbs goedit anchor"><a href="{% url "my_election_list" %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url "candidate_create_alone" election_slug=election.slug%}">{% trans 'Candidatos' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
@@ -44,7 +44,7 @@
     </ul>
     <br/>
 <div id="link_add">
-    <form id="newcandidate" method="POST" enctype="multipart/form-data" action="{% url candidate_create_alone election_slug=election.slug %}">{% csrf_token %}
+    <form id="newcandidate" method="POST" enctype="multipart/form-data" action="{% url "candidate_create_alone" election_slug=election.slug %}">{% csrf_token %}
         {{ form.non_field_errors }}
         <p><input id="id_name" type="text" maxlength="255" name="name" placeholder="{{ form.name.label}}"></p>
 <div class="bt_addCandidate"><a class="bt_input" href="javascript:void(0);" onclick="document.forms['newcandidate'].submit();return false;">{% trans 'agregar' %}</a></div>
@@ -102,7 +102,7 @@
         function candidate_delete(candidate_pk){
             var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este candidato ?' %}");
             if(answer){
-                var dir = "{% url async_delete_candidate %}";
+                var dir = "{% url "async_delete_candidate" %}";
                 $.post(dir, {
                             'csrfmiddlewaretoken': '{{ csrf_token }}',
                             'candidate_pk':candidate_pk

@@ -50,7 +50,7 @@
 		<div class="candidatesBasicInformation wrapW" style="border:0px;">
             <header>
 
-                <div class="tit"><a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad.{% endblocktrans %}</h2></a></div>
+                <div class="tit"><a href="{% url "candidate_detail_embeded" username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad.{% endblocktrans %}</h2></a></div>
 
 
 						            	<div class="globo_left">
@@ -71,16 +71,16 @@
 
 					<div class="compartir_resultados">
 
-                                    <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-                                    <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
-                                    <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url "candidate_detail" username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url "candidate_detail" username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url "candidate_detail" username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
 
 				    </div>
 
             </header>
 	    </div>
             <div class="profileImg img_medianaranja">
-                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=winner.2.slug %}">
+                <a href="{% url "candidate_detail_embeded" username=election.owner.username election_slug=election.slug slug=winner.2.slug %}">
 
 
         {% thumbnail winner.2.photo "160x200" crop="center" as im %}
@@ -101,13 +101,13 @@
         </div>
                 <aside class="profileAside2">
                             <div class="wrap_bt_perfiles">
-                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
+                                <a href="{% url "election_detail_embeded" username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
                             </div>
                             <div class="enfrentalos">
-                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                                <a href="{% url "election_compare_embeded" username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
                             </div>
                             <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                                <a href="{% url "medianaranja1_embeded" election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
                             </div>
                 </aside>
     </div>
@@ -124,7 +124,7 @@
         <div class="otrosporcentajes {% if forloop.counter0|divisibleby:"2" %}izquierda{% else %}derecha{% endif %}">
 
                 <div class="profileImg_small">
-                    <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">
+                    <a href="{% url "candidate_detail_embeded" username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">
                     {% thumbnail data_candidate.2.photo "80x100" crop="center" as im %}
                         <img src="{{ im.url }}" alt="{{ data_candidate.2.name }}" style="margin: {{ im|margin:"80x100" }}"
                              width="80" height="100"/>
@@ -140,7 +140,7 @@
                 
                 <div class="otrosporcentajes_data">
 
-                        <h6><a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
+                        <h6><a href="{% url "candidate_detail_embeded" username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
 
                         <div class="categoria_porcentaje">
                             {% for category in categories %}

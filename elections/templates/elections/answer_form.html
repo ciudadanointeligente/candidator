@@ -16,6 +16,6 @@
     </table>
     <input type="submit" value="{% trans "Guardar" %}" />
 </form>
-<a href="{% url category_create election_slug=question.category.election.slug %}">{% trans 'volver' %}</a>
+<a href="{% url "category_create" election_slug=question.category.election.slug %}">{% trans 'volver' %}</a>
 
 {% endblock %}

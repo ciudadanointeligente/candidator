@@ -1,0 +1,80 @@
+{% extends "elections/base_edits.html" %}
+{% load i18n %}
+    {% block title %}{% trans 'Registro' %}{% endblock title %}
+{% block content %}
+
+
+
+<div class="fondo_formulario">
+    <div class="forms_content">
+        <h1>{% trans 'Registro de usuarios' %}</h1><hr /><br />
+  <form action="." method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <table>
+    <tr>
+        <div class="usuario">
+            <span class="blue_edit">{% trans 'Usuario:' %}</span><span>{{ form.username }}</span><div class="instrucciones">{% trans '(no debe contener espacios ni caracteres especiales)' %}</div>
+            {% if form.username.errors %}
+                    <ul>
+                    {% for error in form.username.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+    </tr>
+    <tr>
+        <div class="email">
+            <span class="blue_edit">{% trans 'E-mail:' %}</span><span>{{ form.email }}</span>
+            {% if form.email.errors %}
+                    <ul>
+                    {% for error in form.email.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+
+        
+    </tr>
+    <tr>
+        <div class="clave">
+            <span class="blue_edit">{{ form.password1.label_tag  }}:</span><span>{{ form.password1 }}</span>
+            {% if form.password1.errors %}
+                    <ul>
+                    {% for error in form.password1.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+
+        
+    </tr>
+    <tr>
+        <div class="clave_otravez">
+            <span class="blue_edit">{{ form.password2.label_tag }}:</span><span>{{ form.password2 }}</span>
+            {% if form.password2.errors %}
+                    <ul>
+                    {% for error in form.password2.errors %}
+                        <li><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+
+        
+    </tr>
+    </table>
+
+    <input type="submit" class="bt" value="{% trans 'Crea tu cuenta' %}" />
+    </form>
+</div>    
+</div>
+{% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}

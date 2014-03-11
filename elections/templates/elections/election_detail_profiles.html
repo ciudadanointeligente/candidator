@@ -25,7 +25,7 @@
 
         {% include 'election_logo.html' %}
         
-    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></a>
+    <div class="nombre_eleccion tit"><h1><a href="{% url "election_detail" username=election.owner.username slug=election.slug %}">{{election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></a>
 {% link_to_updating_this_election request.user election %}
     <div style="float:right">
 
@@ -49,7 +49,7 @@
 
             {% for candidate in election.candidate_set.all %}
             <li class="{% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
-                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
+                <a href="{% url "candidate_detail" username=election.owner.username election_slug=election.slug slug=candidate.slug %}" class="link">
                     
                     {% thumbnail candidate.photo "115x144" crop="center" as im %}
                         <img src="{{ im.url }}" alt="" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"115x144" }};">
@@ -78,10 +78,10 @@
 
                  <aside class="profileAside">
                             <div class="enfrentalos">
-                                <a href="{% url election_compare username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                                <a href="{% url "election_compare" username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
                             </div>
                             <div class="bt_medianaranja">
-                                <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                                <a href="{% url "medianaranja1" election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
                             </div>
                 </aside>
 

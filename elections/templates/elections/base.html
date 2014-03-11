@@ -51,28 +51,28 @@
                 <ul class="leftNav">
                     <li>
                         {% if user.is_authenticated %}
-                        <a href="{% url my_election_list %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
+                        <a href="{% url "my_election_list" %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
                         {% endif %}
                     </li>
                 </ul>
                 
                 <ul>
                     <!-- <li> <a href="/index">{% trans 'PÁGINA PRINCIPAL' %}</a> </li> -->
-                    <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
-                    <li> <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
-                    <li> <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
-                    <li> <a href="{% url election_compare username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
+                    <li> <a href="{% url "election_about" slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                    <li> <a href="{% url "medianaranja1" election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
+                    <li> <a href="{% url "election_detail_profiles" slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
+                    <li> <a href="{% url "election_compare" username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
                     {% if user.is_authenticated %}
-                        <li> <a href="{% url auth_logout %}">{% trans 'LOGOUT' %}</a> </li>
+                        <li> <a href="{% url "auth_logout" %}">{% trans 'LOGOUT' %}</a> </li>
                     {% else %}
-                        <li> <a href="{% url auth_login %}">{% trans 'LOGIN' %}</a> </li>
+                        <li> <a href="{% url "auth_login" %}">{% trans 'LOGIN' %}</a> </li>
                     {% endif %}
                 </ul>
             </div>
         </nav>
       </div>
 <div class="papel">
-    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ><p>{% trans 'crear una nueva elección' %}</p></a></div>
+    <div class="newElection"><a href="{% url "election_create" %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ><p>{% trans 'crear una nueva elección' %}</p></a></div>
 {% block content %}
 {% endblock content %}
 </div>

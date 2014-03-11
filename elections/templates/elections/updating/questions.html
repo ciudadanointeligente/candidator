@@ -18,7 +18,7 @@
 <!-- CIERRE MENU VERTICAL -->     
  
 <!-- CONTENIDO -->
-    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url election_update_data slug=election.slug%}">{% trans 'Preguntas de la elección' %}</a></span>
+    <span class="breadcrumbs goedit anchor"><a href="{% url "my_election_list" %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url "election_update_data" slug=election.slug%}">{% trans 'Preguntas de la elección' %}</a></span>
     <div class="papel_edit">
     <div class="wrapper_plantillas">
     	<head>
@@ -145,7 +145,7 @@
                         </li>
                         {% endfor %}
                         <li>
-                            <form class="answerform" method="POST" action="{% url  answer_create_ajax question_pk=question.pk %}" style="margin-bottom: 13px;">
+                            <form class="answerform" method="POST" action="{% url  'answer_create_ajax' question_pk=question.pk %}" style="margin-bottom: 13px;">
                                 {% csrf_token %}
                                     <p>
                                         <input type="text" name="caption" placeholder="{% trans "agregar alternativa de respuesta" %}" />
@@ -403,7 +403,7 @@ $(document).ready(function() {
         var value_text = $(this).prev("input");
         var value = value_text.val();
         var election_pk = $(this).attr('pk');
-        var address = "{% url async_create_background_category election_pk=election.id %}";
+        var address = "{% url "async_create_background_category" election_pk=election.id %}";
         $.post(address,
         {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
