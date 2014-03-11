@@ -1,0 +1,110 @@
+{% load i18n %}
+{% load settingsvars_tags %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
+    <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
+    <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
+    <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
+    {% if election %}
+    <meta name="Description" content="{{ election.description }}" />
+    <meta property="og:image" content="{{ STATIC_URL }}img/sharing_icon.png"/>
+    <meta property="og:description" content="{{ election.name }} - ¿Cuál es tu opción?"/>
+    {% endif %}
+    {% block extra_head %}
+    {% endblock extra_head %}
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
+</head>
+<body>
+<div class="bulb_container">
+<div class="fci-ampolleta-light"><iframe src="http://ciudadanointeligente.org/assets/bulb_light.html?wmode=transparent" width="120" height="220" frameborder="0"></iframe></div>
+</div>
+
+
+<div>
+
+</div>
+
+    <div class="header_color">
+        <header class="wrapBasic" id="mainHeader">
+            <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
+            </a>
+            <a href="http://www.ciudadanointeligente.org">
+            <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
+            </a>
+            <h1 style="display: none;">{% trans 'Candideit.org' %}</h1>
+        </header>
+        <nav id="mainNavigation">
+            <div class="wrapBasic">
+                
+                <ul class="leftNav">
+                    <li>
+                        {% if user.is_authenticated %}
+                        <a href="{% url my_election_list %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
+                        {% endif %}
+                    </li>
+                </ul>
+                
+                <ul>
+                    <!-- <li> <a href="/index">{% trans 'PÁGINA PRINCIPAL' %}</a> </li> -->
+                    <li> <a href="{% url election_about slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                    <li> <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
+                    <li> <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
+                    <li> <a href="{% url election_compare username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
+                    {% if user.is_authenticated %}
+                        <li> <a href="{% url auth_logout %}">{% trans 'LOGOUT' %}</a> </li>
+                    {% else %}
+                        <li> <a href="{% url auth_login %}">{% trans 'LOGIN' %}</a> </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+      </div>
+<div class="papel">
+    <div class="newElection"><a href="{% url election_create %}"><img src="{{ STATIC_URL }}img/bt_nuevaeleccion.png" ><p>{% trans 'crear una nueva elección' %}</p></a></div>
+{% block content %}
+{% endblock content %}
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script type="text/javascript">
+    var uvOptions = {};
+    (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/{% uservoice_client_key %}.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{% ga_account_id %}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+{% block extra_js %}
+{% endblock extra_js %}
+
+
+
+
+    <div id="footer">
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+{% load url from future %}
+{% load i18n %}
+{% load settingsvars_tags %}
+
+<!doctype html>
+<html>
+<head>
+	<!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.15.custom.css">
+    <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.qtip.css">
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
+    {% if not user.is_authenticated %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
+    {% endif %}
+
+    <title>{% block title%}{% trans 'Administración' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
+    {% block extra_head %}
+    {% endblock extra_head %}
+</head>
+
+<div class="bulb_container">
+<div class="fci-ampolleta-light"><iframe src="http://ciudadanointeligente.org/assets/bulb_light.html?wmode=transparent" width="120px" height="220" frameborder="0"></iframe></div>
+</div>
+
+<body>
+
+    <div class="header_color">
+        <header class="wrapBasic" id="mainHeader">
+            <a href="/"><img src="{{ STATIC_URL }}img/logo_header.png" class="isotipo">
+            </a>
+            <a href="http://www.ciudadanointeligente.org">
+                <img src="{{ STATIC_URL }}img/logo_ciudadano.png" class="logo_ciudadano">
+            </a>
+            <h1 style="display: none;">{% trans 'candideit.org' %}</h1>
+        </header>
+        <nav id="mainNavigation">
+            <div class="wrapBasic">
+                <ul class="leftNav">
+                    <li>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'my_election_list' %}">{% blocktrans with username=user.username %}Hola {{username}}!{% endblocktrans %}</a>
+                        {% endif %}
+                    </li>
+                </ul>
+                <ul>
+                    {% if user.is_authenticated %}
+                        <li> <a href="{% url 'election_create' %}">{% trans 'NUEVA ELECCIÓN' %}</a> </li>
+                        <li> <a href="{% url 'my_election_list' %}">{% trans 'MIS ELECCIONES' %}</a> </li>
+                        <li> <a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'LOGOUT' %}</a> </li>
+                    {% else %}
+                        <li> <a href="{% url 'django.contrib.auth.views.login' %}">{% trans 'LOGIN' %}</a> </li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+        </nav>
+      </div>
+<div class="fondo_wizard">
+{% block content %}
+{% endblock content %}
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/jquery-ui.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.admin-menu.js"></script>
+<script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.qtip.js"></script>
+{% block extra_js %}
+{% endblock extra_js %}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{% ga_account_id %}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">
+        $(function() {
+            var button = $('#loginButton');
+            var box = $('#loginBox');
+            var form = $('#loginForm');
+            button.removeAttr('href');
+            button.mouseup(function(login) {
+                box.toggle();
+                button.toggleClass('active');
+            });
+            form.mouseup(function() { 
+                return false;
+            });
+        });
+</script>
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/{% uservoice_client_key %}.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+  $.fn.qtip.defaults.content.attr = 'alt';
+  $.fn.qtip.defaults.style.classes = 'ui-tooltip-blue ui-tooltip-shadow';
+  $.fn.qtip.defaults.style.tip.corner = false;
+  $.fn.qtip.defaults.hide.fixed = true;
+  $(document).ready(function(){
+      $('*[alt]').qtip({
+        position: {
+            my:'top left',
+            at: 'bottom left'
+            }
+        });
+  });
+</script>
+</body>
+
+    <div id="footer">
+    </div>
+
+</html>

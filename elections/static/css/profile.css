@@ -1,0 +1,192 @@
+.has-an-explanation {
+    word-wrap: break-word;
+    display:inline-block;
+}
+.category {
+}
+
+.sentence {
+    font-style: italic;
+}
+.media-name {
+
+}
+.media-link {
+
+}
+h3 {
+    word-wrap: break-word;
+}
+
+
+/*-----------candidatesBasicInformation---------*/
+
+.contenedor2.wrap_basicInfo {
+    width: 660px;
+}
+
+.candidatesBasicInformation {
+    position: relative;
+    line-height: 21px;
+    margin-bottom: 20px;
+}
+
+.candidatesBasicInformation header{
+	position: relative;
+	left: 173px;
+}
+
+.profileImg{
+    float: left;
+    height: 200px;
+    overflow: hidden;
+    width: 160px;
+	margin-top: -28px;
+}
+
+.profileImg_small{
+    float: left;
+    height: 140px;
+    overflow: hidden;
+    width: 118px;
+	margin-left: -4px;
+	margin-right: 8px;
+}
+
+.not_answered .profileImg:after {
+    content: url("../img/no_responde.svg");
+    position: absolute;
+    top: 0;
+    left: -13px;
+}
+
+.personalInfo {
+    float: left;
+    font-size: 12px;
+    margin-left: 13px;
+    width: 45%;
+    margin-top: 8px;
+    color: #666;
+    line-height: 21px;
+    min-height: 80px;
+}
+
+div.profile-description{
+    font-family: 'AllerBold';
+
+}
+
+.enlacesPersonales {
+    float: right;
+    font-family: 'AllerItalic';
+    font-size: 12px;
+    letter-spacing: 0;
+    margin-top: 10px;
+    padding-right: 10px;
+    text-align: right;
+    width: 25%;
+}
+
+.enlacesPersonales a{
+    background: url("../img/ic_arrow_right.png") no-repeat scroll 3px -3px transparent;
+    color: #99AAB1;
+    padding-left: 26px;
+}
+.ulEnlacesPersonales{}
+
+.enlacesPersonales .twitter a{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+}
+
+.enlacesPersonales .facebook a{
+    background: url("../img/ic_fb.png") no-repeat scroll 6px -3px transparent;
+}
+
+.twitter{}
+.facebook{}
+
+/*==== TRAYECTORIA Y POSICIONES===*/
+
+.trayectoriaYPosiciones{
+    background: url("../img/bg_Section2.png") repeat-x scroll 0 2px,
+                url("../img/line_v.gif") repeat-y scroll 0 0pt,
+                url("../img/line_v.gif") repeat-y scroll right 0pt,
+                url("../img/dotline.gif") repeat-y scroll 300px 50px #FFFFFF;
+    border-bottom: 1px solid #BCBEC0;
+    margin-bottom: 30px;
+    overflow: hidden;
+    padding: 10px;
+}
+.trayectoriaYPosiciones .wrapW{}
+
+.trayectoria{
+    margin-right: 5px;
+	width: 270px;
+	border-right: 1px dashed #D7D7D7;
+	padding-right: 15px;
+}
+.trayectoria, .posiciones{
+    float: left;
+}
+
+.trayectoria h2, .posiciones h2{
+    background: none repeat scroll 0 0 #A2B2BD;
+    color: white;
+    display: block;
+    font-size: 13px;
+    margin: -10px -10px 22px;
+    padding: 6px 9px;
+    border: 1px solid #99AAB1;
+}
+
+.trayectoria h2{border-right: none;}
+
+ .posiciones h2{
+     border-left: medium none;
+    margin-left: -20px;
+    padding-left: 20px;
+     }
+
+.posiciones{
+    margin-left: 10px;
+    width: 520px;
+}
+
+.brdotted{}
+
+.trayectoriaYPosiciones span.profile-description{}
+
+/*==== Accordions ====*/
+
+.trayectoria .accordion h3 {
+    color: white;
+    background-color: #AFCEEA;
+    border: 1px solid #A7C7E6;
+    text-transform: none;
+    font-family: 'AllerRegular';
+    letter-spacing: 0;
+}
+
+.posiciones .accordion h3 {
+    color: #666;
+    background-color: #E8E8E8;
+    border: 1px solid #E6E6E6;
+    background: url("../img/arrow_sprite2.png") no-repeat scroll right 3px #EDEFF0;
+    font-family: 'AllerRegular';
+    letter-spacing: 0;
+    text-transform: none;
+}
+	
+.answer{}
+
+
+.answerContainer{ padding-bottom: 15px;
+}
+
+
+/*TOOLTIPS*/
+.explanationAnswer .sentence{}
+
+.candidatesBasicInformation .tit h3{
+	width: 550px;
+}

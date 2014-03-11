@@ -1,0 +1,206 @@
+{% extends "elections/base_medianaranja.html" %}
+{% load i18n %}
+{% load thumbnail %}
+
+{% block title %}
+ {% blocktrans with election_name=election.name %}Media Naranja, {{ election_name }}{% endblocktrans %} - {{ block.super }}
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
+<meta property="og:title" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
+<meta property="og:type" content="" />
+{% if candidate.photo %}
+<meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ winner.2.photo.url }}" />
+{% else %}
+    {% if election.logo %}
+        <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ election.logo.url }}" />
+    {% endif %}
+{% endif %}
+<meta property="og:url" content="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" />
+<meta property="og:description" content="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" />
+<meta property="og:site_name" content="{% trans 'candideit.org' %}" />
+{% endblock extra_head %}
+
+{% block extra_js %}
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/{% trans 'es_LA' %}/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block content %}
+
+<div class="contenedor3">
+
+	{% include 'election_logo.html' %}
+
+    <div class="nombre_eleccion tit"><a href="{% url election_detail username=election.owner.username slug=election.slug %}"><h1>{{ election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></h1></a></div>
+    
+</div>
+
+	<div class="contenedor1">
+    	<div class="contenedor2">
+
+    	<div class="txt_intro">
+    		<p><font size=4>{% trans 'Tu media naranja política es ...' %}</font></p>
+    	</div>
+	<div>
+		<div class="candidatesBasicInformation wrapW" style="border:0px;">
+            <header style="width:674px;px;top:0px;">
+
+                <div class="tit"><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"><h2>{% blocktrans with candidate_name=winner.2.name score=winner.0|floatformat:1 %}{{candidate_name}} con un {{score}}% total de afinidad.{% endblocktrans %}</h2></a></div>
+
+                                <div class="globo_left">
+										{% trans 'índices de compatibilidad' %}
+                                </div>
+										
+                                <div class="categoria_porcentaje">
+									{% for category in categories %}
+										<div class="subcategory">{{ category.name|slice:"20" }}{% if category.name|length > 20 %}...{% endif %}</div>
+									{% endfor %}
+								</div>
+
+                                <div class="porcentaje">
+											{% for category_score in winner.1 %}
+												<p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
+											{% endfor %}
+								</div>
+
+
+                    <div class="compartir_resultados">
+
+								<!-- DESCOMENTAR CUANDO SE DEFINA LA FORMA EN QUE SE COMPARTEN LOS RESULTADOS
+
+										<td colspan="2">
+											<div class="globo_left">
+												¿estás de acuerdo con tu resultado?
+											</div>
+										</td>
+
+
+										<td>&nbsp;
+
+										</td>
+										<td>&nbsp;
+
+										</td>
+
+									<tr>
+										<td>
+											<input type="checkbox" value="si">Si
+										</td>
+										<td>&nbsp;
+
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="checkbox" value="no">No
+										</td>
+										<td>&nbsp;
+
+										</td>
+									</tr>
+									<tr>
+										<td>&nbsp;
+
+										</td>
+										<td>
+											<input type="button" value="comparte">
+										</td>
+									</tr>
+								-->
+
+                                    <span class='st_facebook_large' displayText='Facebook'  st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_twitter_large' displayText='Tweet' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                                    <span class='st_email_large' displayText='Email' st_title="{% blocktrans with election_name=election.name candidate_name=winner.2.name %}Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.{% endblocktrans %}" st_url="http://{{ request.META.HTTP_HOST }}{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}"></span>
+                    </div>
+	    </div>
+
+
+            <div class="profileImg">
+                <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=winner.2.slug %}">
+
+
+        {% thumbnail winner.2.photo "160x200" crop="center" as im %}
+            <img src="{{ im.url }}" alt="{{ winner.2.name }}" style="margin: {{ im|margin:"160x200" }}"
+                 width="160" height="200"/>
+        {% empty %}
+            {% if candidate.photo %}
+            <img src="{{ winner.2.photo.url }}" alt="{{ winner.2.name }}" width="160" height="200"/>
+            {% else %}
+            <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ winner.2.name }}" width="160" height="200"/>
+            {% endif %}
+        {% endthumbnail %}
+    </a>
+            </div>
+
+
+			</div>
+        </div>
+    </div>
+
+
+
+<div class="contenedor1">
+    <div class="contenedor2">
+            
+                <div class="globo_left">
+                    {% trans 'compatibilidad con otros candidatos' %}
+                </div>
+
+                {% for data_candidate in others %}
+                    
+
+        <div class="otrosporcentajes {% if forloop.counter0|divisibleby:"2" %}izquierda{% else %}derecha{% endif %}">
+
+                <div class="profileImg_small">
+                    <a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">
+                    {% thumbnail data_candidate.2.photo "80x100" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ data_candidate.2.name }}" style="margin: {{ im|margin:"80x100" }}"
+                             width="80" height="100"/>
+                    {% empty %}
+                        {% if candidate.photo %}
+                        <img src="{{ data_candidate.2.photo.url }}" alt="{{ data_candidate.2.name }}" width="80" height="100"/>
+                        {% else %}
+                        <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ data_candidate.2.name }}" width="80" height="100"/>
+                        {% endif %}
+                    {% endthumbnail %}
+                </a>
+                </div>
+                
+                <div class="otrosporcentajes_data">
+                        <h6><a href="{% url candidate_detail username=election.owner.username election_slug=election.slug slug=data_candidate.2.slug %}">{{data_candidate.2.name}}</a></h6>
+
+                        <div class="categoria_porcentaje">
+                            {% for category in categories %}
+                                <p>{{category}}</p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="porcentaje">
+                            {% for category_score in data_candidate.1 %}
+                            <p>{{category_score|floatformat:0}} %<span class="percent"><span style="width:{{category_score|floatformat:0}}%"></span></span></p>
+                            {% endfor %}
+                        </div>
+                </div>
+                    {% if forloop.counter|divisibleby:"2" %}
+
+                    {% endif %}
+        </div>
+
+                {% endfor%}
+
+    </div>
+</div>
+
+{% endblock content %}

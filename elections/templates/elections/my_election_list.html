@@ -1,0 +1,88 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Bienvenido' %}
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel">
+    <div class="contenedor3">
+    	<head>
+        <h1>{% trans 'Mis Elecciones' %}</h1>
+		<hr />
+        </head>
+        
+        
+<div class="election_list">
+	<ul class="electionList" >
+                    {% for election in user.election_set.all %}
+        <table border="0">
+            <tr electionId='{{election.pk}}'>
+                <td class="listElectionName"><a href="{{ election.get_absolute_url }}" target="_blank">{{ election }}</a></td>
+                <td class="listElectionDate">{{election.created_at }}</td>
+                <td class="listElectionEdit"><a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'editar' %}</a></td>
+                <td class="listElectionTogglePublish"><a href="javascript:togglePublish({{election.pk}});">
+                    {% if election.published %}
+                        {% trans 'publicado' %}
+                    {% else %}
+                        {% trans 'despublicado' %}
+                    {% endif %}
+                </a></td>
+            </tr>
+		</table>
+        {% endfor %}
+	</ul>
+</div>
+
+        <head>
+        <br/>
+        <h1>{% trans 'Mi Api Key' %}</h1>
+        <div class="listElectionEdit">
+            <a href="http://en.wikipedia.org/wiki/Application_programming_interface_key">(¿Qué es una API key?)</a>
+        </div>
+        <hr />
+        </head>
+
+<div class="election_list">
+    <ul class="electionList" >
+        <table border="0">
+            <tr>
+                <td class="listElectionName">{{user.username}}</td>
+                <td>{{user.api_key.key}}</td>
+            </tr>
+        </table>
+    </ul>
+</div>
+    <br/>
+
+    </div>
+    </div >
+    {% endblock %}
+    {% block extra_js %}
+    <script>
+        var togglePublish = function(id){
+        var url = '/elections/toggle_publish/' + id
+        $.post(url, {'csrfmiddlewaretoken': '{{ csrf_token }}', }, function(data) {
+            var published_label_text;
+            if (data.published) {
+                published_label_text = '{% trans "publicado" %}'
+            } else {
+                published_label_text = '{% trans "despublicado" %}'
+            }
+            $('[electionId='+data.id+'] .listElectionTogglePublish a').text(published_label_text)
+        });
+    }
+    </script>
+    {% endblock extra_js %}
+    </div>

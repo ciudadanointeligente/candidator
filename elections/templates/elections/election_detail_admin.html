@@ -1,0 +1,36 @@
+{% extends "elections/base.html" %}
+{% load i18n %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/updating/menu.html' %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+        
+            <div class="blue_edit">{% trans 'Gracias! tu encuesta ha sido creada exitosamente. Ahora puedes:' %}</div>
+            
+            <div class="bt_cuadrado publish"><a href="{% url election_create %}">{% trans 'PUBLICAR TU' %}</a></div>
+            
+            <p>{% blocktrans with request.META.HTTP_HOST as base_url and election.get_absolute_url as election_url %}
+            3. Ver tu encuesta en: <input id="election-url" type="text" value="{{ base_url }}{{ election_url }}"> <a class="menuedit_tit" href="{{ election_url }}">ir</a>
+            {% endblocktrans %}</p>
+   
+    </div> 
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+$('#election-url').keydown(function(event){event.preventDefault();})
+</script>
+{% endblock extra_js %}

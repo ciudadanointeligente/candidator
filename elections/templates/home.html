@@ -1,0 +1,135 @@
+{% extends "elections/base_edits.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% block title %}Home {% endblock title %}
+{% block content %}
+
+<div class="papel">
+	<div class="contenedor3">
+			<div class="slider-wrapper theme-default">
+            	<div class="ribbon"></div-->
+            	<div id="nivoslider-125" class="nivoSlider" style="width:850px;height:349px;">
+                <img src="{{ STATIC_URL }}img/home3.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home2.jpg" alt="" />
+                <img src="{{ STATIC_URL }}img/home1.jpg" alt="" />
+             	</div>
+            </div>
+
+<p class="destacado-home">{% trans 'Candideit.org es tu aliado para repartir la torta. Si tienes una elección y quieres compartir con tus círculos cercanos las opciones, generar comparaciones y fomentar el voto informado, ahora tienes un espacio dinámico e interactivo.' %}</p>
+            <br />
+            <br />
+
+    <div class="pasos">
+        <div class="paso1"><span class="numeropaso">#1</span><span class="txtpaso">{% trans 'CREAR ELECCIÓN' %}</span></div>
+        <div class="paso2"><span class="numeropaso">#2</span><span class="txtpaso">{% trans 'CREAR CANDIDATOS' %}</span></div>
+        <div class="paso3"><span class="numeropaso">#3</span><span class="txtpaso">{% trans 'LLENAR RESPUESTAS' %}</span></div>
+        <div class="bt_cuadrado bthome"><a href="{% url 'election_create' %}">{% trans 'CREA TU ELECCIÓN' %}</a></div>
+    </div> 
+
+
+     <div class="informacion_de_elecciones_existentes">
+        
+        <div class="lista_elecciones_en_home">
+                <iframe style="margin-top: 5px;" width="263" height="148" src="http://www.youtube.com/embed/EWuFQa3c_5k?rel=0" frameborder="0" allowfullscreen></iframe>
+         </div>
+        <div class="lista_elecciones_en_home">
+            <h2>{% trans 'Elecciones destacadas' %}</h2>
+           <ul>
+                {% for highlighted_election in highlighted_elections %}
+                <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
+                <li><span class="bold">{{ forloop.counter }} </span>{{ highlighted_election }} <span class="goeditAzul"><a href="{{ highlighted_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ highlighted_election.get_absolute_url }}"> {% trans 'ver' %}</a></span></li>
+                </div>
+                {% endfor %}
+            </ul>
+         </div>
+        <div class="lista_elecciones_en_home">
+            <h2>{% trans 'Últimas elecciones' %}</h2>
+            <ul>
+                {% for last_election in last_elections %}
+                <div class="{% cycle 'odd' 'even' %}" id="{{entry.id}}">
+                <li><span class="bold">{{ forloop.counter }} </span>{{ last_election }} <span class="goeditAzul"><a href="{{ last_election.get_absolute_url }}" title="http://{{ request.META.HTTP_HOST }}{{ last_election.get_absolute_url }}"> {% trans 'ver' %}</a></span></li>
+                </div>
+                {% endfor %}
+            </ul>
+         </div>
+         
+         
+    </div>
+    <br>
+    <br>
+    <br>
+    </div>    
+</div>  
+    
+    
+<!-- FOOTER -->
+
+<div class="papel">
+	<div class="contenedor3">
+    
+    <div class="github goeditAzul">{% trans '¿Quieres ver nuestro código? revisalo acá:' %} <a href="http://www.github.com/ciudadanointeligente/candidator">http://www.github.com/ciudadanointeligente/candidator</a></div>
+
+<hr />
+
+
+	<footer>
+    <iframe width="900px" height="300" frameborder="0" style="overflow: hidden;" src="http://ciudadanointeligente.org/assets/fcifooter.html"></iframe>
+			
+	</footer>
+	
+	
+
+	</div>
+</div>
+     
+     
+<!-- END FOOTER -->
+
+
+
+
+
+  
+
+
+
+    
+{% endblock content %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nivo-slider.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/themes/default/default.css" />
+{% endblock extra_head %}
+
+{% block extra_js %}
+<script type="text/javascript"> 
+var $buoop = {vs:{i:8,f:3.6,o:10.6,s:4,n:9}} 
+$buoop.ol = window.onload; 
+window.onload=function(){ 
+ try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+ var e = document.createElement("script"); 
+ e.setAttribute("type", "text/javascript"); 
+ e.setAttribute("src", "http://browser-update.org/update.js"); 
+ document.body.appendChild(e); 
+} 
+</script>
+<script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript">
+jQuery(window).load(function(){
+    jQuery("#nivoslider-125").nivoSlider({
+        effect: 'slideInLeft',
+        animSpeed: 500,
+        pauseTime: 10000
+    });
+});
+</script>
+<script type="text/javascript">
+$(".bt_cuadrado").click(function(){
+     window.location=$(this).find("a").attr("href"); 
+     return false;
+});
+</script>
+{% endblock extra_js %}

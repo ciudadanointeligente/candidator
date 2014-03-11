@@ -1,0 +1,69 @@
+{% extends "elections/embeded/base_embed.html" %}
+{% load i18n %}
+{% load candidate_tags %}
+{% load election_tags %}
+
+
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css" />
+{% endblock extra_head %}
+
+{% block extra_js %}
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block title %}
+ {% blocktrans with election_name=election.name %}Perfil de candidatos, {{ election_name }}{% endblocktrans %} - {{ block.super }}{% endblock title %}
+
+{% block content %}
+
+<div class="contenedor1_embeded">
+                    <div class="ico_tit"><img src="{{ STATIC_URL }}img/ico_profiles.png" width="97" height="56" /></div>
+    <div class="tit"><h3>{% trans 'PERFIL DE CANDIDATOS' %}<!-- <div class="buscador_candidatos"><input></input></div> --></h3></div>
+
+    <div class="contenedor2_embeded">
+
+
+        <!--        ProfileHome   -->
+        {% if election.candidate_set.all  %}
+       
+
+                {% if election.candidate_set.count <= 8 %}<!-- si son menos de 8 -->
+
+                  {% include "elections/list_candidates_standard_snippet.html" with candidates=election.candidate_set.all %}
+
+                {% else %}
+
+                  {% include "elections/list_candidates_large_snippet.html" with candidates=election.candidate_set.all %}
+
+                {% endif %}
+
+            {% else %}
+        
+                <br>
+                    <center><h4>{% trans 'Esta elección no cuenta aún con Candidatos.' %}</h4></center>
+                <br>
+         {% endif %}
+
+    </div>
+
+        <aside class="profileAside">
+                            <div class="wrap_bt_perfiles">
+                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton bt_perfiles"></div><div class="sideButton_txt bt_perfiles">{% trans 'REVISA LOS PERFILES' %}<img src="{{ STATIC_URL }}img/perfiles_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+        </aside>
+</div>
+
+
+{% endblock content %}

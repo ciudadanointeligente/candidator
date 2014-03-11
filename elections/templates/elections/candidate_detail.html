@@ -1,0 +1,173 @@
+{% extends "elections/base.html" %}
+{% load i18n %}
+{% load election_tags %}
+{% load candidate_tags %}
+{% load thumbnail %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profileHome.css" />
+{% endblock extra_head %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/accordionForProfiles.js"></script>
+<script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e7a236a4a5434b2"></script>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block title %}
+   {% blocktrans with candidate_name=candidate.name election_name=election.name %}Perfil {{ candidate_name }}, {{ election_name }}{% endblocktrans %} - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="contenedor3">
+
+    {% include 'election_logo.html' %}
+
+    <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></a>
+{% link_to_updating_this_election request.user election %}
+    <div style="float:right">
+
+        <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+        <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+    </div>
+    </h1>
+    
+    </div>
+ 
+ </div>
+
+    <div class="contenedor1 {% if candidate.has_answered %}answered{% else %}not_answered{% endif %}">
+        <div class="contenedor2 wrap_basicInfo">
+
+                    <div class="candidatesBasicInformation wrapW">
+
+
+                        <header>
+                            <div class="tit"><h3>{{ candidate.name }}
+                            {% if election.owner.username == request.user.username %}
+
+                            <span class="goedit"><a href="{% url candidate_data_update election_slug=election.slug slug=candidate.slug%}">{% trans "editar respuestas" %}</a></span>
+
+                            {% endif %}</h3></div>
+                        </header>
+
+                        <div>
+                            <div class="profileImg">
+                                {% thumbnail candidate.photo "160x200" crop="center" as im %}
+                                    <img src="{{ im.url }}" alt="{{ candidate.name }}" style="margin: {{ im|margin:"160x200" }}"
+                                         width="160" height="200"/>
+                                {% empty %}
+                                    {% if candidate.photo %}
+                                    <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}" width="160" height="200"/>
+                                    {% else %}
+                                    <img src="{{ STATIC_URL }}img/default-user.gif" alt="{{ candidate.name }}" width="160" height="200"/>
+                                    {% endif %}
+                                {% endthumbnail %}
+                            </div>
+
+                            <section class="personalInfo">
+                                <h3 style="display:none;">{% trans "Información personal" %}</h3>
+                                {% if election.should_display_empty_personal_data %}
+                                {% include "elections/personal_data_list_showing_all.html" with personal_datas=candidate.get_personal_data.items %}
+                                {% else %}
+                                {% include "elections/personal_data_list_showing_populated.html" with personal_datas=candidate.get_personal_data.items %}
+                                {% endif %}
+                            </section>
+                            
+                           
+                            <section class="enlacesPersonales">
+                                <h3 style="display:none;">{% trans "Enlaces personales:" %}</h3>
+                                <ul class="ulEnlacesPersonales">
+                                    {% for link in candidate.link_set.all %}
+                                    <li class="{{ link.css_class }}"><a target="_blank" href="{{ link.http_prefix }}">{{ link.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <!--ends candidate basic information-->
+    </div>
+        </div>
+
+
+    <div class="contenedor3"><h3 style="float: left; width: 280px; padding-left: 13px;">{% trans "Antecedentes:" %}</h3><h3 style="float: left; width: 519px; padding-left: 13px;">{% trans "Posición política en:" %} </h3></div>
+    <div class="contenedor1">
+            <div class="contenedor2">
+
+                        <section class="trayectoria">
+
+
+                            <div class="brdotted">
+                                <div class="accordion">
+				{% if candidate.get_background.items %}
+                               {% if election.should_display_empty_personal_data %}
+                                {% include "elections/backgrounds_showing_all.html" with backgrounds=candidate.get_background.items %}
+                                {% else %}
+                                {% include "elections/backgrounds_showing_populated.html" with backgrounds=candidate.get_background.items %}
+                                {% endif %}     
+				{% else %}
+                                    <span class="profile-description">{% trans 'No hay antecedentes disponibles.' %}</span><br>
+				{% endif %}
+                                </div>
+                                <!--ends accordion-->
+                            </div>
+                            <!--ends brdotted-->
+                        </section>
+                        <!--ends trayectoria-->
+
+                        <section class="posiciones">
+
+
+
+                            <div class="accordion">
+			    {% if candidate.election.category_set.all %}
+
+                                {% for category in candidate.election.category_set.all %}
+                                <div class="category">
+                                    <h3>{{ category.name }}</h3>
+                                    <div class="accordionContent">
+                                        {% for question in category.question_set.all %}
+                                        <span class="profile-description">{{ question.question }}</span>
+                                        <div class="answerContainer">
+                                            <span style="opacity:1;" class="answer">
+                                                {% answer_for_candidate_and_question candidate question %}
+                                            </span>
+                                            <br>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <!--ends accordionContent-->
+                                </div>
+                                <!--ends category-->
+                                {% endfor %}{# end category_set #}
+
+                            {% else %}
+                                 <span class="profile-description">{% trans 'No hay información disponible.' %}</span><br>
+                            {% endif %}
+                            </div>
+                            <!-- ends accordion-->
+                        </section>
+                        <!--ends posiciones-->
+
+
+
+        </div>
+    </div>
+
+                <aside class="profileAside">
+                            <div class="enfrentalos">
+                                <a href="{% url election_compare_one_candidate first_candidate_slug=candidate.slug slug=candidate.election.slug username=candidate.election.owner.username %}"><div class="sideButton compare"></div><div class="sideButton_txt compare">{% trans 'FRENTE A FRENTE' %}<img src="{{ STATIC_URL }}img/enfrentalos_icon_perfil.png"></div></a>
+                            </div>
+                            <div class="bt_medianaranja">
+                                <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}"><div class="sideButton medianaranja"></div><div class="sideButton_txt">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}<img src="{{ STATIC_URL }}img/medianaranja_icon_perfil.png"></div></a>
+                            </div>
+                </aside>
+
+{% endblock content %}

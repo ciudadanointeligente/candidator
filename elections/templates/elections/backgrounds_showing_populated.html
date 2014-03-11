@@ -1,0 +1,11 @@
+{% for category_index, background_category in backgrounds %}
+<h3>{{ background_category.name }}: </h3>
+
+<div class="accordionContent">
+    {% for background_index, background in background_category.backgrounds.items %}
+        {% if background.value %}
+        <span class="profile-description">{{ background.name }}: </span>{{ background.value }}<br>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endfor %}

@@ -1,0 +1,164 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Antecedentes de los candidatos' %}
+{% endblock title %}
+
+{% block content %}
+
+<div class="fondo_formulario">
+    <div class="numero_off uno">{% trans '1.' %}</div>
+    <div class="numero_off dos">
+        <a href="{% url candidate_create election_slug=election.slug %}">{% trans '2.' %}</a>
+    </div>
+    <div class="numero_off tres">
+        <a href="{% url personal_data_create election_slug=election.slug %}">{% trans '3.' %}</a>
+    </div>
+    <div class="numero_on cuatro">{% trans '4.' %}</div>
+    <div class="numero_off cinco">{% trans '5.' %}</div>
+<!-- se debe cambiar de lados la flecha y el add -->
+    <h5>{% trans 'Antecedentes:' %}</h5>
+
+<div class="forms_content">
+
+    <div class="instrucciones">{% trans '¿Qué antecedentes preguntarás a los candidatos? debes clasificarlos en categorías...' %} </div>
+    <br />
+
+    <ul id="lista_categorias">
+        {% for background_category in election.backgroundcategory_set.all %}
+
+        <li id="background_category_{{background_category.pk}}">
+
+                <div class="background_tit">{{ background_category.name }}</div><a href="javascript:void(0);" onclick="background_category_delete({{background_category.pk}}); return false;"><img style="position:absolute; margin-top: -18px;margin-left: 331px" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a>
+
+            <div style="border:1px solid;">
+                <ul id="id_background_list_{{ background_category.pk }}">
+                {% for background in background_category.background_set.all %}
+                    <li id="background_{{background.pk}}">
+                        <span class="background_item">{{ background.name }} <a href="javascript:void(0);" onclick="background_delete({{background.pk}}); return false;"><img style="position:absolute; margin-top:2px; margin-left:8px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"/></a></span>
+                    </li>
+
+                {% endfor %}
+                    
+                </ul>
+                    <ul>
+                        <li id="add_antecedente_{{ background_category.pk}}">
+                            <input id="id-b-{{ background_category.pk}}" type="text" pk="{{ background_category.pk }}" class="add_background_input" maxlength="30" placeholder="{% trans 'agregar antecedente' %}" value=""/>
+                            <a class="save-background_link" href="#">
+                                <img  style="position:absolute; margin-left:2px; margin-top:3px" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/>
+                            </a>
+                        </li>
+                    </ul>
+        </li>
+        
+        {% endfor %}
+    </ul>
+    <br/>
+    <form name='backgroundcategory' method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <div id="link_next">
+            <a class="bt_siguiente" href="{% url question_create election_slug=election.slug %}"><img style= " margin-top: 13px;" src="{{ STATIC_URL }}img/bt_siguiente.png"/></a>
+        </div>
+        <div id="link_add">
+            <a class="bt_agregar" href="javascript:void(0);" onclick="document.forms['backgroundcategory'].submit();return false;">
+            <img  style="position: absolute; margin-left: 5px; margin-top: 0px;" src="{{ STATIC_URL }}img/bt_agregar(verde).png"/></a>
+        </div>
+            <a class="informacion" href="#"><img style="position: relative; margin-top: 13px; margin-bottom: 20px;" src="{{ STATIC_URL }}img/information.png"/></a>
+        <div class="example_window" style='display: none;'><img src="{{ STATIC_URL }}img/ej_antecedentes.jpg"/></div>
+    </form>
+
+    {% if election.backgroundcategory_set.count %}
+
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+<script type="text/javascript">
+
+function background_category_delete(category_pk){
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar esta categoría?' %}");
+    if(answer){
+        var dir = "/"+category_pk +"/background_category/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#background_category_"+category_pk).remove();
+                $("#add_antecedente_"+category_pk).remove();
+                if($("[id ^= background_category_]").size() == 0)
+                    $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+function background_delete(background_pk){
+    var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este antecedente?' %}");
+    if(answer){
+        var dir = "/"+background_pk +"/background/async_delete/";
+        $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+            function(json){
+                $("#background_"+background_pk).remove();
+                if($("[id ^= background_]").size() == 0)
+                    $("#link_next").remove();
+            })
+    }
+    else {
+        return false;
+    }
+}
+
+$(document).ready(function() {
+
+    $(".save-background_link").click(function(e){
+        var value_text = $(this).prev("input");
+        var value = value_text.val();
+        var background_category_pk = value_text.attr('pk');
+
+        $.post('/'+ background_category_pk +'/background/async_create/',
+        {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'value': value
+        },
+        function(data) {
+
+            var content = '<li id="background_'+data.pk+'"><span class="background_item">'+data.name+' <a href="javascript:void(0);" onclick="background_delete('+data.pk+'); return false;"><img style="position:absolute; margin-top:2px; margin-left:8px;" src="{{ STATIC_URL }}img/bt_eliminar(verde).png"></a></span></li>';  
+
+            var lista = $("ul#id_background_list_"+background_category_pk)
+            lista.append(content)
+            //if(lista.children().size() > 0){
+            //    lista.children().last().append(content)
+            //}else{
+            //    lista.html(content)
+            //}
+            value_text.val(default_text)
+        },
+        'json');
+        return false;
+    });
+
+    $('.example_window').dialog({
+        title: "{% trans 'Ejemplo' %}",
+        width: 425,
+        height: 410,
+        modal: true,
+        autoOpen: false
+    });
+
+    $('.informacion').click(function() {
+        $('.example_window').dialog('open');
+        return false;
+    });
+
+});
+
+
+
+</script>
+{% endblock %}
+
+</div>

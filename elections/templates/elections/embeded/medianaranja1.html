@@ -1,0 +1,110 @@
+{% extends "elections/embeded/base_embed.html" %}
+{% load i18n %}
+{% load election_tags %}
+{% block title %}
+{% blocktrans with election_name=election.name %}Media Naranja, {{ election_name }}{% endblocktrans %} - {{ block.super }} 
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media_naranja.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.rating.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
+
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="contenedor1_embeded">
+            <div class="menu-aside-small">
+                            <div class="bt-perfiles-small">
+                                <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small bt_perfiles">{% trans 'REVISA LOS PERFILES' %}</div></a>
+                            </div>
+                            <div class="bt-frente-small">
+                                <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small compare">{% trans 'FRENTE A FRENTE' %}</div></a>
+                            </div>
+                            <div class="bt-medianaranja-small">
+                                <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="aside-small medianaranja">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}</div></a>
+                            </div>
+            </div>
+
+    <div class="tit"><h6 class="grande">{% trans 'Tu 1/2 Naranja Política' %}</h6></div>
+
+    <div class="txt_intro">{% trans 'Con La 1/2 Naranja podrás conocer tu porcentaje de afinidad con cada candidato de la elección. Para esto debes contestar el mismo cuestionario por el que pasaron ellos:' %}</div>   
+
+
+    {% if stt and check %}
+    <form action="" method="POST">
+
+    <div class="contenedor1_embeded">
+
+    <div class="contenedor_globo">
+    <div class="globo_left">{% trans 'Responde la encuesta y encuentra tu 1/2 naranja política' %}</div>
+    <div class="globo_right">{% trans 'Asígnale la importancia que tú quieras a cada pregunta' %}</div>
+    </div>
+
+    {% for cat,data in stt %}
+    <div class="categoria tit">
+        <h2>{{cat.name}}</h2>
+        {% for num,preg,ans_list in data %}
+        <input type='hidden' name='question-id-{{num}}' value='{{ preg.id }}' />
+
+     <div class="col_left">
+        <h4>{{preg.question}}</h4>
+        {% for ans in ans_list %}
+        <input type="radio" name="question-{{num}}" value="{{ans.id}}" /> {{ans.caption}}<br />
+        {% endfor %}
+        {% if election.use_default_media_naranja_option %}
+            <!-- value = -1 is meant for default answers -->
+            <input type="radio" name="question-{{num}}" value="-1" checked="checked" />
+            {% trans 'Ninguna de las anteriores representa mi posición' %}<br />
+        {% endif %}
+     </div>
+
+     <div class="col_right">
+            <h4>{% trans 'Importancia' %}</h4>
+            <input type="radio" name="importance-{{num}}" value="1" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="2" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="3" checked="checked" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="4" class="star"/>
+        <input type="radio" name="importance-{{num}}" value="5" class="star"/>
+    </div>
+
+    <br style='clear: both;'/>
+        {% endfor %}
+        </div><!--categoria-->
+    {% endfor %}
+
+    <input type="submit" class='bt' value="{% trans 'Encontrar mi 1/2 Naranja' %}" />
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+   
+
+    </div><!--contenedor1-->
+
+    </form>
+    {% else %}
+
+    <div class="contenedor1">
+	<br>
+	<center><h4>{% trans 'Esta elección no cuenta aún con la información necesaria para utilizar esta aplicación.' %}</h4></center>
+	<br>
+    </div>
+
+    {% endif %}
+
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{{ STATIC_URL }}js/jquery.MetaData.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.rating.js"></script>
+<script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}

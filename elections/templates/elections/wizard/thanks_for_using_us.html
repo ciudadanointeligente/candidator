@@ -1,0 +1,54 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Gracias' %}
+{% endblock title %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/wizard-forms.css">
+<meta property="og:title" content="{% trans 'He creado un candideit.org para la elección' %} {{ election.name }}" /> 
+<meta property="og:description" content="{% trans 'He creado mi candideit.org y lo puedes visitar en ' %}http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" /> 
+<meta property="og:image" content="http://www.onjd.com/design05/images/PH2/WableAFC205.jpg" />
+{% endblock extra_head %}
+
+{% block content %}
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+      {% include 'elections/wizard/wizard_menu.html' with step="thanks" %}  
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->    
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+
+            <h1>{% trans 'Gracias!' %}</h1><span class="celeste">{% trans 'tu candideit.org ha sido creado exitosamente. Ahora puedes:' %}</span>
+            <p>
+            {% trans '1. Ver tu candideit.org en:' %} <input id="election-url" type="text" value="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}"> <a class="menuedit_tit" href="{{ election.get_absolute_url }}">Ver</a>
+            </p>
+            
+            <p>{% trans '2. Modificar las preguntas que te creamos ' %}<a class="menuedit_tit" href="{% url election_update_data slug=election.slug %}">{% trans '"Preguntas"' %}</a></p>
+            <p>{% trans '3. Responder preguntas y completar el perfil de cada candidato' %}<a class="menuedit_tit" href="{% url multiple_candidate_data_update election_slug=election.slug %}">{% trans '"Respuestas"' %}</a></p>
+            <p>{% trans '4. Modificar la información general de tu candideit.org' %}<a class="menuedit_tit" href="{% url election_update slug=election.slug %}">{% trans '"Información general"' %}</a></p>
+            <p>{% trans '5. Compartir tu candideit.org' %}</p>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" data-text="{% trans 'Visita mi candideit.org en' %} http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" data-via="ciudadanoi" data-lang="es" data-count="none" data-hashtags="candideit.org">{% trans 'Twittear' %}</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter");</script>
+            <br />
+            <a name="fb_share" type="button" share_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}">{% trans 'Facebook' %}</a>
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+        type="text/javascript">
+</script>
+   
+    </div> 
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+$('#election-url').keydown(function(event){event.preventDefault();})
+</script>
+{% endblock extra_js %}

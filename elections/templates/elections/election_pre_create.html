@@ -1,0 +1,42 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Crea tu elección' %}
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="fondo_formulario">
+
+        <div class="numero_off uno">{% trans '1.' %}</div>
+
+        <div class="numero_off dos">{% trans '2.' %}</div>
+
+        <div class="numero_off tres">{% trans '3.' %}</div>
+
+        <div class="numero_off cuatro">{% trans '4.' %}</div>
+
+        <div class="numero_off cinco">{% trans '5.' %}</div>
+
+		<div class="inicio_wizard">
+        <a href="{% url election_create %}"><h5>{% trans 'crea tu elección' %}<img style="margin-top: 7px; position: absolute; margin-left: 5px;" src="{{ STATIC_URL }}img/flecha_inicio.png" /></h5>
+       	</a>
+        </div>
+
+<div class="forms_content">
+
+      <div class="instrucciones">{% trans 'en estos simples pasos; no te preocupes si te equivocas al finalizar podrás reeditar toda la información...' %}</div>
+        <br/><br/><br/><br/>
+        
+
+</div>
+
+{% endblock %}
+
+{% block extra_head %}
+    <link href="/static/css/wizard-forms.css" type="text/css" media="all" rel="stylesheet" />
+{% endblock extra_head %}
+
+</div>

@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<form method="post" action="{% url update_candidate_photo pk=candidate.pk %}" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" class="bt" value="{% trans 'cambiar foto' %}" />
+</form>

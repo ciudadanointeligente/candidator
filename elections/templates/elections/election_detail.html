@@ -1,0 +1,73 @@
+{% extends "elections/base.html" %}
+{% load i18n %}
+{% load election_tags %}
+{% load thumbnail %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block extra_js %}
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block title %}
+     {{ election.name }} - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+
+	
+	
+    	<div class="contenedor3">
+
+            {% include 'election_logo.html' %}
+
+
+            <div class="nombre_eleccion tit"><h1><a href="{% url election_detail username=election.owner.username slug=election.slug %}">{{election.name }}<span> - {% blocktrans with election_owner=election.owner %}Creada por {{election_owner}}{% endblocktrans %}</span></a>
+            {% link_to_updating_this_election request.user election %}
+            <div style="float:right">
+
+            <span class='st_facebook' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+            <span class='st_twitter' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+            <span class='st_email' st_url="http://{{ request.META.HTTP_HOST }}{{ election.get_absolute_url }}" st_summary="{{ election.name }}"></span>
+            </div>
+            </h1>
+            </div>
+
+{% if election.date %}
+<span class="fecha_eleccion">{% trans 'Fecha de la elección:' %} {{ election.date }}</span>
+{% endif %}
+
+{% if election.description %}
+<p>{{ election.description }}</span>
+{% endif %}
+
+<br>
+
+<nav id="homeNavigation">
+      <ul class="homeNav">
+                <li class="homeLi homeListMedianaranja">
+                    <a href="{% url medianaranja1 election_slug=election.slug username=election.owner.username %}">
+                        <h5>{% trans 'Media' %} <br/>{% trans 'Naranja' %}</h5>
+                    </a>
+                </li>
+                <li class="homeLi homeListPerfiles">
+                    <a href="{% url election_detail_profiles slug=election.slug username=election.owner.username %}">
+                        <h5> {% trans 'Perfil de Candidatos' %}</h5>
+                    </a>
+                </li>
+                <li class="homeLi homeListComparar">
+                    <a href="{% url election_compare username=election.owner.username slug=election.slug %}">
+                        <h5>{% trans 'Compara' %} <br> {% trans 'candidatos' %} </h5>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <br>
+
+	
+</div>
+
+{% endblock content %}

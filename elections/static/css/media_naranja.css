@@ -1,0 +1,310 @@
+
+form{
+    margin:0px;
+    padding:0px;
+}
+input[type='text']{
+    padding:2px;
+    border:1px inset #666;
+}
+input[type='password']{
+    padding:2px;
+    border:1px inset #666;
+}
+
+select{
+    padding:0px;
+    border:1px solid #99cc33;
+}
+a{
+    color:#0141ad; /*azul de logo*/
+}
+a:visited{
+}
+
+h2{
+	margin: 13px;
+}
+
+.tit h3{
+	margin-left: 55px;
+	padding-left: 13px;
+	margin-bottom: 22px;
+	margin-top: -47px;
+}
+
+img{
+    border:0px solid #ffffff;
+}
+table{
+    font-size:12px;
+    padding:0px;
+    margin:0px;
+}
+
+.tablaEncuesta{
+    background:#ffffff;
+    font-size:12px;
+    border-collapse: collapse;
+    width:100%;
+}
+
+.tablaEncuesta .titulo{
+    font-weight:normal;
+    background:#A2B3BD;
+    font-size:14px;
+    color:#000000;
+    height:30px;
+    padding:20px;
+}
+.tablaEncuesta .titulo1{
+    font-weight:normal;
+    background:#ffffff;
+    font-size:16px;
+    color:#000000;
+    height:30px;
+    padding-left:10px;
+    border: 1px #ffffff solid;
+}
+.tablaEncuesta .titulo2{
+    font-family: AllerBold;
+    font-size: 12px;
+    font-weight: lighter !important;
+    text-transform: uppercase;
+    background:#EDEFF0;
+}
+
+
+.titulo1 .tablaEncuesta{
+    padding-top: 20px;
+}
+
+.tablaEncuesta .titulo2 td{
+    padding: 5px 15px;
+
+}
+
+.tablaEncuesta .titulo2 td.titulo1{
+    padding: 0;
+    width:10px;
+
+}
+
+
+.tablaResultados{
+    background:none repeat scroll 0 0 #EDEFF0;
+    font-size:12px;
+    border-collapse: collapse;
+    width:758px;
+    float: left;
+    clear: both;
+}
+.tablaResultados .titulo{
+    font-weight:normal;
+    background:#A2B3BD;
+    font-size:14px;
+    color:#000000;
+    height:30px;
+    padding-left:10px;
+}
+.tablaResultados .titulo2{
+    background:#ffffff;
+    font-weight:normal;
+    font-size:12px;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    padding-left:10px;
+    height:30px;
+    border-top: 1px #A2B3BD solid;
+    border-bottom: 1px #A2B3BD solid;
+}
+.bodyOfMediaNaranja{
+    height:100%;
+    width: 760px;
+}
+.not-answered-yet{
+    background-color: red;
+}
+
+.tablaEncuesta input {
+    clear: left;
+    float: left;
+    margin: 5px 9px 10px;
+}
+
+.tablaEncuesta label {
+    display: block;
+}
+
+.col_left{
+    width:405px;
+    float:left;
+    margin-left:13px;
+    line-height:25px;
+}
+
+.col_right{
+    width:405px;
+    float:right;
+    margin-right:13px;
+    line-height:25px;
+}
+
+.ico_tit{
+}
+
+.txt_intro{
+	margin-bottom: 29px;
+}
+
+.contenedor_globo{
+    padding: 13px 108px 16px 13px;
+}
+
+.globo_left{
+     font-family: 'AllerItalic';
+     color:#ffffff;
+     background-color:#74a7d9;
+     float:left;
+     padding: 0px 5px 0px 5px;
+	 margin-bottom: 5px;
+}
+
+.globo_left:before {
+    content:url(../img/flecha_globo.png);
+    margin-top: 13px;
+    position:absolute;
+}
+
+.globo_right{
+     font-family: 'AllerItalic';
+     color:#ffffff;
+     background-color:#74a7d9;
+     float:right;
+     padding: 0px 5px 0px 5px;
+}
+
+.globo_right:before {
+    content:url(../img/flecha_globo.png);
+    margin-top: 13px;
+    position:absolute;
+}
+
+.submit {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.porcentaje {
+    color: #72ACD9;
+    letter-spacing: 0;
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 3px;
+    float: left;
+}
+
+
+.percent{
+	display: block;
+	float: left;
+	background-color:#d7d7d7;
+	height: 10px;
+	width:75px;
+	margin-top: 6px;
+	margin-right: 5px;
+}
+
+.percent span{
+	background-color:#80b6e2;
+	display:block;
+	float:left;
+	height:10px;
+}
+
+.profileImg {
+    height: 200px;
+    overflow: hidden;
+    width: 160px;
+    position: absolute;
+    top: 47px;
+    left: 15px;
+}
+
+.profileImg_small {
+    float: left;
+}
+
+.candidatesBasicInformation header {
+    position: relative;
+    width: 100%;
+    left: 173px;
+}
+
+.candidatesBasicInformation {
+    position: relative;
+    line-height: 21px;
+    margin-bottom: 20px;
+    min-height: 180px;
+    width: 57%;
+}
+
+.categoria{
+	margin-top: 9px;
+}
+
+p{
+	margin:0px;
+}
+
+.col_left h4, .col_right h4 {
+    font-family: 'AllerRegular';
+    color: #666;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 12px;
+    background-color: #e8e8e8;
+    border: 1px solid #d7d7d7;
+    padding: 4px 4px 2px;
+    margin-bottom: 7px;
+    margin-top: 7px;
+}
+
+.candidatesBasicInformation .globo_left {
+    display: block;
+    margin-top: 5px;
+}
+
+.tit h2 {
+    margin: 0px;
+}
+
+.categoria_porcentaje {
+    float: left;
+    clear: left;
+}
+
+.compartir_resultados {
+    clear: both;
+    margin-top: 141px;
+}
+
+.otrosporcentajes.derecha {
+    float: right;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.otrosporcentajes.izquierda {
+    float: left;
+    width: 50%;
+    clear: left;
+    margin-top: 10px;
+}
+
+.otrosporcentajes_data {
+    float: left;
+    margin-left: 5px;
+}

@@ -1,0 +1,371 @@
+{% extends 'elections/base_edits.html' %}
+{% load i18n %}
+{% load candidate_tags %}
+{% load thumbnail %}
+
+{% block title %}
+{% trans 'Cuestionario de candidato' %} - {{ candidate.name }}
+{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/plantillas.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+
+<div class="contenedor_body">
+
+<!-- MENU VERTICAL -->
+{% include 'elections/updating/menu.html' with section='answers' %}
+<!-- CIERRE MENU VERTICAL -->     
+ 
+<!-- CONTENIDO -->
+    <span class="breadcrumbs goedit anchor"><a href="{% url my_election_list %}">{% trans 'Mis Elecciones' %}</a> > {{election}} > <a href="{% url multiple_candidate_data_update election_slug=election.slug%}">{% trans 'Respuestas' %}</a></span>
+    <div class="papel_edit">
+    <div class="wrapper_plantillas">
+    	<head>
+        <h1>{% trans 'RESPUESTAS:' %}<span class="celeste"> {% trans 'COMPLETA EL PERFIL DE CADA CANDIDATO' %}</span>
+        {% if first_time %}
+            <div class="successContainer"><div class="success">{% trans 'Felicitaciones! has creado tu candideit.org... ahora puedes completar las respuestas de  cada candidato' %}</div></div>
+        {% else %}
+            <div class="successContainer"><div class="success" style="display:none;"></div></div>
+        {% endif %}
+
+        </h1>
+
+        </head>
+        
+        <ul id="tabnav">
+            {% for my_candidate in election.candidate_set.all  %}
+                {% if my_candidate == candidate %}
+                    <li class="tab_selected">{{ my_candidate.name }}</li>
+                {% else %}
+                    <li class="tab"><a href="{% url candidate_data_update election_slug=election.slug slug=my_candidate.slug %}">{{ my_candidate.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <div class="candidate"><img src="{{ STATIC_URL }}img/ico_candidate.png" ><h4>{{ candidate.name }}</h4></div>
+
+
+            
+
+	<h2>{% trans 'DATOS PERSONALES' %}</h2>
+    		<div class="profileImg">
+
+            {% thumbnail candidate.photo "80x100" crop="center" as im %}
+            <img src="{{ im.url }}" alt="{% trans 'Cambiar' %}" width="{{ im.width }}" height="{{ im.height }}" style="margin: {{ im|margin:"80x100" }};">
+            {% empty %}
+                {% if candidate.photo %}
+                <img width="80" height="100" style="margin: 0px 0px 0px 0px" alt="{% trans 'Cambiar' %}" src="{{ STATIC_URL }}{{candidate.photo}}">
+                {% else %}
+                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="80" height="100" alt="{% trans 'Cambiar' %}" />
+                {% endif %}
+            {% endthumbnail %}
+            </div>
+            
+            <div class="personaldataEdit">
+                <ul>                    
+                    <span class="bold">{% trans 'Nombre:' %}</span><span class="candidate_name">{{ candidate.name }}</span>
+
+                    {% for personal_data in election.personaldata_set.all %}
+                    <li>
+
+                        <span class="bold">{{ personal_data.label }}:</span>
+                        <span><input class="personal-data-input" id="id-pd-{{ personal_data.pk}}" type="text" pk="{{ personal_data.pk}}" name="pd-{{ personal_data.pk}}" maxlength="255" value="{% value_for_candidate_and_personal_data candidate personal_data %}"/></span>
+                        <span id="status-pd-{{ personal_data.pk}}"></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <span class="goedit anchor" ><a href="{% url election_update_data slug=election.slug %}#personal_data_titulo">{% trans 'Agregar o quitar datos personales' %}</a></span>
+            </div>
+
+           <div class="linksEdit">
+                <div class="categoriasAntecedentes links_title"><h3>Links</h3></div>
+                <ul class="link-list backgrounds">
+
+                    {% for link in candidate.link_set.all %}
+                    <li class="link-list-li" id="id-li-link-{{link.pk}}">
+                         <a href="{{ link.http_prefix }}" target="_blank">{{ link.name }}</a><a href="javascript:void(0);" onclick="link_delete({{link.pk}}); return false;"><img style="position:absolute; margin-top:4px; margin-left:6px;" src="{{ STATIC_URL }}img/bt_eliminar.png"/></a>
+                        
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <div id="twitter_link" class="new_link_container">
+                            <span>
+                                <img class="link_bullet" src="{{ STATIC_URL }}img/ic_tweet.png" >
+                            </span>
+                            <span>
+                                <input type="text" name="name" class="link_name" placeholder="{% trans '@twitter' %}" />
+                            </span>
+                            <span>
+                                <input type="text" name="url" class="link_url" placeholder="{% trans 'http://www.twitter.com/candideitorg' %}"/>
+                            </span>
+                            <a class="bt_input save_background_link" href="#" onclick="create_a_new_twitter_link('{{election.slug}}', '{{candidate.slug}}'); $('#twitter_link').fadeOut();return false;">+</a>
+                        </div>
+                        <div id="facebook_link" class="new_link_container">
+                            <span>
+                                <img class="link_bullet" src="{{ STATIC_URL }}img/ic_fb.png" >
+                            </span>
+                            <span>
+                                <input type="text" name="name" class="link_name" placeholder="{% trans 'Nombre' %}" />
+                            </span>
+                            <span>
+                                <input type="text" name="url" class="link_url" placeholder="{% trans 'http://www.facebook.com/candideitorg' %}"/>
+                            </span>
+                            <a class="bt_input save_background_link" href="#" onclick="create_a_new_facebook_link('{{election.slug}}', '{{candidate.slug}}'); $('#facebook_link').fadeOut();return false;">+</a>
+                        </div>
+                        <div class="new_link_container">
+                            <span>
+                                <img class="link_bullet" src="{{ STATIC_URL }}img/ic_arrow_right.png" >
+                            </span>
+                            <span>
+                                <input type="text" name="name" class="link_name" id="link_name" placeholder="{% trans 'Titulo' %}" />
+                            </span>
+                            <span>
+                                <input type="text" name="url" class="link_url" id="link_url" placeholder="{% trans 'http://ejemplo.com/' %}"/>
+                            </span>
+                            <a class="bt_input save_background_link" href="#" onclick="create_a_new_link('{{election.slug}}', '{{candidate.slug}}'); return false;">+</a>
+                        </div>
+                        <span id="linkError"></span>
+                    </li>
+                    </ul>
+
+            </div>
+
+            <br style='clear: both;'/>
+            <div class="backgroundEdit">
+                <div class="edit_tit"><h2>{% trans 'Antecedentes' %}</h2></div>
+                <span class="goedit anchor" >
+                    <a href="{% url election_update_data slug=election.slug %}#antecedentes_titulo">{% trans 'Agregar o quitar antecedentes' %}</a>
+                </span>
+                <ul>
+                {% for background_category in election.backgroundcategory_set.all %}
+                    <li>
+                    <div class="blue_edit">{{ background_category.name }}</div>
+                    <ul class="respuestasAntecedentes">
+                    {% for background in background_category.background_set.all %}
+                        <li style='margin-top: 5px; margin-bottom: 0px;'>
+                            <span class="bold">{{ background.name }}:</span>
+                            <p>
+                            <input class="background-input input_background_category" id="id-b-{{ background.pk}}" type="text" pk="{{ background.pk }}" name="b-{{ background.pk}}" maxlength="2000" value="{% value_for_candidate_and_background candidate background %}"/>
+                            </p>
+                            <span id="status-b-{{ background.pk}}"></span>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    </li>
+                {% endfor %}
+                <li>
+                </li>
+                </ul>
+            </div>
+
+
+<div class="questionsEdit">
+
+        <div class="edit_tit"><h2>{% trans 'Cuestionario' %}</h2></div>
+        <span class="goedit anchor" >
+            <a href="{% url election_update_data slug=election.slug %}#lista_preguntas_titulo">{% trans 'Agregar o quitar datos preguntas' %}</a>
+        </span>
+        {% for category in election.category_set.all %}
+            <div class="blue_edit">{{ category.name }}</div>
+            <ul>
+
+            
+            {% for question in category.question_set.all %}
+                <li id="question-{{ question.pk }}"><br><div class="bold">{{ question.question }}</div>
+                    <ul>
+                   
+                    {% for answer in question.answer_set.all %}
+                        <li>
+                            <label>
+                                <input type="radio" class="answer" id="answer-{{ answer.pk }}" name="answer-{{question.pk}}" {% if answer in candidate.answers.all %} checked="checked"{% endif %}/>
+                                &nbsp;{{ answer.caption }}
+                            </label>
+                         
+                        </li>
+
+
+                    {% endfor %}
+                        
+                    </ul>
+                    <span class="goedit anchor" >
+                            <a href="{% url election_update_data slug=election.slug %}#question_{{ question.pk }}">{% trans 'Agregar o quitar alternativas?' %}</a>
+                        </span>
+                </li>
+            {% endfor %}
+            </ul>
+        {% empty %}
+            <h2>{% trans 'No hay categorías' %}</h2>
+        {% endfor %}
+
+
+        {# <a href="{% url election_detail_admin username=election.owner slug=election.slug %}">volver</a> #}
+
+	
+    	</div>
+        <div id="boton" class="bt">{% trans ' Guardar ' %}</div>
+    </div>
+    
+    <div id="form-candidate-photo">
+    </div>
+    </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+        <script type="text/javascript">
+        $(document).ready(function(){   
+            $('.success').delay(10000).effect('fade');
+        });
+        function notify(message, timeOut) {
+            // Set the message using text method and chain fadeIn with it
+            // apply simple setTimeout to fadeOut the message
+            $('.success').text(message).show();
+            $('body,html').animate({scrollTop: $('.success').position().top}, 800);
+            $('.success').delay(timeOut).effect('fade');
+        }
+        function link_delete(link_pk){
+            var answer = confirm("{% trans '¿Estas seguro que quieres eliminar este link?' %}");
+            if(answer){
+                var dir = "/"+link_pk +"/link/async_delete/";
+                $.post(dir, {'csrfmiddlewaretoken': '{{ csrf_token }}', },
+                    function(json){
+                        $("li#id-li-link-"+link_pk).remove();
+                        $(".link-number").each(function(i){
+                            $(this).html(i+1);
+                        });
+                    })
+            }
+            else {
+                return false;
+            }
+        }
+        function create_a_new_twitter_link(election_slug, candidate_slug){
+            var link_name = $('#twitter_link span input[name="name"]').val();
+            var link_url = $('#twitter_link span input[name="url"]').val();
+            create_link(election_slug, candidate_slug, link_name, link_url);
+        }
+        function create_a_new_facebook_link(election_slug, candidate_slug){
+            var link_name = $('#facebook_link span input[name="name"]').val();
+            var link_url = $('#facebook_link span input[name="url"]').val();
+            create_link(election_slug, candidate_slug, link_name, link_url);
+        }
+        function create_a_new_link(election_slug, candidate_slug){
+            var link_name = document.getElementById("link_name").value;
+            var link_url = document.getElementById("link_url").value;
+            create_link(election_slug, candidate_slug, link_name, link_url);
+        }
+        function create_link(election_slug, candidate_slug, link_name, link_url){
+            
+            $.post('/{{ candidate.pk }}/create_link',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_name': link_name,
+                'link_url': link_url,
+                'election_slug': election_slug,
+                'candidate_slug': candidate_slug,
+                'candidate_name': '{{candidate.name}}',
+            },
+            function(data) {    
+                if(data.result=="OK"){
+                    var name = data['name'];
+                    var url = data['url'];
+                    $("<li class='link-list-li' id='id-li-link-"+data.pk+"'><a href="+url+" target='_blanc'>"+name+"</a><a href='javascript:void(0);' onclick='link_delete("+data.pk+"); return false;'><img style='position:absolute; margin-top:4px; margin-left:6px;' src='{{ STATIC_URL }}img/bt_eliminar.png'/></a></li>").insertBefore($(".link-list li:last-child"));
+                    $("#link_name").val("");
+                    $("#link_url").val("");
+                }
+                else {
+                    $("#linkError").text("{% trans 'El nombre y la url no pueden estar vacios' %}");
+                    $('#linkError').effect('highlight', 3000);
+                }
+                
+            },
+
+            'json');
+            return false;
+        }
+
+        $('#boton').click(function(){
+            saveAllData();
+        });
+        function saveAllData(){
+            savePersonalData();
+            saveBackgrounds();
+            notify('{% trans "Tus respuestas han sido guardadas exitosamente" %}',3000);
+        }
+        function savePersonalData(){
+            $(".personal-data-input").each(function(index, element){
+                var value_text = $(element);
+                    var value = value_text.val();
+                    var personal_data_pk = value_text.attr('pk');
+                    $.post('/{{ candidate.pk }}/'+ personal_data_pk +'/personal_data_associate',
+                    {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'value': value
+                    },
+                    function(data) { 
+                    },
+                    'json');
+            });
+        }
+        function saveBackgrounds(){
+            $(".background-input").each(function(index, element){
+                var value_text = $(element);
+                var value = value_text.val();
+                var background_pk = value_text.attr('pk');
+                $.post('/{{ candidate.pk }}/'+ background_pk +'/background_associate',
+                {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'value': value
+                },
+                function(data) {
+                },
+                'json');
+            });
+        }
+        /*
+        function saveAnswers(){
+            $('.answer:checked').each(function(index, element){
+                console.log("asd");
+                var answerId = $(element).attr('id');
+                answerId = answerId.substr(answerId.indexOf('-')+1);
+                console.log(answerId);
+                var $answerEl = $(element);
+                $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+                {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'answer': answerId
+                },
+                function(data) {
+                    $answerEl.siblings().removeClass('active');
+                    $("#answer-"+data.answer).addClass('active');
+                },
+                'json');
+            });
+        }*/
+        
+        $(".answer").live('change', function(e){
+            console.log("asd");
+            var answerId = $(this).attr('id');
+            answerId = answerId.substr(answerId.indexOf('-')+1);
+            console.log(answerId);
+            var $answerEl = $(this);
+            $.post('{% url associate_answer_candidate  election_slug=candidate.election.slug candidate_slug=candidate.slug %}',
+            {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'answer': answerId
+            },
+            function(data) {
+                $answerEl.siblings().removeClass('active');
+                $("#answer-"+data.answer).addClass('active');
+            },
+            'json');
+        });
+        $('#form-candidate-photo').load('{% url update_candidate_photo pk=candidate.pk %}').dialog({autoOpen: false, width: 500, height: 130, modal: true});
+        $('.profileImg').click(function(event){$('#form-candidate-photo').dialog('open');});
+
+        </script>
+{% endblock extra_js %}

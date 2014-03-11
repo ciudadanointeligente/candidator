@@ -1,0 +1,403 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+/*
+ * Browser Reset
+ */
+
+
+label{font-weight: normal;}
+
+pre .cake-debug{ display: block; position:absolute; }
+
+fieldset, img { border: 0; }
+
+
+a:focus { outline: none; }
+
+
+
+html {
+    height: 100%;
+    margin-bottom: 1px;
+}
+
+/*
+ * New standard values
+ */
+
+
+/* lists */
+ul{margin: 0; padding: 0; list-style:none}
+
+/* tables */
+td, th { padding: 1px; }
+
+
+/* horizontal rule */
+hr {
+    margin: 15px 0px 15px 0px;
+    display: block;
+    background: #e8e8e8;
+    height: 1px;
+    border: none;
+}
+
+h1 {
+    color:#72acd9;
+    font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+}
+
+.celeste{
+	   font-size:20px;
+    text-transform:uppercase;
+    text-decoration: none;
+	background:none;
+	border:none;
+	color: #a7c7e6;
+}
+
+/* blockquotes */
+blockquote {
+    margin: 10px 0 10px 15px;
+    padding: 0px 0px 0px 0px;
+    font-style: italic;
+    font-size: 130%
+}
+
+
+
+/*LAYOUT*/
+
+.wrapper{
+    background-color: #F2F2F2;
+    margin: 20px auto;
+    padding: 20px;
+    width: 890px;
+    overflow: hidden;
+}
+.wrapBasic{
+    margin: auto;
+    width: 930px;
+}
+
+.wrapW{
+    background-color: #FFFFFF;
+    border: 1px solid #BCBEC0;
+    float: none;
+    overflow: hidden;
+    padding: 10px;
+}
+
+/* FORMULARIOS */
+
+
+.bt_siguiente{
+    float: right;
+    content:url(../img/arrow.png);
+    background-color: #AFCEEA;
+    padding: 5px;
+    border: 1px solid #A7C7E6;
+    border-radius: 15px;
+	margin: 13px 0px 20px 0px;
+}
+
+.bt_siguiente:hover{
+    background-color: #80B6E2;
+    border: 1px solid #72ACD9;
+}
+
+.bt_agregar{
+    float:right;
+    margin-bottom:15px;
+    margin-top: -25px;
+}
+
+.errorlist{
+    font-family:Georgia, "Times New Roman", Times, serif;
+    font-size:12px;
+    color:#333;
+    margin-bottom: 10px;
+    margin-top: -6px;
+}
+
+form{
+    margin-top: -25px;
+}
+
+p input#id_name{
+    margin-top:3px;
+    width: 370px;
+}
+
+p input#id_date{
+    margin-top:3px;
+}
+
+p input#id_logo{
+    height: 18px;
+}
+
+div.instrucciones{
+    margin-right: 25px;
+    line-height: 16px;
+}
+
+/*======= WIZARD ========*/
+
+.fondo_formulario{
+    background:#FFF;
+    box-shadow: -1px 1px 8px 1px #666666;
+    width:400px;
+    position:relative;
+    left: 50%;
+    margin-left: -200px;
+    overflow:hidden;
+    margin-top:25px;
+    min-height: 213px;
+}
+
+.numero_on{
+    font-size:36px;
+    color:#80b6e2;
+    font-family: 'AllerBold';
+}
+
+.numero_off{
+    font-size:36px;
+    color:#e8e8e8;
+    font-family: 'AllerBold';
+}
+
+.numero_on a, .numero_off a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.uno{
+    position: absolute;
+    top:20px;
+    left:25px;
+}
+
+.dos{
+    position: absolute;
+    top: 20px;
+    left: 105px;
+}
+
+.tres{
+    position: absolute;
+    top: 20px;
+    left: 185px;
+}
+
+.cuatro{
+    position: absolute;
+    top: 20px;
+    left: 265px;
+}
+
+.cinco{
+    position: absolute;
+    left: 345px;
+    top: 20px;
+}
+
+.example_window{
+    display:none;
+}
+
+.forms_content{
+    width:352px;
+    overflow:hidden;
+    padding: 25px;
+    margin-bottom: 10px;
+}
+
+.add_background_input{
+    background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    height: 17px;
+    margin-top:3px;
+    color: #999;
+    width: 326px;
+    margin-bottom: 25px;
+}
+
+.inicio_wizard h5{
+    background-color:#80b6e2;
+    border: 1px solid #72acd9;
+    color:#ffffff;
+    letter-spacing:1px;
+    margin: 90px 25px 13px 25px;
+    padding: 13px 0px 13px 6px;
+}
+
+/*LOGIN*/
+
+.logo{
+    margin-bottom: 25px;
+}
+
+.usuario h3{
+    margin-left:0px;
+    padding: 2px 4px 2px 4px;
+    font-size: 12px;
+    width: 134px;
+    margin-bottom: -7px;
+}
+
+.usuario{
+    margin-top: 14px;
+}
+
+.usuario span input{
+	width: 277px;
+	margin: 3px 6px 8px;
+	height: 22px;
+}
+
+.usuario .instrucciones{
+	margin-top: -10px;
+	margin-bottom: 10px;
+}
+
+.email span input{
+	width: 291px;
+	margin: 3px 6px 8px;
+	height: 22px;
+}
+
+.usuario p{
+    margin:0px;
+}
+
+.clave h3{
+    margin-left:0px;
+    padding: 2px 4px 2px 4px;
+    font-size: 12px;
+    width: 84px;
+    margin-bottom: -7px;
+}
+
+.clave{
+    margin-top: 0px;
+}
+
+.clave_otravez .blue_edit{
+	display: block;
+	width: 127px;
+	line-height: 15px;
+}
+
+.clave_otravez span input{
+	margin: -20px 7px 0px 0px;
+	width: 248px;
+}
+
+.clave span input{
+	width: 249px;
+	margin: 3px 6px 8px;
+	height: 22px;
+}
+
+.img_login{
+    margin: 18px 13px 10px 0px;
+}
+
+.txt_login{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    font-size: 12px;
+    width: 134px;
+    line-height: 14px;
+    margin-top: -51px;
+    margin-left: 51px;
+}
+
+.link_next{
+    margin-left: 353px;
+}
+
+.background_tit{
+    background-color:#a1b2b8;
+    border:1px solid #94a9af;
+    padding: 1px 4px;
+    color: white;
+    line-height: 14px;
+    width: 319px;
+}
+
+.background_item{
+    background-color: #A1B2B8;
+    border: 1px solid #94A9AF;
+    padding: 1px 4px;
+    color: white;
+    line-height: 23px;
+    margin-left: 13px;
+}
+
+.background_list{
+    border:1px dashed #d7d7d7;
+}
+
+#newelection #id_description {
+    margin-left: 0px;
+}
+
+.selected{
+	background-color: #80b6e2;
+	color: #ffffff;
+}
+	
+
+.twitter{
+    background: url("../img/ic_tweet.png") no-repeat scroll 1px -3px transparent;
+    padding-left: 25px;
+}
+
+/*---------------------------MENU WIZARD---------------------------------*/
+
+.candidate-wizard-menu{
+	float: left;
+	margin-top: 22px;
+}
+
+.select{
+	background-color: #80b6e2;
+}
+
+.select:after{
+	background: url(../img/flecha_menu.png) no-repeat scroll 0 center transparent;
+	content: "";
+	display: block;
+	float: right;
+	height: 14px;
+	position: relative;
+	width: 13px;
+	left: 22px;
+	top: -23px;
+}
+
+.menuedit_tit .menuBig{
+	font-size: 15px;
+	display: block;
+	margin-top: -3px;
+	padding-bottom: 5px;
+}
+
+.menuNumero{
+	border-right: 5px solid white;
+	width: 18px;
+	margin-top: -42px;
+	height: 31px;
+	padding: 11px 0px 0px 6px;
+	color: white;
+	font-size: 21px;
+}

@@ -1,0 +1,104 @@
+{% load i18n %}{% load election_tags %}{% load settingsvars_tags %}<!doctype html>
+<html>
+<head>
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/footer.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/nav.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
+
+    <link href="{{ STATIC_URL }}img/favicon.ico" rel="icon" type="image/x-icon" />
+    <meta name="keywords" content="transparencia, participación, democracia, eleccion, candidato" />
+    <title>{% block title%}{% trans 'Aquí los conoces, tú los eliges' %}{% endblock title %} | {% trans 'candideit.org' %}</title>
+    {% if election %}
+    <meta name="Description" content="{{ election.description }}" />
+    {% endif %}
+    {% block extra_head %}
+    {% endblock extra_head %}
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie8.css">
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_ie7.css">
+    <![endif]-->
+    {% if election.custom_style %}
+    <!-- custom css -->
+    <style type="text/css">
+    
+        {{ election.custom_style }}
+    
+    </style>
+    <!-- custom css -->
+    {% endif %}
+    
+    
+
+    
+</head>
+<body>
+    <div id="content">
+    <div class="papel_embeded" id="papel">
+        <div class="viewport">
+            <div class="overview">
+                <article>
+
+                <!-- {% include 'election_logo_embed.html' %} -->
+
+
+                <div class="nombre_eleccion tit"><h1><a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}">{{election.name }}<span> {% if election.date %} - {{ election.date }}
+                {% endif %}</span></a><a class="informacion_sobre_eleccion" href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">i</a>
+                </h1>
+                </div>
+<!--                 <nav id="mainNavigation">
+                    <div class="wrapBasic_embeded">
+                        
+                        <ul>
+                            <li> <a href="{% url election_about_embeded slug=election.slug username=election.owner.username %}">{% trans 'SOBRE ESTA ELECCIÓN' %}</a></li>
+                            <li> <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}">{% trans 'MEDIA NARANJA' %}</a></li>
+                            <li> <a href="{% url election_detail_profiles_embeded slug=election.slug username=election.owner.username %}">{% trans 'PERFIL DE CANDIDATOS' %}</a></li>
+                            <li> <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}">{% trans 'COMPARA' %}</a></li>
+                        </ul>
+                    </div>
+                </nav> -->
+                
+        
+        </article>
+                
+
+
+{% block content %}
+{% endblock content %}
+</div>
+</div>
+        </div>
+    </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/accordionForElections.js"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{% ga_account_id %}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+
+
+//invalid name call
+  
+</script>
+
+{% block extra_js %}
+{% endblock extra_js %}
+
+</body>
+    <div id="footerembed"><a href="http://candideit.org/" target="_parent"><img src="{{ STATIC_URL }}img/logo-embed.png"><a href="http://www.ciudadanointeligente.org/" target="_blank" ><p>de Ciudadano Inteligente</p></a>
+    </div>
+</html>

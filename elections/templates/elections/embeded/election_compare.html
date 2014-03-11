@@ -1,0 +1,414 @@
+
+{% extends "elections/embeded/base_embed.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load election_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/compare.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropDownList.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style-embed.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/media-queries.css">
+
+{% endblock extra_head %}
+
+{% block extra_js %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/dropDownLists.js"></script>
+
+    <script type="text/javascript">
+    function get_checked_radio_button_value(){
+        var selected_category_slug = $(":radio[name=category]:checked").val()
+        return selected_category_slug
+        var radio_buttons = document.getElementsByName("category")
+        for(i=0;i<radio_buttons.length;i++){
+           if(radio_buttons[i].checked) return radio_buttons[i].value
+        }
+        return ""
+    }
+
+    function get_base_url(){
+        var actual_direction  = "{{ request.build_absolute_uri }}"
+
+        //cambiar este patrón
+        var reference_pattern = "/{{election.owner.username}}/{{election.slug}}/compare/embeded/"
+        var position_pattern  = actual_direction.indexOf(reference_pattern)
+        var pre_direction     = actual_direction.substring(0,position_pattern)
+        var final_direction   = pre_direction + reference_pattern
+        return final_direction
+    }
+
+    function async_call_for_candidate_data(candidate_slug,div_id,photo_id){
+
+        $("#"+div_id).empty();
+        var dir = "/{{election.owner.username}}/{{election.slug}}/compare-async/"+candidate_slug;
+         $.post(dir,{'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            function(json) {
+                var data = json["personal_data"]
+                var candidate_photo = document.getElementById(photo_id)
+                candidate_photo.src = json["photo_route"]
+                var num_data = 0
+                for (var key in data) {
+                    var html_with_personal_data ='<li><span class="candidateBasicComparisonQuestion">'+key+': </span>';
+                    if (data[key]!=null) {
+                        html_with_personal_data += '<span class="candidateBasicComparisonAnswer">'+data[key]+'</span>';
+                    }
+                    else {
+                        html_with_personal_data += '<span class="candidateBasicComparisonAnswer"></span>';
+                    }
+                    html_with_personal_data += '</li>';
+                    $("#"+div_id).append(html_with_personal_data)
+                    num_data += 1
+                }
+		if(num_data == 0){
+			$("#"+div_id).append('<li><span class="candidateBasicComparisonQuestion">No hay datos personales disponibles.</span></li>')
+		}
+
+            }, 'json');
+    }
+
+    function get_comparation_data_in_select(current_select) {
+
+        var first_select  = document.getElementById("firstCandidate")
+        var second_select = document.getElementById("secondCandidate")
+        var radio_buttons = document.getElementsByName("category")
+        var error_div     = document.getElementById("sameCandidates")
+        error_div.style.display = "none"
+
+        if(current_select.name == "firstCandidate") {
+            if(second_select.value == "0"){
+                async_call_for_candidate_data(first_select.value,"first_candidate_div","first_candidate_photo")
+            }
+            else if (second_select.value == first_select.value) {
+               error_div.style.display = "inline"
+            }
+            else{
+                var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
+                final_direction += first_select.value + "/" + second_select.value;
+                final_direction +=  "/" + get_checked_radio_button_value() + "/embeded";
+                window.location     = final_direction
+            }
+        }
+        else{
+            if(first_select.value == "0") {
+                async_call_for_candidate_data(second_select.value,"second_candidate_div","second_candidate_photo");
+            }
+            else if(second_select.value == first_select.value){
+               error_div.style.display = "inline";
+            }
+            else{
+                var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
+                final_direction += first_select.value + "/" + second_select.value;
+                final_direction +=  "/" + get_checked_radio_button_value() + "/embeded";
+                window.location     = final_direction
+            }
+        }
+    }
+
+    function get_comparation_data_in_radio_button(current_radio_button){
+        var first_select  = document.getElementById("firstCandidate");
+        var second_select = document.getElementById("secondCandidate");
+        if(first_select.value != "0" && second_select.value != "0" && first_select.value != second_select.value){
+            var final_direction = "/{{election.owner.username}}/{{election.slug}}/compare/";
+            final_direction += first_select.value + "/" + second_select.value + "/" + current_radio_button.value + "/embeded";
+            window.location = final_direction
+        }
+    }
+    function hide_selected_candidate(position){
+        if(position == 'first')
+            other = 'second';
+        else
+            other = 'first';
+        candidato = jQuery('.'+position+'Candidate option:selected').val();
+        jQuery('.'+other+'Candidate li').css('display','');
+        jQuery('.'+other+'Candidate #'+candidato).css('display','none');
+    }
+
+    $(document).ready(function() {
+        hide_selected_candidate('first');
+        hide_selected_candidate('second');
+    });
+
+    $(document).ready(function () {
+        $(".hoverli").hover(
+      function () {
+         $('ul.categoriesList').slideDown('medium');
+      }, 
+      function () {
+         $('ul.categoriesList').slideUp('medium');
+      }
+    );
+
+    });
+
+
+    </script>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "c15a8159-e3a6-4b10-bbee-a24ca6aa70f7"}); </script>
+{% endblock extra_js %}
+
+{% block title %}
+{% blocktrans with election_name=election.name %}Compara, {{ election_name }}{% endblocktrans %} - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+
+            <div class="menu-aside-small">
+                    <div class="bt-perfiles-small">
+                        <a href="{% url election_detail_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small bt_perfiles">{% trans 'REVISA LOS PERFILES' %}</div></a>
+                    </div>
+                    <div class="bt-frente-small">
+                        <a href="{% url election_compare_embeded username=election.owner.username slug=election.slug %}"><div class="aside-small compare">{% trans 'FRENTE A FRENTE' %}</div></a>
+                    </div>
+                    <div class="bt-medianaranja-small">
+                        <a href="{% url medianaranja1_embeded election_slug=election.slug username=election.owner.username %}"><div class="aside-small medianaranja">{% trans 'ENCUENTRA TU 1/2 NARANJA' %}</div></a>
+                    </div>
+            </div>
+
+<div class="contenedor1_embeded">
+
+        <div class="categories">
+            <h6 class="grande">{% trans "Los estas comparando en:" %}</h6>
+            <ul class="categoriesList">
+                {% if election.category_set.all %}
+                {% for category in election.category_set.all %}
+                <li>
+                    <input type="radio" name="category"
+            {% if selected_category %}
+                        {% if selected_category == category %}checked="checked"{% endif %}
+                    {% else %}
+                        {% if forloop.first %}checked="checked"{% endif %}
+                    {% endif %}
+                    value="{{category.slug}}" onchange="get_comparation_data_in_radio_button(this)" />
+                    <label for="category-{{ category.slug }}">{{ category.name }}</label>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li><center><label>{% trans 'No hay categorías disponibles.' %}</label></center></li>
+                {% endif %}
+            </ul>
+        </div>
+
+    <div class="contenedor2_embeded">
+
+            <h6 class="grande">{% trans "Selecciona candidatos y compáralos" %}</h6>
+
+
+        <article class="wrapW">
+
+            <div id="sameCandidates" style="display:none"><ul id="errors"><li id="errors">{% trans 'Los 2 candidatos son iguales' %}</li></ul></div>
+            <div class="leftContent">
+
+                <header class="comparisonBox">
+
+                    <div class="candidatesLists">
+
+                        <div class="firstCandidate">
+                            <select name="firstCandidate" id="firstCandidate" onchange="get_comparation_data_in_select(this);hide_selected_candidate('first');">
+                                <option name="options1" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                                {% for candidate in election.candidate_set.all %}
+                                    {% thumbnail candidate.photo "32x40" crop="center" as im %}
+                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                    {% empty %}
+
+                                        {% if candidate.photo %}
+                                    <option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{candidate.photo.url}}" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                        {% else %}
+<option name="options1" data-html-text="{{ candidate.name }}" data-icon="{{ STATIC_URL }}img/default-user.gif" value="{{ candidate.slug }}" {% if first_candidate and first_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                        {% endif %}
+
+                                    {% endthumbnail %}
+                                {% endfor %}
+                            </select>
+
+                        <div class="basicProfileContainer">
+
+                {% if first_candidate %}
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=first_candidate.slug %}">
+                    {% thumbnail first_candidate.photo "100x129" crop="center" as im %}
+                        <img id="first_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
+                    {% empty %}
+
+                        {% if first_candidate.photo %}
+                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="100" height="129"/>
+                        {% else %}
+                 <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129" />
+                        {% endif %}
+
+                    {% endthumbnail %}
+                </a>
+
+                {% else %}
+                            <img id="first_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                {% endif %}
+
+                            <ul class="candidateBasicProfileInfo">
+                <div id="first_candidate_div" class="first_candidate_div">
+
+                            {% if first_candidate %}
+
+                                {% for key, value in first_candidate.get_personal_data.items %}
+
+                                    <li>
+                                        <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                        {% if value %}
+                                            <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                        {% else %}
+                                            <span class="candidateBasicComparisonAnswer"></span>
+                                        {% endif %}
+                                    </li>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                </div>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="secondCandidate">
+
+                        <select name="secondCandidate" id="secondCandidate" onchange="get_comparation_data_in_select(this);hide_selected_candidate('second');">
+
+                            <option name="options2" value="0" data-skip="1">{% trans "Selecciona un candidato" %}</option>
+                            {% for candidate in election.candidate_set.all %}
+                                {% thumbnail candidate.photo "32x40" crop="center" as im %}
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ im.url }}" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+                                {% empty %}
+
+					{% if candidate.photo %}
+                                    <option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{candidate.photo.url}}" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+					{% else %}
+<option name="options2" data-html-text="{{ candidate.name }}" data-icon="{{ STATIC_URL }}img/default-user.gif" value="{{ candidate.slug }}" {% if second_candidate and second_candidate == candidate %} selected="selected" {% endif %}>{{ candidate.name }}</option>
+					{% endif %}
+
+                                {% endthumbnail %}
+                            {% endfor %}
+
+                        </select>
+
+                        <div class="basicProfileContainer">
+
+                {% if second_candidate %}
+                <a href="{% url candidate_detail_embeded username=election.owner.username election_slug=election.slug slug=second_candidate.slug %}">
+                    {% thumbnail second_candidate.photo  "100x129" crop="center" as im %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ im.url }}"/>
+                    {% empty %}
+
+        			{% if second_candidate.photo %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="100" height="129"/>
+        			{% else %}
+                        <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif" width="100" height="129"/>
+        			{% endif %}
+
+                    {% endthumbnail %}
+                </a>
+                {% else %}
+                            <img id="second_candidate_photo" class="candidateComparedImage" src="{{ STATIC_URL }}img/default-user.gif"/>
+                {% endif %}
+
+                            <ul class="candidateBasicProfileInfo">
+                <div id="second_candidate_div" class="second_candidate_div">
+
+
+                    {% if second_candidate %}
+
+                        {% for key, value in second_candidate.get_personal_data.items %}
+
+
+                            <li>
+                                <span class="candidateBasicComparisonQuestion">{{ key }}:</span>
+                                {% if value %}
+                                    <span class="candidateBasicComparisonAnswer">{{ value }}</span>
+                                {% else %}
+                                    <span class="candidateBasicComparisonAnswer"></span>
+                                {% endif %}
+                            </li>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                </div>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div><!-- /candidatesLists-->
+            </header>
+
+    </article>
+</div>
+
+<div class="contenedor3_embeded">
+
+
+<!--     <article class="temas">
+ -->
+<!--     <div class="selector-temas">
+            <h6 class="grande">{% trans "Los estas comparando en:" %}</h6>
+            <select class="categories" name="categories" onchange="get_comparation_data_in_radio_button(this)">
+                                {% for category in election.category_set.all %}
+                                <option value="{{category.slug}}" {% if selected_category == category %}selected{% endif %}>{{ category.name }}</option>
+                                {% endfor %}
+            </select>
+    </div> -->
+
+	    {% if selected_category %}
+            <div id ="result" class="comparisonResult" >
+
+                {% if first_candidate and second_candidate %}
+
+
+                    {% for answer in answers %}
+
+                       <div class="questionInComparison">{{ answer.0 }}</div>
+
+                       <div class="answerSpace">
+
+                            <ul class="firstCandidatesAnswer">
+                                {% if first_candidate.photo %}
+                                <img id="first_candidate_photo" class="candidateComparedImage" src="{{ first_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
+                                <li class=" answerInComparison answered">
+                                    {% if answer.1 == "no answer" %}
+                                       {% trans 'No hay respuesta' %}</li>
+                                    {% else %}
+                                       {{ answer.1 }}</li>
+                                    {% endif %}
+                            </ul>
+
+                            <ul class="secondCandidatesAnswer">
+                                {% if second_candidate.photo %}
+                                <img id="second_candidate_photo" class="candidateComparedImage" src="{{ second_candidate.photo.url }}" width="30" height="30"/>
+                                {% endif %}
+                                <li class=" answerInComparison answered"> 
+                                    {% if answer.2 == "no answer" %}
+                                       {% trans 'No hay respuesta' %}</li>
+                                    {% else %}
+                                       {{ answer.2 }}</li>
+                                    {% endif %}
+                            </ul>
+
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+
+
+                    <div class="instruction">{% trans "Selecciona los dos candidatos y la categoría" %}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+<!--    </article> -->
+
+		</div>
+	</div>
+
+
+
+{% endblock content %}

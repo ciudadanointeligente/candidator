@@ -1,0 +1,439 @@
+@media screen and (max-width: 980px) {
+
+	#pagewrap {
+		width: 95%;
+	}
+
+	#content {
+		width: 100%;
+	}
+
+		.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1.5em;
+		margin-top: 70%;
+		margin-bottom: 5%;
+	}
+
+	.homeLi {
+		margin-right: 5%;
+		width: 26%;
+		height: 100%;
+		padding: 1em;
+		margin-right: 2.8%;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+		margin-left: 0;
+		text-indent: 0;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+		background-size: 80%;
+	}
+
+	.candidatesBasicInformation .tit h3 {
+		width: 95%;
+	}
+
+	.dropDown li span {
+		margin-left: 25%;
+		line-height: 12px;
+		display: block;
+		bottom: 100%;
+		font-size: 1em;
+	}
+
+	/* COMPARA */
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		width: 45%;
+	}
+
+	.questionInComparison {
+		width: 99%;
+		padding: 0px 1px;
+	}
+
+	.answerSpace ul {
+		width: 47%;
+	}
+
+	/* perfiles */
+
+	.sideButton {
+        width: 95%;
+    }
+
+    .subcategory {
+		line-height: 11px;
+		margin-bottom: 10px;
+		clear: left;
+		margin-top: 5px;
+	}
+
+}
+
+@media screen and (max-width: 650px) {
+
+	#header {
+		height: auto;
+	}
+
+	#main-nav {
+		position: static;
+	}
+
+	#content {
+		width: auto;
+		float: none;
+		margin: 10px 0;
+	}
+
+	.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1.8em;
+		margin-top: 60%;
+		margin-bottom: 10%;
+	}
+
+	.homeLi {
+		width: 26%;
+		height: 100%;
+		padding: 1em;
+		margin-right: 2.8%;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+	margin-left: 0;
+	text-indent: 0;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+	background-size: 60%;
+	}
+
+	.tzSelect .selectBox {
+		font-size: 12px;
+	}
+
+	.dropDown {
+		box-shadow: 0 2px 4px #999;
+		padding: 8px;
+		font-size: 10px;
+	}
+
+	.dropDown li span {
+        margin-left: 33%;
+        top: -80%;
+        line-height: 10px;
+    }
+
+    .personalInfo {
+		width: 63%;
+	}
+
+	/* media naranaja */
+
+	.globo_right {
+		display: none;
+	}
+
+	.profileImg_small {
+		display: none;
+	}
+
+	/* perfiles */
+
+	.profileAside .sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside .sideButton {
+        width: 80%;
+    }
+
+	.sideButton_txt {
+		margin-left: -5px;
+	}
+
+	.profileAside, .profileAside2 {
+		width: 100px;
+	}
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -5px;
+	}
+
+	.profileAside2 .sideButton_txt img {
+		display: none;
+	}
+
+	.profileAside2 {
+		width: 100px;
+	}
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -4px;
+	}
+
+	.profileAside2 .sideButton {
+        width: 80%;
+    }
+
+    .enlacesPersonales {
+		float: none;
+		margin-top: 8px;
+		text-align: left;
+		width: 80%;
+	}
+
+	.enlacesPersonales .facebook a {
+		background: url("../img/ic_fb.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.enlacesPersonales a {
+		background: url("../img/ic_arrow_right.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.tit_antecedentes {
+        width: 35%; 
+        padding-left: 5px;"
+    }
+
+    .tit_posiciones {
+        float: left; 
+        width: 60%; 
+        padding-left: 5px;"
+    }
+
+    .posiciones {
+		width: 55%;
+	}
+
+	.trayectoria .accordion h3, .posiciones .accordion h3 {
+		letter-spacing: 0;
+		font-size: 12px;
+		text-transform: none;
+	}
+
+	/* compara */
+
+	.firstCandidate img.candidateComparedImage, .secondCandidate img.candidateComparedImage {
+		display: none;
+	}
+
+	.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo {
+		float: left;
+	}
+
+	.basicProfileContainer {
+		margin-top: 10px;
+	}
+
+	.answerSpace ul {
+		width: 46%;
+	}
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		width: 90%;
+	}
+
+	.profileHome {
+		width: 100%;
+	}
+
+}
+
+
+@media screen and (max-width: 480px) {
+
+	html {
+		-webkit-text-size-adjust: none;
+	}
+
+	#mainNavigation {
+		font-size: 10px;
+		letter-spacing: 0;
+	}
+
+	#main-nav a {
+		font-size: 90%;
+		padding: 10px 8px;
+	}
+
+	.homeListMedianaranja, .homeListPerfiles, .homeListComparar {
+		background-image: none;
+	}
+
+	.homeListMedianaranja h5, .homeListPerfiles h5, .homeListComparar  h5 {
+		font-size: 1em;
+		margin-top: 30%;
+	}
+
+	.homeLi {
+		width: 30%;
+		margin-right: 2%;
+		padding: 2% 0 7% 0;
+	}
+
+	h5 {
+		margin: 0;
+	}
+
+	.homeListPerfiles h5, .homeListComparar  h5 {
+		margin-left: 0;
+		text-indent: 0;
+	}
+
+	.logo_eleccion img{
+	    height: 100%;
+	    overflow: hidden;
+	    max-width: none;
+	}
+
+	.globo_left, .globo_right {
+		display: none;
+	}
+
+	.candidatesLists select {
+		font-size: 0.5em;
+	}
+
+	.firstCandidate {
+        float: left;
+    }
+
+	.firstCandidate ul.candidateBasicProfileInfo, .secondCandidate ul.candidateBasicProfileInfo {
+		padding: 5px 0;
+		width: 100%;
+	}
+
+	.firstCandidate img.candidateComparedImage, .secondCandidate ul.candidateBasicProfileInfo {
+		float: left;
+	}
+
+	.categories {
+		width: 100%;
+	}
+
+	div.star-rating {
+	width: 18%;
+	}
+
+	.leftContent {
+        width: 100%;
+    }
+
+    /* compara */
+
+	.tzSelect .selectBox {
+		font-size: 12px;
+		line-height: 12px;
+		padding: 10px 25px 0 5px;
+		width: 80%;
+		height: 60%;
+	}
+
+	.tzSelect {
+		min-width: 0px;
+	}
+
+	.dropDown {
+		width: 88%;
+	}
+
+	.basicProfileContainer {
+		margin-top: 0px;
+	}
+
+	.comparisonResult {
+        width: 100%;
+    }
+
+   	.categories {
+		margin: 0px 0px 10px;
+	}
+
+	/* perfil */
+
+	.profileAside2 .sideButton_txt {
+		margin-left: -4px;
+	}
+
+	.enlacesPersonales {
+		float: none;
+		margin-top: 8px;
+		text-align: left;
+		width: 80%;
+	}
+
+	.enlacesPersonales .facebook a {
+		background: url("../img/ic_fb.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.enlacesPersonales a {
+		background: url("../img/ic_arrow_right.png") no-repeat scroll 0px -3px transparent;
+	}
+
+	.personalInfo {
+		width: 55%;
+	}
+
+	.tit_antecedentes {
+        width: 35%; 
+        padding-left: 5px;"
+    }
+
+    .tit_posiciones {
+        float: left; 
+        width: 60%; 
+        padding-left: 5px;"
+    }
+
+    .posiciones {
+		width: 55%;
+	}
+
+	.trayectoria .accordion h3, .posiciones .accordion h3 {
+		letter-spacing: 0;
+		font-size: 12px;
+		text-transform: none;
+	}
+
+	.porcentaje_resultados p {
+		margin-bottom: 5px;
+	}
+
+	.categoria_resultados .subcategory {
+		margin-bottom: 5px;
+	}
+
+	.categoria_resultados {
+		width: 40%;
+		line-height: 14px;
+	}
+
+}
+
+
+
+
+img {
+	max-width: 100%;
+	height: auto;
+	width: auto\9; /* ie8 */
+}
+
+.video embed,
+.video object,
+.video iframe {
+	width: 100%;
+	height: auto;
+}
