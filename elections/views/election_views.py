@@ -15,6 +15,8 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView, T
 from django.contrib.sites.models import Site
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 # Import forms
@@ -316,10 +318,8 @@ class TogglePublishView(UpdateView):
     model = Election
     http_method_names = ['post']
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
-            http_response = HttpResponse('Unauthorized', status=200)
-            return http_response
         return super(TogglePublishView, self).dispatch(request, *args, **kwargs)
 
     def get_template_names(self):

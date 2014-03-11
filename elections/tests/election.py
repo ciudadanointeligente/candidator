@@ -1182,7 +1182,7 @@ class TogglePublish(TestCase):
     def test_not_logged_to_publish(self):
         url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
         response = self.client.post(url)
-        self.assertEquals(response.status_code, 401)
+        self.assertEquals(response.status_code, 302)
 
     def test_not_owner_to_publish(self):
         self.client.login(username=self.user2.username, password=PASSWORD)
@@ -1199,6 +1199,6 @@ class TogglePublish(TestCase):
     def test_get_to_publish_if_not_logged(self):
         url = reverse('toggle_publish',kwargs={ 'pk':self.election1.id })
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 401)
+        self.assertEquals(response.status_code, 302)
 
 
