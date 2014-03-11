@@ -13,6 +13,9 @@ from django.template.defaultfilters import slugify
 from django.db.models.signals import  post_save
 from django.dispatch.dispatcher import receiver
 from unidecode import unidecode
+from tastypie.models import create_api_key
+from django.contrib.auth.models import User
+
 
 
 facebook_regexp = re.compile(r"^https?://[^/]*(facebook\.com|fb\.com|fb\.me)(/.*|/?)")
@@ -425,3 +428,6 @@ class InformationSource(models.Model):
     question = models.ForeignKey(Question)
     candidate = models.ForeignKey(Candidate)
     content = models.TextField()
+
+
+models.signals.post_save.connect(create_api_key, sender=User)

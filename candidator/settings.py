@@ -37,16 +37,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'grappelli',
+    'sorl.thumbnail',
     'tastypie',
-    'smart_profile',
+    'registration',
     'elections',
     'report_objects',
     'django_extensions',
     # Django-registration
-    'registration',
-    # Tastypie, RESTful APIs for Django:
     
+    # Tastypie, RESTful APIs for Django:
+    'smart_profile',
     'markdown_deux',
     'django_nose',
 )
@@ -66,7 +68,7 @@ WSGI_APPLICATION = 'candidator.wsgi.application'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-
+SITE_ID = 1
 USER_FILES = 'static-files'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

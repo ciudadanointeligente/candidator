@@ -25,7 +25,7 @@ def answer_for_candidate_and_question(candidate, question):
 @register.simple_tag
 def link_to_updating_this_election(user, election):
     from django.core.urlresolvers import reverse
-    is_the_owner = not (user is None) and (election.owner.username == user.username)
+    is_the_owner = bool(user) and (election.owner.username == user.username)
     
     if is_the_owner:
         return '<span class="goedit"><a href="'+reverse('election_update',kwargs={"slug":election.slug})+'">'+_(u"Editar Elección")+'</a></span>'

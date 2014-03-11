@@ -209,7 +209,7 @@ def election_compare_asynchronous_call(request, username, slug, candidate_slug):
     except :
         photo_route = 'media/photos/dummy.jpg'
     json_dictionary = {"personal_data":personal_data,"photo_route":photo_route}
-    return HttpResponse(json.dumps(json_dictionary),content_type='application/json')
+    return HttpResponse(json.dumps(json_dictionary),content_type='application/json', status=200)
 
 
 
@@ -318,8 +318,7 @@ class TogglePublishView(UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
-            http_response = HttpResponse('Unauthorized', {}, {})
-            http_response.status_code = 401
+            http_response = HttpResponse('Unauthorized', status=200)
             return http_response
         return super(TogglePublishView, self).dispatch(request, *args, **kwargs)
 
@@ -329,12 +328,11 @@ class TogglePublishView(UpdateView):
     def post(self, request, *args, **kwargs):
         election = self.get_object()
         if election.owner != request.user:
-            http_response = HttpResponse('Forbidden', {}, {})
-            http_response.status_code = 403
+            http_response = HttpResponse('Forbidden', status=403)
             return http_response
         election.published = not election.published
         election.save()
         response_data = {}
         response_data['published'] = election.published
         response_data['id'] = election.id
-        return HttpResponse(json.dumps(response_data), content_type='application/json')
+        return HttpResponse(json.dumps(response_data), content_type='application/json', status=200)
