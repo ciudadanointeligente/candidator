@@ -373,21 +373,21 @@ class ApiV2TestCase(ResourceTestCase):
     def test_answer_filtering_two_param(self):
         filter_data = {
             # 'question': self.question_category_1.id,
-            'candidate__id': self.candidate.id
+            'candidate': self.candidate.id
         }
 
         response = self.api_client.get(
-            '/api/v2/answer/', 
-            format='json', 
+            '/api/v2/answer/',
+            format='json',
             authentication=self.get_credentials(),
             data=filter_data)
-        # print response
 
         self.assertHttpOK(response)
         answer = self.deserialize(response)['objects']
 
-        # self.assertEquals(len(answer), 1)
-        self.assertEquals( answer[0]['id'] , self.answer_for_question_1.id )
+        self.assertEquals(self.candidate.answers.count(), len(answer))
+        self.assertTrue(self.candidate.answers.filter(id=answer[0]['id']))
+        self.assertTrue(self.candidate.answers.filter(id=answer[1]['id']))
 
     def test_filter_candidate(self):
         filter_data = {

@@ -74,7 +74,7 @@ class CandidateV2Resource(ModelResource):
 
 class AnswerV2Resource(ModelResource):
     question = fields.ToOneField('elections.api_v2.QuestionV2Resource', 'question')
-    candidates = fields.ToManyField(CandidateV2Resource, 'candidate_set', null=True)
+    candidate = fields.ToOneField(CandidateV2Resource, 'candidate', null=True)
 
     class Meta:
         queryset = Answer.objects.all()
