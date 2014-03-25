@@ -7,6 +7,7 @@ from tastypie.authentication import ApiKeyAuthentication
 from tastypie import fields
 from tastypie.serializers import Serializer
 
+
 class ElectionV2Resource(ModelResource):
     candidates = fields.ToManyField('elections.api_v2.CandidateV2Resource', 'candidate_set', null=True)
     categories = fields.ToManyField('elections.api_v2.CategoryV2Resource', 'category_set', null=True)
@@ -72,9 +73,12 @@ class CandidateV2Resource(ModelResource):
             'id' : ALL
         }
 
+    def authorized_read_list(self, object_list, bundle):
+        return object_list.filter(election__owner=bundle.request.user)
+
 class AnswerV2Resource(ModelResource):
     question = fields.ToOneField('elections.api_v2.QuestionV2Resource', 'question')
-    candidate = fields.ToOneField(CandidateV2Resource, 'candidate', null=True)
+    candidates = fields.ToManyField(CandidateV2Resource, 'candidate_set', null=True)
 
     class Meta:
         queryset = Answer.objects.all()
@@ -82,8 +86,16 @@ class AnswerV2Resource(ModelResource):
         authentication = ApiKeyAuthentication()
         filtering = {
             'question' : ALL,
-            'candidate' : ALL
+            'candidates' : ALL
         }
+
+    def build_filters(self, filters=None):
+        filters_ = super(AnswerV2Resource, self).build_filters(filters)
+        if 'candidate' in filters:
+            candidate = Candidate.objects.get(id=filters['candidate'])
+            filters_['candidate'] = candidate
+
+        return filters_
 
 class QuestionV2Resource(ModelResource):
     category = fields.ToOneField('elections.api_v2.CategoryV2Resource', 'category', null=True)
@@ -95,6 +107,9 @@ class QuestionV2Resource(ModelResource):
         resource_name = 'question'
         authentication = ApiKeyAuthentication()
 
+    def authorized_read_list(self, object_list, bundle):
+        return object_list.filter(category__election__owner=bundle.request.user)
+
 class CategoryV2Resource(ModelResource):
     questions = fields.ToManyField(QuestionV2Resource, 'question_set', null=True)
 
@@ -102,6 +117,9 @@ class CategoryV2Resource(ModelResource):
         queryset = Category.objects.all()
         resource_name = 'category'
         authentication = ApiKeyAuthentication()
+
+    def authorized_read_list(self, object_list, bundle):
+        return object_list.filter(election__owner=bundle.request.user)
 
 class BackgroundCategoryV2Resource(ModelResource):
     background = fields.ToManyField('elections.api_v2.BackgroundV2Resource', 'background_set', null=True)

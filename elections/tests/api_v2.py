@@ -207,8 +207,6 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertEquals(the_question["category"], "/api/v2/category/{0}/".format(self.question_category_1.category.id))
 
     def test_get_all_answers(self):
-        self.candidate.associate_answer(self.answer_for_question_1)
-
         response = self.api_client.get(
             '/api/v2/answer/', 
             format='json', 
@@ -219,14 +217,26 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertEquals(len(answers),Answer.objects.count())
         the_answer = answers[0]
         self.assertTrue(the_answer.has_key('caption'))
-        self.assertTrue(the_answer.has_key('resource_uri'))
-        self.assertEqual(the_answer["resource_uri"], "/api/v2/answer/{0}/".format(self.answer_for_question_1.id))
-        self.assertTrue(the_answer.has_key('candidates'))
-        self.assertEquals(len(the_answer["candidates"]), 1)
-        self.assertTrue(isinstance(the_answer["candidates"][0], unicode))
+        self.assertTrue(the_answer.has_key('resource_uri'))        
+        self.assertTrue(the_answer.has_key('candidates'))        
         self.assertTrue(the_answer.has_key('question'))
-        self.assertTrue(isinstance(the_answer["question"], unicode))
-        self.assertEquals(the_answer["question"], "/api/v2/question/{0}/".format(self.answer_for_question_1.question.id))
+        
+
+    def test_get_one_answer_with_an_associate_candidate(self):
+        self.candidate.associate_answer(self.answer_for_question_1)
+        url = '/api/v2/answer/{0}/'.format(self.answer_for_question_1.id)
+        response = self.api_client.get(
+            url, 
+            format='json', 
+            authentication=self.get_credentials())
+
+        answer = self.deserialize(response)
+        a =Answer.objects.get(id=answer['id'])
+
+        self.assertEquals(len(answer["candidates"]), 1)
+        self.assertTrue(isinstance(answer["candidates"][0], unicode))
+        self.assertEquals(answer["question"], "/api/v2/question/{0}/".format(self.answer_for_question_1.question.id))
+
 
     def test_get_personal_data_candidate(self):
         response = self.api_client.get(
@@ -298,8 +308,6 @@ class ApiV2TestCase(ResourceTestCase):
         self.assertEqual(the_background_candidate['value'], self.background_candidate.value)
         self.assertIn("background",the_background_candidate)
 
-
-    # @skip('alguna razon')
     def test_get_all_candidates(self):
         response = self.api_client.get(
             '/api/v2/candidate/', 
@@ -381,7 +389,6 @@ class ApiV2TestCase(ResourceTestCase):
             format='json',
             authentication=self.get_credentials(),
             data=filter_data)
-
         self.assertHttpOK(response)
         answer = self.deserialize(response)['objects']
 
