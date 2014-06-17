@@ -1117,7 +1117,7 @@ ul#tabnav { /* general settings */
 	border-bottom: 1px solid #cccccc; /* set border COLOR as desired */
 	list-style-type: none;
 	padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
-	height: 18px;
+	height: auto;
 }
 
 ul#tabnav li { /* do not change */
