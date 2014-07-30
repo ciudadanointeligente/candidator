@@ -353,7 +353,7 @@ class Question(models.Model):
     category = models.ForeignKey('Category', verbose_name=_("CATEGORIA:"))
 
     def __unicode__(self):
-        return u"%s" % self.question
+        return u"%s - %s (%s)" % (self.question, self.category.name, self.category.election.name)
 
 
 class Answer(models.Model):
@@ -361,7 +361,7 @@ class Answer(models.Model):
     question = models.ForeignKey('Question')
 
     def __unicode__(self):
-        return u"%s" % self.caption
+        return u"%s Q:%s C:%s E:%s" % (self.caption, self.question.question, self.question.category.name, self.question.category.election.name)
 
 class Visitor(models.Model):
     election = models.ForeignKey('Election')

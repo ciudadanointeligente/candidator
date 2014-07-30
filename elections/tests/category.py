@@ -10,51 +10,6 @@ from candidator.models import Candidate, Election, Category, Question, Answer
 from elections.forms import QuestionForm, CategoryForm, ElectionForm, CategoryUpdateForm
 from django.core.exceptions import ValidationError
 
-class CategoryModelTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=self.user,
-                                                            slug='barbaz')
-
-    def test_create_category(self):
-        category = Category.objects.create(name='FooCat', election=self.election)
-
-        self.assertEqual(category.name, 'FooCat')
-        self.assertEqual(category.slug, 'foocat')
-        self.assertEqual(category.election, self.election)
-        self.assertEqual(category.order, 1)
-
-    def test_create_category_with_same_name(self):
-        category = Category.objects.get_or_create(name='FooCat', election=self.election)
-        self.assertRaises(IntegrityError, Category.objects.create,
-                          name='FooCat', election=self.election)
-
-    def test_update_category(self):
-        category = Category.objects.create(name='FooCat', election=self.election)
-        new_category_name = 'FooBar'
-        category.name = new_category_name
-        category.save()
-        updated_category = Category.objects.get(slug='foocat', election=self.election)
-        self.assertEqual(updated_category.name, new_category_name)
-
-    def test_category_name_cannot_be_empty(self):
-        category = Category.objects.create(name='', election=self.election)
-        try:
-            category.full_clean()
-            self.fail('The category name can be empty')
-        except ValidationError:
-            pass
-
-    def test_ordered_categories(self):
-        [category.delete() for category in self.election.category_set.all()]
-        category2 = Category.objects.create(name=u'seccond election', election=self.election, order=2)
-        category1 = Category.objects.create(name=u'first election', election=self.election, order=1)
-
-        categories = Category.objects.filter(election=self.election)
-        self.assertEquals(categories[0].name, u'first election')
-        self.assertEquals(categories[1].name, u'seccond election')
-
 class CategoryCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')

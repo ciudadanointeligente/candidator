@@ -93,56 +93,6 @@ class TestMediaNaranja(TestCase):
         response = self.client.post(url, {})
         self.assertEqual(response.status_code, 404)
 
-    def test_get_number_of_questions_by_category(self):
-        number_by_questions_expected = [1,1]
-        number_by_questions = self.candidate1.get_number_of_questions_by_category()
-        number_by_questions2 = self.candidate2.get_number_of_questions_by_category()
-        self.assertEqual(number_by_questions_expected, number_by_questions)
-        self.assertEqual(number_by_questions_expected, number_by_questions2)
-
-    def test_get_importances_by_category(self):
-        importances = [5, 3]
-        importances_by_category_expected = [5,3]
-        importances_by_category = self.candidate1.get_importances_by_category(importances)
-        importances_by_category2 = self.candidate2.get_importances_by_category(importances)
-        self.assertEqual(importances_by_category_expected, importances_by_category)
-        self.assertEqual(importances_by_category_expected, importances_by_category2)
-
-    def test_get_sum_importances_by_category(self):
-        answers = [[self.answer1_1], [self.answer1_2]]
-        importances = [5, 3]
-        sum_importances_by_category_expected = [5,3]
-        sum_importances_by_category_expected2 = [0,0]
-        sum_importances_by_category = self.candidate1.get_sum_importances_by_category(answers, importances)
-        sum_importances_by_category2 = self.candidate2.get_sum_importances_by_category(answers, importances)
-        self.assertEqual(sum_importances_by_category_expected, sum_importances_by_category)
-        self.assertEqual(sum_importances_by_category_expected2, sum_importances_by_category2)
-
-    def test_get_score(self):
-        answers = [[self.answer1_1], [self.answer1_2]]
-        no_answers = [[], []]
-        importances = [5, 3]
-        get_score1 = self.candidate1.get_score(answers, importances)
-        get_score2 = self.candidate2.get_score(answers, importances)
-        get_score3 = self.candidate1.get_score(no_answers, importances)
-        get_score4 = self.candidate2.get_score(no_answers, importances)
-        get_score1_expected = (100.0, [100.0,100.0])
-        get_score2_expected = (0, [0.0, 0.0])
-
-        self.assertEqual(get_score1_expected, get_score1)
-        self.assertEqual(get_score2_expected, get_score2)
-        self.assertEqual(get_score2_expected, get_score3)
-        self.assertEqual(get_score2_expected, get_score4)
-
-    def test_get_score_with_zero_importances(self):
-        answers = [[self.answer1_1], [self.answer1_2]]
-        importances = [0, 0]
-
-        get_score = self.candidate1.get_score(answers, importances)
-        expected_score = (0, [0.0, 0.0])
-
-        self.assertEqual(expected_score,get_score)
-
     def test_save_new_visitor(self):
         answers = [self.answer1_1.pk, self.answer1_2.pk]
         questions_ids = [self.answer1_1.question.pk, self.answer1_2.question.pk]

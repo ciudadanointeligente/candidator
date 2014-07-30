@@ -7,35 +7,6 @@ import json
 from candidator.models import Election, Category, Question
 from elections.forms import QuestionForm
 from django.core.exceptions import ValidationError
-
-class QuestionModelTest(TestCase):
-    def test_create_question(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz')
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                           slug='foocat',
-                                                            election=election)
-        question = Question.objects.create(question='Foo', category=category)
-        self.assertEquals(question.question, 'Foo')
-        self.assertEquals(question.category, category)
-
-
-    def test_cannot_create_empty_question(self):
-        user, created = User.objects.get_or_create(username='joe')
-        election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=user,
-                                                            slug='barbaz')
-        category, created = Category.objects.get_or_create(name='FooCat',
-                                                           slug='foocat',
-                                                            election=election)
-        question = Question(question='', category=category)
-
-        with self.assertRaises(ValidationError) as e:
-            question.full_clean()
-            expected_error = {'question':[u'This field cannot be blank.']}
-            self.assertEqual(e.message_dict,expected_error)
             
 
 class QuestionCreateViewTest(TestCase):

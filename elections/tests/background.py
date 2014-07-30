@@ -8,21 +8,7 @@ from candidator.models import Election, BackgroundCategory, Background, Backgrou
 from elections.forms import BackgroundForm, BackgroundCandidateForm
 
 
-class BackgroundModelTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=self.user,
-                                                            slug='barbaz')
-        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='FooBar')
 
-    def test_create_background(self):
-        background, created = Background.objects.get_or_create(category=self.background_category,
-                                                                name='foo')
-        self.assertTrue(created)
-        self.assertEqual(background.name, 'foo')
-        self.assertEqual(background.category, self.background_category)
 
 
 class BackgroundCreateView(TestCase):
@@ -93,28 +79,6 @@ class BackgroundCreateView(TestCase):
                                                kwargs={'election_slug': self.election.slug}))
 
 
-class BackgroundCandidateModelTest(TestCase):
-    def test_background_candidate_create(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=self.user,
-                                                            slug='barbaz')
-        self.background_category, created = BackgroundCategory.objects.get_or_create(election=self.election,
-                                                                    name='FooBar')
-
-        self.background, created = Background.objects.get_or_create(category=self.background_category,
-                                                                name='foo')
-
-        self.candidate, created = Candidate.objects.get_or_create(name='Juan Candidato',
-                                                            election=self.election)
-
-        background_candidate, created = BackgroundCandidate.objects.get_or_create(candidate=self.candidate,
-                                                                                       background=self.background,
-                                                                                       value='new_value')
-
-        self.assertEqual(background_candidate.candidate, self.candidate)
-        self.assertEqual(background_candidate.background, self.background)
-        self.assertEqual(background_candidate.value, 'new_value')
 
 class BackgroundCandidateCreateViewTest(TestCase):
     def setUp(self):

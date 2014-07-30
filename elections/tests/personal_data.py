@@ -7,22 +7,6 @@ from django.db import IntegrityError
 from candidator.models import Election, PersonalData, Candidate, PersonalDataCandidate
 from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
-
-class PersonalDataModelTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
-        self.election, created = Election.objects.get_or_create(name='BarBaz',
-                                                            owner=self.user,
-                                                            slug='barbaz')
-
-    def test_create_personal_data(self):
-        personal_data, created = PersonalData.objects.get_or_create(election=self.election,
-                                                                    label='foo')
-        self.assertTrue(created)
-        self.assertEqual(personal_data.label, 'foo')
-        self.assertEqual(personal_data.election, self.election)
-
-
 class PersonalDataCreateView(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
