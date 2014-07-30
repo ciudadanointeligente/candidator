@@ -13,7 +13,7 @@ from django.utils.translation import ugettext as _
 
 from django.core.urlresolvers import resolve
 
-from elections.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate, Question, Answer
+from candidator.models import Election, Candidate, Category, PersonalData, BackgroundCategory, Background, PersonalDataCandidate, Question, Answer
 from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm, BackgroundCategoryForm, BackgroundForm, QuestionForm, CategoryForm, ElectionLogoUpdateForm
 from elections.views import ElectionRedirectView, ElectionDetailView
 

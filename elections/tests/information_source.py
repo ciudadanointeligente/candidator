@@ -2,9 +2,9 @@
 
 
 from django.test import TestCase
-from elections.models import InformationSource
+from candidator.models import InformationSource
 from django.contrib.auth.models import User
-from elections.models import Candidate, Election, Category, Question, Answer
+from candidator.models import Candidate, Election, Category, Question, Answer
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 

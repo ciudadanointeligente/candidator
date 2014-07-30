@@ -18,7 +18,7 @@ from django.views.generic.edit import BaseDeleteView
 from elections.forms import AnswerForm
 
 # Import models
-from elections.models import Answer, Question
+from candidator.models import Answer, Question
 
 
 class AnswerCreateAjaxView(CreateView):
@@ -51,6 +51,7 @@ class AnswerCreateAjaxView(CreateView):
 class AnswerCreateView(CreateView):
     model = Answer
     form_class = AnswerForm
+    template_name = "elections/answer_form.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

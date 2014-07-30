@@ -3,7 +3,7 @@ from django import forms
 from django.forms.util import ErrorList
 from django.forms import formsets, ImageField, FileInput
 from django.forms.formsets import formset_factory
-from elections.models import Category, Election, PersonalData,\
+from candidator.models import Category, Election, PersonalData,\
                 BackgroundCategory, Background, Question, Answer,\
                 PersonalDataCandidate, BackgroundCandidate
 

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, BackgroundCategory
+from candidator.models import Election, BackgroundCategory
 from elections.forms import BackgroundCategoryForm
 
 

@@ -17,13 +17,14 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import CategoryForm, CategoryUpdateForm
 
 # Import models
-from elections.models import Category, Election
+from candidator.models import Category, Election
 
 
 # Category views
 class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryForm
+    template_name = "elections/category_form.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -54,6 +55,7 @@ class CategoryCreateView(CreateView):
 class CategoryUpdateView(UpdateView):
     model = Category
     form_class = CategoryUpdateForm
+    template_name = "elections/category_form.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

@@ -6,7 +6,7 @@ from django.test.client import Client
 
 from django.db import IntegrityError
 
-from elections.models import Candidate, Election, Category, Question, Answer
+from candidator.models import Candidate, Election, Category, Question, Answer
 from elections.forms import QuestionForm, CategoryForm, ElectionForm, CategoryUpdateForm
 from django.core.exceptions import ValidationError
 

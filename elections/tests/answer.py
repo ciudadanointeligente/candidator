@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 import json
 
-from elections.models import Candidate, Election, Category, Question, Answer
+from candidator.models import Candidate, Election, Category, Question, Answer
 from elections.forms import AnswerForm
 from django.core.exceptions import ValidationError
 

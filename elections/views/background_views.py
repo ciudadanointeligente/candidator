@@ -17,13 +17,14 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import BackgroundCategoryForm, BackgroundForm, BackgroundCandidateForm
 
 # Import models
-from elections.models import Background, BackgroundCategory, Candidate
+from candidator.models import Background, BackgroundCategory, Candidate
 
 
 # Background Views
 class BackgroundCreateView(CreateView):
     model = Background
     form_class = BackgroundForm
+    template_name = "elections/background_form.html"
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

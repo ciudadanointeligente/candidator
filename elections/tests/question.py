@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.client import Client
 import json
-from elections.models import Election, Category, Question
+from candidator.models import Election, Category, Question
 from elections.forms import QuestionForm
 from django.core.exceptions import ValidationError
 

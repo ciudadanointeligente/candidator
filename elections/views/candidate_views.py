@@ -20,7 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 from elections.forms import CandidateForm, CandidateUpdateForm, CandidateLinkForm, BackgroundCandidateForm, AnswerForm, PersonalDataCandidateForm, CandidatePhotoForm
 
 # Import models
-from elections.models import Election, Candidate, PersonalData, Link
+from candidator.models import Election, Candidate, PersonalData, Link
 
 # Import exceptions
 from elections.exceptions import NoCandidateError
@@ -28,6 +28,7 @@ from elections.exceptions import NoCandidateError
 # Candidate views
 class CandidateDetailView(DetailView):
     model = Candidate
+    template_name = "elections/candidate_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super(CandidateDetailView, self).get_context_data(**kwargs)

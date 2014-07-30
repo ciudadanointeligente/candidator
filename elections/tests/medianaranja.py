@@ -5,7 +5,7 @@ from django.test.client import Client
 from django.utils.unittest import skip
 
 # Imported models
-from elections.models import Election, Candidate, Category, Question, Answer, Visitor, VisitorAnswer, VisitorScore, CategoryScore
+from candidator.models import Election, Candidate, Category, Question, Answer, Visitor, VisitorAnswer, VisitorScore, CategoryScore
 from django.contrib.auth.models import User
 
 class TestMediaNaranja(TestCase):

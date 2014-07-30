@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView, TemplateView, CreateView
 from django.contrib.auth.decorators import login_required
 from elections.views.answer_views import AnswerCreateAjaxView
 
-from models import Election
+from candidator.models import Election
 from views.election_views import ElectionUpdateDataView
 from views.candidate_views import CandidateUpdatePhotoView
 from views import associate_answer_to_candidate, ElectionCreateView,\

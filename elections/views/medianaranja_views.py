@@ -14,7 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, DetailView, UpdateView
 from django.views.decorators.csrf import csrf_exempt
 
-from elections.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer, VisitorScore, CategoryScore
+from candidator.models import Election, Candidate, Answer, Category, Question, Visitor, VisitorAnswer, VisitorScore, CategoryScore
 
 # MediaNaranja Views
 @login_required

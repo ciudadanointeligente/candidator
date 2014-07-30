@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Link, Candidate, Election
+from candidator.models import Link, Candidate, Election
 from django.core.exceptions import ValidationError
 #from elections.forms import CandidateLinkFormset
 

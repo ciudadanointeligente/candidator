@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'tastypie',
     'registration',
     'elections',
+    'candidator',
     'report_objects',
     'django_extensions',
     # Django-registration
@@ -51,6 +52,7 @@ INSTALLED_APPS = (
     'smart_profile',
     'markdown_deux',
     'django_nose',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,9 +64,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'candidator.urls'
+ROOT_URLCONF = 'candidator_site.urls'
 
-WSGI_APPLICATION = 'candidator.wsgi.application'
+WSGI_APPLICATION = 'candidator_site.wsgi.application'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 

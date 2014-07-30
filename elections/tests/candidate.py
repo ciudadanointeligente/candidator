@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 import json
 
-from elections.models import Candidate, Election, BackgroundCategory, Background,\
+from candidator.models import Candidate, Election, BackgroundCategory, Background,\
                                 BackgroundCandidate, PersonalData, PersonalDataCandidate,\
                                 Category, Question, Answer
 from elections.forms import CandidateUpdateForm, CandidateForm, CandidateLinkForm, BackgroundCandidateForm, PersonalDataCandidateForm, AnswerForm, CandidatePhotoForm

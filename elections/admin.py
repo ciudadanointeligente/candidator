@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import *
+from candidator.models import *
 
 
 def admin_thumbnail(self):

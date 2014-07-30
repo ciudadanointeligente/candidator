@@ -27,7 +27,7 @@ from elections.forms import ElectionForm, ElectionUpdateForm, PersonalDataForm,\
 # Import models
 from elections.forms.candidate_form import CandidateForm
 from elections.forms.election_form import AnswerForm, ElectionLogoUpdateForm
-from elections.models import Election, Candidate, Category
+from candidator.models import Election, Candidate, Category
 
 from django.conf import settings
 

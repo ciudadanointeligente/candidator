@@ -7,7 +7,7 @@ from django.test.client import Client
 from django.template import Template, Context
 from django.utils.translation import ugettext as _
 
-from elections.models import Candidate, Election, Category, Question, Answer
+from candidator.models import Candidate, Election, Category, Question, Answer
 from elections.forms import CategoryForm, ElectionForm
 
 

@@ -2,7 +2,7 @@
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
-from elections.models import Election, Candidate, Category, Question, Answer, \
+from candidator.models import Election, Candidate, Category, Question, Answer, \
 							PersonalData, PersonalDataCandidate, Link, Background, BackgroundCandidate
 from tastypie import fields
 from django.contrib.sites.models import Site

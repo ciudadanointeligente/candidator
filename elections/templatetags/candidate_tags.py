@@ -1,7 +1,7 @@
 #encoding=UTF-8
 from django import template
 from django.utils.translation import ugettext as _
-from elections.models import PersonalDataCandidate, BackgroundCandidate
+from candidator.models import PersonalDataCandidate, BackgroundCandidate
 
 register = template.Library()
 

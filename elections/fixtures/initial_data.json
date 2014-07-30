@@ -19,7 +19,7 @@
 }
   ,{
     "pk": 1,
-    "model": "elections.election",
+    "model": "candidator.election",
     "fields": {
       "owner": 1,
       "created_at": "2011-11-10 16:33:51+00:00",
@@ -34,7 +34,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.candidate",
+    "model": "candidator.candidate",
     "fields": {
       "name": "Juanito Perez",
       "photo": "photos/dummy.jpg",
@@ -49,7 +49,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.candidate",
+    "model": "candidator.candidate",
     "fields": {
       "name": "Candidato Tester",
       "photo": "photos/dummy.jpg",
@@ -62,7 +62,7 @@
   },
   {
     "pk": 3,
-    "model": "elections.candidate",
+    "model": "candidator.candidate",
     "fields": {
       "name": "Foo Bar",
       "photo": "photos/dummy.jpg",
@@ -75,7 +75,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.category",
+    "model": "candidator.category",
     "fields": {
       "name": "Politicas Publicas",
       "election": 1,
@@ -84,7 +84,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.category",
+    "model": "candidator.category",
     "fields": {
       "name": "Politicas Monetarias",
       "election": 1,
@@ -93,7 +93,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.question",
+    "model": "candidator.question",
     "fields": {
       "category": 1,
       "question": "Esta de a cuerdo con los paros?"
@@ -101,7 +101,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.question",
+    "model": "candidator.question",
     "fields": {
       "category": 1,
       "question": "Le gusta ir a las marchas?"
@@ -109,7 +109,7 @@
   },
   {
     "pk": 3,
-    "model": "elections.question",
+    "model": "candidator.question",
     "fields": {
       "category": 2,
       "question": "Quiere gastar su plata carreteando?"
@@ -117,7 +117,7 @@
   },
   {
     "pk": 4,
-    "model": "elections.question",
+    "model": "candidator.question",
     "fields": {
       "category": 2,
       "question": "Quiere robarse la plata del CEI?"
@@ -125,7 +125,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Si",
       "question": 4
@@ -133,7 +133,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "No",
       "question": 4
@@ -141,7 +141,7 @@
   },
   {
     "pk": 3,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Si",
       "question": 3
@@ -149,7 +149,7 @@
   },
   {
     "pk": 4,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "No",
       "question": 3
@@ -157,7 +157,7 @@
   },
   {
     "pk": 5,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "A veces",
       "question": 3
@@ -165,7 +165,7 @@
   },
   {
     "pk": 6,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Nunca",
       "question": 2
@@ -173,7 +173,7 @@
   },
   {
     "pk": 7,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Siempre",
       "question": 2
@@ -181,7 +181,7 @@
   },
   {
     "pk": 8,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "De vez en cuando",
       "question": 2
@@ -189,7 +189,7 @@
   },
   {
     "pk": 9,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Puro perder clases",
       "question": 1
@@ -197,7 +197,7 @@
   },
   {
     "pk": 10,
-    "model": "elections.answer",
+    "model": "candidator.answer",
     "fields": {
       "caption": "Si, la llevan",
       "question": 1
@@ -205,7 +205,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.backgroundcategory",
+    "model": "candidator.backgroundcategory",
     "fields": {
       "name": "Tendencia Politica",
       "election": 1
@@ -213,7 +213,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.backgroundcategory",
+    "model": "candidator.backgroundcategory",
     "fields": {
       "name": "Educacion",
       "election": 1
@@ -221,7 +221,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.background",
+    "model": "candidator.background",
     "fields": {
       "category": 1,
       "name": "Partido politico actual"
@@ -229,7 +229,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.background",
+    "model": "candidator.background",
     "fields": {
       "category": 2,
       "name": "Secundaria"
@@ -237,7 +237,7 @@
   },
   {
     "pk": 3,
-    "model": "elections.background",
+    "model": "candidator.background",
     "fields": {
       "category": 2,
       "name": "Universitaria"
@@ -245,7 +245,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.personaldata",
+    "model": "candidator.personaldata",
     "fields": {
       "election": 1,
       "label": "Nacimiento"
@@ -253,7 +253,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.personaldata",
+    "model": "candidator.personaldata",
     "fields": {
       "election": 1,
       "label": "Profesion"
@@ -261,7 +261,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.personaldatacandidate",
+    "model": "candidator.personaldatacandidate",
     "fields": {
       "personal_data": 1,
       "value": "13/13/13",
@@ -270,7 +270,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.personaldatacandidate",
+    "model": "candidator.personaldatacandidate",
     "fields": {
       "personal_data": 2,
       "value": "Estudiante",
@@ -279,7 +279,7 @@
   },
   {
     "pk": 1,
-    "model": "elections.backgroundcandidate",
+    "model": "candidator.backgroundcandidate",
     "fields": {
       "value": "CCC",
       "background": 1,
@@ -288,7 +288,7 @@
   },
   {
     "pk": 2,
-    "model": "elections.backgroundcandidate",
+    "model": "candidator.backgroundcandidate",
     "fields": {
       "value": "Colegio a",
       "background": 2,
@@ -297,7 +297,7 @@
   },
   {
     "pk": 3,
-    "model": "elections.backgroundcandidate",
+    "model": "candidator.backgroundcandidate",
     "fields": {
       "value": "Universidad B",
       "background": 3,

@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
 # Import models
-from elections.models import Election, Candidate, PersonalData
+from candidator.models import Election, Candidate, PersonalData
 
 
 # PersonalData Views

@@ -1,7 +1,7 @@
 # coding= utf-8
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from elections.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
+from candidator.models import Election, Candidate, PersonalData, Category, Question, Answer, BackgroundCategory,\
 							 Background, Link, BackgroundCandidate, PersonalDataCandidate, InformationSource
 import csv
 from django.core.urlresolvers import reverse

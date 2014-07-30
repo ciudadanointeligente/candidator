@@ -17,7 +17,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import QuestionForm
 
 # Import models
-from elections.models import Category, Question, Election, Answer
+from candidator.models import Category, Question, Election, Answer
 
 
 # Question Views

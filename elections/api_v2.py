@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS, Resource
-from elections.models import Election, Category, Question, Answer, Candidate, PersonalData,\
+from candidator.models import Election, Category, Question, Answer, Candidate, PersonalData,\
                             PersonalDataCandidate, Link, Background, BackgroundCandidate, BackgroundCategory,\
                             InformationSource
 from tastypie.authentication import ApiKeyAuthentication

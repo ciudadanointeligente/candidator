@@ -5,7 +5,7 @@ from django.test import TestCase
 from elections.management.commands.elections_loader import *
 from django.contrib.auth.models import User
 from django.conf import settings
-from elections.models import InformationSource
+from candidator.models import InformationSource
 
 
 class QuestionsParserTestCase(TestCase):

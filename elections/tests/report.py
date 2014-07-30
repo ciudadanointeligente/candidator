@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template import Template, Context
 
-from elections.models import Report
+from candidator.models import Report
 from elections.forms import ReportForm
 
 

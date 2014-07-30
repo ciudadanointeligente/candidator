@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
-from elections.models import Election, PersonalData, Candidate, PersonalDataCandidate
+from candidator.models import Election, PersonalData, Candidate, PersonalDataCandidate
 from elections.forms import PersonalDataForm, PersonalDataCandidateForm
 
 

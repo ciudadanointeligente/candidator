@@ -18,7 +18,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from elections.forms import BackgroundCategoryForm, BackgroundForm
 
 # Import models
-from elections.models import BackgroundCategory, Election
+from candidator.models import BackgroundCategory, Election
 
 
 # BackgroundCategory Views

@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.db import models
 from tastypie.models import ApiKey
-from elections.models import Election, Candidate, Category, PersonalData, \
+from candidator.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
                              Question, Answer, Link, BackgroundCandidate
 from elections.api import BackgroundResource
