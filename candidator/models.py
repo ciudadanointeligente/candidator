@@ -73,12 +73,23 @@ class Election(models.Model):
     def get_absolute_url(self):
         return ('election_detail', None, {'username': self.owner.username, 'slug': self.slug})
 
-class Candidate(models.Model):
+class ElectionMixin(models.Model):
+    election = models.ForeignKey('Election')
+
+    def get_extra_query_kwargs(self):
+        return {
+            'election': self.election
+        }
+
+    class Meta:
+        abstract = True
+
+class Candidate(ElectionMixin):
     name = models.CharField(max_length=255, verbose_name=_(u"Nombre:"))
     slug = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to = 'photos/', blank = True)
 
-    election = models.ForeignKey('Election')
+    
     answers = models.ManyToManyField('Answer', blank=True)
 
     personal_data = models.ManyToManyField('PersonalData', through='PersonalDataCandidate')
@@ -94,7 +105,9 @@ class Candidate(models.Model):
             counter = 1
             while True:
                 try:
-                    Candidate.objects.get(slug=self.slug, election=self.election)
+                    query_kwargs = self.get_extra_query_kwargs()
+                    query_kwargs['slug'] = self.slug
+                    Candidate.objects.get(**query_kwargs)
                     self.slug = slug + str(counter)
                     counter += 1
                 except self.DoesNotExist:
@@ -117,7 +130,8 @@ class Candidate(models.Model):
 
     def get_number_of_questions_by_category(self):
         number_of_questions = [] # Number of questions per category
-        categories = Category.objects.filter(election=self.election)
+        query_kwargs = self.get_extra_query_kwargs()
+        categories = Category.objects.filter(**query_kwargs)
         for category in categories:
             questions = Question.objects.filter(category=category)
             number_of_questions.append(len(questions))
@@ -136,7 +150,8 @@ class Candidate(models.Model):
         return importances_by_category
 
     def get_sum_importances_by_category(self, answers, importances):
-        categories = Category.objects.filter(election=self.election)
+        query_kwargs = self.get_extra_query_kwargs()
+        categories = Category.objects.filter(**query_kwargs)
         sum_by_category = [0]*len(categories)
         candidate_answers = self.answers.all() # Candidate answers
         index = 0
@@ -192,7 +207,8 @@ class Candidate(models.Model):
     def get_background(self):
         backgrounds = {}
         category_counter = 0
-        for backgroundcategory in self.election.backgroundcategory_set.all():
+        extra_query_filters = self.get_extra_query_kwargs()
+        for backgroundcategory in BackgroundCategory.objects.filter(**extra_query_filters):
             category_counter = category_counter + 1
             backgrounds[category_counter] = {'name':backgroundcategory.name, 'backgrounds':None}
             temporary_backgrounds = {}
@@ -217,7 +233,8 @@ class Candidate(models.Model):
     @property
     def get_personal_data(self):
         pd_dict = {}
-        for pd in self.election.personaldata_set.all():
+        extra_query_filters = self.get_extra_query_kwargs()
+        for pd in PersonalData.objects.filter(**extra_query_filters):
             try:
                 pd_dict[pd.label] = self.personaldatacandidate_set.get(personal_data = pd).value
             except :
@@ -254,13 +271,15 @@ class Candidate(models.Model):
     def __unicode__(self):
         return self.name
 
-
-class PersonalData(models.Model):
+class PersonalData(ElectionMixin):
     label = models.CharField(_('Nuevo dato personal'),max_length=255)
-    election = models.ForeignKey('Election')
 
     def __unicode__(self):
         return u'%s (%s)' % (self.label, self.election)
+
+
+
+    
 
 
 class PersonalDataCandidate(models.Model):
@@ -272,9 +291,8 @@ class PersonalDataCandidate(models.Model):
         return self.candidate.name + " - " + self.personal_data.label
 
 
-class BackgroundCategory(models.Model):
+class BackgroundCategory(ElectionMixin):
     name = models.CharField(_(u"Nueva categoría de antecedentes"), max_length=255)
-    election = models.ForeignKey('Election')
 
     def __unicode__(self):
         return u'%s (%s)' % (self.name, self.election)
@@ -292,7 +310,7 @@ class BackgroundCandidate(models.Model):
     value = models.CharField(max_length=2000)
 
     def __unicode__(self):
-        return u'%s: %s' % (self.candidate, self.value)
+        return u'%s in %s: %s' % (self.candidate, self.background.name, self.value)
 
 
 
@@ -319,9 +337,8 @@ class Link(models.Model):
             return "http://"+self.url
 
 
-class Category(models.Model):
+class Category(ElectionMixin):
     name = models.CharField(max_length=255)
-    election = models.ForeignKey('Election')
     slug = models.CharField(max_length=255, blank=True)
     order = models.PositiveIntegerField(default=1)
 
@@ -331,7 +348,9 @@ class Category(models.Model):
             counter = 1
             while True:
                 try:
-                    Category.objects.get(slug=self.slug, election=self.election)
+                    query_kwargs = self.get_extra_query_kwargs()
+                    query_kwargs['slug'] = self.slug
+                    Category.objects.get(**query_kwargs)
                     self.slug = slug + str(counter)
                     counter += 1
                 except self.DoesNotExist:
@@ -363,8 +382,7 @@ class Answer(models.Model):
     def __unicode__(self):
         return u"%s Q:%s C:%s E:%s" % (self.caption, self.question.question, self.question.category.name, self.question.category.election.name)
 
-class Visitor(models.Model):
-    election = models.ForeignKey('Election')
+class Visitor(ElectionMixin):
     election_url = models.CharField(max_length=255)
     datestamp = models.DateTimeField(auto_now=True)
     def __unicode__(self):

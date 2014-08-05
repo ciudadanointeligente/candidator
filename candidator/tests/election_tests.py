@@ -13,12 +13,15 @@ from django.utils.translation import ugettext as _
 
 from candidator.models import Election, Candidate, Category, PersonalData, \
                              BackgroundCategory, Background, PersonalDataCandidate, \
-                             Question, Answer, BackgroundCandidate, Link
+                             Question, Answer, BackgroundCandidate, Link, Visitor, \
+                             VisitorAnswer
 
 import random
 import string
 from django.core.exceptions import ValidationError 
-
+from datetime import datetime
+from django.utils.timezone import now
+nownow = now()
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 class ElectionModelTest(TestCase):
@@ -282,6 +285,7 @@ class BackgroundCandidateModelTest(TestCase):
         self.assertEqual(background_candidate.candidate, self.candidate)
         self.assertEqual(background_candidate.background, self.background)
         self.assertEqual(background_candidate.value, 'new_value')
+        self.assertEquals(background_candidate.__unicode__(), u'Juan Candidato in foo: new_value')
 
 
 class BackgroundCategoryModelTest(TestCase):
@@ -938,3 +942,58 @@ class PersonalDataModelTest(TestCase):
         self.assertEqual(personal_data.election, self.election)
         self.assertEqual(personal_data.__unicode__(), u"foo (BarBaz)")
 
+class VisitorTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+
+
+    def test_create_model(self):
+        
+        visitor = Visitor.objects.create(
+            election=self.election,
+            election_url="http://google.com",
+            datestamp=nownow)
+
+        self.assertEquals(visitor.election, self.election)
+        self.assertEquals(visitor.election_url, 'http://google.com')
+        self.assertTrue(visitor.datestamp)
+        self.assertIsInstance(visitor.datestamp, datetime)
+
+
+        self.assertEquals(visitor.__unicode__(), unicode(visitor.datestamp) + u" - http://google.com")
+
+
+
+class VisitorAnswerTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='joe', password='doe', email='joe@doe.cl')
+        self.election, created = Election.objects.get_or_create(name='BarBaz',
+                                                            owner=self.user,
+                                                            slug='barbaz')
+        self.category, created = Category.objects.get_or_create(name='FooCat',
+                                                            election=self.election)
+        self.question, created = Question.objects.get_or_create(question='Foo',
+                                                            category=self.category)
+        self.answer = Answer.objects.create(question=self.question, caption='Answer')
+
+        self.visitor = visitor = Visitor.objects.create(
+            election=self.election,
+            election_url="http://google.com",
+            datestamp=nownow)
+
+
+    def test_instanciate_a_visitor_answer(self):
+        visitor_answer = VisitorAnswer.objects.create(
+            visitor=self.visitor,
+            answer=self.answer,
+            answer_importance=1
+            )
+
+        self.assertEquals(visitor_answer.visitor, self.visitor)
+        self.assertEquals(visitor_answer.question_text, u"Foo")
+        self.assertEquals(visitor_answer.question_category_text, u"FooCat")
+        self.assertEquals(visitor_answer.answer_text, u"Answer")
+        self.assertEquals(visitor_answer.answer_importance, 1)
