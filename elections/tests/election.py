@@ -71,6 +71,26 @@ class ElectionTagsTests(TestCase):
         expected_html = u''
         self.assertEqual(template.render(context), expected_html)
 
+    def test_if_custom_success_socialmedia_has_content(self):
+        self.election.custom_success_socialmedia = 'Mi media naranja politica en {{election_name}} es {{candidate_name}} con {{category_score}} de igualdad.'
+
+        template = Template('{% load election_tags %}{% socialmedia_custom_message election candidate category_score %}')
+
+        context = Context({"election": self.election, "candidate": self.candidate, "category_score": 25.0})
+        expected_html = u'Mi media naranja politica en BarBaz es Bar Baz con 25% de igualdad.'
+
+        self.assertEqual(template.render(context), expected_html)
+
+    def test_if_custom_success_socialmedia_has_no_content(self):
+        self.election.custom_success_socialmedia = ''
+
+        template = Template('{% load election_tags %}{% socialmedia_custom_message election candidate category_score %}')
+
+        context = Context({"election": self.election, "candidate": self.candidate, "category_score": 25.0})
+        expected_html = u'Mi media naranja politica en BarBaz es Bar Baz.'
+
+        self.assertEqual(template.render(context), expected_html)
+
 class ElectionModelTest(TestCase):
     def test_create_election(self):
         user, created = User.objects.get_or_create(username='joe')
@@ -86,6 +106,7 @@ class ElectionModelTest(TestCase):
         self.assertEqual(election.date, '27 de Diciembre')
         self.assertEqual(election.description, 'esta es una descripcion')
         self.assertEqual(election.published,False)
+        self.assertEqual(election.custom_success_socialmedia, '')
         self.assertEqual(election.custom_style, '')
         self.assertEqual(election.highlighted, False)
 
