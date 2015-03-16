@@ -30,3 +30,15 @@ def link_to_updating_this_election(user, election):
     if is_the_owner:
         return '<span class="goedit"><a href="'+reverse('election_update',kwargs={"slug":election.slug})+'">'+_(u"Editar Elección")+'</a></span>'
     return ''
+
+@register.simple_tag
+def socialmedia_custom_message(election, candidate, category_score):
+    str_template = election.custom_success_socialmedia
+    if election.custom_success_socialmedia == '':
+        str_template = 'Mi media naranja politica en {{ election_name }} es {{ candidate_name }}.'
+
+    t = template.Template (str_template)
+    c = template.Context({ 'election_name': election.name, 'candidate_name': candidate.name, 'category_score': "{0:.0f}%".format(category_score) })
+
+    return t.render(c)
+    

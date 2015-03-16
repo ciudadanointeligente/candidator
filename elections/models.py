@@ -33,6 +33,7 @@ class Election(models.Model):
     date = models.CharField(max_length=255, verbose_name=_(u"fecha en que ocurrirá:"), blank=True)
     published = models.BooleanField(default=False)
     custom_style = models.TextField(blank=True)
+    custom_success_socialmedia = models.TextField(blank=True)
     highlighted = models.BooleanField(default=False)
     use_default_media_naranja_option = models.BooleanField(default=True) #Default option "Ninguna de las anteriores" in media naranja
     should_display_empty_personal_data = models.BooleanField(default=True, verbose_name=_(u"debe mostrar los datos personales vacíos:"))
