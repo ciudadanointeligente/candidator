@@ -68,7 +68,7 @@ class AnswersLoader(object):
 		for i in range(2,len(line)):
 			value = line[i].decode('utf-8').strip()
 			label = self.definitions[i]["label"]
-			the_type = self.definitions[i]["type"]
+			the_type = self.definitions[i]["type"].lower()
 
 			if(the_type == "personal data"):
 				try:
